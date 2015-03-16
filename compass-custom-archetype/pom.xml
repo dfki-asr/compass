@@ -37,7 +37,7 @@
 
 		<resources>
 			<resource>
-				<!-- only filder metadata (to include version) -->
+				<!-- only filter metadata (to include version) -->
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<includes>
