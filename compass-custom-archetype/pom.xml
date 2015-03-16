@@ -14,7 +14,7 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<name>COMPASS - Custom Project Archetype</name>	
+	<name>COMPASS - Custom Project Archetype</name>
 	<artifactId>compass-custom-archetype</artifactId>
 	<packaging>maven-archetype</packaging>
 
@@ -34,6 +34,32 @@
 				<version>2.2</version>
 			</extension>
 		</extensions>
+
+		<resources>
+			<resource>
+				<!-- only filter metadata (to include version) -->
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>META-INF/maven/archetype-metadata.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<!-- copy other non-metadata resources as-is -->
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>META-INF/maven/archetype-metadata.xml</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 
 		<pluginManagement>
 			<plugins>
