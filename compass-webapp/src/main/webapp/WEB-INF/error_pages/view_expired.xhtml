@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+		<!-- keep: retain these from the main view (editor.xhtml) -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="primefacesCSSFixes.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="compass-tango-ui-icons.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="lib/bootstrap-2.3.2-custom/bootstrap.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="lib/bootstrap-3.2.0/bootstrap.css" library="css"></h:outputStylesheet>
+		<!-- /keep -->
+        <title>Session Expired</title>
+    </h:head>
+    <h:body>
+		<f:verbatim escape="false">
+			<div class="modal fade" id="sessionErrorModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4>Session Expired</h4>
+						</div>
+						<div class="modal-body">
+							Your editor session has expired on the server.<br/>
+							This is probably because you did not do anything for an extended amount of time.<br/>
+							You will need to re-open your scenario to continue working.
+						</div>
+						<div class="modal-footer">
+							<a class="btn btn-primary" href="../">Go to scenario selection</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
+				(function(){ $("#sessionErrorModal").modal({keyboard: false, backdrop: "static"}); })()
+			</script>
+		</f:verbatim>
+    </h:body>
+</html>
+

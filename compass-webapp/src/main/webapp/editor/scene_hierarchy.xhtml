@@ -1,0 +1,157 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:compass="http://dfki.asr.de/compass/components"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<h:form id="sceneTreeViewForm" style="height: 100%">
+		<p:remoteCommand name="remoteDropPrefabOnSceneHierarchy" action="#{sceneHierarchyBean.handlePrefabDragDrop}">
+		</p:remoteCommand>
+		<p:remoteCommand name="remoteReparentSceneNode" action="#{sceneHierarchyBean.reparentSceneNode}">
+		</p:remoteCommand>
+
+		<p:outputPanel id="scene-hierarchy-buttons" styleClass="scene-tree-button-panel">
+			<p:commandButton icon="ui-icon-document"
+							 title="New"
+							 styleClass="compass-button"
+							 update=":sceneTreeViewForm:sceneTreeView :hiddenScrollToSavedPositionCall"
+							 onclick="COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)()"
+							 actionListener="#{sceneHierarchyBean.createNewSiblingSceneNode}"/>
+			<p:commandButton icon="ui-icon-copy"
+							 title="Duplicate"
+							 styleClass="compass-button"
+							 update=":sceneTreeViewForm:sceneTreeView :hiddenScrollToSavedPositionCall"
+							 actionListener="#{sceneHierarchyBean.duplicateSelectedSceneNode}"
+							 disabled="#{sceneHierarchyBean.isRootSceneNodeSelected()}"/>
+			<p:commandButton icon="ui-icon-arrow-1-n"
+							 title="Move Up"
+							 styleClass="compass-button"
+							 update=":sceneTreeViewForm:sceneTreeView :hiddenScrollToSavedPositionCall"
+							 actionListener="#{sceneHierarchyBean.moveSelectedSceneNodeUp}"
+							 disabled="#{sceneHierarchyBean.isRootSceneNodeSelected()}"
+							 onclick="COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)()"/>
+			<p:commandButton icon="ui-icon-arrow-1-s"
+							 title="Move Down"
+							 styleClass="compass-button"
+							 update=":sceneTreeViewForm:sceneTreeView :hiddenScrollToSavedPositionCall"
+							 actionListener="#{sceneHierarchyBean.moveSelectedSceneNodeDown}"
+							 disabled="#{sceneHierarchyBean.isRootSceneNodeSelected()}"/>
+			<p:commandButton icon="ui-icon-trash"
+							 title="Delete"
+							 styleClass="compass-button"
+							 update=":sceneTreeViewForm :hiddenScrollToSavedPositionCall :sceneNodeDeleteConfirmDialog"
+							 oncomplete="deleteSceneNodeConfirmDialog.show(); COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)();"
+							 style="margin-left: 15px;"
+							 disabled="#{sceneHierarchyBean.isRootSceneNodeSelected()}"/>
+		</p:outputPanel>
+
+		<p:contextMenu for="sceneTreeView" style="width: 8em; min-width: 8em;">
+			<p:menuitem value="New Child"
+						update=":sceneTreeViewForm:sceneTreeView :hiddenScrollToSavedPositionCall"
+						actionListener="#{sceneHierarchyBean.createNewChildSceneNode}"
+						onclick="COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)()"
+						icon="ui-icon-document" />
+			<p:menuitem value="New Sibling"
+						update=":sceneTreeViewForm:sceneTreeView :hiddenScrollToSavedPositionCall"
+						actionListener="#{sceneHierarchyBean.createNewSiblingSceneNode}"
+						onclick="COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)()"
+						icon="ui-icon-document" />
+			<p:menuitem value="Duplicate"
+						update=":sceneTreeViewForm:sceneTreeView :hiddenScrollToSavedPositionCall"
+						actionListener="#{sceneHierarchyBean.duplicateSelectedSceneNode}"
+						onclick="COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)()"
+						icon="ui-icon-copy" />
+			<p:menuitem value="Delete"
+						oncomplete="deleteSceneNodeConfirmDialog.show()"
+						update=":sceneNodeDeleteConfirmDialog"
+						onclick="COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)()"
+						icon="ui-icon-trash" />
+			<p:menuitem value="Add to Prefabs"
+						update=":prefabSelectionGridForm"
+						onclick="COMPASS.Editor.saveSceneHierachyScrollBarPosition.bind(COMPASS.Editor)()"
+						actionListener="#{prefabSetsHierarchyBean.createNewPrefabFromSelectedSceneNode}"
+						icon="ui-icon-bookmark"/>
+		</p:contextMenu>
+		<div onclick="COMPASS.EventHandler.onSceneHierarchyClick(event);" style="height:97%">
+			<p:tree id="sceneTreeView"
+					value="#{sceneHierarchyBean.rootSceneNodeTreeNode}"
+					var="node"
+					dynamic="true"
+					selectionMode="single"
+					selection="#{sceneHierarchyBean.selectedSceneNodeTreeNode}"
+					animate="true"
+					onNodeClick="COMPASS.EventHandler.selectSceneNodeFromHierarchy.bind(COMPASS.EventHandler)(event)"
+					draggable="false"
+					droppable="false"
+					style="width: 100%">
+				<p:ajax event="select" update=":propertyViewForm:propertyView :sceneNodeComponentSelectorForm" />
+				<p:ajax event="collapse" listener="${sceneHierarchyBean.nodeCollapsed}" />
+
+				<p:treeNode type="scenenode">
+					<p:droppable for="nodename" onDrop="COMPASS.EventHandler.onObjectDroppedOntoSceneHierarchy.bind(COMPASS.EventHandler)"
+								 tolerance="pointer" hoverStyleClass="ui-corner-all ui-state-hover" />
+					<p:draggable for="nodename" opacity="0.7" revert="true" helper="clone" zindex="1000" />
+					<h:outputText value="#{compass:truncateString(node.name, 32)}" id="nodename" styleClass="droppable-target"/>
+					<!--
+						This hidden text label is to provide Javascript with the scene node id, to use for eg.
+						highlighting the object in the xml3d view
+					-->
+					<h:outputText value="#{node.id}" styleClass="scene-node-id-field"/>
+					<compass:componentIcons icons="#{sceneHierarchyBean.iconsForNode(node)}" />
+				</p:treeNode>
+			</p:tree>
+		</div>
+	</h:form>
+
+	<!-- @Hack -->
+	<p:panel style="visibility: hidden;" id="hiddenScrollToSavedPositionCall">
+		<h:outputScript>
+			COMPASS.Editor.fixScrollBarAfterSelectingASceneNode.bind(COMPASS.Editor)();
+		</h:outputScript>
+	</p:panel>
+	<p:panel style="visibility: hidden;" id="hiddenScrollBarScrollToSelectedCall">
+		<h:outputScript>
+			COMPASS.Editor.scrollToSelectedSceneNode.bind(COMPASS.Editor)();
+		</h:outputScript>
+	</p:panel>
+
+	<p:droppable onDrop="COMPASS.EventHandler.onObjectDroppedOntoSceneHierarchy.bind(COMPASS.EventHandler)" tolerance="pointer" />
+
+	<p:confirmDialog widgetVar="deleteSceneNodeConfirmDialog"
+					 header="Delete"
+					 closable="false"
+					 closeOnEscape="true"
+					 appendTo="@(body)"
+					 id="sceneNodeDeleteConfirmDialog">
+		<f:facet name="message">
+			<p:outputPanel>
+				<p:outputPanel>
+					<h:outputText value="Do You really want to delete '#{sceneHierarchyBean.selectedSceneNode.name}'?" />
+				</p:outputPanel>
+			</p:outputPanel>
+		</f:facet>
+		<h:form id="deleteSceneNodeConfirmDialogForm">
+			<div class="modalButtonsContainer">
+				<p:commandButton id="cancel"
+								 value="Cancel"
+								 style="margin-left:5px;"
+								 onclick="deleteSceneNodeConfirmDialog.hide();"
+								 process="@this"
+								 icon="ui-icon-close"
+								 styleClass="float-right"/>
+				<p:commandButton value="Delete"
+								 actionListener="#{sceneHierarchyBean.deleteSelectedSceneNode}"
+								 oncomplete="deleteSceneNodeConfirmDialog.hide();"
+								 icon="ui-icon-check"
+								 styleClass="float-right"/>
+			</div>
+		</h:form>
+	</p:confirmDialog>
+</ui:composition>

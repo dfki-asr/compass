@@ -1,0 +1,151 @@
+/*
+ * This file is part of COMPASS. It is subject to the license terms in
+ * the LICENSE file found in the top-level directory of this distribution.
+ * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * You may not use this file except in compliance with the License.
+ */
+
+/****
+	Some fixes of primefaces css
+*****/
+
+/* This is to place the Primefaces menu bar over all other page content and make the submenus visible */
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+/* This is to remove the scrollbars in the editor view */
+.ui-tree{
+	width: auto !important;
+}
+
+/* Remove some of the borders */
+div[role="tree"]{
+	border: none;
+}
+
+body>div.ui-layout-pane-north, body>div.ui-layout-pane-center, body>div.ui-layout-pane-south{
+	border: none;
+}
+
+/* Allows prefab sets to be dragged out of their panel, otherwise they just go "underneath" the rest of the page */
+.ui-layout-unit .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+/* Remove the white background on prefab sets so it doesn't show up while dragging */
+.ui-widget-content {
+	background: rgba(0,0,0,0) ;
+}
+.ui-selectonemenu-list {
+	background: white;
+}
+
+/* Fixes white text when dragging a selected tree node */
+.ui-draggable-dragging {
+	color: black;
+}
+
+/* This keeps prefabs from automatically expanding to fill the entire prefabs view container, keeping them the same size no matter how
+   many are being displayed */
+.ui-datagrid-data {
+	width: auto !important;
+}
+
+/* The default amount of padding between prefabs is too much (10px) I went and made it smaller so 10 prefabs fit into the container on an
+   HD display */
+.ui-panelgrid td {
+	padding: 0px !important;
+}
+
+/* Textfields should use a text cursor. */
+.ui-inputfield{
+	cursor: text !important;
+}
+/* Primefaces updates components in the order that they're written in html. In order to prevent the global 'messages' component from
+   also picking up messages that have already been displayed by other components (eg. validation messages) it needs to be at the bottom
+   of the page so it's the last one to be updated. This CSS makes sure the message itself is still displayed at the top center of the page. */
+.ui-messages {
+	position: relative;
+	top: 0px;
+	left: 25%;
+	width: 700px;
+	z-index: 100;
+}
+
+.ui-inputfield {
+	padding: 2px 4px 2px 2px;
+}
+
+.ui-accordion .ui-accordion-header a{
+	padding: 2px 2px 2px 5px !important;
+	font-size: 90% !important;
+}
+
+#propertyView .ui-button {
+	margin-right: 5px !important;
+}
+
+div[role="tree"]>ul{
+	height: 100%
+}
+
+/* Don't display the file upload progress thing in the PreviewImage component UI */
+#propertyView .ui-fileupload-files {
+	display:none;
+}
+
+#propertyView .ui-fileupload-content .ui-messages {
+	top:0px;
+	left:0px;
+	width:auto;
+}
+
+#propertyView .ui-fileupload-content .ui-messages-error {
+	font-size: 80%;
+}
+
+#propertyView .ui-fileupload-content .ui-messages-error-icon {
+	display:none;
+}
+
+#propertyView .ui-fileupload-content ul {
+	margin:0px;
+}
+
+/* Keep the property view from leaking out of its container when a scene node has lots of components */
+#propertyViewLayout {
+	overflow: auto !important;
+}
+
+/* Allow inline positioning of icons (used in the scene tree) */
+.ui-icon.inline {
+	display: inline-block;
+	position: relative;
+	top: 3px;
+	margin-left: 4px;
+}
+
+/* Forms within a toolbar should be inline, fix for the top menu bar */
+.ui-toolbar form {
+	display: inline-block;
+	margin-bottom: 2px;
+	margin-top:	2px;
+}
+
+/* Fix the top position of the prefab import dialog */
+div[id*="prefabSelectionGridForm"]:not([id$="modal"])[role="dialog"]{
+	top: 64px !important;
+}
+
+/* Fix input element (with its click listeners) being translated 300 pixels to the left of the Choose
+   button in file upload widget. WTF Primefaces?
+*/
+.ui-fileupload-buttonbar .ui-fileupload-choose input {
+	transform: translate(0,0) scale(2,2) !important;
+}

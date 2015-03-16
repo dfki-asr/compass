@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<h:head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="primefacesCSSFixes.css" library="css"></h:outputStylesheet>
+		<h:outputStylesheet name="lib/bootstrap-2.3.2-custom/bootstrap.css" library="css"></h:outputStylesheet>
+	</h:head>
+
+	<h:body>
+		<div id="main">
+			<div id="header">
+				<p:toolbar>
+					<p:toolbarGroup align="left">
+						<h:outputText id="compass-brand" value="COMPASS"></h:outputText>
+					</p:toolbarGroup>
+					<ui:insert name="header"/>
+				</p:toolbar>
+			</div>
+			<div id="content">
+				<ui:insert name="contentLayout">
+					<i>Actual Page content</i>
+				</ui:insert>
+			</div>
+			<div id="footer">
+				<div class="centerContent">
+					&#169; 2013 DFKI
+				</div>
+			</div>
+		</div>
+	</h:body>
+</html>

@@ -1,0 +1,27 @@
+/*
+ * This file is part of COMPASS. It is subject to the license terms in
+ * the LICENSE file found in the top-level directory of this distribution.
+ * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * You may not use this file except in compliance with the License.
+ */
+package @package@;
+
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.core.Versioned;
+import com.fasterxml.jackson.core.util.VersionUtil;
+
+/**
+* Automatically generated from PackageVersion.java.in during
+* packageVersion-generate execution of maven-replacer-plugin in
+* pom.xml.
+*/
+
+public final class PackageVersion implements Versioned {
+	public final static Version VERSION = VersionUtil.parseVersion(
+		"@projectversion@", "@projectgroupid@", "@projectartifactid@");
+
+	@Override
+	public Version version() {
+		return VERSION;
+	}
+}

@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:compass="http://dfki.asr.de/compass/components">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<p:toolbar>
+		<p:toolbarGroup align="left">
+			<h:outputText id="compass-brand" value="COMPASS"></h:outputText>
+			<p:separator />
+			<h:form>
+				<p:commandButton icon="ui-icon-arrow-4"
+								 id="translate-gizmo-button"
+								 title="Translate"
+								 styleClass="compass-button compass-button-active"
+								 onclick="COMPASS.GizmoController.setGizmoType('translate');" />
+				<p:commandButton icon="ui-icon-refresh"
+								 id="rotate-gizmo-button"
+								 title="Rotate"
+								 styleClass="compass-button"
+								 onclick="COMPASS.GizmoController.setGizmoType('rotate');" />
+			</h:form>
+			<p:separator/>
+		</p:toolbarGroup>
+		<p:toolbarGroup align="left" id="camera-controls-group">
+			<h:form>
+				<p:commandButton icon="ui-icon-carat-2-e-w"
+								 id="fly-camera-button"
+								 title="Fly Camera"
+								 styleClass="compass-button compass-button-active"
+								 onclick="COMPASS.CameraController.switchToFlyCamera();" />
+				<p:commandButton icon="ui-icon-circle-zoomin"
+								 id="orbit-camera-button"
+								 title="Inspect Camera"
+								 styleClass="compass-button"
+								 onclick="COMPASS.CameraController.switchToOrbitCamera();" />
+				<p:commandButton icon="	ui-icon-arrowreturn-1-n"
+								 title="Reset camera position"
+								 styleClass="compass-button"
+								 onclick="COMPASS.CameraController.resetCameraPosition();" />
+				<p:commandButton icon="ui-icon-radio-on"
+								 title="Move camera to currently selected scene node"
+								 styleClass="compass-button"
+								 onclick="COMPASS.CameraController.moveCameraToCurrentlySelectedSceneNode();" />
+				<h:outputText value="Camera sensitivity" style="font-size: 75%; margin-right: 10px; margin-left: 4px;"/>
+				<h:panelGrid columns="1" style="display: inline;">
+					<h:inputHidden id="camera-sensitivity-input" value="0"/>
+					<p:slider id="camera-sensitivity-slider"
+							  for="camera-sensitivity-input"
+							  style="width: 122px; top: 3px; margin-left: 4px;"
+							  displayTemplate="{value}"
+							  maxValue="30"
+							  minValue="-30"
+							  display="camera-sensitivity-label"
+							  onSlideEnd="COMPASS.CameraController.onCameraSensitivityChanged();"/>
+				</h:panelGrid>
+				<h:outputText id="camera-sensitivity-label" value="0" title="Camera sensitivity" style="margin-left: 4px; font-size: 75%;"/>
+			</h:form>
+			<p:separator/>
+		</p:toolbarGroup>
+		<p:toolbarGroup align="left" id="default-light-group">
+			<h:form>
+				<p:commandButton icon="ui-icon-lightbulb"
+								 id="defaultLightButton"
+								 title="Default Light"
+								 onclick="COMPASS.DefaultLight.toggleState();"
+								 styleClass="compass-button ui-icon-lightbulb" />
+			</h:form>
+		</p:toolbarGroup>
+		<p:toolbarGroup align="left" id="application-components-group">
+			<p:separator rendered="#{not empty componentRegistry.availableApplicationComponents}" />
+			<c:forEach items="#{componentRegistry.availableApplicationComponents}" var="appComponent" >
+				<div class="menu-component-ui">
+					<ui:include src="#{compass:getComponentUISrc(appComponent)}" />
+				</div>
+			</c:forEach>
+		</p:toolbarGroup>
+		<ui:insert name="header"/>
+	</p:toolbar>
+</ui:composition>

@@ -1,0 +1,182 @@
+<ui:composition template="/layout/content_layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:compass="http://dfki.asr.de/compass/components">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<ui:define name="content">
+		<h:outputScript name="js/xml3d/xml3d.js" target="head" />
+		<h:outputScript name="js/xml3d/xml3d.tools.js" target="head" />
+		<h:outputScript name="js/utility.js" target="head" />
+
+		<h3>
+			<h:outputText value="Welcome, "/><h:outputText id="username" value="Default User!"/>
+		</h3>
+		<p:panel header="Project Selection" styleClass="projectSelectionPanel">
+			<div class="centerThis" style="width: 50%;">
+				<h:form id="projectSelectionForm">
+					<p:selectOneMenu value="#{openScenarioBean.selectedProject}"
+									 style="min-width: 400px;">
+						<f:selectItem itemLabel="Select or create a Project..."
+									  itemDisabled="true" />
+						<f:selectItems value="#{openScenarioBean.projectList}"
+									   var="projectListItem"
+									   itemLabel="#{compass:truncateString(projectListItem.name, 42)}"/>
+						<p:ajax update="@form :scenarioSelectionPanel :openScenarioButtonForm:openScenarioButton" />
+					</p:selectOneMenu>
+					<div class="buttonBar">
+						<p:commandButton value="New"
+										 ajax="false"
+										 icon="ui-icon-document"
+										 action="projectmanagement/create_project.xhtml?faces-redirect=true"/>
+						<p:commandButton value="Duplicate"
+										 style="margin-left: 5px;"
+										 icon="ui-icon-copy"
+										 action="projectmanagement/duplicate_project.xhtml?faces-redirect=true"
+										 disabled="#{empty openScenarioBean.selectedProject}" />
+						<p:commandButton value="Edit"
+										 icon="ui-icon-pencil"
+										 style="margin-left: 5px;"
+										 action="projectmanagement/edit_project.xhtml?faces-redirect=true"
+										 disabled="#{empty openScenarioBean.selectedProject}" />
+						<p:commandButton value="Delete"
+										 icon="ui-icon-trash"
+										 style="margin-left: 5px;"
+										 action="#{deleteProjectBean.begin}"
+										 oncomplete="deleteConfirmDialog.show();"
+										 update=":deleteConfirmDialogForm"
+										 disabled="#{empty openScenarioBean.selectedProject}" />
+					</div>
+				</h:form>
+			</div>
+		</p:panel>
+		<p:panel id="scenarioSelectionPanel" header="Scenario Selection" styleClass="scenarioSelectionPanel">
+			<div class="centerThis" style="width: 50%;">
+				<h:form id="scenarioSelectionForm">
+					<p:selectOneMenu value="#{openScenarioBean.selectedScenario}"
+									 style="min-width: 400px;">
+						<f:selectItem itemLabel="Select or create a Scenario..."
+									  itemDisabled="true" />
+						<f:selectItems value="#{openScenarioBean.scenarioList}"
+									   var="scenarioListItem"
+									   itemLabel="#{compass:truncateString(scenarioListItem.name, 42)}"/>
+						<p:ajax update="@form :openScenarioButtonForm:openScenarioButton" />
+					</p:selectOneMenu>
+					<p:outputPanel layout="block"
+								   styleClass="scenarioPreviewImage"
+								   style="background-image:url('#{imageURLBuilder.build(openScenarioBean.selectedScenario.preview)}')"
+								   id="scenarioPreviewPreview"
+								   rendered="#{not empty openScenarioBean.selectedScenario and not empty openScenarioBean.selectedScenario.preview}"/>
+					<div class="buttonBar">
+						<p:commandButton value="New"
+										 icon="ui-icon-document"
+										 action="projectmanagement/create_scenario.xhtml?faces-redirect=true"
+										 disabled="#{empty openScenarioBean.selectedProject}"/>
+						<p:commandButton value="Duplicate"
+										 style="margin-left: 5px;"
+										 icon="ui-icon-copy"
+										 action="projectmanagement/duplicate_scenario.xhtml?faces-redirect=true"
+										 disabled="#{empty openScenarioBean.selectedScenario}"/>
+						<p:commandButton value="Edit"
+										 icon="ui-icon-pencil"
+										 style="margin-left: 5px;"
+										 action="projectmanagement/edit_scenario.xhtml?faces-redirect=true"
+										 disabled="#{empty openScenarioBean.selectedScenario}"/>
+						<p:commandButton value="Delete"
+										 icon="ui-icon-trash"
+										 style="margin-left: 5px;"
+										 action="#{deleteScenarioBean.begin}"
+										 oncomplete="deleteScenarioConfirmDialog.show();"
+										 update=":deleteScenarioConfirmDialogForm"
+										 disabled="#{empty openScenarioBean.selectedScenario}" />
+					</div>
+				</h:form>
+			</div>
+		</p:panel>
+		<script>
+			$(document).ready(function() {
+				COMPASS.util.focusElement("openScenarioButtonForm:openScenarioButton");
+			});
+		</script>
+		<h:form id="openScenarioButtonForm">
+			<p:commandButton icon="ui-icon-folder-open"
+							 id="openScenarioButton"
+							 value="Open"
+							 styleClass="floatRight"
+							 style="margin-top:10px;"
+							 action="#{openScenarioBean.openScenario}"
+							 disabled="#{empty openScenarioBean.selectedScenario}" />
+		</h:form>
+
+		<!-- MODALS -->
+
+		<p:dialog widgetVar="deleteConfirmDialog"
+				  modal="true"
+				  width="700"
+				  height="120"
+				  header="Confirm"
+				  resizable="false"
+				  closable="false"
+				  onShow="COMPASS.util.focusElement('deleteConfirmDialogForm:cancel');">
+			<h:form id="deleteConfirmDialogForm">
+				<h5>
+					Do You really want to delete the project
+					<h:outputText value="#{openScenarioBean.selectedProject.name}" id="name" style="font-style:italic;" />
+					?
+				</h5>
+				<div class="modalButtonsContainer">
+					<p:commandButton value="Delete"
+									 action="#{deleteProjectBean.confirm}"
+									 update=":projectSelectionForm :openScenarioButtonForm:openScenarioButton :scenarioSelectionForm"
+									 oncomplete="deleteConfirmDialog.hide();"
+									 styleClass="ui-priority-primary" />
+					<p:commandButton id="cancel"
+									 value="Cancel"
+									 style="margin-left:5px;"
+									 action="#{deleteProjectBean.cancel}"
+									 onclick="deleteConfirmDialog.hide();"
+									 styleClass="focus"
+									 process="@this"/>
+				</div>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="deleteScenarioConfirmDialog"
+				  modal="true"
+				  width="700"
+				  height="120"
+				  header="Confirm"
+				  resizable="false"
+				  closable="false"
+				  onShow="COMPASS.util.focusElement('deleteScenarioConfirmDialogForm:confirm');">
+			<h:form id="deleteScenarioConfirmDialogForm">
+				<h5>
+					Do You really want to delete the scenario
+					<h:outputText value="#{openScenarioBean.selectedScenario.name}" id="name" style="font-style:italic;" />
+					?
+				</h5>
+				<div class="modalButtonsContainer">
+					<p:commandButton value="Delete"
+									 action="#{deleteScenarioBean.confirm}"
+									 update=":scenarioSelectionForm :openScenarioButtonForm:openScenarioButton"
+									 oncomplete="deleteScenarioConfirmDialog.hide();"
+									 styleClass="ui-priority-primary" />
+					<p:commandButton id="confirm"
+									 value="Cancel"
+									 style="margin-left:5px;"
+									 action="#{deleteScenarioBean.cancel}"
+									 onclick="deleteScenarioConfirmDialog.hide();"
+									 styleClass="focus"
+									 process="@this"/>
+				</div>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,234 @@
+/*
+ * This file is part of COMPASS. It is subject to the license terms in
+ * the LICENSE file found in the top-level directory of this distribution.
+ * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * You may not use this file except in compliance with the License.
+ */
+
+/****
+	General CSS Helper classes
+*****/
+
+.floatRight{
+	float: right;
+}
+
+.floatLeft{
+	float: left;
+}
+
+.centerContent{
+	text-align: center;
+}
+
+.centerThis{
+	margin-left:auto;
+	margin-right:auto;
+}
+
+/****
+	Special classes for specific elements
+*****/
+
+.float-left {
+	float:left;
+}
+.float-right {
+	float:right;
+}
+
+.buttonBar{
+	position: relative;
+	right: 2px;
+	margin-top: 10px;
+}
+
+.contentPanelMargin{
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.scenarioPreviewImage{
+	width: 400px;
+	height:300px;
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin-top: 10px;
+}
+
+.prefabPreviewImage{
+	width: 100px;
+	height: 100px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#prefabSelectionGridForm{
+	padding: 0px;
+	margin: 0px;
+}
+
+.prefabSelectionGrid {
+	padding-top: 22px;
+}
+
+.prefabSelectionGrid div:first-child{
+	border: none;
+	padding-bottom: 6px;
+}
+
+.prefabPreviewName{
+	text-align: center;
+}
+
+.prefabSetGridElement {
+	max-width:143px;
+}
+
+.prefabSetGridElement tr td, .prefabSetGridElement tr{
+	border: none;
+}
+
+.prefabSetGridElement:hover{
+	cursor: pointer;
+	background-color: #E6E6E6;
+}
+
+.prefabSetGridElementSelected{
+	background-color: #0084C6 !important;
+	color: white;
+}
+
+.prefabSetGridElementSelected .prefabPreviewName{
+	color: white;
+}
+
+.prefabs-button-panel {
+	margin-top: -34px;
+	margin-left: 100px;
+}
+
+.scene-tree-button-panel {
+	text-align: right;
+	margin-top: -6px;
+}
+
+.compass-button {
+	height: 25px;
+	margin: 0px 2px 2px 2px;
+}
+
+.invisible {
+	display: none;
+}
+
+/* The classes below could be invisible as well, but they are used to grab
+   the actual content of the element whose style they describe */
+.scene-node-id-field {
+	display: none;
+}
+
+.prefab-id-field {
+	display: none;
+}
+
+.prefab-set-id-field {
+	display: none;
+}
+
+.tuple-field-label {
+	margin-right: 2px;
+	margin-left: 4px;
+	font-size: 75%;
+}
+
+.property-view-button {
+	margin-right: 3px;
+}
+
+.property-view-button .ui-button-text {
+	font-size: 0.8em;
+	padding: 0.2em 0.8em 0.2em 0.8em !important
+}
+
+.boolean-toggle-button.ui-state-active {
+	color: #3C763D;
+	background-color: #DFF0D8;
+}
+
+.boolean-toggle-button:not(.ui-state-active) {
+	color: #C7254E;
+	background-color: #F1D6DE;
+	background-image: -webkit-linear-gradient(top, #F9F2F4, #F1D6DE);
+	background-image: -moz-linear-gradient(top, #F9F2F4, #F1D6DE);
+}
+
+.property-label {
+	font-weight: bold;
+	font-size: 80%;
+}
+
+#propertyViewForm input {
+	font-size: 80%;
+}
+
+#propertyView table, #propertyView tbody, #propertyView td, #propertyView tr {
+	border: none;
+}
+
+#propertyView table {
+	margin-bottom: 10px !important;
+}
+
+.modalButtonsContainer{
+	margin-top: 20px;
+}
+
+.ui-dialog-footer .ui-button {
+	float: right;
+	margin: 5px 0px 10px 10px;
+}
+
+.prefabPreviewName {
+	font-size: 90% !important;
+}
+
+.previewImageFileUpload {
+	width: 100%;
+}
+
+.verticalSpacerDiv10Pixels {
+	height: 10px;
+}
+.clickable-list-container li:hover {
+	background-color: #ddd;
+	cursor: pointer;
+}
+
+.fail-warning {
+	color: red;
+}
+
+.truncate-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.menu-component-ui {
+	max-width: 250px;
+	max-height: 40px;
+	display: inline;
+	margin-right: 15px;
+}
+
+.compass-button.compass-button-active {
+	background-color: #CFF2B8;
+	background-image: none;
+	outline: 0;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
