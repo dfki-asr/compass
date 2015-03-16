@@ -35,6 +35,25 @@
 			</extension>
 		</extensions>
 
+		<resources>
+			<resource>
+				<!-- only filder metadata (to include version) -->
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>META-INF/maven/archetype-metadata.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<!-- copy other non-metadata resources as-is -->
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>META-INF/maven/archetype-metadata.xml</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
