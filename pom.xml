@@ -58,6 +58,12 @@
 		<build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
 	</properties>
 
+	<scm>
+		<connection>scm:git:https://github.com/dfki-asr/compass.git</connection>
+		<developerConnection>scm:git:https://github.com/dfki-asr/compass.git</developerConnection>
+		<url>https://github.com/dfki-asr/compass</url>
+	</scm>
+
 	<build>
 		<pluginManagement>
 			<plugins>
