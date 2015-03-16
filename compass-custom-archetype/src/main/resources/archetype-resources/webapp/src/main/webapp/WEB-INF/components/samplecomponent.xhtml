@@ -1,0 +1,35 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<ui:composition
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<c:set var="sampleComponent" value="${symbol_pound}{compass:findComponent(scenarioEditorBean.selectedSceneNode.components, 'SampleSceneNodeComponent')}" />
+	<p:tab title="Sample Component" >
+		<p:panelGrid>
+				<p:row>
+					<p:column colspan="3">
+						<h:outputText value="Sample Data" styleClass="property-label"/>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column style="text-align: left">
+						<p:inputText value="${symbol_pound}{sampleComponent.sampleData}"
+									 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+									 id="sampleComponentInput"
+									 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+									 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+									 size="32">
+							<p:ajax listener="${symbol_pound}{scenarioEditorBean.saveSelectedSceneNodeChanges}" update="sampleComponentInput"/>
+						</p:inputText>
+						<p:message for="sampleComponentInput" id="msgSampleComponentInput"/>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+	</p:tab>
+</ui:composition>
+

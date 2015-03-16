@@ -1,0 +1,81 @@
+<ui:composition 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<c:set var="directionalLight" value="#{compass:findComponent(scenarioEditorBean.selectedSceneNode.components, 'DirectionalLight')}"/>
+	<p:tab title="Directional Light" >
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<h:outputText value="Color" styleClass="property-label"/>
+				</p:column>
+				<p:column>
+					<h:outputText value="Intensity" styleClass="property-label" style="margin-left: 40px;"/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<span style="margin-right: 2px;">#</span>
+					<p:inputText value="#{directionalLight.color}"
+							 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+							 id="lightColorInput"
+							 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+							 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+							 size="8"
+							 styleClass="color"
+							 label="Color">
+						<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update="msgLightColorInput"/>
+						<h:outputScript>
+							jscolor.bind();
+						</h:outputScript>
+					</p:inputText>
+				</p:column>
+				<p:column>
+					<p:inputText value="#{directionalLight.intensity}"
+								 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+								 id="lightIntensityInput"
+								 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+								 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+								 size="3"
+								 style="margin-left: 40px;"
+								 label="Intensity">
+						<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update="msgLightIntensityInput"/>
+					</p:inputText>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<div class="verticalSpacerDiv10Pixels"/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<h:outputText value="Cast Shadow: " styleClass="property-label"/>
+				</p:column>
+				<p:column>
+					<p:selectBooleanCheckbox id="castShadowCheckBox" value="#{directionalLight.castShadow}" style="margin-left: 40px;">
+						<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update="msgCastShadowCheckBox"/>
+					</p:selectBooleanCheckbox>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="3">
+					<p:message for="lightColorInput" id="msgLightColorInput"/>
+					<p:message for="lightIntensityInput" id="msgLightIntensityInput"/>
+					<p:message for="castShadowCheckBox" id="msgCastShadowCheckBox"/>
+				</p:column>
+			</p:row>
+
+		</p:panelGrid>
+	</p:tab>
+</ui:composition>
+

@@ -1,0 +1,48 @@
+<ui:composition 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<c:set var="renderGeometry" value="#{compass:findComponent(scenarioEditorBean.selectedSceneNode.components, 'RenderGeometry')}" />
+	<p:tab title="Render Geometry" >
+		<p:panelGrid>
+				<p:row>
+					<p:column colspan="3">
+						<h:outputText value="URL" styleClass="property-label"/>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column style="text-align: left">
+						<p:inputText value="#{renderGeometry.meshSource}"
+									 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+									 id="renderGeometryURLInput"
+									 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+									 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+									 size="32">
+							<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update="msgRenderNodeURLInput"/>
+						</p:inputText>
+						<p:message for="renderGeometryURLInput" id="msgRenderNodeURLInput"/>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="3">
+						<p:commandButton value="From ATLAS"
+										 title="Select ATLAS Asset"
+										 styleClass="property-view-button"
+										 style="margin-top: 10px;"
+										 type="button"
+										 onclick="COMPASS.Importer.startURLImport();"/>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+	</p:tab>
+</ui:composition>
+

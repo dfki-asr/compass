@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<!-- This hidden field is to keep the openScenarioBean alive in all the project tasks
+		 such as duplication, editing aso. The initial reason was that a created scenario is
+		 not added to the correct project after returning to the main screen, because
+		 the OpenScenarioBean has been destroyed and recreated (because of being
+		 ViewAccessScoped, which still makes sense).
+	-->
+	<h:outputText value="#{openScenarioBean.selectedProject.name}" styleClass="invisible"/>
+</ui:composition>

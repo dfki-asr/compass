@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.dfki.asr.compass</groupId>
+	<artifactId>root</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>COMPASS 3D Web Application</name>
+
+	<modules>
+		<module>compass-maven-resources</module>
+		<module>compass-model</module>
+		<module>compass-persistence-unit</module>
+		<module>compass-business-impl</module>
+		<module>compass-database-initialization</module>
+		<module>compass-rest</module>
+		<module>compass-custom-archetype</module>
+		<module>compass-webapp</module>
+		<module>compass-deployment</module>
+	</modules>
+
+	<properties>
+		<!-- maven default properties -->
+		<encoding>UTF-8</encoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<skipITs>true</skipITs>
+		<ejb.ejbVersion>3.1</ejb.ejbVersion>
+
+		<version.javaee>6.0</version.javaee>
+		<version.jsf>2.1</version.jsf>
+		<version.deltaspike>1.2.1</version.deltaspike>
+		<version.resteasy>3.0.10.Final</version.resteasy>
+		<version.javax.enterprise.cdi-api>1.1</version.javax.enterprise.cdi-api>
+		<version.jboss-logging>3.1.4.GA</version.jboss-logging>
+		<version.eclipselink>2.5.2</version.eclipselink>
+		<!-- The jackson version depends very much on resteasy, hence we're
+		using what resteasy-jackson2-provider specifies -->
+		<version.jackson>2.4.1</version.jackson>
+		<!-- The annotations package version in turn depends on what
+		the jackson-databind:${version.jackson} package wants.
+		Since that may be different from ${jackson.version},
+		we specify it in a different variable. -->
+		<version.jackson.annotations>${version.jackson}</version.jackson.annotations>
+
+		<!-- plugin versions -->
+		<maven-source-plugin.version>2.4</maven-source-plugin.version>
+		<maven-ear-plugin.version>2.10</maven-ear-plugin.version>
+		<maven-ejb-plugin.version>2.3</maven-ejb-plugin.version>
+		<maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+		<build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<compilerVersion>1.7</compilerVersion>
+						<source>1.7</source>
+						<target>1.7</target>
+						<fork>true</fork>
+						<verbose>true</verbose>
+						<showWarnings>true</showWarnings>
+						<showDeprecation>true</showDeprecation>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.12</version>
+					<dependencies>
+						<dependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>compass-maven-resources</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+					</dependencies>
+					<executions>
+						<execution>
+							<id>validate</id>
+							<phase>validate</phase>
+							<configuration>
+								<configLocation>checkstyle-compass.xml</configLocation>
+								<encoding>UTF-8</encoding>
+								<consoleOutput>true</consoleOutput>
+								<failsOnError>true</failsOnError>
+								<linkXRef>false</linkXRef>
+							</configuration>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>3.4</version>
+					<dependencies>
+						<dependency>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>compass-maven-resources</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<linkXRef>false</linkXRef>
+						<sourceEncoding>utf-8</sourceEncoding>
+						<failOnViolation>true</failOnViolation>
+						<targetJdk>1.7</targetJdk>
+						<minimumTokens>54</minimumTokens>
+						<ignoreLiterals>false</ignoreLiterals>
+						<verbose>true</verbose>
+						<rulesets>
+							<ruleset>compass-java-ruleset.xml</ruleset>
+						</rulesets>
+					</configuration>
+					<executions>
+						<execution>
+							<id>validate-pmd</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>validate-cpd</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>cpd-check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>3.0.0</version>
+					<executions>
+						<execution>
+							<id>verify</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>1.8</version>
+					<executions>
+						<execution>
+							<id>default-cli</id>
+							<configuration>
+								<useMissingFile>true</useMissingFile>
+								<licenseMerges>
+									<licenseMerge>The Apache Software License, Version 2.0|Apache License, Version 2.0|Apache Public License 2.0|Apache License Version 2.0|Apache License</licenseMerge>
+									<licenseMerge>The MIT License|MIT License</licenseMerge>
+								</licenseMerges>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- ensure api is always scope: provided -->
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${version.javaee}</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

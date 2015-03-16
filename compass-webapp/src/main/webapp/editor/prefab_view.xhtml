@@ -1,0 +1,246 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:compass="http://dfki.asr.de/compass/components">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<p:droppable onDrop="COMPASS.EventHandler.onObjectDroppedOntoPrefabsPanel.bind(COMPASS.EventHandler)" tolerance="pointer"/>
+
+	<p:dialog appendTo="@(body)" closable="false" closeOnEscape="false"
+			  header="Select asset"
+			  resizable="false"
+			  widgetVar="atlasAssetImportDialog"
+			  style="max-width:480px; max-height: 780px;"
+			  position="center top"
+			  onShow="COMPASS.Importer.resetAtlasURLInputField();">
+	<h:form id="assetImportForm">
+		<div class="form-group">
+			<label for="atlas-url-input">ATLAS URL</label>
+			<input type="url" class="form-control" id="atlas-url-input" placeholder="/atlas/" value="/atlas/"
+				   onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+				   onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)">
+			</input>
+			<div class="verticalSpacerDiv10Pixels" />
+			<label for="importAssetHierachyBooleanButton">Import complete Asset Hierarchy:</label>
+			<p:selectBooleanButton id="importAssetHierachyBooleanButton" style="margin-left: 20px;"
+								   value="#{prefabBean.importCompleteAssetHierarchy}"
+								   onLabel="Yes" offLabel="No"
+								   onIcon="ui-icon-check" offIcon="ui-icon-close">
+				<p:ajax />
+			</p:selectBooleanButton>
+		</div>
+		<p>Available Assets</p>
+		<div style="overflow-y: scroll; overflow-x: hidden; max-height: 411px;">
+			<ul class="list-group clickable-list-container" id="asset-list">
+				<!-- Filled automatically -->
+			</ul>
+		</div>
+		<p:separator style="cursor: default; border: none; border-top: 1px solid #eee;"/>
+		<div>
+			<label for="prefabImportNewAssetButton">Add a new Asset to ATLAS</label>
+			<p:commandButton id="prefabImportNewAssetButton"
+					onclick="atlasAssetImportDialog.hide(); COMPASS.Importer.showNewAssetDialog.bind(COMPASS.Importer)();"
+					style="margin-left: 16px"
+					update=""
+					value="New Asset">
+			</p:commandButton>
+		</div>
+		<!-- between the dialog and the footer a seperator gets rendered anyway -->
+		<div class="ui-dialog-footer ui-widget-content" style="margin-top:20px; margin-bottom:-15px;">
+			<span>
+				<div style="text-align:right; margin-top: 5px;">
+					<p:commandButton onclick="COMPASS.Importer.importAssetAsPrefab.bind(COMPASS.Importer)()"
+							 id="asset-import-button"
+							value="Import"
+							update=""
+							styleClass="float-right ui-priority-primary">
+					</p:commandButton>
+					<p:commandButton onclick="atlasAssetImportDialog.hide();" value="Cancel" update=""/>
+				</div>
+			</span>
+		</div>
+	</h:form>
+	</p:dialog>
+
+	<p:dialog appendTo="@(body)" closable="false" closeOnEscape="false"
+			  header="Upload new asset"
+			  resizable="false"
+			  widgetVar="atlasNewAssetDialog"
+			  style="max-width:480px; max-height: 780px;"
+			  position="center top">
+		<h:form id="assetUploadForm">
+		<label for="atlas-new-asset-url-input">ATLAS URL</label>
+		<input type="url" class="form-control" id="atlas-new-asset-url-input" placeholder="/atlas/" value="/atlas/"
+			   onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+			   onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"></input>
+		<div class="verticalSpacerDiv10Pixels" />
+		<div style="text-align: center; margin-bottom: 20px;">
+			Note: Only .zip files in Collada format are currently supported. <br/>
+			See the ATLAS help page for more information.
+		</div>
+		<p:separator/>
+		<div>
+			<label for="atlas-new-asset-name">Asset name</label><br/>
+			<input id="atlas-new-asset-name" class="form-control"
+				   onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+				   onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"></input>
+			<span id="atlas-new-asset-name-fail" class="hidden fail-warning">Invalid name</span>
+		</div>
+		<div style="margin-top: 10px;">
+			<input id="atlas-new-asset-file-upload-form" type="file" accept="application/zip" style="display:inline;"></input>
+		</div>
+		<div id="atlas-new-asset-file-fail" class="hidden fail-warning">
+			Invalid file type. Only .zip files are allowed.
+		</div>
+		<div id="atlas-new-asset-upload-fail" class="hidden fail-warning">
+
+		</div>
+		<div class="verticalSpacerDiv10Pixels" />
+		<div class="ui-dialog-footer ui-widget-content" style="margin-top:20px; margin-bottom:-15px;">
+			<span>
+				<div style="text-align:right; margin-top: 5px;">
+					<p:commandButton id="atlas-new-asset-upload-button"
+							onclick="COMPASS.Importer.onUploadClicked.bind(COMPASS.Importer)();"
+							icon="ui-icon-arrowthickstop-1-n"
+							update=""
+							value="Upload"
+							styleClass="float-right">
+					</p:commandButton>
+					<p:commandButton onclick="atlasNewAssetDialog.hide();" value="Cancel" update=""/>
+				</div>
+			</span>
+		</div>
+		</h:form>
+	</p:dialog>
+
+	<h:form id="prefabSelectionGridForm">
+		<p:remoteCommand name="remoteReplacePrefabWithSceneNode" action="#{prefabBean.replacePrefabWithSceneNode}"
+						 update="prefabSelectionGrid" >
+		</p:remoteCommand>
+		<p:remoteCommand name="remoteImportAssetAsPrefab" action="#{prefabBean.importAssetAsPrefab}"
+						 update=":prefabSelectionGridForm:prefabSelectionGrid">
+		</p:remoteCommand>
+		<p:contextMenu for="prefabSelectionGridForm"
+					   style="width: 8em; min-width: 8em;">
+			<p:menuitem value="Delete"
+						update=":deletePrefabConfirmDialogView"
+						oncomplete="deletePrefabConfirmDialog.show();"
+						icon="ui-icon-trash" />
+		</p:contextMenu>
+
+		<p:outputPanel id="prefab-buttons" styleClass="prefabs-button-panel">
+			<p:commandButton icon="ui-icon-arrowthickstop-1-s"
+							 title="Import"
+							 styleClass="compass-button"
+							 update=":prefabSelectionGridForm:prefabSelectionGrid"
+							 onclick="COMPASS.Importer.startPrefabImport();"/>
+		</p:outputPanel>
+
+		<!-- templates -->
+		<script id="prefab-asset-list-entry-template" type="text/x-handlebars-template">
+			<li class="list-group-item truncate-text" 
+				onclick="COMPASS.Importer.selectAssetToImport.bind(COMPASS.Importer)('{{assetname}}')"
+				id="list-item-{{assetname}}">
+			{{assetname}}
+			</li>
+		</script>
+
+		<script id="asset-transaction-template" type="text/x-handlebars-template">
+			<div style="width: 100%; text-align:right; font-style: italic;">Asset status update&#160;</div>
+			<div style="color:#3071a9; font-weight: bold;" class="truncate-text">{{assetName}}</div>
+			<div id="atlas-transaction-status-{{id}}" title="{{statusDescription}}">{{status}}</div>
+			<span style="font-size: 75%; color:	#A30000;">{{detail}}</span>
+		</script>
+
+		<script id="rg-asset-list-entry-template" type="text/x-handlebars-template">
+			<li class="list-group-item" onclick="COMPASS.Importer.importAssetAsURL.bind(COMPASS.Importer)('{{assetname}}', 'renderGeometryURLInput')" >
+			<a href="#">{{assetname}}</a>
+			</li>
+		</script>
+
+		<div onclick="COMPASS.EventHandler.onPrefabGridClick(event);">
+			<p:dataGrid id="prefabSelectionGrid"
+						styleClass="prefabSelectionGrid"
+						var="prefab"
+						value="#{prefabBean.prefabListOfCurrentlySelectedPrefabSet}"
+						rendered="#{not empty prefabSetsHierarchyBean.selectedPrefabSetTreeNode}"
+						emptyMessage="You selected an empty PrefabSet."
+						rows="10"
+						columns="12"
+						paginator="true"
+						paginatorPosition="bottom"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+				<p:panelGrid columns="1" styleClass="prefabSetGridElement ui-corner-all">
+					<h:panelGrid onmouseup="COMPASS.EventHandler.prefabSelectionEventListener.bind(COMPASS.EventHandler)(event)">
+						<p:column>
+							<p:row>
+								<p:outputPanel id="prefab-container">
+									<p:outputPanel layout="block"
+												   styleClass="prefabPreviewImage"
+												   style="background-image:url('#{imageURLBuilder.build(prefabBean.getPreviewImageOfPrefab(prefab))}')"
+												   id="prefabPreview"
+												   rendered="#{not empty prefab.components and prefabBean.prefabHasPreview(prefab)}"/>
+									<p:outputPanel layout="block"
+												   styleClass="prefabPreviewImage"
+												   style="background-image:url('../resources/images/default_image.png')"
+												   id="prefabDefaultPreview"
+												   rendered="#{empty prefab.components or not prefabBean.prefabHasPreview(prefab)}"/>
+									<!--
+									This hidden text label provides JavaScript with the prefab id, which it needs to send to the server
+									after a prefab instance is created through a drag & drop operation
+									-->
+									<h:outputText value="#{prefab.id}" styleClass="prefab-id-field" />
+								</p:outputPanel>
+								<p:droppable for="prefab-container" onDrop="COMPASS.EventHandler.onObjectDroppedOntoPrefab.bind(COMPASS.EventHandler)" tolerance="pointer" hoverStyleClass="ui-state-hover" />
+							</p:row>
+							<p:row>
+								<p:outputPanel styleClass="prefabPreviewName">
+									<h:outputText value="#{compass:truncateString(prefab.name, 32)}" />
+								</p:outputPanel>
+							</p:row>
+						</p:column>
+						<h:outputScript>COMPASS.Editor.restorePrefabSelectionAfterUpdate.bind(COMPASS.Editor)()</h:outputScript>
+					</h:panelGrid>
+					<p:draggable opacity="0.7" revert="true" zindex="1000" helper="clone" proxy="true"/>
+				</p:panelGrid>
+			</p:dataGrid>
+		</div>
+	</h:form>
+	<p:confirmDialog widgetVar="replaceConfirmDialog" message="Are you sure you want to replace the prefab?" closable="false" appendTo="@(body)" closeOnEscape="true">
+		<f:facet name="header">
+			Confirm
+		</f:facet>
+		<h:form id="replaceConfirmDialogButtonsForm">
+			<p:commandButton value="Replace" type="button" onclick="COMPASS.EventHandler.onConfirmReplacePrefab.bind(COMPASS.EventHandler)()" styleClass="float-right" icon="ui-icon-check" ajax="false"/>
+			<p:commandButton value="Cancel" type="button" onclick="replaceConfirmDialog.hide()" styleClass="float-right" icon="ui-icon-close" ajax="false"/>
+		</h:form>
+	</p:confirmDialog>
+	<p:confirmDialog widgetVar="deletePrefabConfirmDialog"
+					 id="deletePrefabConfirmDialogView"
+					 header="Confirm"
+					 closable="false"
+					 message="Do You really want to delete the prefab &quot;${scenarioEditorBean.selectedSceneNode.name}&quot;?"
+					 closeOnEscape="true"
+					 appendTo="@(body)">
+		<h:form id="deletePrefabConfirmDialogForm">
+				<p:commandButton value="Cancel"
+								 style="margin-left:5px;"
+								 onclick="deletePrefabConfirmDialog.hide();"
+								 process="@this"
+								 icon="ui-icon-close"
+								 styleClass="float-right"/>
+				<p:commandButton value="Delete"
+								 action="#{prefabBean.deleteSelectedPrefab}"
+								 update=":prefabSelectionGridForm"
+								 oncomplete="COMPASS.Editor.deletePrefab.bind(COMPASS.Editor)(); deletePrefabConfirmDialog.hide();"
+								 icon="ui-icon-check"
+								 styleClass="float-right"/>
+		</h:form>
+	</p:confirmDialog>
+</ui:composition>

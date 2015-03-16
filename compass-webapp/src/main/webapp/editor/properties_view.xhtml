@@ -1,0 +1,264 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core"
+				xmlns:compass="http://dfki.asr.de/compass/components">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<h:form id="propertyViewForm" prependId="false" onsubmit="return false;">
+		<p:remoteCommand name="remoteUpdateSelectedSceneNodeTransform"
+						 action="#{scenarioEditorBean.updateSelectedSceneNodeTransform}" />
+		<p:outputPanel styleClass="scene-tree-button-panel">
+			<p:commandButton icon="ui-icon-document"
+							 title="Manage components"
+							 styleClass="compass-button"
+							 update=":sceneNodeComponentSelectorForm"
+							 type="button"
+							 rendered="#{not empty scenarioEditorBean.selectedSceneNode}"
+							 onclick="sceneNodeComponentSelectorDialog.show();"/>
+		</p:outputPanel>
+		<p:panelGrid id="propertyView" style="width: 100%">
+			<p:row rendered="#{not empty scenarioEditorBean.selectedSceneNode}">
+				<p:column style="vertical-align: top">
+					<p:accordionPanel multiple="true" dynamic="true">
+						<p:tab title="General">
+							<p:panelGrid>
+								<p:row>
+									<p:column colspan="3">
+										<h:outputText value="Name" styleClass="property-label"/>
+									</p:column>
+								</p:row>
+								<p:row rendered="#{not empty scenarioEditorBean.selectedSceneNode}">
+									<p:column style="text-align: left">
+										<p:inputText value="#{scenarioEditorBean.selectedSceneNode.name}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 id="sceneNodeNameInput"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 size="32">
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update="msgSceneNodeNameInput"/>
+										</p:inputText>
+										<p:message for="sceneNodeNameInput" id="msgSceneNodeNameInput"/>
+									</p:column>
+								</p:row>
+
+								<div class="verticalSpacerDiv10Pixels" />
+
+								<p:row>
+									<p:column colspan="3">
+										<h:outputText value="State" styleClass="property-label"/>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:selectBooleanButton value="#{scenarioEditorBean.selectedSceneNode.visible}" id="visibilityButton"
+															   onLabel="Visible" offLabel="Invisible" styleClass="property-view-button boolean-toggle-button">
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}"/>
+										</p:selectBooleanButton>
+										<p:selectBooleanButton value="#{scenarioEditorBean.selectedSceneNode.selectable3d}" id="selectable3dButton"
+															   onLabel="Selectable" offLabel="Not Selectable" styleClass="property-view-button boolean-toggle-button">
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}"/>
+										</p:selectBooleanButton>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Transform">
+							<p:panelGrid>
+								<p:row>
+									<p:column colspan="3">
+										<h:outputText value="Position" styleClass="property-label"/>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<h:outputLabel for="propertyViewPositionX" value="X:" styleClass="tuple-field-label"/>
+										<p:inputText id="propertyViewPositionX"
+													 size="3"
+													 value="#{scenarioEditorBean.selectedSceneNode.localTranslation.x}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 label="X"
+													 validatorMessage="#{propertiesViewBean.transformAxisValidatorMessage}">
+											<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											<f:validateDoubleRange minimum="#{propertiesViewBean.minTransformAxisValue}" maximum="#{propertiesViewBean.maxTransformAxisValue}"/>
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update=":propertyViewForm:propertyView msgXInput"/>
+										</p:inputText>
+									</p:column>
+									<p:column>
+										<h:outputLabel for="propertyViewPositionY" value="Y:" styleClass="tuple-field-label"/>
+										<p:inputText id="propertyViewPositionY"
+													 size="3"
+													 value="#{scenarioEditorBean.selectedSceneNode.localTranslation.y}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 label="Y"
+													 validatorMessage="#{propertiesViewBean.transformAxisValidatorMessage}">
+											<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											<f:validateDoubleRange minimum="#{propertiesViewBean.minTransformAxisValue}" maximum="#{propertiesViewBean.maxTransformAxisValue}"/>
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update=":propertyViewForm:propertyView msgYInput"/>
+										</p:inputText>
+									</p:column>
+									<p:column>
+										<h:outputLabel for="propertyViewPositionZ" value="Z:" styleClass="tuple-field-label"/>
+										<p:inputText id="propertyViewPositionZ"
+													 size="3"
+													 value="#{scenarioEditorBean.selectedSceneNode.localTranslation.z}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 label="Z"
+													 validatorMessage="#{propertiesViewBean.transformAxisValidatorMessage}">
+											<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											<f:validateDoubleRange minimum="#{propertiesViewBean.minTransformAxisValue}" maximum="#{propertiesViewBean.maxTransformAxisValue}"/>
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update=":propertyViewForm:propertyView msgZInput"/>
+										</p:inputText>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="3">
+										<p:message id="msgXInput" for="propertyViewPositionX"/>
+										<p:message id="msgYInput" for="propertyViewPositionY"/>
+										<p:message id="msgZInput" for="propertyViewPositionZ"/>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+
+							<p:panelGrid>
+								<p:row>
+									<p:column colspan="3">
+										<h:outputText value="Rotation" styleClass="property-label"/>
+									</p:column>
+								</p:row>
+								<p:row >
+									<p:column>
+										<h:outputLabel for="propertyViewRotationPitch" value="X:" styleClass="tuple-field-label"/>
+										<p:inputText id="propertyViewRotationPitch"
+													 size="3"
+													 value="#{scenarioEditorBean.selectedSceneNode.localPitch}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 label="X"
+													 validatorMessage="#{propertiesViewBean.transformAxisValidatorMessage}">
+											<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											<f:validateDoubleRange minimum="#{propertiesViewBean.minTransformAxisValue}" maximum="#{propertiesViewBean.maxTransformAxisValue}"/>
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update=":propertyViewForm:propertyView msgPitchInput"/>
+										</p:inputText>
+									</p:column>
+									<p:column>
+										<h:outputLabel for="propertyViewRotationYaw" value="Y:" styleClass="tuple-field-label"/>
+										<p:inputText id="propertyViewRotationYaw"
+													 size="3"
+													 value="#{scenarioEditorBean.selectedSceneNode.localYaw}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 label="Y"
+													 validatorMessage="#{propertiesViewBean.transformAxisValidatorMessage}">
+											<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											<f:validateDoubleRange minimum="#{propertiesViewBean.minTransformAxisValue}" maximum="#{propertiesViewBean.maxTransformAxisValue}"/>
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update=":propertyViewForm:propertyView msgYawInput"/>
+										</p:inputText>
+									</p:column>
+									<p:column>
+										<h:outputLabel for="propertyViewRotationRoll" value="Z:" styleClass="tuple-field-label"/>
+										<p:inputText id="propertyViewRotationRoll"
+													 size="3"
+													 value="#{scenarioEditorBean.selectedSceneNode.localRoll}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 label="Z"
+													 validatorMessage="#{propertiesViewBean.transformAxisValidatorMessage}">
+											<f:convertNumber maxFractionDigits="2" groupingUsed="false" />
+											<f:validateDoubleRange minimum="#{propertiesViewBean.minTransformAxisValue}" maximum="#{propertiesViewBean.maxTransformAxisValue}"/>
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update=":propertyViewForm:propertyView msgRollInput"/>
+										</p:inputText>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="3">
+										<p:message id="msgYawInput" for="propertyViewRotationYaw"/>
+										<p:message id="msgPitchInput" for="propertyViewRotationPitch"/>
+										<p:message id="msgRollInput" for="propertyViewRotationRoll"/>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+
+							<p:panelGrid>
+								<p:row>
+									<p:column colspan="3">
+										<h:outputText value="Scale" styleClass="property-label"/>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText id="propertyViewScale"
+													 size="3"
+													 value="#{scenarioEditorBean.selectedSceneNode.localScale}"
+													 onkeypress="COMPASS.EventHandler.blurElementOnEnter(event)"
+													 onfocus="COMPASS.EventHandler.disableCameraControlsOnFocus(event)"
+													 onblur="COMPASS.EventHandler.enableCameraControlsOnBlur(event)"
+													 validatorMessage="#{propertiesViewBean.scaleValidatorMessage}"
+													 >
+											<f:validateDoubleRange minimum="#{propertiesViewBean.minScaleValue}" maximum="#{propertiesViewBean.maxScaleValue}"/>
+											<p:ajax listener="#{scenarioEditorBean.saveSelectedSceneNodeChanges}" update="msgScaleInput" />
+										</p:inputText>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="3">
+										<p:message id="msgScaleInput" for="propertyViewScale"/>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+						</p:tab>
+					</p:accordionPanel>
+					<p:accordionPanel multiple="true" dynamic="true" id="propertyViewComponentPanel">
+						<c:forEach items="#{scenarioEditorBean.selectedSceneNode.components}" var="component" >
+							<ui:include src="#{compass:getComponentUISrc(component)}" />
+						</c:forEach>
+					</p:accordionPanel>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</h:form>
+	<p:dialog appendTo="@(body)" closable="false" closeOnEscape="false"
+			  header="Select Components"
+			  modal="true"
+			  resizable="false"
+			  widgetVar="sceneNodeComponentSelectorDialog" >
+		<h:form id="sceneNodeComponentSelectorForm">
+			<p:pickList value="#{sceneNodeComponentSelectorBean.model}"
+						var="class"
+						itemLabel="#{class.simpleName}" itemValue="#{class.name}">
+				<f:converter converterId="de.dfki.asr.compass.ejb.facesConverter.ClassFacesConverter" />
+				<f:facet name="sourceCaption">Available</f:facet>
+				<f:facet name="targetCaption">In Use</f:facet>
+			</p:pickList>
+			<div class="ui-dialog-footer ui-widget-content" style="margin-top:20px; margin-bottom:-15px;">
+				<span>
+					<div style="text-align:right; margin-top: 5px;">
+						<p:commandButton action="#{sceneNodeComponentSelectorBean.confirmComponentSelection()}"
+										 value="Done" icon="ui-icon-check"
+										 oncomplete="sceneNodeComponentSelectorDialog.hide()"
+										 update=":propertyViewForm:propertyViewComponentPanel :sceneTreeViewForm" />
+						<p:commandButton action="#{sceneNodeComponentSelectorBean.cancelComponentSelection()}"
+										 value="Cancel" icon="ui-icon-cancel"
+										 oncomplete="sceneNodeComponentSelectorDialog.hide()"
+										 update=":propertyViewForm:propertyViewComponentPanel :sceneNodeComponentSelectorForm" />
+					</div>
+				</span>
+			</div>
+		</h:form>
+	</p:dialog>
+</ui:composition>

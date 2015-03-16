@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+<projectlist>
+	<project>
+		<name>Le Project</name>
+		<scenario>
+			<name>Le Scenario</name>
+			<root name="Root" selectable3d="true" visible="true">
+				<components/>
+				<children/>
+				<localTranslation x="0.0" y="0.0" z="0.0"/>
+				<localScale>1.0</localScale>
+				<localRotation w="1.0" x="0.0" y="0.0" z="0.0"/>
+			</root>
+		</scenario>
+		<prefabSet>
+			<name>Assets</name>
+			<children/>
+			<prefabs>
+				<node name="Amberlamps" selectable3d="true" visible="true">
+					<components>
+						<renderGeometry>
+							<meshSource>/atlas/rest/asset/amberlamps.xml#amberlamps</meshSource>
+						</renderGeometry>
+					</components>
+					<children/>
+					<localTranslation x="0.0" y="0.0" z="0.0"/>
+					<localScale>1.0</localScale>
+					<localRotation w="1.0" x="0.0" y="0.0" z="0.0"/>
+				</node>
+			</prefabs>
+		</prefabSet>
+	</project>
+</projectlist>

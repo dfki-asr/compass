@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>${groupId}</groupId>
+		<artifactId>${rootArtifactId}</artifactId>
+		<version>${version}</version>
+	</parent>
+
+	<artifactId>${artifactId}</artifactId>
+	<packaging>jar</packaging>
+	<name>Additional Data Model</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-model</artifactId>
+			<version>${compass.version}</version>
+			<!-- scope is provided, because you package it in the
+			persitence module. -->
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!--
+				*** JPA METAMODEL ***
+				Your custom model should also generate a JPA metamodel
+				in case you (or a third party using your model)
+				want to programmatically construct database queries
+				pertaining to your entity classes.
+			-->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerArgument>-proc:none</compilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<version>2.2.4</version>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<outputDirectory>${project.build.directory}/generated-sources/jpa-metamodel</outputDirectory>
+							<processors>
+								<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
+							</processors>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-jpamodelgen</artifactId>
+						<version>4.3.8.Final</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- *** END JPA METAMODEL -->
+		</plugins>
+	</build>
+</project>

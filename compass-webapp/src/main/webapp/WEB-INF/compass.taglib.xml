@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+<facelet-taglib version="2.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd">
+	<namespace>http://dfki.asr.de/compass/components</namespace>
+	<composite-library-name>compass-components</composite-library-name>
+	<tag>
+		<tag-name>xml3d</tag-name>
+		<component>
+			<component-type>compass.web.components.xml3d</component-type>
+		</component>
+	</tag>
+	<tag>
+		<tag-name>componentIcons</tag-name>
+		<component>
+			<component-type>compass.web.components.componenticons</component-type>
+		</component>
+	</tag>
+	<function>
+		<function-name>truncateString</function-name>
+		<function-class>de.dfki.asr.compass.web.components.JSFFunctions</function-class>
+		<function-signature>
+			java.lang.String truncateString(java.lang.String, int)
+		</function-signature>
+	</function>
+
+	<function>
+		<function-name>findComponent</function-name>
+		<function-class>de.dfki.asr.compass.web.components.JSFFunctions</function-class>
+		<function-signature>
+			java.lang.Object findComponent(java.util.Collection, java.lang.String)
+		</function-signature>
+	</function>
+
+	<function>
+		<function-name>getComponentUISrc</function-name>
+		<function-class>de.dfki.asr.compass.web.components.JSFFunctions</function-class>
+		<function-signature>
+			java.lang.String getComponentUISrc(java.lang.Object)
+		</function-signature>
+	</function>
+
+	<function>
+		<function-name>prependAndJoin</function-name>
+		<function-class>de.dfki.asr.compass.web.components.JSFFunctions</function-class>
+		<function-signature>
+			java.lang.String prependAndJoin(java.lang.String, java.util.List)
+		</function-signature>
+	</function>
+
+</facelet-taglib>

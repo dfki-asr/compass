@@ -1,0 +1,34 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="
+		http://java.sun.com/xml/ns/persistence
+		http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+			 version="2.0">
+
+	<${artifactId} name="projectDatabase">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<!-- if you want to change the name of the datasource, do it here: -->
+		<jta-data-source>java:/compass-remote</jta-data-source>
+
+		<!-- see JPA 2.1 Spec, 8.2.1.6.3, Example 2 -->
+		<!-- use the core COMPASS model classes -->
+		<jar-file>compass-model-${symbol_dollar}{compass.version}.jar</jar-file>
+		<!-- and also the classes from the model module -->
+		<jar-file>model-${symbol_dollar}{project.version}.jar</jar-file>
+
+		<properties>
+			<!-- you can edit these to suit your deployment -->
+			<property name="hibernate.transaction.manager_lookup_class"
+					  value="org.hibernate.transaction.JBossTransactionManagerLookup" />
+			<property name="hibernate.connection.release_mode"
+					  value="on_close"/>
+			<property name="hibernate.hbm2ddl.auto"
+					  value="create-drop" />
+		</properties>
+	</${artifactId}>
+</persistence>

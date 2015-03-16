@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	  xmlns:h="http://java.sun.com/jsf/html">
+	<head>
+		<title></title>
+	</head>
+	<body>
+	</body>
+
+	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" template="layout/layout.xhtml">
+		<ui:define name="header">
+		</ui:define>
+		<ui:define name = "content" >
+			<h1>An internal error has occured</h1>
+			<p>
+				Please reload the page and try again. If that doesn't help, contact the developer and
+				send him the following lines:
+			</p>
+			<div><h:messages globalOnly="true"/></div>
+		</ui:define>
+	</ui:composition>
+</html>

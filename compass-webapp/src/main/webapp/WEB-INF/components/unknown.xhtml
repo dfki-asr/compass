@@ -1,0 +1,20 @@
+<ui:composition 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<p:tab title="Unknown Component">
+		<div class="ui-message ui-message-error ui-widget ui-corner-all">
+			<span class="ui-message-error-icon"></span>
+			<span class="ui-message-error-detail">Could not find a UI description for the component!</span>
+		</div>
+		<p style="font-size:80%; margin-top: 10px;">Please ensure your <span style="font-style: italic">@CompassComponent</span> annotation includes
+			a value for the <span style="font-style: italic">ui</span> attribute.</p>
+	</p:tab>
+</ui:composition>
+

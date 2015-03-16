@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>${groupId}</groupId>
+		<artifactId>${rootArtifactId}</artifactId>
+		<version>${version}</version>
+	</parent>
+
+	<artifactId>${artifactId}</artifactId>
+	<packaging>ear</packaging>
+	<name>Deployment</name>
+
+	<dependencies>
+		<!-- your custom webapp overlays COMPASS' base webapp -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>webapp</artifactId>
+			<type>war</type>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- your custom persistence unit includes COMPASS' entities -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>persistence-unit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- your additional business logic deployed alongside -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>business-impl</artifactId>
+			<type>ejb</type>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- You should keep the core business logic implementation -->
+		<dependency>
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-business-impl</artifactId>
+			<type>ejb</type>
+			<version>${compass.version}</version>
+		</dependency>
+
+		<!-- And if you want more EJB modules, in addition to adding them
+		     as an EAR module below, you need to add them here, e.g.:
+		<dependency>
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-database-initialization</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+		-->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<!-- this is an EE6 app -->
+					<version>6</version>
+					<modules>
+						<webModule>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>webapp</artifactId>
+						</webModule>
+						<ejbModule>
+							<groupId>de.dfki.asr.compass</groupId>
+							<artifactId>compass-business-impl</artifactId>
+						</ejbModule>
+						<ejbModule>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>business-impl</artifactId>
+						</ejbModule>
+
+						<!-- Reference another EJB module here:
+						     Don't forget to add the dependency above!
+						<ejbModule>
+							<groupId>de.dfki.asr.compass</groupId>
+							<artifactId>compass-database-initialization</artifactId>
+						</ejbModule>
+						-->
+
+						<!-- persistence-unit should go into lib/,
+						     therefore it's not a module here. -->
+					</modules>
+					<!-- must be specified, see
+					     http://stackoverflow.com/a/14872940 -->
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

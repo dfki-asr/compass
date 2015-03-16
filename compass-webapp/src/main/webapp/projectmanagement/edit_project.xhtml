@@ -1,0 +1,47 @@
+<ui:composition template="/layout/content_layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<ui:define name="content">
+		<ui:include src="common_projecttask.xhtml" />
+		<p:panel widgetVar="editProjectPanel"
+				 closable="false"
+				 styleClass="contentPanelMargin">
+			<f:facet name="header">
+				<h:outputText value="Editing " />
+				<h:outputText style="font-style:italic;" value="#{editProjectBean.projectName}" />
+			</f:facet>
+			<h:form id="editProjectForm">
+				<h6>Name</h6>
+				<p:focus />
+				<p:inputText id="editProjectNameField"
+							 value="#{editProjectBean.projectName}"
+							 label="Project Name"
+							 style="width:400px"
+							 required="true">
+				</p:inputText>
+				<p:message for="editProjectNameField" id="msgEditProjectNameInput" />
+				<div class="modalButtonsContainer">
+					<p:commandButton id="saveButton"
+									 value="Save"
+									 action="#{editProjectBean.confirm}"
+									 update="msgEditProjectNameInput"
+									 styleClass="ui-priority-primary" />
+					<p:commandButton value="Cancel"
+									 style="margin-left:5px;"
+									 action="#{editProjectBean.cancel}"
+									 immediate="true"
+									 process="@this"/>
+				</div>
+			</h:form>
+		</p:panel>
+	</ui:define>
+</ui:composition>

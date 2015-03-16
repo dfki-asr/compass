@@ -1,0 +1,42 @@
+<ui:composition 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core">
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+	<c:set var="previewImage" value="#{compass:findComponent(scenarioEditorBean.selectedSceneNode.components, 'PreviewImage')}" />
+	<p:tab title="Preview Image" >
+		<p:panelGrid>
+			<p:row>
+				<p:column colspan="3">
+					<h:outputText value="Image" styleClass="property-label"/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column style="text-align: left;">
+					<p:outputPanel layout="block"
+								   styleClass="prefabPreviewImage"
+								   style="background-image:url('#{imageURLBuilder.build(previewImage.image)}')"
+								   id="sceneNodePreviewImage"/>
+					<p:fileUpload mode="advanced"
+								  auto="true"
+								  fileUploadListener="#{previewImageUploadBean.jsfReplacePreviewImage}"
+								  allowTypes="/(\.|\/)(jpe?g|png)$/"
+								  update="@form :prefabSelectionGridForm:prefabSelectionGrid"
+								  dragDropSupport="true"
+								  styleClass="previewImageFileUpload">
+						<f:attribute name="previewComponent" value="#{previewImage}" />
+					</p:fileUpload>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</p:tab>
+</ui:composition>
+

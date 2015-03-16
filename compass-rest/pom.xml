@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.dfki.asr.compass</groupId>
+		<artifactId>root</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>compass-rest</artifactId>
+	<packaging>jar</packaging>
+	<name>COMPASS - REST</name>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<!-- borrowed from com.fasterxml.oss-parent pom -->
+		<generatedSourcesDir>${project.build.directory}/generated-sources</generatedSourcesDir>
+		<packageVersion.template.input>${basedir}/src/main/java/${packageVersion.dir}/PackageVersion.java.in</packageVersion.template.input>
+		<packageVersion.template.outputDirectory>${generatedSourcesDir}/maven-replacer-plugin/${packageVersion.dir}</packageVersion.template.outputDirectory>
+		<packageVersion.template.output>${packageVersion.template.outputDirectory}/PackageVersion.java</packageVersion.template.output>
+		<!-- Generate PackageVersion.java into this directory. -->
+		<packageVersion.dir>de/dfki/asr/compass/rest/mixins</packageVersion.dir>
+		<packageVersion.package>${project.groupId}.rest.mixins</packageVersion.package>
+
+		<replacer.version>1.5.2</replacer.version>
+
+		<swagger.templateDirectory>${basedir}/src/swagger/templates</swagger.templateDirectory>
+		<swagger.target>${basedir}/target/swagger</swagger.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>compass-model</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>compass-business-impl</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${version.jackson}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>${version.jboss-logging}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>${version.resteasy}</version>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<!-- due to undefined license -->
+					<groupId>net.jcip</groupId>
+					<artifactId>jcip-annotations</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<!-- version/scope is configured in root pom -->
+		</dependency>
+		<dependency>
+			<groupId>com.wordnik</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.3.12</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>${replacer.version}</version>
+				<executions>
+					<execution>
+						<id>process-packageVersion</id>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<file>${packageVersion.template.input}</file>
+					<outputFile>${packageVersion.template.output}</outputFile>
+					<replacements>
+						<replacement>
+							<token>@package@</token>
+							<value>${packageVersion.package}</value>
+						</replacement>
+						<replacement>
+							<token>@projectversion@</token>
+							<value>${project.version}</value>
+						</replacement>
+						<replacement>
+							<token>@projectgroupid@</token>
+							<value>${project.groupId}</value>
+						</replacement>
+						<replacement>
+							<token>@projectartifactid@</token>
+							<value>${project.artifactId}</value>
+						</replacement>
+					</replacements>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${build-helper-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${packageVersion.template.outputDirectory}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>2.3.3</version>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<!--Required parameters-->
+							<locations>de.dfki.asr.compass.rest</locations>
+							<apiVersion>${project.version}</apiVersion>
+							<basePath>http://example.com/compass/restv1</basePath>
+							<!--Optional parameters-->
+							<apiInfo>
+								<title>Compass REST API</title>
+							</apiInfo>
+							<outputTemplate>${swagger.templateDirectory}/strapdown.html.mustache</outputTemplate>
+							<mustacheFileRoot>${swagger.templateDirectory}</mustacheFileRoot>
+							<outputPath>${swagger.target}/restapi-doc.html</outputPath>
+						</apiSource>
+					</apiSources>
+				</configuration>
+				<dependencies>
+					<!-- Because the javaee-api package only has stubs for certain persistence classes
+					     swagger throws a hissy fit when it can't instantiate these for reflection.
+					     Therefore, let's give it a full-blown JPA and BV implementation to use here.
+					-->
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-core</artifactId>
+						<version>4.3.8.Final</version>
+					</dependency>
+					<dependency>
+						<groupId>org.hibernate</groupId>
+						<artifactId>hibernate-validator</artifactId>
+						<version>5.1.3.Final</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
