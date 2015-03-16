@@ -14,7 +14,7 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<name>COMPASS - Custom Project Archetype</name>	
+	<name>COMPASS - Custom Project Archetype</name>
 	<artifactId>compass-custom-archetype</artifactId>
 	<packaging>maven-archetype</packaging>
 
