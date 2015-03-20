@@ -46,12 +46,12 @@ public class PluginViewRegistry {
 	 * @param viewId id to add to the slot
 	 */
 	public void registerPluginView(String slot, String viewId) {
-		if (!viewIds.containsKey(slot)) {
+		if (viewIds.containsKey(slot)) {
+			viewIds.get(slot).add(viewId);
+		} else {
 			Set<String> set = new HashSet<>();
 			set.add(viewId);
 			viewIds.put(slot, set);
-		} else {
-			viewIds.get(slot).add(viewId);
 		}
 		log.infov("Registered new view id {0} for slot {1}", viewId, slot);
 	};
