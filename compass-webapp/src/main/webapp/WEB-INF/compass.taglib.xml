@@ -21,6 +21,12 @@
 			<component-type>compass.web.components.componenticons</component-type>
 		</component>
 	</tag>
+
+	<tag>
+		<tag-name>plugin</tag-name>
+		<handler-class>de.dfki.asr.compass.web.components.PluginTagHandler</handler-class>
+	</tag>
+
 	<function>
 		<function-name>truncateString</function-name>
 		<function-class>de.dfki.asr.compass.web.components.JSFFunctions</function-class>
