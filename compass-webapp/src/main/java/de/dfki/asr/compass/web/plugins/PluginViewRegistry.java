@@ -16,9 +16,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Collections;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import org.jboss.logging.Logger;
 
+@ApplicationScoped
 public class PluginViewRegistry {
 
 	@Inject
