@@ -63,8 +63,10 @@ public class PluginViewRegistry {
 	 */
 	public List<String> getViewIdsForSlot(String slot) {
 		List<String> list = new ArrayList<>();
-		list.addAll(viewIds.get(slot));
-		Collections.sort(list);
+		if (viewIds.containsKey(slot)) {
+			list.addAll(viewIds.get(slot));
+			Collections.sort(list);
+		}
 		return list;
 	}
 
