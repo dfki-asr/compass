@@ -16,9 +16,6 @@
 		<p:remoteCommand name="remoteReplacePrefabWithSceneNode" action="#{prefabBean.replacePrefabWithSceneNode}"
 						 update="prefabSelectionGrid" >
 		</p:remoteCommand>
-		<p:remoteCommand name="remoteImportAssetAsPrefab" action="#{prefabBean.importAssetAsPrefab}"
-						 update=":prefabSelectionGridForm:prefabSelectionGrid">
-		</p:remoteCommand>
 		<p:contextMenu for="prefabSelectionGridForm"
 					   style="width: 8em; min-width: 8em;">
 			<p:menuitem value="Delete"
@@ -28,11 +25,6 @@
 		</p:contextMenu>
 
 		<p:outputPanel id="prefab-buttons" styleClass="prefabs-button-panel">
-			<p:commandButton icon="ui-icon-arrowthickstop-1-s"
-							 title="Import"
-							 styleClass="compass-button"
-							 update=":prefabSelectionGridForm:prefabSelectionGrid"
-							 onclick="COMPASS.Importer.startPrefabImport();"/>
 			<compass:plugin slot="prefabButtons" />
 		</p:outputPanel>
 
