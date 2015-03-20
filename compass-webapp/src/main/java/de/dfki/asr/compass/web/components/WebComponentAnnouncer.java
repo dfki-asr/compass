@@ -8,12 +8,20 @@ package de.dfki.asr.compass.web.components;
 
 import de.dfki.asr.compass.business.api.ComponentRegistry;
 import de.dfki.asr.compass.business.api.ComponentAnnouncer;
+import de.dfki.asr.compass.web.plugins.PluginViewRegistry;
+import de.dfki.asr.compass.web.plugins.api.PluginAnnouncer;
 import javax.ejb.Stateless;
 
 @Stateless
-public class WebComponentAnnouncer implements ComponentAnnouncer {
+public class WebComponentAnnouncer implements ComponentAnnouncer, PluginAnnouncer {
 
 	@Override
 	public void announceComponents(ComponentRegistry componentManager) {
+	}
+
+	@Override
+	public void announcePlugin(PluginViewRegistry registry) {
+		registry.registerPluginView("body", "/plugins/prefab_importer_dialogs.xhtml");
+		registry.registerPluginView("prefabButtons", "/plugins/prefab_importer_button.xhtml");
 	}
 }
