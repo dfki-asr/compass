@@ -72,9 +72,7 @@ public class PrefabSetRESTService extends AbstractRESTService {
 	@POST
 	@Path("/{id}/children")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Append a prefabset to a specified parent."
-	)
+	@ApiOperation("Append a prefabset to a specified parent.")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 404, message = "Entity not found"),
@@ -92,9 +90,7 @@ public class PrefabSetRESTService extends AbstractRESTService {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Creates a prefab set."
-	)
+	@ApiOperation("Creates a prefab set.")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 422, message = "Unprocessable Entity")
@@ -158,9 +154,7 @@ public class PrefabSetRESTService extends AbstractRESTService {
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Update the current prefab"
-	)
+	@ApiOperation("Update the current prefab")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 404, message = "Entity not found"),
@@ -178,9 +172,7 @@ public class PrefabSetRESTService extends AbstractRESTService {
 
 	@DELETE
 	@Path("/{id}")
-	@ApiOperation(
-			value = "Delete a prefab set."
-	)
+	@ApiOperation("Delete a prefab set.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})

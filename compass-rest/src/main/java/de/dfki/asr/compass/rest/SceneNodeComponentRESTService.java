@@ -81,9 +81,7 @@ public class SceneNodeComponentRESTService extends AbstractRESTService {
 
 	@DELETE
 	@Path("/{id}")
-	@ApiOperation(
-			value = "Delete a scene node component"
-	)
+	@ApiOperation("Delete a scene node component")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found.")
 	})

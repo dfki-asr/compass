@@ -155,9 +155,7 @@ public class ProjectRESTService extends AbstractRESTService {
 
 	@DELETE
 	@Path("/{id}")
-	@ApiOperation(
-			value = "Delete a project."
-	)
+	@ApiOperation("Delete a project.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})

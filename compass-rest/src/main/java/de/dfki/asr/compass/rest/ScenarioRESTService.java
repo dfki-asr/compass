@@ -82,9 +82,7 @@ public class ScenarioRESTService extends AbstractRESTService {
 
 	@Path("/{id}")
 	@DELETE
-	@ApiOperation(
-		value = "Delete a scenario."
-	)
+	@ApiOperation("Delete a scenario.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})
