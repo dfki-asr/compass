@@ -59,10 +59,7 @@ public class PrefabSetRESTService extends AbstractRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Get a prefabset.",
-			response = PrefabSet.class
-	)
+	@ApiOperation("Get a prefabset.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})

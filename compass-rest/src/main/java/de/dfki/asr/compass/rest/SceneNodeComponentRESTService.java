@@ -45,10 +45,7 @@ public class SceneNodeComponentRESTService extends AbstractRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Get a scene node component",
-			response = SceneNodeComponent.class
-	)
+	@ApiOperation("Get a scene node component")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found.")
 	})
