@@ -156,6 +156,26 @@
 	<rule ref="rulesets/java/unnecessary.xml"/>
 	<rule ref="rulesets/java/unusedcode.xml"/>
 
+	<rule name="AnnotationValueOnly"
+	      message="Omit &quot;value =&quot; from annotation if value is the only argument"
+	      class="net.sourceforge.pmd.lang.rule.XPathRule"
+	      language="java">
+		<description>
+			Omit &quot;value =&quot; from annotation if value is the only argument
+		</description>
+		<properties>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+					//NormalAnnotation/MemberValuePairs[
+						count(./MemberValuePair) = 1
+						and ./MemberValuePair[@Image = "value"]
+					]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
 	<rule name="SwaggerReturnTypeRedundant"
 	      message="@ApiOperation(response = &lt;class&gt;) is redundant, function already returns &lt;class&gt;"
 	      class="net.sourceforge.pmd.lang.rule.XPathRule"
