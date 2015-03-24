@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @CompassComponent(ui = "/WEB-INF/components/preview-image.xhtml", icon = "mimetypes-image-x-generic")
-@JsonSubTypes.Type(value = PreviewImage.class)
+@JsonSubTypes.Type(PreviewImage.class)
 @XmlRootElement
 public class PreviewImage extends SceneNodeComponent {
 

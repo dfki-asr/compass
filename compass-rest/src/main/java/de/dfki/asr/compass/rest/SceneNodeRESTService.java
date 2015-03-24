@@ -52,10 +52,7 @@ public class SceneNodeRESTService extends AbstractRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Get a scene node.",
-			response = SceneNode.class
-	)
+	@ApiOperation("Get a scene node.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found.")
 	})
@@ -90,9 +87,7 @@ public class SceneNodeRESTService extends AbstractRESTService {
 
 	@POST
 	@Path("/{parentId}/children")
-	@ApiOperation(
-			value = "Create a scene node based on a prefab. Add it to the specified parent"
-	)
+	@ApiOperation("Create a scene node based on a prefab. Add it to the specified parent")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 404, message = "Entity not found"),
@@ -156,9 +151,7 @@ public class SceneNodeRESTService extends AbstractRESTService {
 
 	@DELETE
 	@Path("/{id}")
-	@ApiOperation(
-		value = "Delete a scene node."
-	)
+	@ApiOperation("Delete a scene node.")
 	public Response handleDeleteEntity(
 			@ApiParam(value = "Scene node id", required = true)
 			@PathParam("id") final long entityId) throws EntityNotFoundException {

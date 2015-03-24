@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
 @CompassComponent(ui = "/WEB-INF/components/directional-light.xhtml", icon = "status-weather-clear")
-@JsonSubTypes.Type(value = DirectionalLight.class)
+@JsonSubTypes.Type(DirectionalLight.class)
 public class DirectionalLight extends AbstractLight implements Serializable {
 	private static final long serialVersionUID = -8970757528356744465L;
 

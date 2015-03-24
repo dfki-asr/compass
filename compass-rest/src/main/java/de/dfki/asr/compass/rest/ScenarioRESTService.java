@@ -46,10 +46,7 @@ public class ScenarioRESTService extends AbstractRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Get a scenario.",
-			response = Scenario.class
-	)
+	@ApiOperation("Get a scenario.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found.")
 	})
@@ -85,9 +82,7 @@ public class ScenarioRESTService extends AbstractRESTService {
 
 	@Path("/{id}")
 	@DELETE
-	@ApiOperation(
-		value = "Delete a scenario."
-	)
+	@ApiOperation("Delete a scenario.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})

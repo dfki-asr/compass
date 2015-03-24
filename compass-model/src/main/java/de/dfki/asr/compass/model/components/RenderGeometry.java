@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @CompassComponent(ui = "/WEB-INF/components/rendergeometry.xhtml", icon = "")
-@JsonSubTypes.Type(value = RenderGeometry.class)
+@JsonSubTypes.Type(RenderGeometry.class)
 @XmlRootElement
 public class RenderGeometry extends SceneNodeComponent implements Serializable {
 

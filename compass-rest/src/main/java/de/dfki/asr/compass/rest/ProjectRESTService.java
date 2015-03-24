@@ -59,8 +59,7 @@ public class ProjectRESTService extends AbstractRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get a project",
-			notes = "Returns the requested project encoded as json.",
-			response = Project.class
+			notes = "Returns the requested project encoded as json."
 	)
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
@@ -76,13 +75,12 @@ public class ProjectRESTService extends AbstractRESTService {
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(
 			value = "Get a project",
-			notes = "Returns the requested project encoded as XML",
-			response = Project.class
+			notes = "Returns the requested project encoded as XML"
 	)
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})
-	public Object handleGetProjectByIdAsXML(
+	public Project handleGetProjectByIdAsXML(
 			@ApiParam(value = "id of the project", required = true)
 			@PathParam("id") final long entityId) throws EntityNotFoundException {
 		return projectManager.findById(entityId);
@@ -157,9 +155,7 @@ public class ProjectRESTService extends AbstractRESTService {
 
 	@DELETE
 	@Path("/{id}")
-	@ApiOperation(
-			value = "Delete a project."
-	)
+	@ApiOperation("Delete a project.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})

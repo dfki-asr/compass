@@ -41,9 +41,7 @@ public class ImageRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces("image/*")
-	@ApiOperation(
-			value = "Get a image specified by its id."
-	)
+	@ApiOperation("Get a image specified by its id.")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 404, message = "Entity not found.")
