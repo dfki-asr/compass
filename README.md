@@ -83,7 +83,6 @@ Our code (and documentation) is licensed under the Apache License version 2.0. Y
 Our source distribution includes the following third party items with respective licenses:
 
     bootstrap-3.2.0  - MIT License
-    bootstrap-growl  - MIT License
     handlebars-1.0.0 - MIT License
     jquery-aop-1.3   - MIT License
     xml3d.js         - MIT License
