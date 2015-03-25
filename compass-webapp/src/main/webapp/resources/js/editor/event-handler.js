@@ -198,7 +198,7 @@ XML3D.tools.namespace("COMPASS");
 			if(this._prefabIsCurrentlyDisplayedInTheGrid(sceneNodeId)){
 				COMPASS.RemoteCaller.refreshPrefabList();
 			}
-			if(this._selectedPrefabWasUpdated(sceneNodeId)){
+			if(COMPASS.Editor.selectedPrefabID === sceneNodeId){
 				COMPASS.RemoteCaller.refreshProperties();
 			}else{
 				COMPASS.RemoteCaller.refreshSceneTree();
