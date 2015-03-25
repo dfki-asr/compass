@@ -171,11 +171,6 @@ XML3D.tools.namespace("COMPASS");
 			remoteUpdateSelectedSceneNodeTransform(transformEventData);
 		},
 
-		importAssetAsPrefab: function(assetURL) {
-			var data = [{name: "assetURL", value: assetURL}];
-			remoteImportAssetAsPrefab(data);
-		},
-
 		refreshSceneTree: function() {
 			remoteRefreshSceneTree();
 		},
