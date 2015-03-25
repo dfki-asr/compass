@@ -11,7 +11,6 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
-import de.dfki.asr.compass.business.PrefabImporter;
 import de.dfki.asr.compass.business.api.PrefabSetManager;
 import de.dfki.asr.compass.model.PrefabSet;
 import de.dfki.asr.compass.model.SceneNode;
@@ -20,8 +19,6 @@ import static de.dfki.asr.compass.rest.util.LocationBuilder.locationOf;
 import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.rest.util.LocationBuilder;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Paths;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -35,12 +32,6 @@ public class PrefabSetRESTService extends AbstractRESTService {
 
 	@Inject
 	private PrefabSetManager prefabSetManager;
-
-	@Inject
-	private PrefabImporter prefabImporter;
-
-	@Context
-	private UriInfo uriInfo;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -128,10 +119,7 @@ public class PrefabSetRESTService extends AbstractRESTService {
 
 	@POST
 	@Path("/{id}/prefabs")
-	@ApiOperation(
-			value = "Create a new prefab and add it to the specified prefab set.",
-			notes = "This interface expects one of the following query parameters: createFrom={scenenode id} or createFromAsset={ATLAS url}."
-	)
+	@ApiOperation("Create a new prefab and add it to the specified prefab set.")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 404, message = "Entity not found"),
@@ -139,16 +127,11 @@ public class PrefabSetRESTService extends AbstractRESTService {
 	})
 	public Response createPrefabFromSceneNode(
 			@ApiParam(value = "Id of the parent prefab set", required = true)
-			@PathParam("id") final long prefabSetId) throws IllegalArgumentException, EntityNotFoundException, IOException {
-		MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+			@PathParam("id") final long prefabSetId,
+			@QueryParam("createFrom") final long sceneNodeId) throws IllegalArgumentException, EntityNotFoundException, IOException {
 		PrefabSet prefabSet = prefabSetManager.findById(prefabSetId);
-		if (queryParams.containsKey("createFrom")) {
-			return handleCreatePrefabFromSceneNodeId(prefabSet);
-		}
-		if (queryParams.containsKey("createFromAsset")) {
-			return handleCreatePrefabFromAssetURL(prefabSet);
-		}
-		return Response.status(Response.Status.BAD_REQUEST).entity("This interface expects one of the following query parameters: createFrom={scenenode id} or createFromAsset={ATLAS url}").build();
+		SceneNode createdPrefab = prefabSetManager.addSceneNodeToPrefabSet(sceneNodeId, prefabSet.getId());
+		return Response.created(locationOf(SceneNodeRESTService.class).add(createdPrefab).uri()).build();
 	}
 
 	@PUT
@@ -181,49 +164,6 @@ public class PrefabSetRESTService extends AbstractRESTService {
 			@PathParam("id") final long id) throws EntityNotFoundException {
 		prefabSetManager.removeById(id);
 		return Response.noContent().build();
-	}
-
-	private Response handleCreatePrefabFromAssetURL(final PrefabSet prefabSet) throws IllegalArgumentException, EntityNotFoundException, IOException {
-		MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
-		String atlasURL = queryParams.getFirst("createFromAsset");
-		if (atlasURL.isEmpty() || !atlasURL.startsWith("http")) {
-			return Response.status(Response.Status.BAD_REQUEST).entity("A full URL to the asset is required. eg. http://atlas.com/rest/asset/assetname").build();
-		}
-		boolean includeChildren = false;
-		if (queryParams.containsKey("includeChildren")) {
-			includeChildren = Boolean.parseBoolean(queryParams.getFirst("includeChildren"));
-		}
-		SceneNode createdPrefab = createPrefabFromAtlas(atlasURL, includeChildren);
-		createdPrefab = prefabSetManager.addSceneNodeToPrefabSet(createdPrefab, prefabSet);
-		return Response.created(locationOf(SceneNodeRESTService.class).add(createdPrefab).uri()).build();
-	}
-
-	private SceneNode createPrefabFromAtlas(final String url, final boolean includeChildren) throws IOException, IllegalArgumentException {
-		UriBuilder assetURI = UriBuilder.fromUri(url);
-		String assetName = extractAssetNameFromAssetURL(assetURI.build());
-		assetURI.fragment(assetName);
-		SceneNode sceneNode;
-		if (includeChildren) {
-			sceneNode = prefabImporter.createSceneNodeHierachyForAsset(assetURI.toString(), assetName);
-		} else {
-			sceneNode = prefabImporter.createSceneNodeForAsset(assetURI.toString(), assetName);
-		}
-		return sceneNode;
-	}
-
-	private String extractAssetNameFromAssetURL(final URI uri) {
-		java.nio.file.Path path = Paths.get(uri.getPath());
-		return path.getName(3).toString();
-	}
-
-	private Response handleCreatePrefabFromSceneNodeId(final PrefabSet prefabSet) throws IllegalArgumentException, EntityNotFoundException {
-		try {
-			long sceneNodeId = Long.parseLong(uriInfo.getQueryParameters().getFirst("createFrom"));
-			SceneNode createdPrefab = prefabSetManager.addSceneNodeToPrefabSet(sceneNodeId, prefabSet.getId());
-			return Response.created(locationOf(SceneNodeRESTService.class).add(createdPrefab).uri()).build();
-		} catch (NumberFormatException e) {
-			return Response.status(Response.Status.BAD_REQUEST).entity("The scene node ID could not be parsed.").build();
-		}
 	}
 
 	@Override
