@@ -61,6 +61,7 @@ public class PluginTagHandler extends TagHandler {
 
 		private boolean wrapperCreated = false;
 		private UINamingContainer wrapper;
+		private List<String> views;
 
 		public PluginTagProcessor(FaceletContext ctx, UIComponent parent, Tag tag, TagAttribute slot) {
 			this.context = ctx;
@@ -70,6 +71,10 @@ public class PluginTagHandler extends TagHandler {
 		}
 
 		public void apply() {
+			retrieveViews();
+			if (views.isEmpty()) {
+				return;
+			}
 			ensureWrappingContainer();
 			if (wrapperCreated) {
 				populateWrapper();
@@ -95,11 +100,9 @@ public class PluginTagHandler extends TagHandler {
 		}
 
 		private void populateWrapper() {
-			String actualSlot = slot.getValue(context);
-			List<String> viewsForSlot = registry.getViewIdsForSlot(actualSlot);
 			String lastTriedView = "";
 			try {
-				for (String viewId : viewsForSlot) {
+				for (String viewId : views) {
 					lastTriedView = viewId;
 					context.includeFacelet(wrapper, viewId);
 				}
@@ -114,6 +117,11 @@ public class PluginTagHandler extends TagHandler {
 
 		private String getWrapperId() {
 			return "compass_plugin_wrap_" + slot.getValue(context);
+		}
+
+		private void retrieveViews() {
+			String actualSlot = slot.getValue(context);
+			views = registry.getViewIdsForSlot(actualSlot);
 		}
 	}
 }
