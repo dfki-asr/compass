@@ -4,7 +4,8 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
-				xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:compass="http://dfki.asr.de/compass/components">
 <!--
  This file is part of COMPASS. It is subject to the license terms in
  the LICENSE file found in the top-level directory of this distribution.
@@ -33,6 +34,7 @@
 					</p:column>
 				</p:row>
 			</p:panelGrid>
+			<compass:plugin slot="renderGeometryEditor"/>
 	</p:tab>
 </ui:composition>
 
