@@ -12,7 +12,7 @@ import org.jboss.logging.Logger;
 
 /**
  * JAX-RS Application Entry point.
- * JAX-RS Resources will be available under /[webapp_contex]/[@ApplicationPath]/[@Path].
+ * JAX-RS Resources will be available under /[webapp_context]/[@ApplicationPath]/[@Path].
  */
 @ApplicationPath("/resources/restv1")
 public class Application extends javax.ws.rs.core.Application {
