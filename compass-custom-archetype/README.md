@@ -113,6 +113,13 @@ If nothing is displayed in the Properties View after adding your component to a 
 this usually indicates a problem with the JSF in your component's .xhtml file. Your JavaEE
 container's log should provide further information on what went wrong.
 
+The `sampleplugin.xhtml` and `SamplePluginAnnouncer` demonstrate the JSF plugin functionality
+of COMPASS. It is a more lightweight way of extending COMPASS' JSF views, instead of
+replacing the original file in the Overlay module.
+For each slot, you can add an arbitrary number of Facelets to be rendered in the slot.
+The `body` slot shown in the example is especially interesting, as you can add custom
+javascript resources there.
+
 ### Deployment
 
 The Deployment module is configured mainly via its `pom.xml` file. There, you can add
