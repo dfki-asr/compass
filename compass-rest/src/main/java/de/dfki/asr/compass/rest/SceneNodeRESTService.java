@@ -35,7 +35,7 @@ import javax.ws.rs.core.Response.Status;
 @Path("/scenenodes")
 @javax.ejb.Stateless
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-@Api(value = "/scennodes", description = "Operations about scene nodes.")
+@Api(value = "/scenenodes", description = "Operations about scene nodes.")
 public class SceneNodeRESTService extends AbstractRESTService {
 
 	@Inject
