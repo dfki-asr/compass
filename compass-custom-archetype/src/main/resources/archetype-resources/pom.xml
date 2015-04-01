@@ -38,4 +38,11 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<modules>
+		<module>model</module>
+		<module>persistence-unit</module>
+		<module>webapp</module>
+		<module>deployment</module>
+		<module>business-impl</module>
+	</modules>
 </project>
