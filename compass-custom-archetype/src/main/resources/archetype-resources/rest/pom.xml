@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>${groupId}</groupId>
+		<artifactId>${rootArtifactId}</artifactId>
+		<version>${version}</version>
+	</parent>
+
+	<artifactId>${artifactId}</artifactId>
+	<packaging>jar</packaging>
+	<name>REST</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-model</artifactId>
+			<version>${compass.version}</version>
+			<scope>provided</scope><!-- by deployment -->
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>business-impl</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope><!-- by deployment -->
+		</dependency>
+		<dependency>
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-business-impl</artifactId>
+			<version>${compass.version}</version>
+			<scope>provided</scope><!-- by deployment -->
+		</dependency>
+		<dependency>
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-rest</artifactId>
+			<version>${compass.version}</version>
+			<scope>provided</scope><!-- by overlay -->
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope><!-- by container -->
+		</dependency>
+	</dependencies>
+</project>
