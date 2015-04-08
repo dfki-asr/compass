@@ -80,8 +80,8 @@
 					<ui:include src="#{compass:getComponentUISrc(appComponent)}" />
 				</div>
 			</c:forEach>
+			<compass:plugin slot="menuBar"/>
 		</p:toolbarGroup>
-		<compass:plugin slot="menuBar"/>
 		<ui:insert name="header"/>
 	</p:toolbar>
 </ui:composition>
