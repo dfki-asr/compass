@@ -53,7 +53,7 @@ XML3D.tools.namespace("COMPASS");
 				hitPoint = new XML3DVec3([0, 0, 0]);
 				hitNormal = new XML3DVec3([0, 1, 0]);
 			}
-			return { point: hitPoint, normal: hitNormal };
+			return { point: hitPoint, normal: hitNormal, target: object };
 		},
 
 		onObjectDroppedOntoSceneHierarchy: function(evt, ui) {
