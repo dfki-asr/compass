@@ -41,4 +41,30 @@ public class SampleSceneNodeComponent extends SceneNodeComponent {
 		this.sampleData = sampleData;
 	}
 
+	/*
+	 * When your SceneNodeComponent becomes more complex (e.g. by referencing
+	 * other entity classes), you need to take care of some peculiarities.
+	 * To support copying of SceneNode hierarchies, COMPASS performs a
+	 * serialization/deserialization cycle on the whole hierarchy. To save
+	 * that copy as new entities, the @Id columns need to be reset to 0.
+	 * Therefore, you should implement clearIdsAfterDeepCopy(), and especially
+	 * propagate that call to any child entities.
+	 */
+	@Override
+	public void clearIdsAfterDeepCopy() {
+		super.clearIdsAfterDeepCopy();
+	}
+
+	/*
+	 * On some occasions, COMPASS needs to load a complete hierarchy from the
+	 * database. If your SceneNodeComponent has a lazy-loaded Collecion field,
+	 * You should implement forceEagerFetch(), in which you should iterate
+	 * over you Collection field(s) and also call forceEagerFetch on child
+	 * entities.
+	 */
+	@Override
+	public void forceEagerFetch() {
+		super.forceEagerFetch();
+	}
+
 }
