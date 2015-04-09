@@ -20,6 +20,14 @@ import de.dfki.asr.compass.web.plugins.api.PluginAnnouncer;
 public class SamplePluginAnnouncer implements PluginAnnouncer {
 	@Override
 	public void announcePlugin(PluginViewRegistry registry) {
+		/*
+		 * Currenly available plugin slots are:
+		 * - "body" (inside the <body> tag)
+		 * - "menuBar" (at the right end of the top bar)
+		 * - "prefabButtons" (at the top of the prefab list)
+		 * - "renderGeometryEditor" (in the RenderGeometry component editor panel)
+		 * If you need slots in other positions, send a patch or pull request!
+		 */
 		registry.registerPluginView("body", "/plugins/sampleplugin.xhtml");
 	}
 }
