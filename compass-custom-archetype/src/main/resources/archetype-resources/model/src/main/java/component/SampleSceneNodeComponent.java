@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
-@CompassComponent(ui = "/WEB-INF/components/samplecomponent.xhtml")
+@CompassComponent(ui = "/components/samplecomponent.xhtml")
 @JsonSubTypes.Type(value = SampleSceneNodeComponent.class)
 public class SampleSceneNodeComponent extends SceneNodeComponent {
 

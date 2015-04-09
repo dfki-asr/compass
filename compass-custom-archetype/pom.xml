@@ -70,4 +70,14 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>compass-deployment</artifactId>
+			<type>ear</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
