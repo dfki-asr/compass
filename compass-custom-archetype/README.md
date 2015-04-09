@@ -118,7 +118,8 @@ of COMPASS. It is a more lightweight way of extending COMPASS' JSF views, instea
 replacing the original file in the Overlay module.
 For each slot, you can add an arbitrary number of Facelets to be rendered in the slot.
 The `body` slot shown in the example is especially interesting, as you can add custom
-javascript resources there.
+javascript resources there. A complete listing of slots and their positions can be found in
+the `SamplePluginAnnouncer` class.
 
 ### Deployment
 
