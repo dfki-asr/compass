@@ -7,7 +7,13 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
 				xmlns:c="http://java.sun.com/jsp/jstl/core">
-
+	<!-- This file contains the user interface for the SampleSceneNodeComponent class.
+	     It is referenced in SampleSceneNodeComponent's @CompassComponent annotation.
+	     You can move this file, but be sure to update the annotation to reflect that.
+	     This file is picked up for rendering via the ComponentRegistry business logic.
+	     See also the SampleComponentAnnouncer class, which gets the Component into the registry.
+	     You can see how to access the instance of your class to be edited in the following <c:set> tag.
+	-->
 	<c:set var="sampleComponent" value="${symbol_pound}{compass:findComponent(scenarioEditorBean.selectedSceneNode.components, 'SampleSceneNodeComponent')}" />
 	<p:tab title="Sample Component" >
 		<p:panelGrid>
