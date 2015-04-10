@@ -3,7 +3,7 @@ package de.dfki.asr.compass.math;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
-public class DOMStringTest {
+public class Vector3fDOMStringTest {
 	@Test
 	public void shouldConvertUnitVector() {
 		Vector3f vector = new Vector3f(0, 1, 0);
