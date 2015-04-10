@@ -25,7 +25,17 @@ public class DOMStringTest {
 	}
 
 	@Test(expectedExceptions = {NumberFormatException.class})
-	public void shouldThrowOnTooFewEntries() {
+	public void shouldThrowOnParseTooFewEntries() {
 		Vector3f vector = Vector3f.fromDOMString("0.0 0.0");
+	}
+
+	@Test(expectedExceptions = {NumberFormatException.class})
+	public void shouldThrowOnParseTooManyEntries() {
+		Vector3f vector = Vector3f.fromDOMString("0.0 0.0 0.0 0.0");
+	}
+
+	@Test(expectedExceptions = {NumberFormatException.class})
+	public void shouldThrowOnParseNonNumberEntries() {
+		Vector3f vector = Vector3f.fromDOMString("foo bar baz");
 	}
 }
