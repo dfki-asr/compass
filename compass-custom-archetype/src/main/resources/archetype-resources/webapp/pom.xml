@@ -53,6 +53,7 @@
 			<artifactId>business-impl</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<!-- Include the REST interface -->
 			<groupId>${project.groupId}</groupId>
