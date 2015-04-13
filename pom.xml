@@ -107,6 +107,7 @@
 								<consoleOutput>true</consoleOutput>
 								<failsOnError>true</failsOnError>
 								<linkXRef>false</linkXRef>
+								<includeTestSourceDirectory>true</includeTestSourceDirectory>
 							</configuration>
 							<goals>
 								<goal>check</goal>
@@ -133,6 +134,7 @@
 						<minimumTokens>54</minimumTokens>
 						<ignoreLiterals>false</ignoreLiterals>
 						<verbose>true</verbose>
+						<includeTests>true</includeTests>
 						<rulesets>
 							<ruleset>compass-java-ruleset.xml</ruleset>
 						</rulesets>
