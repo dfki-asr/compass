@@ -30,18 +30,21 @@ public class Vector3fDOMStringTest {
 		assertEquals(vector.z, 0.0f);
 	}
 
-	@Test(expectedExceptions = {NumberFormatException.class})
+	@Test(expectedExceptions = NumberFormatException.class)
 	public void shouldThrowOnParseTooFewEntries() {
 		Vector3f vector = Vector3f.fromDOMString("0.0 0.0");
+		assertNull(vector);
 	}
 
-	@Test(expectedExceptions = {NumberFormatException.class})
+	@Test(expectedExceptions = NumberFormatException.class)
 	public void shouldThrowOnParseTooManyEntries() {
 		Vector3f vector = Vector3f.fromDOMString("0.0 0.0 0.0 0.0");
+		assertNull(vector);
 	}
 
-	@Test(expectedExceptions = {NumberFormatException.class})
+	@Test(expectedExceptions = NumberFormatException.class)
 	public void shouldThrowOnParseNonNumberEntries() {
 		Vector3f vector = Vector3f.fromDOMString("foo bar baz");
+		assertNull(vector);
 	}
 }
