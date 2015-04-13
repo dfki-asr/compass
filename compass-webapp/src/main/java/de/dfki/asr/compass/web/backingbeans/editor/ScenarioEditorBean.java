@@ -14,7 +14,6 @@ import de.dfki.asr.compass.model.PrefabSet;
 import de.dfki.asr.compass.model.Scenario;
 import de.dfki.asr.compass.model.SceneNode;
 import de.dfki.asr.compass.web.util.JSFParameterMap;
-import de.dfki.asr.compass.web.util.XML3DUtils;
 import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -90,7 +89,7 @@ public class ScenarioEditorBean implements Serializable {
 			return;
 		}
 		try {
-			Vector3f translation = XML3DUtils.createVectorfromXML3DDOMString(jsfParameters.get("translation"));
+			Vector3f translation = Vector3f.fromDOMString(jsfParameters.get("translation"));
 			double yaw = Float.valueOf(jsfParameters.get("yaw"));
 			double pitch = Float.valueOf(jsfParameters.get("pitch"));
 			double roll = Float.valueOf(jsfParameters.get("roll"));
