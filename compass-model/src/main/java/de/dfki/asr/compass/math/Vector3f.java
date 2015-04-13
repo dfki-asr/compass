@@ -42,6 +42,17 @@ public class Vector3f extends javax.vecmath.Vector3f {
 		return x + " " + y + " " + z;
 	}
 
+	public static Vector3f fromDOMString(final String domString) {
+		String[] values = domString.split("\\s");
+		if (values.length != 3) {
+			throw new NumberFormatException("DOMString needs three elements");
+		}
+		float x = Float.valueOf(values[0]);
+		float y = Float.valueOf(values[1]);
+		float z = Float.valueOf(values[2]);
+		return new Vector3f(x,y,z);
+	}
+
 	public void div(final Vector3f b) {
 		x /= b.x;
 		y /= b.y;
