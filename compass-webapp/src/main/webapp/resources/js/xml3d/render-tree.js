@@ -50,6 +50,11 @@ window.addEventListener("load", function() {
 				for (var i = 0; i < selectedMeshes.length; i++) {
 					var element = selectedMeshes[i];
 					//@Hack - No official API to get render nodes from the DOM elements
+					if (!(element._configured.adapters && element._configured.adapters.webgl_1)) {
+						// in some cases, there may not be a webgl adapter,
+						// e.g. when a selected element is being removed.
+						continue;
+					}
 					var renderObjects = element._configured.adapters.webgl_1.renderObjects;
 					for (var j = 0, n = renderObjects.length; j < n; j++) {
 						var obj = renderObjects[j];
