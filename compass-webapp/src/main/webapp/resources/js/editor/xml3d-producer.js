@@ -183,7 +183,7 @@ XML3D.tools.namespace("COMPASS");
 
 		_convertMeshNodeComponent: function(component) {
 			var $group = this.findGroupForSceneNodeId(component.owner);
-			var meshNode = $group.find("model");
+			var meshNode = $group.children("model");
 			if (!meshNode.length) {
 				meshNode = XML3D.tools.creation.element("model", {
 					src: component.meshSource
