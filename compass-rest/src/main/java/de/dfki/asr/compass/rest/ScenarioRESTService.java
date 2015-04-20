@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 package de.dfki.asr.compass.rest;
@@ -46,10 +46,7 @@ public class ScenarioRESTService extends AbstractRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Get a scenario.",
-			response = Scenario.class
-	)
+	@ApiOperation("Get a scenario.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found.")
 	})
@@ -85,9 +82,7 @@ public class ScenarioRESTService extends AbstractRESTService {
 
 	@Path("/{id}")
 	@DELETE
-	@ApiOperation(
-		value = "Delete a scenario."
-	)
+	@ApiOperation("Delete a scenario.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})

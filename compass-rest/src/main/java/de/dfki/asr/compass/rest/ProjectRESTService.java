@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 package de.dfki.asr.compass.rest;
@@ -59,8 +59,7 @@ public class ProjectRESTService extends AbstractRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Get a project",
-			notes = "Returns the requested project encoded as json.",
-			response = Project.class
+			notes = "Returns the requested project encoded as json."
 	)
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
@@ -76,13 +75,12 @@ public class ProjectRESTService extends AbstractRESTService {
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(
 			value = "Get a project",
-			notes = "Returns the requested project encoded as XML",
-			response = Project.class
+			notes = "Returns the requested project encoded as XML"
 	)
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})
-	public Object handleGetProjectByIdAsXML(
+	public Project handleGetProjectByIdAsXML(
 			@ApiParam(value = "id of the project", required = true)
 			@PathParam("id") final long entityId) throws EntityNotFoundException {
 		return projectManager.findById(entityId);
@@ -157,9 +155,7 @@ public class ProjectRESTService extends AbstractRESTService {
 
 	@DELETE
 	@Path("/{id}")
-	@ApiOperation(
-			value = "Delete a project."
-	)
+	@ApiOperation("Delete a project.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found")
 	})

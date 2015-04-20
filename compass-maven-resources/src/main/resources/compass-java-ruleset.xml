@@ -2,7 +2,7 @@
 <!--
  This file is part of COMPASS. It is subject to the license terms in
  the LICENSE file found in the top-level directory of this distribution.
- (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  You may not use this file except in compliance with the License.
 -->
 <ruleset name="Custom ruleset"
@@ -155,4 +155,47 @@
 	<rule ref="rulesets/java/typeresolution.xml"/>
 	<rule ref="rulesets/java/unnecessary.xml"/>
 	<rule ref="rulesets/java/unusedcode.xml"/>
+
+	<rule name="AnnotationValueOnly"
+	      message="Omit &quot;value =&quot; from annotation if value is the only argument"
+	      class="net.sourceforge.pmd.lang.rule.XPathRule"
+	      language="java">
+		<description>
+			Omit &quot;value =&quot; from annotation if value is the only argument
+		</description>
+		<properties>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+					//NormalAnnotation/MemberValuePairs[
+						count(./MemberValuePair) = 1
+						and ./MemberValuePair[@Image = "value"]
+					]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="SwaggerReturnTypeRedundant"
+	      message="@ApiOperation(response = &lt;class&gt;) is redundant, function already returns &lt;class&gt;"
+	      class="net.sourceforge.pmd.lang.rule.XPathRule"
+	      language="java">
+		<properties>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//MethodDeclaration[
+							./ResultType/Type/
+								ReferenceType/ClassOrInterfaceType/@Image
+							=
+							../Annotation//Name[@Image="ApiOperation"]/
+								..//MemberValuePair[@Image="response"]//
+								ResultType/Type/
+								ReferenceType/ClassOrInterfaceType/@Image
+						]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
 </ruleset>

@@ -9,7 +9,6 @@
 
 	<artifactId>${artifactId}</artifactId>
 	<packaging>ejb</packaging>
-
 	<name>Business Logic Implementation</name>
 
 	<dependencies>

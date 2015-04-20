@@ -2,7 +2,7 @@
 <!--
  This file is part of COMPASS. It is subject to the license terms in
  the LICENSE file found in the top-level directory of this distribution.
- (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  You may not use this file except in compliance with the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>de.dfki.asr.compass</groupId>
 		<artifactId>root</artifactId>
-		<version>1.0</version>
+		<version>2.0.0</version>
 	</parent>
 
 	<artifactId>compass-webapp</artifactId>
@@ -123,22 +123,29 @@
 						<id>copy-resources</id>
 						<phase>package</phase>
 						<goals>
-						  <goal>copy-resources</goal>
+							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-						  <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
-						  <resources>
-							<resource>
-							  <directory>../compass-rest/target/swagger</directory>
-							  <filtering>true</filtering>
-							  <includes>
-								  <include>**/*.html</include>
-							  </includes>
-							</resource>
-						  </resources>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>../compass-rest/target/swagger</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>**/*.html</include>
+									</includes>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -7,12 +7,14 @@
 <!--
  This file is part of COMPASS. It is subject to the license terms in
  the LICENSE file found in the top-level directory of this distribution.
- (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  You may not use this file except in compliance with the License.
 -->
 	<p:toolbar>
 		<p:toolbarGroup align="left">
-			<h:outputText id="compass-brand" value="COMPASS"></h:outputText>
+			<h:link outcome="/index.html">
+				<h:outputText id="compass-brand" value="COMPASS"></h:outputText>
+			</h:link>
 			<p:separator />
 			<h:form>
 				<p:commandButton icon="ui-icon-arrow-4"
@@ -80,6 +82,7 @@
 					<ui:include src="#{compass:getComponentUISrc(appComponent)}" />
 				</div>
 			</c:forEach>
+			<compass:plugin slot="menuBar"/>
 		</p:toolbarGroup>
 		<ui:insert name="header"/>
 	</p:toolbar>

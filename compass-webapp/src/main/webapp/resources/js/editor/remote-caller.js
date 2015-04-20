@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 XML3D.tools.namespace("COMPASS");
@@ -16,18 +16,16 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		selectSceneNodeFromHierachy: function(sceneNodeId) {
-			var sceneNodeInformation = [{
-					name: 'sceneNodeId',
-					value: sceneNodeId
-				}];
+			var sceneNodeInformation = this.toJSFParameterList(
+				{ 'sceneNodeId': sceneNodeId }
+			);
 			remoteSelectSceneNodeFromHierarchy(sceneNodeInformation);
 		},
 
 		selectSceneNodeFromXML3D: function(sceneNodeId, groupId) {
-			var sceneNodeInformation = [{
-					name: 'sceneNodeId',
-					value: sceneNodeId
-				}];
+			var sceneNodeInformation = this.toJSFParameterList(
+				{ 'sceneNodeId': sceneNodeId }
+			);
 			remoteSelectSceneNodeFromXML3D(sceneNodeInformation);
 		},
 
@@ -35,11 +33,10 @@ XML3D.tools.namespace("COMPASS");
 			remoteDeselectSceneNode();
 		},
 
-		selectPrefab: function(id) {
-			var sceneNodeInformation = [{
-					name: 'sceneNodeId',
-					value: id
-				}];
+		selectPrefab: function(sceneNodeId) {
+			var sceneNodeInformation = this.toJSFParameterList(
+				{ 'sceneNodeId': sceneNodeId }
+			);
 			remoteSelectSceneNodeFromPrefab(sceneNodeInformation);
 		},
 
@@ -48,42 +45,30 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		createPrefabAtPoint: function(prefabId, hitPointAsDOMString, hitNormalAsDOMString) {
-			var dropEventData = [{
-				name: "hitPoint",
-					value: hitPointAsDOMString
-			},
-			{
-				name: "hitNormal",
-					value: hitNormalAsDOMString
-			},
-			{
-				name: "prefabId",
-				value: prefabId
-			}];
+			var dropEventData = this.toJSFParameterList(
+				{
+					"hitPoint": hitPointAsDOMString,
+					"hitNormal": hitNormalAsDOMString,
+					"prefabId": prefabId
+				});
 			remoteDropPrefabOnXML3D(dropEventData);
 		},
 
 		createPrefabUnderSceneNode: function(prefabId, sceneNodeId) {
-			var dropEventData = [{
-					name: "prefabId",
-					value: prefabId
-				},
+			var dropEventData = this.toJSFParameterList(
 				{
-					name: "sceneNodeId",
-					value: sceneNodeId
-				}];
+					"prefabId": prefabId,
+					"sceneNodeId": sceneNodeId
+				});
 			remoteDropPrefabOnSceneHierarchy(dropEventData);
 		},
 
 		reparentSceneNode: function(movedSceneNode, newParent) {
-			var reparentEventData = [{
-				name: "newParentId",
-				value: newParent
-			},
-			{
-				name: "movedSceneNodeId",
-				value: movedSceneNode
-			}];
+			var reparentEventData = this.toJSFParameterList(
+				{
+					"newParentId": newParent,
+					"movedSceneNodeId": movedSceneNode
+				});
 			remoteReparentSceneNode(reparentEventData);
 		},
 
@@ -92,38 +77,29 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		addPrefabToPrefabSet: function(sceneNodeId, prefabSetId) {
-			var prefabEventData = [{
-				name: "sceneNodeId",
-				value: sceneNodeId
-			},
-			{
-				name: "prefabSetId",
-				value: prefabSetId
-			}];
+			var prefabEventData = this.toJSFParameterList(
+				{
+					"sceneNodeId": sceneNodeId,
+					"prefabSetId": prefabSetId,
+				});
 			remoteCreatePrefabUnderPrefabSet(prefabEventData);
 		},
 
 		movePrefabToPrefabSet: function(sceneNodeId, prefabSetId) {
-			var prefabEventData = [{
-					name: "sceneNodeId",
-					value: sceneNodeId
-				},
+			var prefabEventData = this.toJSFParameterList(
 				{
-					name: "prefabSetId",
-					value: prefabSetId
-				}];
+					"sceneNodeId": sceneNodeId,
+					"prefabSetId": prefabSetId,
+				});
 			remoteMovePrefabToPrefabSet(prefabEventData);
 		},
 
 		reparentPrefabSet: function(movedPrefabSetId, newParentId) {
-			var reparentEventData = [{
-				name: "newParentId",
-				value: newParentId
-			},
-			{
-				name: "movedNodeId",
-				value: movedPrefabSetId
-			}];
+			var reparentEventData = this.toJSFParameterList(
+				{
+					"newParentId": newParentId,
+					"movedNodeId": movedPrefabSetId
+				});
 			remoteReparentPrefabSet(reparentEventData);
 		},
 
@@ -148,32 +124,16 @@ XML3D.tools.namespace("COMPASS");
 			var rotation = new COMPASS.EulerRotation().fromQuaternion(transform.rotation);
 			var scale = transform.scale.x;
 
-			var transformEventData = [{
-				name: "translation",
-				value: translation.str()
-			},
-			{
-				name: "yaw",
-				value: rotation.yaw
-			},
-			{
-				name: "pitch",
-				value: rotation.pitch
-			},
-			{
-				name: "roll",
-				value: rotation.roll
-			},
-			{
-				name: "scale",
-				value: scale
-			}];
+			var transformEventData = this.toJSFParameterList(
+				{
+					"translation": translation.str(),
+					"yaw": rotation.yaw,
+					"pitch": rotation.pitch,
+					"roll": rotation.roll,
+					"scale": scale
+				}
+			);
 			remoteUpdateSelectedSceneNodeTransform(transformEventData);
-		},
-
-		importAssetAsPrefab: function(assetURL) {
-			var data = [{name: "assetURL", value: assetURL}];
-			remoteImportAssetAsPrefab(data);
 		},
 
 		refreshSceneTree: function() {
@@ -194,6 +154,17 @@ XML3D.tools.namespace("COMPASS");
 
 		resetPrefabSetSelection: function(){
 			remoteResetPrefabSetSelection();
+		},
+
+		toJSFParameterList: function(parameterObject) {
+			var jsfParameters = [];
+			for (var key in parameterObject) {
+				jsfParameters.push({
+					name: key,
+					value: parameterObject[key]
+				});
+			}
+			return jsfParameters;
 		}
 	});
 })();

@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 package de.dfki.asr.compass.rest;
@@ -35,7 +35,7 @@ import javax.ws.rs.core.Response.Status;
 @Path("/scenenodes")
 @javax.ejb.Stateless
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-@Api(value = "/scennodes", description = "Operations about scene nodes.")
+@Api(value = "/scenenodes", description = "Operations about scene nodes.")
 public class SceneNodeRESTService extends AbstractRESTService {
 
 	@Inject
@@ -52,10 +52,7 @@ public class SceneNodeRESTService extends AbstractRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-			value = "Get a scene node.",
-			response = SceneNode.class
-	)
+	@ApiOperation("Get a scene node.")
 	@ApiResponses({
 		@ApiResponse(code = 404, message = "Entity not found.")
 	})
@@ -90,9 +87,7 @@ public class SceneNodeRESTService extends AbstractRESTService {
 
 	@POST
 	@Path("/{parentId}/children")
-	@ApiOperation(
-			value = "Create a scene node based on a prefab. Add it to the specified parent"
-	)
+	@ApiOperation("Create a scene node based on a prefab. Add it to the specified parent")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 404, message = "Entity not found"),
@@ -156,9 +151,7 @@ public class SceneNodeRESTService extends AbstractRESTService {
 
 	@DELETE
 	@Path("/{id}")
-	@ApiOperation(
-		value = "Delete a scene node."
-	)
+	@ApiOperation("Delete a scene node.")
 	public Response handleDeleteEntity(
 			@ApiParam(value = "Scene node id", required = true)
 			@PathParam("id") final long entityId) throws EntityNotFoundException {

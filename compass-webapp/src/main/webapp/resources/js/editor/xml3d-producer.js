@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 XML3D.tools.namespace("COMPASS");
@@ -183,15 +183,12 @@ XML3D.tools.namespace("COMPASS");
 
 		_convertMeshNodeComponent: function(component) {
 			var $group = this.findGroupForSceneNodeId(component.owner);
-			var meshNode = $group.find("model");
+			var meshNode = $group.children("model");
 			if (!meshNode.length) {
-				var onClickHandler = function() {
-					COMPASS.Editor.selectSceneNodeFromXML3D(component.owner);
-				};
 				meshNode = XML3D.tools.creation.element("model", {
 					src: component.meshSource
 				});
-				$(meshNode).click(onClickHandler);
+				$(meshNode).click(this._createMeshClickHandler(component));
 				$group.append(meshNode);
 				meshNode = $(meshNode);
 				meshNode.attr("data-componentid", component.id);
@@ -199,6 +196,12 @@ XML3D.tools.namespace("COMPASS");
 			if (meshNode.attr("src") !== component.meshSource) {
 				meshNode.attr("src", component.meshSource);
 			}
+		},
+
+		_createMeshClickHandler: function(renderGeometryComponent) {
+			return function() {
+				COMPASS.Editor.selectSceneNodeFromXML3D(renderGeometryComponent.owner);
+			};
 		},
 
 		_convertDirectionalLightNodeComponent: function(component) {

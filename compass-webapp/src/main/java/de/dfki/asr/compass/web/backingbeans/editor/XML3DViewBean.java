@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 package de.dfki.asr.compass.web.backingbeans.editor;
@@ -11,7 +11,6 @@ import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.math.Vector3f;
 import de.dfki.asr.compass.model.SceneNode;
 import de.dfki.asr.compass.web.util.JSFParameterMap;
-import de.dfki.asr.compass.web.util.XML3DUtils;
 import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -44,7 +43,7 @@ public class XML3DViewBean implements Serializable {
 	public void handleXML3DPrefabDrop() {
 		try {
 			long prefabId = Long.valueOf(jsfParameters.get("prefabId"));
-			Vector3f position = XML3DUtils.createVectorfromXML3DDOMString(jsfParameters.get("hitPoint"));
+			Vector3f position = Vector3f.fromDOMString(jsfParameters.get("hitPoint"));
 			SceneNode droppedPrefab = sceneTree.findById(prefabId);
 			sceneHierarchy.addNewSceneNodeFromPrefab(droppedPrefab, sceneHierarchy.getRootSceneNode(), position);
 			viewUpdaterBean.sceneNodeHierarchyChanged();

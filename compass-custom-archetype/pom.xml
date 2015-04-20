@@ -2,7 +2,7 @@
 <!--
  This file is part of COMPASS. It is subject to the license terms in
  the LICENSE file found in the top-level directory of this distribution.
- (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  You may not use this file except in compliance with the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>de.dfki.asr.compass</groupId>
 		<artifactId>root</artifactId>
-		<version>1.0</version>
+		<version>2.0.0</version>
 	</parent>
 
 	<name>COMPASS - Custom Project Archetype</name>
@@ -70,4 +70,14 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>compass-deployment</artifactId>
+			<type>ear</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

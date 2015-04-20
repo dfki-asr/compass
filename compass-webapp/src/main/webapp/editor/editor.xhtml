@@ -8,7 +8,7 @@
 <!--
  This file is part of COMPASS. It is subject to the license terms in
  the LICENSE file found in the top-level directory of this distribution.
- (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  You may not use this file except in compliance with the License.
 -->
 	<h:head>
@@ -34,7 +34,6 @@
 		<h:outputScript name="js/jquery-aop-1.3/aop.min.js" target="head" />
 		<h:outputScript name="js/selected-scene-node-holder.js" target="head" />
 		<h:outputScript name="js/editor/settings.js" target="head" />
-		<h:outputScript name="js/editor/importer.js" target="head" />
 		<h:outputScript name="js/editor/remote-caller.js" target="head" />
 		<h:outputScript name="js/editor/compass-editor.js" target="head" />
 		<h:outputScript name="js/editor/event-handler.js" target="head" />
@@ -52,7 +51,6 @@
 		<h:outputScript name="jscolor/jscolor.js" target="head" />
 		<h:outputScript name="js/handlebars-1.0.0/handlebars-1.0.0.js" target="head" />
 		<h:outputScript name="js/bootstrap/bootstrap.min.js" target="head" />
-		<h:outputScript name="js/bootstrap/bootstrap-growl/jquery.bootstrap-growl.min.js" target="head" />
 
 		<h:form>
 			<p:remoteCommand name="remoteDropPrefabOnXML3D" action="#{xml3dViewBean.handleXML3DPrefabDrop}" />
@@ -125,5 +123,6 @@
 					autoUpdate="true"
 					closable="true"
 					redisplay="false"/>
+		<compass:plugin slot="body" />
 	</h:body>
 </html>

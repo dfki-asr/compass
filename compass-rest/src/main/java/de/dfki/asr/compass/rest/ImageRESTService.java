@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 package de.dfki.asr.compass.rest;
@@ -41,9 +41,7 @@ public class ImageRESTService {
 	@GET
 	@Path("/{id}")
 	@Produces("image/*")
-	@ApiOperation(
-			value = "Get a image specified by its id."
-	)
+	@ApiOperation("Get a image specified by its id.")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
 		@ApiResponse(code = 404, message = "Entity not found.")

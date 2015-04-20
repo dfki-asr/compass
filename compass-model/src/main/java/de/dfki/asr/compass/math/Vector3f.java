@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 package de.dfki.asr.compass.math;
@@ -40,6 +40,17 @@ public class Vector3f extends javax.vecmath.Vector3f {
 
 	public String toDOMString() {
 		return x + " " + y + " " + z;
+	}
+
+	public static Vector3f fromDOMString(final String domString) {
+		String[] values = domString.split("\\s");
+		if (values.length != 3) {
+			throw new NumberFormatException("DOMString needs three elements");
+		}
+		float x = Float.valueOf(values[0]);
+		float y = Float.valueOf(values[1]);
+		float z = Float.valueOf(values[2]);
+		return new Vector3f(x,y,z);
 	}
 
 	public void div(final Vector3f b) {

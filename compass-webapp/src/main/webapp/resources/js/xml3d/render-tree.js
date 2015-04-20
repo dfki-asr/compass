@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 
@@ -50,6 +50,11 @@ window.addEventListener("load", function() {
 				for (var i = 0; i < selectedMeshes.length; i++) {
 					var element = selectedMeshes[i];
 					//@Hack - No official API to get render nodes from the DOM elements
+					if (!(element._configured.adapters && element._configured.adapters.webgl_1)) {
+						// in some cases, there may not be a webgl adapter,
+						// e.g. when a selected element is being removed.
+						continue;
+					}
 					var renderObjects = element._configured.adapters.webgl_1.renderObjects;
 					for (var j = 0, n = renderObjects.length; j < n; j++) {
 						var obj = renderObjects[j];

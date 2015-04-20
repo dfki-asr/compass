@@ -1,7 +1,7 @@
 /*
  * This file is part of COMPASS. It is subject to the license terms in
  * the LICENSE file found in the top-level directory of this distribution.
- * (Also avialable at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
 XML3D.tools.namespace("COMPASS");
@@ -53,7 +53,7 @@ XML3D.tools.namespace("COMPASS");
 				hitPoint = new XML3DVec3([0, 0, 0]);
 				hitNormal = new XML3DVec3([0, 1, 0]);
 			}
-			return { point: hitPoint, normal: hitNormal };
+			return { point: hitPoint, normal: hitNormal, target: object };
 		},
 
 		onObjectDroppedOntoSceneHierarchy: function(evt, ui) {
@@ -198,7 +198,7 @@ XML3D.tools.namespace("COMPASS");
 			if(this._prefabIsCurrentlyDisplayedInTheGrid(sceneNodeId)){
 				COMPASS.RemoteCaller.refreshPrefabList();
 			}
-			if(this._selectedPrefabWasUpdated(sceneNodeId)){
+			if(COMPASS.Editor.selectedPrefabID === sceneNodeId){
 				COMPASS.RemoteCaller.refreshProperties();
 			}else{
 				COMPASS.RemoteCaller.refreshSceneTree();

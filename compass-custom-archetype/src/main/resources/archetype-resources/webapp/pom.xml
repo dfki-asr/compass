@@ -14,10 +14,51 @@
 
 	<dependencies>
 		<dependency>
+			<!-- This dependency on the COMPASS webapp war will cause the
+			     contents of this module to be merged with the war.
+			     Maven calls this "overlay", see the maven docs for details.
+			-->
 			<groupId>de.dfki.asr.compass</groupId>
 			<artifactId>compass-webapp</artifactId>
 			<type>war</type>
 			<version>${compass.version}</version>
+		</dependency>
+		<dependency>
+			<!-- Your application may want to call COMPASS webapp classes,
+			     e.g. backing beans. These are available with the "classes"
+			     classifier, but only "provided", as the real class files
+			     will be merged into the resulting WAR by the overlay mechanism.
+			-->
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-webapp</artifactId>
+			<version>${compass.version}</version>
+			<classifier>classes</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- It's also quite likely your backing beans will want to call
+			     COMPASS business-logic classes. "provided" by your deployment
+			     module.
+			-->
+			<groupId>de.dfki.asr.compass</groupId>
+			<artifactId>compass-business-impl</artifactId>
+			<version>${compass.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- If you implement your own business beans, you should be able
+			     to access them. Also "provided" by your deployment module.
+			-->
+			<groupId>${project.groupId}</groupId>
+			<artifactId>business-impl</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- Include the REST interface -->
+			<groupId>${project.groupId}</groupId>
+			<artifactId>rest</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
