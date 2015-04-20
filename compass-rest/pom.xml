@@ -172,7 +172,7 @@
 							<!--Required parameters-->
 							<locations>de.dfki.asr.compass.rest</locations>
 							<apiVersion>${project.version}</apiVersion>
-							<basePath>http://example.com/compass/restv1</basePath>
+							<basePath>http://example.com/compass/resources/restv1</basePath>
 							<!--Optional parameters-->
 							<apiInfo>
 								<title>Compass REST API</title>
