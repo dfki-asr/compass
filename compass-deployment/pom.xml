@@ -70,6 +70,7 @@
 						<webModule>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>compass-webapp</artifactId>
+							<contextRoot>/compass</contextRoot>
 						</webModule>
 						<ejbModule>
 							<groupId>${project.groupId}</groupId>
