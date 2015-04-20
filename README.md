@@ -76,16 +76,6 @@ Please use the github workflow (i.e., pull requests) to get your features and/or
 License
 -------
 
-Our code (and documentation) is licensed under the Apache License version 2.0. You should have received an approriate LICENSE.txt file with this distribution. At any rate, you can get the official license text from http://www.apache.org/licenses/LICENSE-2.0.txt
+Our code (and documentation) is licensed under the Apache License version 2.0. You should have received an approriate LICENSE file with this distribution. At any rate, you can get the official license text from http://www.apache.org/licenses/LICENSE-2.0.txt
+Please also have a look at the NOTICE file, which contains further information and licenses applicable to third party contents included in this distribution.
 
-### Third party contents
-
-Our source distribution includes the following third party items with respective licenses:
-
-    bootstrap-3.2.0  - MIT License
-    handlebars-1.0.0 - MIT License
-    jquery-aop-1.3   - MIT License
-    xml3d.js         - MIT License
-    stomp.js         - Apache License 2.0
-    Tango Icons      - Public Domain
-    jscolor.js       - GNU Lesser General Public License (to the best of our knowledge, v3)
