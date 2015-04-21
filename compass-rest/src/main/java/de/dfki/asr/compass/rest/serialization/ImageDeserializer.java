@@ -6,10 +6,16 @@
  */
 package de.dfki.asr.compass.rest.serialization;
 
+import de.dfki.asr.compass.business.api.ImageManager;
 import de.dfki.asr.compass.model.resource.Image;
+import javax.inject.Inject;
 
 public class ImageDeserializer extends ReferenceDeserializer<Image> {
+	@Inject
+	protected ImageManager mgr;
+
 	public ImageDeserializer() {
 		super(Image.class);
+		setManager(mgr);
 	}
 }
