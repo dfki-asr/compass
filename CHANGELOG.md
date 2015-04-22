@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 2.0.1
+-------------
+
+### Bugfixes
+
+* Fixed deserialization of SceneNode and Image references from JSON. Makes the REST interface usable again.
+
 Version 2.0.0
 -------------
 
