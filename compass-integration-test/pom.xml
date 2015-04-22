@@ -179,7 +179,7 @@
 								<module.path>${wildfly.path}/modules</module.path>
 							</systemPropertyVariables>
 							<redirectTestOutputToFile>false</redirectTestOutputToFile>
-							<argLine>-Xms512m -Xmx1024m</argLine>
+							<argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=256m</argLine>
 						</configuration>
 					</plugin>
 				</plugins>
