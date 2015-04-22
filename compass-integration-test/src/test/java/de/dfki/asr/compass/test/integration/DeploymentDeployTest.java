@@ -8,7 +8,9 @@ package de.dfki.asr.compass.test.integration;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
@@ -19,10 +21,15 @@ public class DeploymentDeployTest extends Arquillian {
 
 	@Deployment
 	public static EnterpriseArchive getCoreCompassDeployment() {
-		return Maven.configureResolverViaPlugin()
+		JavaArchive testWar = ShrinkWrap
+				.create(JavaArchive.class)
+				.addClass(DeploymentDeployTest.class);
+		EnterpriseArchive compass = Maven.configureResolverViaPlugin()
 				.resolve(ARTIFACT)
 				.withoutTransitivity()
 				.asSingle(EnterpriseArchive.class);
+		compass.addAsLibrary(testWar);
+		return compass;
 	}
 
 	@Test
