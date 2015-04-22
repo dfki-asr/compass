@@ -24,6 +24,7 @@
 		<module>compass-custom-archetype</module>
 		<module>compass-webapp</module>
 		<module>compass-deployment</module>
+		<module>compass-integration-test</module>
 	</modules>
 
 	<properties>
