@@ -18,3 +18,4 @@ jboss.xml
 /compass-maven-resources/target/
 /compass-persistence-unit/target/
 /target/
+/compass-integration-test/target/
