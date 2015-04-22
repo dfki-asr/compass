@@ -94,6 +94,9 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
+			<properties>
+				<wildfly.path>${project.basedir}/target/wildfly-8.1.0.Final</wildfly.path>
+			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
@@ -147,8 +150,8 @@
 							<systemPropertyVariables>
 								<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 								<!-- the maven dependency plugin will have already downloaded the server on /target -->
-								<jboss.home>${project.basedir}/target/wildfly-8.1.0.Final</jboss.home>
-								<module.path>${project.basedir}/target/wildfly-8.1.0.Final/modules</module.path>
+								<jboss.home>${wildfly.path}</jboss.home>
+								<module.path>${wildfly.path}/modules</module.path>
 							</systemPropertyVariables>
 							<redirectTestOutputToFile>false</redirectTestOutputToFile>
 						</configuration>
