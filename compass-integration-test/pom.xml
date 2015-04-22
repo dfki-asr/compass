@@ -121,7 +121,7 @@
 						<executions>
 							<execution>
 								<id>unpack</id>
-								<phase>process-test-classes</phase>
+								<phase>generate-test-resources</phase>
 								<goals>
 									<goal>unpack</goal>
 								</goals>
