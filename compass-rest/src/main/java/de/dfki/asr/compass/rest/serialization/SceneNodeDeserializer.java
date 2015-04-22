@@ -6,10 +6,16 @@
  */
 package de.dfki.asr.compass.rest.serialization;
 
+import de.dfki.asr.compass.business.api.SceneTreeManager;
 import de.dfki.asr.compass.model.SceneNode;
+import javax.inject.Inject;
 
 public class SceneNodeDeserializer extends ReferenceDeserializer<SceneNode> {
+	@Inject
+	protected SceneTreeManager stm;
+
 	public SceneNodeDeserializer() {
 		super(SceneNode.class);
+		setManager(stm);
 	}
 }
