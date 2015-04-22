@@ -14,12 +14,12 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 public class DeploymentDeployTest extends Arquillian {
-	public static final String ARTIFACT = "de.dfki.asr.compass:compass-deployment:ear:2.1.0-SNAPSHOT";
+	public static final String ARTIFACT =
+			"de.dfki.asr.compass:compass-deployment:ear:?";
 
 	@Deployment
 	public static EnterpriseArchive getCoreCompassDeployment() {
-		return Maven.resolver()
-				.loadPomFromFile("pom.xml")
+		return Maven.configureResolverViaPlugin()
 				.resolve(ARTIFACT)
 				.withoutTransitivity()
 				.asSingle(EnterpriseArchive.class);
