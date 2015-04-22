@@ -17,11 +17,13 @@ import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.model.AbstractCompassEntity;
 import de.dfki.asr.compass.rest.util.CDIInjector;
 import java.io.IOException;
-import javax.inject.Inject;
 
 public class ReferenceDeserializer<EntityClass extends AbstractCompassEntity> extends StdScalarDeserializer<EntityClass> {
-	@Inject
 	protected Manager<EntityClass> manager;
+
+	public void setManager(final Manager<EntityClass> manager) {
+		this.manager = manager;
+	}
 
 	public ReferenceDeserializer(final Class<EntityClass> clazz) {
 		super(clazz);
