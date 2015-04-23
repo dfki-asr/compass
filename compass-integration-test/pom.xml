@@ -129,6 +129,7 @@
 					<value>true</value>
 				</property>
 			</activation>
+			<!-- as per https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
 			<properties>
 				<skipTests>false</skipTests>
 				<wildfly.version>8.1.0.Final</wildfly.version>
@@ -150,7 +151,6 @@
 			</dependencies>
 			<build>
 				<plugins>
-					<!-- You need the maven dependency plugin to download locally a zip with the server, unless you provide your own, it will download under the /target directory -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
@@ -207,11 +207,9 @@
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>2.17</version>
 						<configuration>
-							<!-- Fork every test because it will launch a separate AS instance -->
 							<forkMode>always</forkMode>
 							<systemPropertyVariables>
 								<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-								<!-- the maven dependency plugin will have already downloaded the server on /target -->
 								<jboss.home>${wildfly.path}</jboss.home>
 								<module.path>${wildfly.path}/modules</module.path>
 							</systemPropertyVariables>
