@@ -6,12 +6,15 @@
  */
 package de.dfki.asr.compass.math;
 
+import static de.dfki.asr.compass.test.matcher.Quat4fSimilarity.similarTo;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.number.IsCloseTo.closeTo;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
 
 public class OrientationUpdateTest {
 
-	private static final double EQUALS_DELTA = 0.0001;
+	private static final float EQUALS_DELTA = 0.0001f;
 
 	@Test
 	public void yaw0Pitch0Roll0() {
@@ -136,28 +139,19 @@ public class OrientationUpdateTest {
 
 	@SuppressWarnings("PMD.ExcessiveParameterList")
 	private void checkConversions(final Quat4f quat, final double yaw, final double pitch, final double roll) {
+		Orientation o = yawPitchRoll(yaw, pitch, roll);
+		assertThat(o.getLocalRotation(), is(similarTo(quat, EQUALS_DELTA)));
+		assertThat(o.getLocalYaw(),   is(closeTo(yaw, EQUALS_DELTA)));
+		assertThat(o.getLocalPitch(), is(closeTo(pitch, EQUALS_DELTA)));
+		assertThat(o.getLocalRoll(),  is(closeTo(roll, EQUALS_DELTA)));
+	}
+
+	private Orientation yawPitchRoll(final double yaw, final double pitch, final double roll) {
 		Orientation o = new Orientation();
 		o.setLocalYaw(yaw);
 		o.setLocalPitch(pitch);
 		o.setLocalRoll(roll);
-		checkEulerAngles(o, yaw, pitch, roll);
-		checkQuaternion(o, quat);
-	}
-
-	@SuppressWarnings("PMD.ExcessiveParameterList")
-	private void checkEulerAngles(final Orientation o, final double yaw, final double pitch, final double roll) {
-		assertEquals(o.getLocalYaw(), yaw, EQUALS_DELTA, "Yaw");
-		assertEquals(o.getLocalPitch(), pitch, EQUALS_DELTA, "Pitch");
-		assertEquals(o.getLocalRoll(), roll, EQUALS_DELTA, "Roll");
-	}
-
-	private void checkQuaternion(final Orientation o, final Quat4f quat) {
-		Quat4f actualRotation = o.getLocalRotation();
-		//assertEquals(actualRotation, quat, "Quat4f");
-		assertEquals(actualRotation.x, quat.x, EQUALS_DELTA, "X");
-		assertEquals(actualRotation.y, quat.y, EQUALS_DELTA, "Y");
-		assertEquals(actualRotation.z, quat.z, EQUALS_DELTA, "Z");
-		assertEquals(actualRotation.w, quat.w, EQUALS_DELTA, "W");
+		return o;
 	}
 
 }
