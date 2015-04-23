@@ -112,7 +112,8 @@ public class OrientationUpdateTest {
 
 	@Test
 	public void yaw180Pitch0Roll180() {
-		sameQuaternion(new Quat4f(0, 0, 1, 0), yawPitchRoll(180, 0, 180));
+		// And this example contains a typo on the source page.
+		sameQuaternion(new Quat4f(0, 0, -1, 0), yawPitchRoll(180, 0, 180));
 	}
 
 	@Test
