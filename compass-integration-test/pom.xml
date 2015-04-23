@@ -90,11 +90,25 @@
 
 	<profiles>
 		<profile>
-			<id>arq-integration-test</id>
+			<id>normal-build</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+		<profile>
+			<id>continuous-integration</id>
+			<activation>
+				<property>
+					<!-- http://docs.travis-ci.com/user/ci-environment/#Environment-variables -->
+					<name>env.CI</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<skipTests>false</skipTests>
 				<wildfly.path>${project.basedir}/target/wildfly-8.1.0.Final</wildfly.path>
 			</properties>
 			<dependencies>
