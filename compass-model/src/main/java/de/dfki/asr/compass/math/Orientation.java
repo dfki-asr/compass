@@ -89,10 +89,10 @@ public class Orientation implements Serializable {
 	private void updateRotationFromEulerAngles() {
 		double c1 = Math.cos(localYaw * TO_RADIANS / 2);
 		double s1 = Math.sin(localYaw * TO_RADIANS / 2);
-		double c2 = Math.cos(localRoll * TO_RADIANS / 2);
-		double s2 = Math.sin(localRoll * TO_RADIANS / 2);
-		double c3 = Math.cos(localPitch * TO_RADIANS / 2);
-		double s3 = Math.sin(localPitch * TO_RADIANS / 2);
+		double c2 = Math.cos(localPitch * TO_RADIANS / 2);
+		double s2 = Math.sin(localPitch * TO_RADIANS / 2);
+		double c3 = Math.cos(localRoll * TO_RADIANS / 2);
+		double s3 = Math.sin(localRoll * TO_RADIANS / 2);
 		double c1c2 = c1 * c2;
 		double s1s2 = s1 * s2;
 		localRotation.w = (float) (c1c2 * c3 - s1s2 * s3);
@@ -121,23 +121,23 @@ public class Orientation implements Serializable {
 		double sqy = y * y;
 		double sqz = z * z;
 		localYaw = Math.atan2(2 * y * w - 2 * x * z, 1 - 2 * sqy - 2 * sqz) * TO_DEGREES;
-		localPitch = Math.atan2(2 * x * w - 2 * y * z, 1 - 2 * sqx - 2 * sqz) * TO_DEGREES;
-		localRoll = Math.asin(2 * test) * TO_DEGREES;
+		localPitch = Math.asin(2 * test) * TO_DEGREES;
+		localRoll = Math.atan2(2 * x * w - 2 * y * z, 1 - 2 * sqx - 2 * sqz) * TO_DEGREES;
 	}
 
 	private void updateEulerAnglesAtNorthPoleSingularity() {
 		double x = localRotation.x;
 		double w = localRotation.w;
 		localYaw = 2 * Math.atan2(x, w) * TO_DEGREES;
-		localPitch = 0;
-		localRoll = Math.PI / 2 * TO_DEGREES;
+		localRoll = 0;
+		localPitch = Math.PI / 2 * TO_DEGREES;
 	}
 
 	private void updateEulerAnglesAtSouthPoleSingularity() {
 		double x = localRotation.x;
 		double w = localRotation.w;
 		localYaw = -2 * Math.atan2(x, w) * TO_DEGREES;
-		localPitch = 0;
-		localRoll = -Math.PI / 2 * TO_DEGREES;
+		localRoll = 0;
+		localPitch = -Math.PI / 2 * TO_DEGREES;
 	}
 }
