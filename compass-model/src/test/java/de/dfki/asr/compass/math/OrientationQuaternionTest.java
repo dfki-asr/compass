@@ -10,7 +10,7 @@ import static de.dfki.asr.compass.test.matcher.Quat4fSimilarity.similarTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.testng.annotations.Test;
 
-public class OrientationUpdateTest {
+public class OrientationQuaternionTest {
 
 	private static final float EQUALS_DELTA = 0.0001f;
 
