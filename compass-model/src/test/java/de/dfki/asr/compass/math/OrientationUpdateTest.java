@@ -137,15 +137,6 @@ public class OrientationUpdateTest {
 		sameQuaternion(new Quat4f(-0.5f, -0.5f, -0.5f, 0.5f), yawPitchRoll(-90, 0, -90));
 	}
 
-	@SuppressWarnings("PMD.ExcessiveParameterList")
-	private void checkConversions(final Quat4f quat, final double yaw, final double pitch, final double roll) {
-		Orientation o = yawPitchRoll(yaw, pitch, roll);
-		assertThat(o.getLocalRotation(), is(similarTo(quat, EQUALS_DELTA)));
-		assertThat(o.getLocalYaw(),   is(closeTo(yaw, EQUALS_DELTA)));
-		assertThat(o.getLocalPitch(), is(closeTo(pitch, EQUALS_DELTA)));
-		assertThat(o.getLocalRoll(),  is(closeTo(roll, EQUALS_DELTA)));
-	}
-
 	private Orientation yawPitchRoll(final double yaw, final double pitch, final double roll) {
 		Orientation o = new Orientation();
 		o.setLocalYaw(yaw);
