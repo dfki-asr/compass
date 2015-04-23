@@ -18,123 +18,123 @@ public class OrientationUpdateTest {
 
 	@Test
 	public void yaw0Pitch0Roll0() {
-		checkConversions(new Quat4f(0, 0, 0, 1), 0, 0, 0);
+		sameQuaternion(new Quat4f(0, 0, 0, 1), yawPitchRoll(0, 0, 0));
 	}
 
 	@Test
 	public void yaw90Pitch0Roll0() {
-		checkConversions(new Quat4f(0, 0.7071f, 0, 0.7071f), 90, 0, 0);
+		sameQuaternion(new Quat4f(0, 0.7071f, 0, 0.7071f), yawPitchRoll(90, 0, 0));
 	}
 
 	@Test
 	public void yaw180Pitch0Roll0() {
-		checkConversions(new Quat4f(0, 1, 0, 0), 180, 0, 0);
+		sameQuaternion(new Quat4f(0, 1, 0, 0), yawPitchRoll(180, 0, 0));
 	}
 
 	@Test
 	public void yawMinus90Pitch0Roll0() {
-		checkConversions(new Quat4f(0, -0.7071f, 0, 0.7071f), -90, 0, 0);
+		sameQuaternion(new Quat4f(0, -0.7071f, 0, 0.7071f), yawPitchRoll(-90, 0, 0));
 	}
 
 	@Test
 	public void yaw0Pitch90Roll0() {
-		checkConversions(new Quat4f(0, 0, 0.7071f, 0.7071f), 0, 90, 0);
+		sameQuaternion(new Quat4f(0, 0, 0.7071f, 0.7071f), yawPitchRoll(0, 90, 0));
 	}
 
 	@Test
 	public void yaw90Pitch90Roll0() {
-		checkConversions(new Quat4f(0.5f, 0.5f, 0.5f, 0.5f), 90, 90, 0);
+		sameQuaternion(new Quat4f(0.5f, 0.5f, 0.5f, 0.5f), yawPitchRoll(90, 90, 0));
 	}
 
 	@Test
 	public void yaw180Pitch90Roll0() {
-		checkConversions(new Quat4f(0.7071f, 0.7071f, 0, 0), 180, 90, 0);
+		sameQuaternion(new Quat4f(0.7071f, 0.7071f, 0, 0), yawPitchRoll(180, 90, 0));
 	}
 
 	@Test
 	public void yawMinus90Pitch90Roll0() {
-		checkConversions(new Quat4f(-0.5f, -0.5f, 0.5f, 0.5f), -90, 90, 0);
+		sameQuaternion(new Quat4f(-0.5f, -0.5f, 0.5f, 0.5f), yawPitchRoll(-90, 90, 0));
 	}
 
 
 	@Test
 	public void yaw0PitchMinus90Roll0() {
-		checkConversions(new Quat4f(0, 0, -0.7071f, 0.7071f), 0, -90, 0);
+		sameQuaternion(new Quat4f(0, 0, -0.7071f, 0.7071f), yawPitchRoll(0, -90, 0));
 	}
 
 	@Test
 	public void yaw90PitchMinus90Roll0() {
-		checkConversions(new Quat4f(-0.5f, 0.5f, -0.5f, 0.5f), 90, -90, 0);
+		sameQuaternion(new Quat4f(-0.5f, 0.5f, -0.5f, 0.5f), yawPitchRoll(90, -90, 0));
 	}
 
 	@Test
 	public void yaw180PitchMinus90Roll0() {
-		checkConversions(new Quat4f(-0.7071f, 0.7071f, 0, 0), 180, -90, 0);
+		sameQuaternion(new Quat4f(-0.7071f, 0.7071f, 0, 0), yawPitchRoll(180, -90, 0));
 	}
 
 	@Test
 	public void yawMinus90PitchMinus90Roll0() {
-		checkConversions(new Quat4f(0.5f, -0.5f, -0.5f, 0.5f), -90, -90, 0);
+		sameQuaternion(new Quat4f(0.5f, -0.5f, -0.5f, 0.5f), yawPitchRoll(-90, -90, 0));
 	}
 
 	@Test
 	public void yaw0Pitch0Roll90() {
-		checkConversions(new Quat4f(0.7071f, 0, 0, 0.7071f), 0, 0, 90);
+		sameQuaternion(new Quat4f(0.7071f, 0, 0, 0.7071f), yawPitchRoll(0, 0, 90));
 	}
 
 	@Test
 	public void yaw90Pitch0Roll90() {
-		checkConversions(new Quat4f(0.5f, 0.5f, -0.5f, 0.5f), 90, 0, 90);
+		sameQuaternion(new Quat4f(0.5f, 0.5f, -0.5f, 0.5f), yawPitchRoll(90, 0, 90));
 	}
 
 	@Test
 	public void yaw180Pitch0Roll90() {
-		checkConversions(new Quat4f(0, 0.7071f, -0.7071f, 0), 180, 0, 90);
+		sameQuaternion(new Quat4f(0, 0.7071f, -0.7071f, 0), yawPitchRoll(180, 0, 90));
 	}
 
 	@Test
 	public void yawMinus90Pitch0Roll90() {
-		checkConversions(new Quat4f(0.5f, -0.5f, 0.5f, 0.5f), -90, 0, 90);
+		sameQuaternion(new Quat4f(0.5f, -0.5f, 0.5f, 0.5f), yawPitchRoll(-90, 0, 90));
 	}
 
 	@Test
 	public void yaw0Pitch0Roll180() {
-		checkConversions(new Quat4f(1, 0, 0, 0), 0, 0, 180);
+		sameQuaternion(new Quat4f(1, 0, 0, 0), yawPitchRoll(0, 0, 180));
 	}
 
 	@Test
 	public void yaw90Pitch0Roll180() {
-		checkConversions(new Quat4f(0.7071f, 0, -0.7071f, 0), 90, 0, 180);
+		sameQuaternion(new Quat4f(0.7071f, 0, -0.7071f, 0), yawPitchRoll(90, 0, 180));
 	}
 
 	@Test
 	public void yaw180Pitch0Roll180() {
-		checkConversions(new Quat4f(0, 0, 1, 0), 180, 0, 180);
+		sameQuaternion(new Quat4f(0, 0, 1, 0), yawPitchRoll(180, 0, 180));
 	}
 
 	@Test
 	public void yawMinus90Pitch0Roll180() {
-		checkConversions(new Quat4f(0.7071f, 0, 0.7071f, 0), -90, 0, 180);
+		sameQuaternion(new Quat4f(0.7071f, 0, 0.7071f, 0), yawPitchRoll(-90, 0, 180));
 	}
 
 	@Test
 	public void yaw0Pitch0RollMinus90() {
-		checkConversions(new Quat4f(-0.7071f, 0, 0, 0.7071f), 0, 0, -90);
+		sameQuaternion(new Quat4f(-0.7071f, 0, 0, 0.7071f), yawPitchRoll(0, 0, -90));
 	}
 
 	@Test
 	public void yaw90Pitch0RollMinus90() {
-		checkConversions(new Quat4f(-0.5f, 0.5f, 0.5f, 0.5f), 90, 0, -90);
+		sameQuaternion(new Quat4f(-0.5f, 0.5f, 0.5f, 0.5f), yawPitchRoll(90, 0, -90));
 	}
 
 	@Test
 	public void yaw180Pitch0RollMinus90() {
-		checkConversions(new Quat4f(0, 0.7071f, 0.7071f, 0), 180, 0, -90);
+		sameQuaternion(new Quat4f(0, 0.7071f, 0.7071f, 0), yawPitchRoll(180, 0, -90));
 	}
 
 	@Test
 	public void yawMinus90Pitch0RollMinus90() {
-		checkConversions(new Quat4f(-0.5f, -0.5f, -0.5f, 0.5f), -90, 0, -90);
+		sameQuaternion(new Quat4f(-0.5f, -0.5f, -0.5f, 0.5f), yawPitchRoll(-90, 0, -90));
 	}
 
 	@SuppressWarnings("PMD.ExcessiveParameterList")
