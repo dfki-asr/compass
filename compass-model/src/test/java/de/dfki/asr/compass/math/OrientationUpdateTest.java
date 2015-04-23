@@ -16,6 +16,9 @@ public class OrientationUpdateTest {
 
 	private static final float EQUALS_DELTA = 0.0001f;
 
+	// Example Quaternions taken from:
+	// http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/steps/index.htm
+
 	@Test
 	public void yaw0Pitch0Roll0() {
 		sameQuaternion(new Quat4f(0, 0, 0, 1), yawPitchRoll(0, 0, 0));
