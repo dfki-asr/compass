@@ -154,4 +154,15 @@ public class OrientationUpdateTest {
 		return o;
 	}
 
+	private void sameQuaternion(final Quat4f quaternion, final Orientation orientation) {
+		assertThat("Quaternion", orientation.getLocalRotation(), similarTo(quaternion, EQUALS_DELTA));
+	}
+
+	private void sameEulerAngles(final double yaw, final double pitch, final double roll) {
+		Orientation o = yawPitchRoll(yaw, pitch, roll);
+		assertThat("yaw",   o.getLocalYaw(),   is(closeTo(yaw, EQUALS_DELTA)));
+		assertThat("pitch", o.getLocalPitch(), is(closeTo(pitch, EQUALS_DELTA)));
+		assertThat("roll",  o.getLocalRoll(),  is(closeTo(roll, EQUALS_DELTA)));
+	}
+
 }
