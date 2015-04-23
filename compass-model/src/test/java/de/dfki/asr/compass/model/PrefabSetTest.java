@@ -13,47 +13,57 @@ import static org.testng.Assert.*;
 public class PrefabSetTest {
 
 	@Test
-	public void checkSetParentOfChild()	{
-		PrefabSet originalPrefab = new PrefabSet("original");
+	public void prefabSetSetParentShouldSetParent() {
+		PrefabSet childPrefab = new PrefabSet("original");
+		PrefabSet newParent = new PrefabSet("newParent");
+
+		childPrefab.setParent(newParent);
+		assertEquals(childPrefab.getParent(),newParent);
+	}
+
+	@Test
+	public void prefabSetSetParentShouldReparent()	{
+		PrefabSet childPrefab = new PrefabSet("original");
 		PrefabSet newParent = new PrefabSet("newParent");
 		PrefabSet oldParent = new PrefabSet("oldParent");
-		originalPrefab.setParent(oldParent);
-		originalPrefab.setParent(newParent);
+		childPrefab.setParent(oldParent);
+		childPrefab.setParent(newParent);
 
-		assertEquals(originalPrefab.getParent(), newParent);
-		assertNotEquals(originalPrefab.getParent(), oldParent);
-		assertTrue(originalPrefab.isChildOf(newParent));
+		assertEquals(childPrefab.getParent(), newParent);
+		assertNotEquals(childPrefab.getParent(), oldParent);
 	}
 
 	@Test
-	public void setParentRemovesOldChild() {
-		PrefabSet originalPrefab = new PrefabSet("original");
+	public void prefabSetSetParentShouldAppendNewChild() {
+		PrefabSet childPrefab = new PrefabSet("original");
 		PrefabSet newParent = new PrefabSet("newParent");
 		PrefabSet oldParent = new PrefabSet("oldParent");
-		originalPrefab.setParent(oldParent);
-		originalPrefab.setParent(newParent);
+		childPrefab.setParent(oldParent);
+		childPrefab.setParent(newParent);
 
-		assertFalse(originalPrefab.isChildOf(oldParent));
+		assertTrue(childPrefab.isChildOf(newParent));
 
 	}
 	@Test
-	public void checkSetParent() {
-		PrefabSet originalPrefab = new PrefabSet("original");
+	public void prefabSetSetParentShouldRemoveOldChild() {
+		PrefabSet childPrefab = new PrefabSet("original");
 		PrefabSet newParent = new PrefabSet("newParent");
+		PrefabSet oldParent = new PrefabSet("oldParent");
+		childPrefab.setParent(oldParent);
+		childPrefab.setParent(newParent);
 
-		originalPrefab.setParent(newParent);
-		assertEquals(originalPrefab.getParent(),newParent);
-		assertTrue(originalPrefab.isChildOf(newParent));
+		assertFalse(childPrefab.isChildOf(oldParent));
+
 	}
-
 	@Test
-	public void checkSetSameParent() {
-		PrefabSet originalPrefab = new PrefabSet("original");
+	public void prefabSetSetSameParentShouldDoNothing() {
+		PrefabSet childPrefab = new PrefabSet("original");
 		PrefabSet newParent = new PrefabSet("newParent");
 
-		originalPrefab.setParent(newParent);
-		assertEquals(originalPrefab.getParent(),newParent);
-		assertTrue(originalPrefab.isChildOf(newParent));
+		childPrefab.setParent(newParent);
+		PrefabSet beforeSet = childPrefab;
+		childPrefab.setParent(newParent);
+		assertEquals(childPrefab,beforeSet);
 	}
 
 }
