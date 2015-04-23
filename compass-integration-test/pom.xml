@@ -132,7 +132,7 @@
 			<!-- as per https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
 			<properties>
 				<skipTests>false</skipTests>
-				<wildfly.version>8.1.0.Final</wildfly.version>
+				<wildfly.version>8.2.0.Final</wildfly.version>
 				<wildfly.path>${project.basedir}/target/wildfly-${wildfly.version}</wildfly.path>
 			</properties>
 			<dependencies>
