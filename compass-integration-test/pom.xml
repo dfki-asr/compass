@@ -109,19 +109,20 @@
 			</activation>
 			<properties>
 				<skipTests>false</skipTests>
-				<wildfly.path>${project.basedir}/target/wildfly-8.1.0.Final</wildfly.path>
+				<wildfly.version>8.1.0.Final</wildfly.version>
+				<wildfly.path>${project.basedir}/target/wildfly-${wildfly.version}</wildfly.path>
 			</properties>
 			<dependencies>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-arquillian-container-embedded</artifactId>
-					<version>8.1.0.Final</version>
+					<version>${wildfly.version}</version>
 					<scope>test</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.wildfly</groupId>
 					<artifactId>wildfly-embedded</artifactId>
-					<version>8.1.0.Final</version>
+					<version>${wildfly.version}</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -144,7 +145,7 @@
 										<artifactItem>
 											<groupId>org.wildfly</groupId>
 											<artifactId>wildfly-dist</artifactId>
-											<version>8.1.0.Final</version>
+											<version>${wildfly.version}</version>
 											<type>zip</type>
 											<overWrite>false</overWrite>
 											<outputDirectory>target</outputDirectory>
