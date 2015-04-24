@@ -12,11 +12,6 @@ import static org.testng.Assert.*;
 public class ScenarioTest {
 
 	@Test
-	public void testStuff() {
-		assertTrue(true);
-	}
-
-	@Test
 	public void scenarioSetProjectShouldSetNewProject() {
 		Scenario scenario = new Scenario();
 		Project project = new Project();
