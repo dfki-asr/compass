@@ -16,7 +16,6 @@ public class PrefabSetTest {
 	public void prefabSetSetParentShouldSetParent() {
 		PrefabSet childPrefab = new PrefabSet("original");
 		PrefabSet newParent = new PrefabSet("newParent");
-
 		childPrefab.setParent(newParent);
 		assertEquals(childPrefab.getParent(),newParent);
 	}
@@ -28,7 +27,6 @@ public class PrefabSetTest {
 		PrefabSet oldParent = new PrefabSet("oldParent");
 		childPrefab.setParent(oldParent);
 		childPrefab.setParent(newParent);
-
 		assertEquals(childPrefab.getParent(), newParent);
 		assertNotEquals(childPrefab.getParent(), oldParent);
 	}
@@ -40,7 +38,6 @@ public class PrefabSetTest {
 		PrefabSet oldParent = new PrefabSet("oldParent");
 		childPrefab.setParent(oldParent);
 		childPrefab.setParent(newParent);
-
 		assertTrue(childPrefab.isChildOf(newParent));
 
 	}
@@ -51,7 +48,6 @@ public class PrefabSetTest {
 		PrefabSet oldParent = new PrefabSet("oldParent");
 		childPrefab.setParent(oldParent);
 		childPrefab.setParent(newParent);
-
 		assertFalse(childPrefab.isChildOf(oldParent));
 
 	}
@@ -59,7 +55,6 @@ public class PrefabSetTest {
 	public void prefabSetSetSameParentShouldDoNothing() {
 		PrefabSet childPrefab = new PrefabSet("original");
 		PrefabSet newParent = new PrefabSet("newParent");
-
 		childPrefab.setParent(newParent);
 		PrefabSet beforeSet = childPrefab;
 		childPrefab.setParent(newParent);

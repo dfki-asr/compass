@@ -20,7 +20,6 @@ public class ScenarioTest {
 	public void scenarioSetProjectShouldSetNewProject() {
 		Scenario scenario = new Scenario();
 		Project project = new Project();
-
 		scenario.setProject(project);
 		assertEquals(scenario.getProject(), project);
 	}
@@ -30,33 +29,25 @@ public class ScenarioTest {
 		Scenario scenario = new Scenario();
 		Project oldProject = new Project();
 		Project newProject = new Project();
-
 		scenario.setProject(oldProject);
 		scenario.setProject(newProject);
-
 		assertEquals(scenario.getProject(), newProject);
-
 	}
 
 	@Test
 	public void scenarioSetSameProjectShouldNotChangeScenario() {
 		Scenario scenario = new Scenario();
 		Project project = new Project();
-
 		scenario.setProject(project);
-
 		Scenario scenarioBeforeSet = scenario;
 		scenario.setProject(project);
-
 		assertEquals(scenario, scenarioBeforeSet);
-
 	}
 
 	@Test
 	public void scenarioSetProjectShouldAddScenario() {
 		Scenario scenario = new Scenario();
 		Project project = new Project();
-
 		scenario.setProject(project);
 		assertTrue(project.getScenarios().contains(scenario));
 	}
@@ -66,10 +57,8 @@ public class ScenarioTest {
 		Scenario scenario = new Scenario();
 		Project oldProject = new Project();
 		Project newProject = new Project();
-
 		scenario.setProject(oldProject);
 		scenario.setProject(newProject);
-
 		assertFalse(oldProject.getScenarios().contains(scenario));
 	}
 }

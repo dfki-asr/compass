@@ -15,9 +15,7 @@ public class SceneNodeTest {
 	public void sceneNodeSetParentShouldSetParent() {
 		SceneNode childNode = new SceneNode();
 		SceneNode parentNode = new SceneNode();
-
 		childNode.setParent(parentNode);
-
 		assertEquals(childNode.getParent(), parentNode);
 	}
 
@@ -26,10 +24,8 @@ public class SceneNodeTest {
 		SceneNode childNode = new SceneNode();
 		SceneNode oldParent = new SceneNode();
 		SceneNode newParent = new SceneNode();
-
 		childNode.setParent(oldParent);
 		childNode.setParent(newParent);
-
 		assertEquals(childNode.getParent(), newParent);
 		assertNotEquals(childNode.getParent(), oldParent);
 	}
@@ -38,7 +34,6 @@ public class SceneNodeTest {
 	public void sceneNodeSetParentShouldAppendNewChild() {
 		SceneNode childNode = new SceneNode();
 		SceneNode parentNode = new SceneNode();
-
 		childNode.setParent(parentNode);
 		assertTrue(childNode.isChildOf(parentNode));
 	}
@@ -48,10 +43,8 @@ public class SceneNodeTest {
 		SceneNode childNode = new SceneNode();
 		SceneNode oldParent = new SceneNode();
 		SceneNode newParent = new SceneNode();
-
 		childNode.setParent(oldParent);
 		childNode.setParent(newParent);
-
 		assertFalse(childNode.isChildOf(oldParent));
 	}
 
@@ -59,11 +52,9 @@ public class SceneNodeTest {
 	public void sceneNodeSetSameParentShouldDoNothing() {
 		SceneNode childNode = new SceneNode();
 		SceneNode parentNode = new SceneNode();
-
 		childNode.setParent(parentNode);
 		SceneNode nodeBeforeSet = childNode;
 		childNode.setParent(parentNode);
-
 		assertEquals(nodeBeforeSet, childNode);
 	}
 }
