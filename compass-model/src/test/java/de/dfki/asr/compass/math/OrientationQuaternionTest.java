@@ -10,12 +10,14 @@ import static de.dfki.asr.compass.test.matcher.Quat4fSimilarity.similarTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.testng.annotations.Test;
 
+@SuppressWarnings("PMD.ExcessivePublicCount")
 public class OrientationQuaternionTest {
 
 	private static final float EQUALS_DELTA = 0.0001f;
 
 	// Example Quaternions taken from:
 	// http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/steps/index.htm
+	// Basically, all cases of SO(3), i.e. of a Cube unto itself.
 
 	@Test
 	public void yaw0Pitch0Roll0() {
@@ -137,6 +139,21 @@ public class OrientationQuaternionTest {
 	@Test
 	public void yawMinus90Pitch0RollMinus90() {
 		sameQuaternion(new Quat4f(-0.5f, -0.5f, -0.5f, 0.5f), yawPitchRoll(-90, 0, -90));
+	}
+
+	// not part of SO(3)
+	@Test(enabled = false)
+	public void yaw0Pitch90Roll90() {
+		// by wolfram alpha
+		sameQuaternion(new Quat4f(0.5f, 0.5f, 0.5f, -0.5f), yawPitchRoll(0, 90, 90));
+	}
+
+	@Test(enabled = false)
+	public void yaw0Pitch180Roll0() {
+		// pitch 180 = half-turn around the X-axis
+		// by sheer brain power (and a lttle bit of help from alpha)
+		// (http://www.wolframalpha.com/input/?i=draw+0%2B1i%2B0j%2B0k+as+a+rotation+operator)
+		sameQuaternion(new Quat4f(0f, 1f, 0f, 0f), yawPitchRoll(0, 180, 0));
 	}
 
 	private Orientation yawPitchRoll(final double yaw, final double pitch, final double roll) {

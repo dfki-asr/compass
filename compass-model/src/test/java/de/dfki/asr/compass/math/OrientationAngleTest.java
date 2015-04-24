@@ -137,27 +137,27 @@ public class OrientationAngleTest {
 	// The following tests are not from the above SO(3) sample set:
 	// (and therefore, promptly, don't work.)
 
-//	@Test
-//	public void yaw0Pitch90Roll90() {
-//		sameEulerAngles(0, 90, 90);
-//	}
-//
-//	@Test
-//	public void yaw0Pitch180RollMinus0() {
-//		sameEulerAngles(0, 180, 0);
-//	}
+	@Test(enabled = false)
+	public void yaw0Pitch90Roll90() {
+		sameEulerAngles(0, 90, 90);
+	}
 
-//	@Test
-//	public void testAllCombinations() {
-//		float[] steps = {0, 90, 180, -90, -180};
-//		for (float yaw : steps) {
-//			for (float pitch : steps) {
-//				for (float roll : steps) {
-//					sameEulerAngles(yaw, pitch, roll);
-//				}
-//			}
-//		}
-//	}
+	@Test(enabled = false)
+	public void yaw0Pitch180RollMinus0() {
+		sameEulerAngles(0, 180, 0);
+	}
+
+	@Test(enabled = false)
+	public void testAllCombinations() {
+		float[] steps = {0, 90, 180, -90, -180};
+		for (float yaw : steps) {
+			for (float pitch : steps) {
+				for (float roll : steps) {
+					sameEulerAngles(yaw, pitch, roll);
+				}
+			}
+		}
+	}
 
 	private void sameEulerAngles(final float yaw, final float pitch, final float roll) {
 		Orientation o = new Orientation();
