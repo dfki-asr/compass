@@ -18,6 +18,12 @@ public class RGBColorTest {
 	}
 
 	@Test
+	public void rgbColorShouldAppendZero() {
+		RGBColor color = new RGBColor(11,1,0);
+		String hexString = color.getHex();
+		assertEquals(hexString, "#0B0100");
+	}
+	@Test
 	public void rgbColorShouldReturnHexRed() {
 		RGBColor colorRed = new RGBColor(255,0,0);
 		String hexStringRed = colorRed.getHex();
