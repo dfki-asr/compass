@@ -1,0 +1,47 @@
+/*
+ * This file is part of COMPASS. It is subject to the license terms in
+ * the LICENSE file found in the top-level directory of this distribution.
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * You may not use this file except in compliance with the License.
+ */
+package de.dfki.asr.compass.model;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+public class RGBColorTest {
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void rgbColorShouldThrowIllegalArgument() {
+		RGBColor illegalColor = new RGBColor(300,0,0);
+		assertNull(illegalColor);
+	}
+
+	@Test
+	public void rgbColorShouldReturnHexRed() {
+		RGBColor colorRed = new RGBColor(255,0,0);
+		String hexStringRed = colorRed.getHex();
+		assertEquals(hexStringRed,"#FF0000");
+	}
+
+	@Test
+	public void rgbColorShouldReturnHexGreen() {
+		RGBColor colorRed = new RGBColor(0,255, 0);
+		String hexStringRed = colorRed.getHex();
+		assertEquals(hexStringRed,"#00FF00");
+	}
+
+	@Test
+	public void rgbColorShouldReturnHexBlue() {
+		RGBColor colorRed = new RGBColor(0,0, 255);
+		String hexStringRed = colorRed.getHex();
+		assertEquals(hexStringRed,"#0000FF");
+	}
+
+	@Test
+	public void rgbColorShouldReturnHexGrey() {
+		RGBColor colorRed = new RGBColor(211,211,211);
+		String hexStringRed = colorRed.getHex();
+		assertEquals(hexStringRed,"#D3D3D3");
+	}
+}
