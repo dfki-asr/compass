@@ -44,4 +44,40 @@ public class RGBColorTest {
 		String hexStringRed = colorRed.getHex();
 		assertEquals(hexStringRed,"#D3D3D3");
 	}
+
+	@Test
+	public void rgbColorShouldSetRed() {
+		RGBColor colorRed = new RGBColor();
+		colorRed.setHex("#FF0000");
+		int result = colorRed.getRed();
+		assertEquals(result, 255);
+	}
+
+	@Test
+	public void rgbColorShouldSetGreen() {
+		RGBColor colorGreen = new RGBColor();
+		colorGreen.setHex("#00FF00");
+		int result = colorGreen.getGreen();
+		assertEquals(result, 255);
+	}
+
+	@Test
+	public void rgbColorShouldSetBlue() {
+		RGBColor colorBlue = new RGBColor();
+		colorBlue.setHex("#0000FF");
+		int result = colorBlue.getBlue();
+		assertEquals(result, 255);
+	}
+
+	@Test
+	public void rgbColorShouldSetGrey() {
+		RGBColor colorGrey = new RGBColor();
+		colorGrey.setHex("#D3D3D3");
+		int red = colorGrey.getRed();
+		int green = colorGrey.getGreen();
+		int blue = colorGrey.getBlue();
+		assertEquals(red, 211);
+		assertEquals(green, 211);
+		assertEquals(blue, 211);
+	}
 }
