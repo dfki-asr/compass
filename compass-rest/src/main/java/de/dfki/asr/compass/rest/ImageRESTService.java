@@ -14,6 +14,8 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import de.dfki.asr.compass.business.api.ImageManager;
 import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.model.resource.Image;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.OPTIONS;
@@ -25,6 +27,7 @@ import javax.ws.rs.core.Response;
 @Path("/images")
 @javax.ejb.Stateless
 @Api(value = "/images", description = "Operations about images")
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class ImageRESTService {
 
 	@Inject

@@ -14,6 +14,8 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.rest.exception.UnprocessableEntityException;
 import de.dfki.asr.compass.model.SceneNodeComponent;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -29,6 +31,7 @@ import javax.ws.rs.core.Response;
 @Path("/scenenodecomponents")
 @javax.ejb.Stateless
 @Api(value = "/scenenodecomponents", description = "Operations about scene node components")
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class SceneNodeComponentRESTService extends AbstractRESTService {
 
 	@Inject

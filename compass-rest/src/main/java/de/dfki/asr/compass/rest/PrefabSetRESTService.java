@@ -20,6 +20,8 @@ import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.rest.util.LocationBuilder;
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -28,6 +30,7 @@ import javax.ws.rs.core.*;
 @javax.ejb.Stateless
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @Api(value = "/prefabsets", description = "Operations about prefabsets.")
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class PrefabSetRESTService extends AbstractRESTService {
 
 	@Inject

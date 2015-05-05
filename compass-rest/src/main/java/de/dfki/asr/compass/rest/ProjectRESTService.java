@@ -19,6 +19,8 @@ import de.dfki.asr.compass.rest.exception.UnprocessableEntityException;
 import de.dfki.asr.compass.rest.util.LocationBuilder;
 import static de.dfki.asr.compass.rest.util.LocationBuilder.locationOf;
 import java.util.List;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -35,6 +37,7 @@ import javax.ws.rs.core.Response;
 @javax.ejb.Stateless
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @Api(value = "/projects", description = "Operations about projects.")
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class ProjectRESTService extends AbstractRESTService {
 
 	@Inject

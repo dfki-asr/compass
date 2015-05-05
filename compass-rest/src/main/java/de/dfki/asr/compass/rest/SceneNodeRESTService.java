@@ -17,6 +17,8 @@ import de.dfki.asr.compass.rest.exception.UnprocessableEntityException;
 import de.dfki.asr.compass.model.SceneNode;
 import de.dfki.asr.compass.model.SceneNodeComponent;
 import static de.dfki.asr.compass.rest.util.LocationBuilder.locationOf;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,6 +38,7 @@ import javax.ws.rs.core.Response.Status;
 @javax.ejb.Stateless
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @Api(value = "/scenenodes", description = "Operations about scene nodes.")
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class SceneNodeRESTService extends AbstractRESTService {
 
 	@Inject
