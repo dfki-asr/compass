@@ -18,11 +18,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 
 	private static final long serialVersionUID = -5276223598746613967L;

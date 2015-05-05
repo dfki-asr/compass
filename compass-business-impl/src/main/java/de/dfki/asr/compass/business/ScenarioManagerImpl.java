@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Set;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -31,6 +33,7 @@ import javax.validation.Validator;
 
 @Named
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 
 	private static final long serialVersionUID = 3093598301164333752L;
@@ -61,6 +64,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void save(final Scenario entity) {
 		crudService.save(entity);
 	}
@@ -78,6 +82,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 	 * @throws PersistenceException
 	 */
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void duplicateScenario(final Scenario scenario, final String duplicateScenarioName) throws PersistenceException {
 		Scenario duplicate;
 		try {
@@ -107,6 +112,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 	 * @throws IOException
 	 */
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void createScenario(final String name, final Project project, final Image preview) throws PersistenceException, IOException {
 		ensureUniqueScenarioName(name, project);
 		ensureImageReadyForPersist(preview);
@@ -147,6 +153,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 	 * @param newScenarioName new name
 	 */
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void editScenario(final Scenario scenario, final String newScenarioName) {
 		// Keeping the name the same is a valid operation.
 		if (!scenario.getName().equals(newScenarioName)) {
@@ -170,6 +177,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 		}
 	}
 
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
 	private void ensureImageReadyForPersist(final Image preview) {
 		if (preview.isPersisted()) {
 			crudService.attach(preview);

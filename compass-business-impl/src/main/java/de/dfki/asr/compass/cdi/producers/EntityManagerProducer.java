@@ -8,6 +8,8 @@ package de.dfki.asr.compass.cdi.producers;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +25,7 @@ import javax.persistence.criteria.CriteriaBuilder;
  */
 @Stateful
 @ConversationScoped
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class EntityManagerProducer {
 
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)

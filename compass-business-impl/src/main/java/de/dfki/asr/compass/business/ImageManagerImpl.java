@@ -13,11 +13,14 @@ import de.dfki.asr.compass.model.resource.Image;
 import java.io.Serializable;
 import java.util.Date;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class ImageManagerImpl implements Serializable, ImageManager {
 	private static final long serialVersionUID = 7545634340536107430L;
 

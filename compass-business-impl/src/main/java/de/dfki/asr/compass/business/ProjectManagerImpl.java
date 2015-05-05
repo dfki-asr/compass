@@ -17,11 +17,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class ProjectManagerImpl implements Serializable, ProjectManager {
 
 	private static final long serialVersionUID = 2261821344802823306L;
@@ -40,6 +43,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void save(final Project entity) {
 		crudService.save(entity);
 	}
@@ -65,6 +69,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addScenarioToProject(final Scenario scenario, final Project project) throws IllegalArgumentException {
 		project.addScenario(scenario);
 		crudService.save(scenario);
@@ -77,6 +82,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void copyProject(final Project project, final String nameForCopy) throws PersistenceException {
 		Project attached = crudService.attach(project);
 		Project newProject;
@@ -90,6 +96,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void setProjectName(final Project project, final String projectName) throws PersistenceException {
 		if (project.getName().equals(projectName)) {
 			return;

@@ -16,6 +16,8 @@ import de.dfki.asr.compass.model.PrefabSet_;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,6 +26,7 @@ import javax.persistence.criteria.Root;
 
 @Named
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class PrefabManagerImpl implements Serializable, PrefabManager {
 
 	private static final long serialVersionUID = -6552373864799752601L;

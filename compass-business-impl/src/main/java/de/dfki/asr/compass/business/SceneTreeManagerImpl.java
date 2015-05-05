@@ -19,12 +19,15 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.vecmath.Matrix4f;
 
 @Named
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	private static final long serialVersionUID = 3073738672780116033L;
 
@@ -62,6 +65,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode createNode() {
 		SceneNode node = new SceneNode("New scene node");
 		crudService.save(node);
@@ -69,6 +73,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode createNewChild(final SceneNode parent) {
 		SceneNode node = createNode();
 		node.setParent(parent);
@@ -76,6 +81,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void reparentNode(final SceneNode node, final SceneNode newParent) {
 		SceneNode oldParent = node.getParent();
 		node.setParent(newParent);
@@ -89,6 +95,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void swapChildren(final SceneNode node, final int childA, final int childB) {
 		List<SceneNode> sceneNodes = node.getChildren();
 		Collections.swap(sceneNodes, childA, childB);
@@ -103,6 +110,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode duplicateNode(final SceneNode node) {
 		SceneNode newNode;
 		try {
@@ -121,11 +129,13 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addNode(final SceneNode node, final long parentID) throws IllegalArgumentException, EntityNotFoundException {
 		addNode(node, findById(parentID));
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
 	public void addNode(final SceneNode node, final SceneNode parent) throws IllegalArgumentException {
 		if (node.getParent() != null) {
 			throw new IllegalArgumentException("Tried to add a scene node that already has a parent. Use reparentNode instead.");
@@ -140,6 +150,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode addPrefabInstance(final SceneNode prefab, final SceneNode parent) {
 		SceneNode node;
 		try {
@@ -153,6 +164,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void saveNode(final SceneNode node) {
 		crudService.save(node);
 	}
@@ -163,6 +175,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addComponentToSceneNode(final SceneNode parent, final SceneNodeComponent newComponent) throws IllegalArgumentException {
 		newComponent.setOwner(parent);
 		parent.addComponent(newComponent);
