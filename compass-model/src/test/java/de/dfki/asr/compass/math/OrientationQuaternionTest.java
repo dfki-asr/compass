@@ -7,13 +7,16 @@
 package de.dfki.asr.compass.math;
 
 import static de.dfki.asr.compass.test.matcher.Quat4fSimilarity.similarTo;
+import javax.vecmath.Matrix3d;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("PMD.ExcessivePublicCount")
 public class OrientationQuaternionTest {
 
 	private static final float EQUALS_DELTA = 0.0001f;
+	private static final double TO_RADIANS = Math.PI / 180;
 
 	// Example Quaternions taken from:
 	// http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/steps/index.htm
@@ -142,18 +145,26 @@ public class OrientationQuaternionTest {
 	}
 
 	// not part of SO(3)
-	@Test(enabled = false)
+	@Test
 	public void yaw0Pitch90Roll90() {
 		// by wolfram alpha
-		sameQuaternion(new Quat4f(0.5f, 0.5f, 0.5f, -0.5f), yawPitchRoll(0, 90, 90));
+		Orientation o = yawPitchRoll(0, 90, 90);
+		Matrix3d rotFromAngles = createRotationMatrix(0, 90, 90);
+		Matrix3d rotFromQuat = new Matrix3d();
+		rotFromQuat.set(o.getLocalRotation());
+		assertTrue(rotFromQuat.epsilonEquals(rotFromAngles, EQUALS_DELTA));
 	}
 
-	@Test(enabled = false)
+	@Test
 	public void yaw0Pitch180Roll0() {
 		// pitch 180 = half-turn around the X-axis
 		// by sheer brain power (and a lttle bit of help from alpha)
 		// (http://www.wolframalpha.com/input/?i=draw+0%2B1i%2B0j%2B0k+as+a+rotation+operator)
-		sameQuaternion(new Quat4f(0f, 1f, 0f, 0f), yawPitchRoll(0, 180, 0));
+		Orientation o = yawPitchRoll(0, 180, 0);
+		Matrix3d rotFromAngles = createRotationMatrix(0, 180, 0);
+		Matrix3d rotFromQuat = new Matrix3d();
+		rotFromQuat.set(o.getLocalRotation());
+		assertEquals(rotFromQuat, rotFromAngles);
 	}
 
 	private Orientation yawPitchRoll(final double yaw, final double pitch, final double roll) {
@@ -167,4 +178,48 @@ public class OrientationQuaternionTest {
 	private void sameQuaternion(final Quat4f quaternion, final Orientation orientation) {
 		assertThat("Quaternion", orientation.getLocalRotation(), similarTo(quaternion, EQUALS_DELTA));
 	}
+
+	private Matrix3d createRotationMatrix(final double yaw, final double pitch, final double roll) {
+		Matrix3d rotation = createRollMatrix(roll);
+		rotation.mul(createPitchMatrix(pitch));
+		rotation.mul(createYawMatrix(yaw));
+		return rotation;
+	}
+
+	private Matrix3d createYawMatrix(final double t) {
+		double theta = t * TO_RADIANS;
+		Matrix3d rotation = new Matrix3d();
+		rotation.m00 = Math.cos(theta);
+		rotation.m01 = - Math.sin(theta);
+		rotation.m10 = Math.sin(theta);
+		rotation.m11 = Math.cos(theta);
+		rotation.m22 = 1;
+
+		return rotation;
+	}
+
+	private Matrix3d createPitchMatrix(final double t) {
+		double theta = t * TO_RADIANS;
+		Matrix3d rotation = new Matrix3d();
+		rotation.m00 = Math.cos(theta);
+		rotation.m02 = Math.sin(theta);
+		rotation.m20 = - Math.sin(theta);
+		rotation.m22 = Math.cos(theta);
+		rotation.m11 = 1;
+
+		return rotation;
+	}
+
+	private Matrix3d createRollMatrix(final double t) {
+		double theta = t * TO_RADIANS;
+		Matrix3d rotation = new Matrix3d();
+		rotation.m11 = Math.cos(theta);
+		rotation.m12 = - Math.sin(theta);
+		rotation.m21 = Math.sin(theta);
+		rotation.m22 = Math.cos(theta);
+		rotation.m00 = 1;
+
+		return rotation;
+	}
+
 }

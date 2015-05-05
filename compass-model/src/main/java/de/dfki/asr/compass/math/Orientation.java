@@ -23,6 +23,7 @@ public class Orientation implements Serializable {
 	private static final double NORTHPOLE_SINGULARITY = 0.499;
 	private static final double SOUTHPOLE_SINGULARITY = -1 * NORTHPOLE_SINGULARITY;
 
+	//private static final double POLE_DELTA = 0.00001f;
 	//Angles are stored in DEGREES
 	private transient double localYaw;
 
