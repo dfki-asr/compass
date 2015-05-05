@@ -15,6 +15,8 @@ import de.dfki.asr.compass.business.exception.PersistenceException;
 import de.dfki.asr.compass.model.AbstractCompassEntity;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -24,6 +26,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 
 @Stateless
+@TransactionAttribute(TransactionAttributeType.NEVER)
 public class CRUDService {
 
 	@Inject
@@ -50,6 +53,7 @@ public class CRUDService {
 		return entityManager.createNamedQuery(queryName, clazz);
 	}
 
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public <T extends AbstractCompassEntity> T findById(final Class<T> clazz, final long id) throws EntityNotFoundException {
 		T entity = entityManager.find(clazz, id);
 		if (entity == null) {
@@ -75,6 +79,7 @@ public class CRUDService {
 		return entityListQuery.getResultList();
 	}
 
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
 	public <T extends AbstractCompassEntity> T attach(final T entity) throws PersistenceException {
 		if (entity == null) {
 			throw new IllegalStateException("No entity set to be attached.");
@@ -90,6 +95,7 @@ public class CRUDService {
 		}
 	}
 
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
 	public <T extends AbstractCompassEntity> T save(final T entity) throws PersistenceException {
 		if (entity == null) {
 			throw new IllegalStateException("No entity set to be persisted.");
@@ -111,6 +117,7 @@ public class CRUDService {
 		}
 	}
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public <T extends AbstractCompassEntity> void remove(final T entity) {
 		if (entity == null) {
 			throw new IllegalStateException("No entity set to be removed.");
@@ -125,34 +132,36 @@ public class CRUDService {
 			// entity is unmanaged, so we cannot outright delete it.
 			entityManager.remove(entityManager.merge(entity));
 		}
-		entityManager.flush();
 		sendDeletedEvent(entity);
 	}
 
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
 	private <T extends AbstractCompassEntity> T persist(final T entity) {
 		entityManager.persist(entity);
-		entityManager.flush();
 		sendCreatedEvent(entity);
 		return entity;
 	}
 
+	@TransactionAttribute(TransactionAttributeType.MANDATORY)
 	private <T extends AbstractCompassEntity> T merge(final T entity) {
 		T merged = entityManager.merge(entity);
-		entityManager.flush();
 		sendChangedEvent(entity);
 		return merged;
 	}
 
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	private <T extends AbstractCompassEntity> void sendCreatedEvent(final T entity) {
 		EntityCreatedEvent payload = new EntityCreatedEvent(entity);
 		entityCreatedEvent.fire(payload);
 	}
 
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	private <T extends AbstractCompassEntity> void sendChangedEvent(final T entity) {
 		EntityChangedEvent payload = new EntityChangedEvent(entity);
 		entityChangedEvent.fire(payload);
 	}
 
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	private <T extends AbstractCompassEntity> void sendDeletedEvent(final T entity) {
 		EntityDeletedEvent payload = new EntityDeletedEvent(entity);
 		entityDeletedEvent.fire(payload);
