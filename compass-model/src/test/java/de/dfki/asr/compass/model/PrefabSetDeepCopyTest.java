@@ -10,7 +10,7 @@ import java.io.IOException;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
-public class DeepCopyTest {
+public class PrefabSetDeepCopyTest {
 
 	@Test
 	public void deepCopyPrefabSetShouldCreateCopy() throws IOException, ClassNotFoundException {
