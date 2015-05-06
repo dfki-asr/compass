@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This file is part of COMPASS. It is subject to the license terms in
+ the LICENSE file found in the top-level directory of this distribution.
+ (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ You may not use this file except in compliance with the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>de.dfki.asr.compass</groupId>
+		<artifactId>root</artifactId>
+		<version>2.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>compass-integration-test</artifactId>
+	<name>COMPASS - Integration Test Module</name>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>1.1.8.Final</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>compass-deployment</artifactId>
+			<version>${project.version}</version>
+			<type>ear</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.testng</groupId>
+			<artifactId>arquillian-testng-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-depchain</artifactId>
+			<scope>test</scope>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.8.21</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jboss.shrinkwrap.resolver</groupId>
+				<artifactId>shrinkwrap-resolver-maven-plugin</artifactId>
+				<version>2.2.0-beta-2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>propagate-execution-context</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>default-jar</id>
+						<phase>never</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>default-install</id>
+						<phase>never</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>normal-build</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
+		</profile>
+		<profile>
+			<id>continuous-integration</id>
+			<activation>
+				<property>
+					<!-- http://docs.travis-ci.com/user/ci-environment/#Environment-variables -->
+					<name>env.CI</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<!-- as per https://docs.jboss.org/author/display/ARQ/WildFly+8.1.0+-+Embedded -->
+			<properties>
+				<skipTests>false</skipTests>
+				<wildfly.version>8.2.0.Final</wildfly.version>
+				<wildfly.path>${project.basedir}/target/wildfly-${wildfly.version}</wildfly.path>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-arquillian-container-embedded</artifactId>
+					<version>${wildfly.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.wildfly</groupId>
+					<artifactId>wildfly-embedded</artifactId>
+					<version>${wildfly.version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.10</version>
+						<executions>
+							<execution>
+								<id>unpack</id>
+								<phase>generate-test-resources</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.wildfly</groupId>
+											<artifactId>wildfly-dist</artifactId>
+											<version>${wildfly.version}</version>
+											<type>zip</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>target</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.7</version>
+						<executions>
+							<execution>
+								<id>copy-wildfly-config</id>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<phase>process-test-resources</phase>
+								<configuration>
+									<resources>
+										<resource>
+											<directory>${basedir}/src/test/resources-wildfly</directory>
+											<includes>
+												<include>**</include>
+											</includes>
+										</resource>
+									</resources>
+									<outputDirectory>${wildfly.path}</outputDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.17</version>
+						<configuration>
+							<forkMode>always</forkMode>
+							<systemPropertyVariables>
+								<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+								<jboss.home>${wildfly.path}</jboss.home>
+								<module.path>${wildfly.path}/modules</module.path>
+							</systemPropertyVariables>
+							<redirectTestOutputToFile>false</redirectTestOutputToFile>
+							<argLine>-Xms512m -Xmx1024m -XX:MaxPermSize=256m</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
