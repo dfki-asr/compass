@@ -65,7 +65,9 @@ public class PrefabSetTest {
 	public void grandchildIsChildOfGrandparent() {
 		PrefabSet grandparent = new PrefabSet("grandparent");
 		PrefabSet parent = new PrefabSet("parent");
+		PrefabSet uncle = new PrefabSet("uncle");
 		PrefabSet child = new PrefabSet("child");
+		uncle.setParent(grandparent);
 		parent.setParent(grandparent);
 		child.setParent(parent);
 		assertTrue(child.isChildOf(grandparent));
