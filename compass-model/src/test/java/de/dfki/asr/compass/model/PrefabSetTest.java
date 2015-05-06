@@ -21,7 +21,7 @@ public class PrefabSetTest {
 	}
 
 	@Test
-	public void prefabSetSetParentShouldReparent()	{
+	public void prefabSetSetParentShouldReparent() {
 		PrefabSet childPrefab = new PrefabSet("original");
 		PrefabSet newParent = new PrefabSet("newParent");
 		PrefabSet oldParent = new PrefabSet("oldParent");
@@ -39,8 +39,8 @@ public class PrefabSetTest {
 		childPrefab.setParent(oldParent);
 		childPrefab.setParent(newParent);
 		assertTrue(childPrefab.isChildOf(newParent));
-
 	}
+
 	@Test
 	public void prefabSetSetParentShouldRemoveOldChild() {
 		PrefabSet childPrefab = new PrefabSet("original");
@@ -49,8 +49,8 @@ public class PrefabSetTest {
 		childPrefab.setParent(oldParent);
 		childPrefab.setParent(newParent);
 		assertFalse(childPrefab.isChildOf(oldParent));
-
 	}
+
 	@Test
 	public void prefabSetSetSameParentShouldDoNothing() {
 		PrefabSet childPrefab = new PrefabSet("original");
