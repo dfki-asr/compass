@@ -57,4 +57,14 @@ public class SceneNodeTest {
 		childNode.setParent(parentNode);
 		assertEquals(nodeBeforeSet, childNode);
 	}
+
+	@Test
+	public void grandchildIsChildOfGrandparent() {
+		SceneNode grandparent = new SceneNode();
+		SceneNode parent = new SceneNode();
+		SceneNode child = new SceneNode();
+		parent.setParent(grandparent);
+		child.setParent(parent);
+		assertTrue(child.isChildOf(grandparent));
+	}
 }
