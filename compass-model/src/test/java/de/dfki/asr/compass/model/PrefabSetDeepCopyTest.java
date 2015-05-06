@@ -37,6 +37,27 @@ public class PrefabSetDeepCopyTest {
 	}
 
 	@Test
+	public void deepCopyPrefabSetShouldClearIds() throws IOException, ClassNotFoundException {
+		Boolean clearedIds = true;
+		PrefabSet originalSet = initializePrefabSet();
+		PrefabSet clone = (PrefabSet) originalSet.deepCopy();
+		if (clone.getId() != 0) {
+			clearedIds = false;
+		}
+		for (PrefabSet c: clone.getChildren()) {
+			if (c.getId() != 0) {
+				clearedIds = false;
+			}
+		}
+		for (SceneNode p: clone.getPrefabs()) {
+			if (p.getId() != 0) {
+				clearedIds = false;
+			}
+		}
+		assertTrue(clearedIds);
+	}
+
+	@Test
 	public void deepCopyPrefabSetShouldCopyPrefabs() throws IOException, ClassNotFoundException {
 		Boolean copiedPrefabs = true;
 		PrefabSet originalSet = initializePrefabSet();
@@ -57,14 +78,19 @@ public class PrefabSetDeepCopyTest {
 		PrefabSet originalSet = new PrefabSet();
 		PrefabSet childSetA = new PrefabSet();
 		PrefabSet childSetB = new PrefabSet();
+		originalSet.setId(1);
 		childSetA.setName("childA");
 		childSetB.setName("childB");
+		childSetA.setId(2);
+		childSetB.setId(3);
 		childSetA.setParent(originalSet);
 		childSetB.setParent(originalSet);
 		SceneNode prefabA = new SceneNode();
 		SceneNode prefabB = new SceneNode();
 		prefabA.setName("TestPrefabA");
 		prefabB.setName("TestPrefabB");
+		prefabA.setId(4);
+		prefabB.setId(5);
 		originalSet.addPrefab(prefabA);
 		originalSet.addPrefab(prefabB);
 		originalSet.setName("PrefabSetTest");
