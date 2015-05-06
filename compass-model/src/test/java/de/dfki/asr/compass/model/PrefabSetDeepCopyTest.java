@@ -32,13 +32,6 @@ public class PrefabSetDeepCopyTest {
 		assertTrue(prefabSetIsCopy(originalSet, clone));
 	}
 
-	@Test(enabled = false)
-	public void deepCopyProjectShouldCreateCopy() throws IOException, ClassNotFoundException {
-		Project originalProject = new Project();
-		Project clone = (Project) originalProject.deepCopy();
-		assertTrue(clone.equals(originalProject));
-	}
-
 	private Boolean prefabSetIsCopy(final PrefabSet original, final PrefabSet copy) {
 		if (!original.getName().equals(copy.getName())) {
 			return false;
