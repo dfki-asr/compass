@@ -38,11 +38,13 @@ public class ImageManagerImpl implements Serializable, ImageManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void removeById(final long id) throws EntityNotFoundException {
 		remove(findById(id));
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void save(final Image entity) {
 		crudService.save(entity);
 	}
@@ -53,6 +55,7 @@ public class ImageManagerImpl implements Serializable, ImageManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Image createImage(final String mimeType, final byte[] data) {
 		String name = getFreshPreviewImageName();
 		return createImage(name, mimeType, data);
@@ -63,6 +66,7 @@ public class ImageManagerImpl implements Serializable, ImageManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Image createImage(final String fileName, final String mimeType, final byte[] data) {
 		Image newPreviewImage = new Image(fileName, mimeType, data);
 		crudService.save(newPreviewImage);

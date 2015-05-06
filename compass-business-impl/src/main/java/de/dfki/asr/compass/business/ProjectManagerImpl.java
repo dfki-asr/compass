@@ -38,6 +38,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void removeById(final long entityId) throws EntityNotFoundException {
 		remove(findById(entityId) );
 	}
@@ -54,6 +55,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void remove(final Project entity) {
 		crudService.remove(entity);
 	}
@@ -64,6 +66,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addScenarioToProject(final Scenario scenario, final long projectID) throws IllegalArgumentException, EntityNotFoundException {
 		addScenarioToProject(scenario, findById(projectID));
 	}
@@ -76,6 +79,7 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void createNewProject(final String name) throws PersistenceException {
 		Project newProject = new Project(name);
 		crudService.save(newProject);

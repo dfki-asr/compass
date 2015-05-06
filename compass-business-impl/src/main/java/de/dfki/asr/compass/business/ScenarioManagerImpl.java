@@ -48,6 +48,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 	private Validator validator;
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void remove(final Scenario scenario) {
 		scenario.getProject().removeScenario(scenario);
 		crudService.remove(scenario);
@@ -59,6 +60,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void removeById(final long entityId) throws EntityNotFoundException {
 		remove(findById(entityId) );
 	}
@@ -137,6 +139,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 	 * @param newPreviewImage new preview image
 	 */
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void editScenario(final Scenario scenario, final String newScenarioName, final Image newPreviewImage) {
 		Image oldImage = scenario.getPreview();
 		scenario.setPreview(newPreviewImage);

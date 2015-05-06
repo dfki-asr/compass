@@ -38,6 +38,7 @@ public class PrefabManagerImpl implements Serializable, PrefabManager {
 	private CriteriaBuilder criteriaBuilder;
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode createPrefabFromSceneNode(final SceneNode node) {
 		SceneNode prefab;
 		try {
@@ -52,11 +53,13 @@ public class PrefabManagerImpl implements Serializable, PrefabManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode createPrefabFromSceneNode(final long id) throws EntityNotFoundException {
 		return createPrefabFromSceneNode(crudService.findById(SceneNode.class, id));
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void replacePrefabWithSceneNode(final SceneNode prefab, final SceneNode node) {
 		SceneNode instance;
 		try {
@@ -70,6 +73,7 @@ public class PrefabManagerImpl implements Serializable, PrefabManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void replacePrefabWithSceneNode(final long prefabId, final long nodeId) throws EntityNotFoundException {
 		replacePrefabWithSceneNode(crudService.findById(SceneNode.class, prefabId), crudService.findById(SceneNode.class, nodeId));
 	}

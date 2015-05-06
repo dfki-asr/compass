@@ -42,11 +42,13 @@ public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void removeById(final long id) throws EntityNotFoundException {
 		remove(findById(id));
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void remove(final PrefabSet prefabSet) {
 		PrefabSet parent = prefabSet.getParent();
 		prefabSet.setParent(null);
@@ -57,6 +59,7 @@ public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void save(final PrefabSet prefabSet) {
 		crudService.save(prefabSet);
 	}
@@ -67,22 +70,26 @@ public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addPrefabToSet(final SceneNode prefab, final PrefabSet prefabSet) throws IllegalArgumentException {
 		prefabSet.addPrefab(prefab);
 		crudService.save(prefabSet);
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addPrefabToSet(final long prefabId, final long prefabSetId) throws EntityNotFoundException, IllegalArgumentException {
 		addPrefabToSet(crudService.findById(SceneNode.class, prefabId), crudService.findById(PrefabSet.class, prefabSetId));
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addPrefabToSet(final SceneNode prefab, final long prefabSetId) throws EntityNotFoundException, IllegalArgumentException {
 		addPrefabToSet(prefab, crudService.findById(PrefabSet.class, prefabSetId));
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode addSceneNodeToPrefabSet(final SceneNode node, final PrefabSet prefabSet) throws IllegalArgumentException {
 		SceneNode prefab = prefabManager.createPrefabFromSceneNode(node);
 		addPrefabToSet(prefab, prefabSet);
@@ -90,22 +97,26 @@ public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode addSceneNodeToPrefabSet(final long nodeId, final long prefabSetId) throws EntityNotFoundException, IllegalArgumentException {
 		return addSceneNodeToPrefabSet(crudService.findById(SceneNode.class, nodeId), crudService.findById(PrefabSet.class, prefabSetId));
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void movePrefabToPrefabSet(final SceneNode node, final PrefabSet newPrefabSet, final PrefabSet oldPrefabSet) throws IllegalArgumentException {
 		deletePrefabFromPrefabSet(node, oldPrefabSet);
 		addPrefabToSet(node, newPrefabSet);
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void movePrefabToPrefabSet(final long nodeId, final long newPrefabSetId, final PrefabSet oldPrefabSet) throws EntityNotFoundException, IllegalArgumentException {
 		movePrefabToPrefabSet(crudService.findById(SceneNode.class, nodeId), crudService.findById(PrefabSet.class, newPrefabSetId), oldPrefabSet);
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void deletePrefabFromPrefabSet(final SceneNode prefab, final PrefabSet set) {
 		set.removePrefab(prefab);
 		crudService.save(set);
@@ -115,6 +126,7 @@ public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public PrefabSet createNewChild(final PrefabSet parent) {
 		PrefabSet newSet = crudService.save(new PrefabSet(findNewPrefabSetName(parent)));
 		newSet.setParent(parent);
@@ -141,6 +153,7 @@ public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 
 	@Hack
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void cleanupPrefabs(final PrefabSet set) {
 		// Since JPA can't take care of @ManyToMany orphans, they need to be
 		// cleaned up here. This works, but is just as horrible as it looks.
@@ -169,11 +182,13 @@ public class PrefabSetManagerImpl implements  Serializable, PrefabSetManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void appendSetToParent(final long parentID, final PrefabSet newSet) throws EntityNotFoundException {
 		appendSetToParent(findById(parentID), newSet);
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void appendSetToParent(final PrefabSet parent, final PrefabSet newSet) {
 		newSet.setParent(parent);
 		crudService.save(newSet);

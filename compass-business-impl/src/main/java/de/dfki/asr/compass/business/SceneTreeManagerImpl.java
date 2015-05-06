@@ -40,11 +40,13 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void remove(final SceneNode node) {
 		crudService.remove(node);
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void removeById(final long entityId) throws EntityNotFoundException, IllegalArgumentException {
 		SceneNode toBeDeleted = findById(entityId);
 		if (toBeDeleted.getParent() == null) {
@@ -55,6 +57,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void save(final SceneNode entity) {
 		crudService.save(entity);
 	}
@@ -90,6 +93,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void reparentNode(final long nodeId, final long parentId) throws EntityNotFoundException {
 		reparentNode(findById(nodeId), findById(parentId));
 	}
@@ -105,6 +109,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void swapChildren(final long nodeId, final int childA, final int childB) throws EntityNotFoundException {
 		swapChildren(findById(nodeId), childA, childB);
 	}
@@ -124,6 +129,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode duplicateNode(final long id) throws EntityNotFoundException {
 		return duplicateNode(findById(id));
 	}
@@ -145,6 +151,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public SceneNode addPrefabInstance(final long prefabID, final long parentID) throws EntityNotFoundException {
 		return addPrefabInstance(findById(prefabID), findById(parentID));
 	}
@@ -170,6 +177,7 @@ public class SceneTreeManagerImpl implements  Serializable, SceneTreeManager {
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void addComponentToSceneNode(final long parentID, final SceneNodeComponent newComponent) throws EntityNotFoundException, IllegalArgumentException {
 		addComponentToSceneNode(findById(parentID), newComponent);
 	}
