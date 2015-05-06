@@ -61,4 +61,13 @@ public class PrefabSetTest {
 		assertEquals(childPrefab,beforeSet);
 	}
 
+	@Test
+	public void grandchildIsChildOfGrandparent() {
+		PrefabSet grandparent = new PrefabSet("grandparent");
+		PrefabSet parent = new PrefabSet("parent");
+		PrefabSet child = new PrefabSet("child");
+		parent.setParent(grandparent);
+		child.setParent(parent);
+		assertTrue(child.isChildOf(grandparent));
+	}
 }
