@@ -144,22 +144,22 @@ XML3D.tools.namespace("COMPASS");
 	$.aop.after( {target: COMPASS.XML3DProducer, method: "_createDefaultCamera"}, COMPASS.CameraController.createInitialCameraController.bind(COMPASS.CameraController) );
 	$.aop.after( {target: XML3D.tools.MouseKeyboardFlyController, method: "detach"},
 		function() {
-			$("button[id$='fly-camera-button'").removeClass("compass-button-active");
+			$("button[id$='fly-camera-button']").removeClass("compass-button-active");
 		}
 	);
 	$.aop.after({target: XML3D.tools.MouseKeyboardFlyController, method: "attach"},
 		function() {
-			$("button[id$='fly-camera-button'").addClass("compass-button-active");
+			$("button[id$='fly-camera-button']").addClass("compass-button-active");
 		}
 	);
 	$.aop.after({target: XML3D.tools.MouseExamineController, method: "detach"},
 		function() {
-			$("button[id$='orbit-camera-button'").removeClass("compass-button-active");
+			$("button[id$='orbit-camera-button']").removeClass("compass-button-active");
 		}
 	);
 	$.aop.after({target: XML3D.tools.MouseExamineController, method: "attach"},
 		function() {
-			$("button[id$='orbit-camera-button'").addClass("compass-button-active");
+			$("button[id$='orbit-camera-button']").addClass("compass-button-active");
 		}
 	);
 })();
