@@ -55,24 +55,36 @@ public class RGBColorTest {
 	public void rgbColorShouldSetRed() {
 		RGBColor colorRed = new RGBColor();
 		colorRed.setHex("#FF0000");
-		int result = colorRed.getRed();
-		assertEquals(result, 255);
+		int red = colorRed.getRed();
+		int green = colorRed.getGreen();
+		int blue = colorRed.getBlue();
+		assertEquals(red, 255);
+		assertEquals(green, 0);
+		assertEquals(blue, 0);
 	}
 
 	@Test
 	public void rgbColorShouldSetGreen() {
 		RGBColor colorGreen = new RGBColor();
 		colorGreen.setHex("#00FF00");
-		int result = colorGreen.getGreen();
-		assertEquals(result, 255);
+		int red = colorGreen.getRed();
+		int green = colorGreen.getGreen();
+		int blue = colorGreen.getBlue();
+		assertEquals(red, 0);
+		assertEquals(green, 255);
+		assertEquals(blue, 0);
 	}
 
 	@Test
 	public void rgbColorShouldSetBlue() {
 		RGBColor colorBlue = new RGBColor();
 		colorBlue.setHex("#0000FF");
-		int result = colorBlue.getBlue();
-		assertEquals(result, 255);
+		int red = colorBlue.getRed();
+		int green = colorBlue.getGreen();
+		int blue = colorBlue.getBlue();
+		assertEquals(red, 0);
+		assertEquals(green, 0);
+		assertEquals(blue, 255);
 	}
 
 	@Test
