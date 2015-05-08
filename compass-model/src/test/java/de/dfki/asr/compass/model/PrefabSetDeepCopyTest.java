@@ -8,7 +8,8 @@ package de.dfki.asr.compass.model;
 
 import java.io.IOException;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class PrefabSetDeepCopyTest {
 
@@ -16,62 +17,48 @@ public class PrefabSetDeepCopyTest {
 	public void deepCopyPrefabSetShouldCreateCopy() throws IOException, ClassNotFoundException {
 		PrefabSet originalSet = initializePrefabSet();
 		PrefabSet clone = (PrefabSet) originalSet.deepCopy();
-		assertEquals(originalSet.getName(), clone.getName());
+		assertThat(clone.getName(), equalTo(originalSet.getName()));
 	}
 
 	@Test
 	public void deepCopyPrefabSetShouldCopyChildren() throws IOException, ClassNotFoundException {
-		Boolean childrenCopied = true;
 		PrefabSet originalSet = initializePrefabSet();
 		PrefabSet clone = (PrefabSet) originalSet.deepCopy();
-		if (originalSet.getChildren().size() != clone.getChildren().size()) {
-			childrenCopied = false;
+		assertThat("same amount of child sets",
+				originalSet.getChildren().size() == clone.getChildren().size()
+		);
+		for (int i = 0; i < originalSet.getChildren().size(); i++) {
+			PrefabSet originalChild = originalSet.getChildren().get(i);
+			PrefabSet clonedChild = clone.getChildren().get(i);
+			assertThat("order retained", clonedChild.getName().equals(originalChild.getName()));
 		}
-		for (PrefabSet child: originalSet.getChildren()) {
-			int childIndex = originalSet.getChildren().indexOf(child);
-			if (!(clone.getChildren().get(childIndex).getName().equals(child.getName()))) {
-				childrenCopied = false;
-			}
-		}
-		assertTrue(childrenCopied);
 	}
 
 	@Test
 	public void deepCopyPrefabSetShouldClearIds() throws IOException, ClassNotFoundException {
-		Boolean clearedIds = true;
 		PrefabSet originalSet = initializePrefabSet();
 		PrefabSet clone = (PrefabSet) originalSet.deepCopy();
-		if (clone.getId() != 0) {
-			clearedIds = false;
-		}
+		assertThat("clone id cleared", clone.getId() == 0);
 		for (PrefabSet c: clone.getChildren()) {
-			if (c.getId() != 0) {
-				clearedIds = false;
-			}
+			assertThat("child PrefabSet id cleared", c.getId() == 0);
 		}
 		for (SceneNode p: clone.getPrefabs()) {
-			if (p.getId() != 0) {
-				clearedIds = false;
-			}
+			assertThat("child prefab id cleared", p.getId() == 0);
 		}
-		assertTrue(clearedIds);
 	}
 
 	@Test
 	public void deepCopyPrefabSetShouldCopyPrefabs() throws IOException, ClassNotFoundException {
-		Boolean copiedPrefabs = true;
 		PrefabSet originalSet = initializePrefabSet();
 		PrefabSet clone = (PrefabSet) originalSet.deepCopy();
-		if (originalSet.getPrefabs().size() != clone.getPrefabs().size()) {
-			copiedPrefabs = false;
+		assertThat("same amount of prefabs",
+			originalSet.getPrefabs().size() == clone.getPrefabs().size()
+		);
+		for (int i = 0; i < originalSet.getPrefabs().size(); i++) {
+			SceneNode original = originalSet.getPrefabs().get(i);
+			SceneNode copy = clone.getPrefabs().get(i);
+			assertThat("order retained", copy.getName().equals(original.getName()));
 		}
-		for (SceneNode prefab: originalSet.getPrefabs()) {
-			int prefabIndex = originalSet.getPrefabs().indexOf(prefab);
-			if (!(clone.getPrefabs().get(prefabIndex).getName().equals(prefab.getName()))) {
-				copiedPrefabs =  false;
-			}
-		}
-		assertTrue(copiedPrefabs);
 	}
 
 	private PrefabSet initializePrefabSet() {
