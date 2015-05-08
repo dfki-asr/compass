@@ -38,16 +38,12 @@ public class ProjectDeepCopyTest {
 		Project originalProject = new Project("testProject");
 		Scenario scenarioA = new Scenario();
 		Scenario scenarioB = new Scenario();
-
 		scenarioA.setName("scenarioA");
 		scenarioB.setName("scenarioB");
-
 		scenarioA.getRoot().setName("rootA");
 		scenarioB.getRoot().setName("rootB");
-
 		originalProject.addScenario(scenarioA);
 		originalProject.addScenario(scenarioB);
-
 		return originalProject;
 	}
 
@@ -77,7 +73,6 @@ public class ProjectDeepCopyTest {
 		}
 		SceneNode rootA = original.getRoot();
 		SceneNode rootB = copy.getRoot();
-
 		if (!(rootA.getName().equals(rootB.getName()))) {
 			return false;
 		}

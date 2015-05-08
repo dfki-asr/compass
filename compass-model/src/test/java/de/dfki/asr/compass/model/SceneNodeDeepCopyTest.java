@@ -128,15 +128,12 @@ public class SceneNodeDeepCopyTest {
 		SceneNode childA = new SceneNode("childA");
 		SceneNode childAB = new SceneNode("childAB");
 		SceneNode childB = new SceneNode("childB");
-
 		childA.setId(2);
 		childB.setId(3);
 		childAB.setId(4);
-
 		childAB.setParent(childA);
 		childA.setParent(sceneNode);
 		childB.setParent(sceneNode);
-
 		return sceneNode;
 	}
 }
