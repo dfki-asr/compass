@@ -19,13 +19,6 @@ import static org.testng.Assert.*;
 public class SceneNodeDeepCopyTest {
 
 	@Test
-	public void deepCopySceneNodeShouldCreateCopy() throws IOException, ClassNotFoundException {
-		//SceneNode originalSceneNode = initializeSceneNode();
-		//SceneNode copiedSceneNode = (SceneNode) originalSceneNode.deepCopy();
-		assertTrue(true);
-	}
-
-	@Test
 	public void deepCopySceneNodesShouldClearIds() throws IOException, ClassNotFoundException {
 		SceneNode originalSceneNode = initializeSceneNode();
 		SceneNode copiedSceneNode = (SceneNode) originalSceneNode.deepCopy();
