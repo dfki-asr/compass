@@ -25,7 +25,7 @@ public class ScenarioDeepCopyTest {
 	}
 
 	@Test
-	public void deepCopyScenarioShouldCreateCopy() throws IOException, ClassNotFoundException {
+	public void deepCopyScenarioShouldCreateCopy() {
 		assertEquals(originalScenario.getName(),
 		             copiedScenario.getName(),
 		             "Scenario name");
@@ -38,7 +38,7 @@ public class ScenarioDeepCopyTest {
 	}
 
 	@Test
-	public void deepCopyScenarioShouldCopyPreview() throws IOException, ClassNotFoundException {
+	public void deepCopyScenarioShouldCopyPreview() {
 		Boolean imageCopied = true;
 
 
@@ -59,7 +59,7 @@ public class ScenarioDeepCopyTest {
 	}
 
 	@Test
-	public void deepCopyScenarioShouldClearIds() throws IOException, ClassNotFoundException {
+	public void deepCopyScenarioShouldClearIds() {
 		Boolean idsCleared = true;
 		if (copiedScenario.getId() != 0 ) {
 			idsCleared = false;
