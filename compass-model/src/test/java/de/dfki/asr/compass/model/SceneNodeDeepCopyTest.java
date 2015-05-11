@@ -15,13 +15,19 @@ import java.util.Arrays;
 import java.util.Random;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
+import org.testng.annotations.BeforeSuite;
 
 public class SceneNodeDeepCopyTest {
+	private SceneNode originalSceneNode, copiedSceneNode;
+
+	@BeforeSuite
+	public void setupCopy() throws IOException, ClassNotFoundException {
+		originalSceneNode = initializeSceneNode();
+		copiedSceneNode = (SceneNode) originalSceneNode.deepCopy();
+	}
 
 	@Test
-	public void deepCopySceneNodesShouldClearIds() throws IOException, ClassNotFoundException {
-		SceneNode originalSceneNode = initializeSceneNode();
-		SceneNode copiedSceneNode = (SceneNode) originalSceneNode.deepCopy();
+	public void deepCopySceneNodesShouldClearIds() {
 		assertEquals(copiedSceneNode.getId(), 0);
 		for (SceneNode c: copiedSceneNode.getChildren()) {
 			assertEquals(c.getId(), 0);
@@ -31,72 +37,46 @@ public class SceneNodeDeepCopyTest {
 		}
 	}
 	@Test
-	public void deepCopySceneNodeShouldCopyChildNodes() throws IOException, ClassNotFoundException {
-		Boolean copiedChildren = true;
-		SceneNode originalSceneNode = initializeSceneNode();
-		SceneNode copiedSceneNode = (SceneNode) originalSceneNode.deepCopy();
-		if ( originalSceneNode.getChildren().size() != copiedSceneNode.getChildren().size()) {
-			copiedChildren = false;
-		}
-		if (!childrenAreCopies(originalSceneNode, copiedSceneNode)) {
-			copiedChildren = false;
-		}
-		assertTrue(copiedChildren);
+	public void deepCopySceneNodeShouldCopyChildNodes() {
+		assertEquals(originalSceneNode.getChildren().size(), copiedSceneNode.getChildren().size());
+		assertChildrenAreCopies(originalSceneNode, copiedSceneNode);
 	}
 
 	@Test
-	public void deepCopySceneNodeShouldCopyTransform() throws IOException, ClassNotFoundException {
-		SceneNode originalSceneNode = initializeSceneNode();
-		SceneNode copiedSceneNode = (SceneNode) originalSceneNode.deepCopy();
+	public void deepCopySceneNodeShouldCopyTransform() {
 		assertEquals(originalSceneNode.getLocalTransform(), copiedSceneNode.getLocalTransform());
 	}
 
 	@Test
-	public void deepCopySceneNodeShouldCopyComponents() throws IOException, ClassNotFoundException {
+	public void deepCopySceneNodeShouldCopyComponents() {
 		Boolean copiedComponents = true;
-		SceneNode originalSceneNode = initializeSceneNode();
-		SceneNode copiedSceneNode = (SceneNode) originalSceneNode.deepCopy();
 		for (SceneNodeComponent c: originalSceneNode.getComponents()) {
 			int idx = originalSceneNode.getComponents().indexOf(c);
 			if (c.getClass().equals(PreviewImage.class)) {
 				Image originalImage = ((PreviewImage) c).getImage();
 				Image copyImage = ( (PreviewImage) copiedSceneNode.getComponents().get(idx)).getImage();
-				if (!(copiedPreview(originalImage, copyImage))) {
-					copiedComponents = false;
-					break;
-				}
+				assertCopiedPreview(originalImage, copyImage);
 			}
-			if (c.getClass() != copiedSceneNode.getComponents().get(idx).getClass()) {
-				copiedComponents = false;
-			}
+			assertEquals(c.getClass(), copiedSceneNode.getComponents().get(idx).getClass());
 		}
 		assertTrue(copiedComponents);
 	}
 
-	private Boolean copiedPreview(final Image original, final Image copy) {
-		if (!(original.getName().equals(copy.getName()))) {
-			return false;
-		}
-		if (!(original.getMimeType().equals(copy.getMimeType()))) {
-			return false;
-		}
-		if (!(Arrays.equals(original.getData(), copy.getData()))) {
-			return false;
-		}
-		return true;
+	private void assertCopiedPreview(final Image original, final Image copy) {
+		assertEquals(original.getName(), copy.getName());
+		assertEquals(original.getMimeType(), copy.getMimeType());
+		assertTrue(Arrays.equals(original.getData(), copy.getData()));
 	}
-	private Boolean childrenAreCopies(final SceneNode original, final SceneNode copy) {
+
+	private void assertChildrenAreCopies(final SceneNode original, final SceneNode copy) {
 		for (SceneNode originalChild: original.getChildren()) {
 			int idx = original.getChildren().indexOf(originalChild);
-			if (!(childrenAreCopies(originalChild, copy.getChildren().get(idx)))) {
-				return false;
-			}
-			if (!(originalChild.getName().equals(copy.getChildren().get(idx).getName()))) {
-				return false;
-			}
+			SceneNode copiedChild = copy.getChildren().get(idx);
+			assertChildrenAreCopies(originalChild, copiedChild);
+			assertEquals(originalChild.getName(), copiedChild.getName());
 		}
-		return true;
 	}
+
 	private SceneNode initializeSceneNode() {
 		SceneNode sceneNode = new SceneNode("parentSceneNode");
 		sceneNode.setId(1);
