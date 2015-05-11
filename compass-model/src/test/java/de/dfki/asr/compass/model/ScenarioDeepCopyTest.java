@@ -13,13 +13,13 @@ import java.util.Arrays;
 import java.util.Random;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeSuite;
 
 public class ScenarioDeepCopyTest {
 	private Scenario originalScenario, copiedScenario;
 
-	@BeforeTest
-	public void setUp() throws IOException, ClassNotFoundException {
+	@BeforeSuite
+	public void setupScenarioCopy() throws IOException, ClassNotFoundException {
 		originalScenario = initializeScenario();
 		copiedScenario = (Scenario) originalScenario.deepCopy();
 	}
