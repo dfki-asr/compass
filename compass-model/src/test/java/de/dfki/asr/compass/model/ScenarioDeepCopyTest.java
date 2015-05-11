@@ -26,7 +26,15 @@ public class ScenarioDeepCopyTest {
 
 	@Test
 	public void deepCopyScenarioShouldCreateCopy() throws IOException, ClassNotFoundException {
-		assertTrue(scenarioIsCopy(originalScenario, copiedScenario));
+		assertEquals(originalScenario.getName(),
+		             copiedScenario.getName(),
+		             "Scenario name");
+		assertEquals(originalScenario.getProject().getName(),
+		             copiedScenario.getProject().getName(),
+		             "Project name");
+		assertEquals(originalScenario.getRoot().getName(),
+		             copiedScenario.getRoot().getName(),
+		             "Root SceneNode name");
 	}
 
 	@Test
@@ -81,18 +89,5 @@ public class ScenarioDeepCopyTest {
 		scenario.setProject(new Project("testProject"));
 		scenario.setId(1);
 		return scenario;
-	}
-
-	private Boolean scenarioIsCopy(final Scenario original, final Scenario copy) {
-		if (!(original.getName().equals(copy.getName()))) {
-			return false;
-		}
-		if (!(original.getProject().getName().equals(copy.getProject().getName()))) {
-			return false;
-		}
-		if (!(original.getRoot().getName().equals(copy.getRoot().getName()))) {
-			return false;
-		}
-		return true;
 	}
 }
