@@ -19,3 +19,4 @@ jboss.xml
 /compass-persistence-unit/target/
 /target/
 /compass-integration-test/target/
+/compass-js-frontend/target/
