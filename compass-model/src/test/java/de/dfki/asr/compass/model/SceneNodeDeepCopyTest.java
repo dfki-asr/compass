@@ -30,10 +30,10 @@ public class SceneNodeDeepCopyTest {
 	public void deepCopySceneNodesShouldClearIds() {
 		assertEquals(copiedSceneNode.getId(), 0);
 		for (SceneNode c: copiedSceneNode.getChildren()) {
-			assertEquals(c.getId(), 0);
+			assertEquals(c.getId(), 0, "SceneNode id");
 		}
 		for (SceneNodeComponent c: copiedSceneNode.getComponents()) {
-			assertEquals(c.getId(), 0);
+			assertEquals(c.getId(), 0, "SceneNodeComponent id");
 		}
 	}
 	@Test
