@@ -20,3 +20,4 @@ jboss.xml
 /target/
 /compass-integration-test/target/
 /compass-js-frontend/target/
+/compass-js-frontend/node_modules/
