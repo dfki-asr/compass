@@ -13,13 +13,19 @@ import java.util.Arrays;
 import java.util.Random;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
+import org.testng.annotations.BeforeTest;
 
 public class ScenarioDeepCopyTest {
+	private Scenario originalScenario, copiedScenario;
+
+	@BeforeTest
+	public void setUp() throws IOException, ClassNotFoundException {
+		originalScenario = initializeScenario();
+		copiedScenario = (Scenario) originalScenario.deepCopy();
+	}
 
 	@Test
 	public void deepCopyScenarioShouldCreateCopy() throws IOException, ClassNotFoundException {
-		Scenario originalScenario = initializeScenario();
-		Scenario copiedScenario = (Scenario) originalScenario.deepCopy();
 		assertTrue(scenarioIsCopy(originalScenario, copiedScenario));
 	}
 
@@ -27,8 +33,6 @@ public class ScenarioDeepCopyTest {
 	public void deepCopyScenarioShouldCopyPreview() throws IOException, ClassNotFoundException {
 		Boolean imageCopied = true;
 
-		Scenario originalScenario = initializeScenario();
-		Scenario copiedScenario = (Scenario) originalScenario.deepCopy();
 
 		Image originalImage = originalScenario.getPreview();
 		Image copiedImage = copiedScenario.getPreview();
@@ -49,8 +53,6 @@ public class ScenarioDeepCopyTest {
 	@Test
 	public void deepCopyScenarioShouldClearIds() throws IOException, ClassNotFoundException {
 		Boolean idsCleared = true;
-		Scenario originalScenario = initializeScenario();
-		Scenario copiedScenario = (Scenario) originalScenario.deepCopy();
 		if (copiedScenario.getId() != 0 ) {
 			idsCleared = false;
 		}
