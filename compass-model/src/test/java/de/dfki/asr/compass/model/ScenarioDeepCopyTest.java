@@ -39,41 +39,19 @@ public class ScenarioDeepCopyTest {
 
 	@Test
 	public void deepCopyScenarioShouldCopyPreview() {
-		Boolean imageCopied = true;
-
-
 		Image originalImage = originalScenario.getPreview();
 		Image copiedImage = copiedScenario.getPreview();
-		if (!(originalImage.getName().equals(copiedImage.getName()))) {
-			imageCopied = false;
-		}
-
-		if (!(originalImage.getMimeType().equals(copiedImage.getMimeType()))) {
-			imageCopied = false;
-		}
-
-		if (!(Arrays.equals(originalImage.getData(), copiedImage.getData()))) {
-			imageCopied = false;
-		}
-		assertTrue(imageCopied);
+		assertEquals(originalImage.getName(), copiedImage.getName(), "Image name");
+		assertEquals(originalImage.getMimeType(), copiedImage.getMimeType(), "Image mimeType");
+		assertTrue(Arrays.equals(originalImage.getData(), copiedImage.getData()), "Image data");
 	}
 
 	@Test
 	public void deepCopyScenarioShouldClearIds() {
-		Boolean idsCleared = true;
-		if (copiedScenario.getId() != 0 ) {
-			idsCleared = false;
-		}
-		if (copiedScenario.getPreview().getId() != 0 ) {
-			idsCleared = false;
-		}
-		if (copiedScenario.getRoot().getId() != 0 ) {
-			idsCleared = false;
-		}
-		if (copiedScenario.getProject().getId() != 0 ) {
-			idsCleared = false;
-		}
-		assertTrue(idsCleared);
+		assertEquals(copiedScenario.getId(), 0, "Scenario id");
+		assertEquals(copiedScenario.getPreview().getId(), 0, "Preview id");
+		assertEquals(copiedScenario.getRoot().getId(), 0, "Root node id");
+		assertEquals(copiedScenario.getProject().getId(), 0, "Project id");
 	}
 
 	private Scenario initializeScenario() {
