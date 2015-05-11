@@ -31,7 +31,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>compass-webapp</artifactId>
+			<artifactId>compass-js-frontend</artifactId>
 			<type>war</type>
 			<version>${project.version}</version>
 		</dependency>
@@ -69,7 +69,7 @@
 					<modules>
 						<webModule>
 							<groupId>${project.groupId}</groupId>
-							<artifactId>compass-webapp</artifactId>
+							<artifactId>compass-js-frontend</artifactId>
 							<contextRoot>/compass</contextRoot>
 						</webModule>
 						<ejbModule>
