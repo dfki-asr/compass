@@ -22,6 +22,7 @@
 		<module>compass-database-initialization</module>
 		<module>compass-rest</module>
 		<module>compass-custom-archetype</module>
+		<module>compass-js-frontend</module>
 		<module>compass-deployment</module>
 		<module>compass-integration-test</module>
 	</modules>
