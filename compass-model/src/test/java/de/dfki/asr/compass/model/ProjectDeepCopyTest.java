@@ -16,23 +16,17 @@ public class ProjectDeepCopyTest {
 	public void deepCopyProjectDeepCopies() throws IOException, ClassNotFoundException {
 		Project originalProject = initializeProject();
 		Project copiedProject = (Project) originalProject.deepCopy();
-		assertTrue(projectIsCopy(originalProject, copiedProject));
+		assertProjectIsCopy(originalProject, copiedProject);
 	}
 
 	@Test
 	public void deepCopyProjectClearedIDs() throws IOException, ClassNotFoundException {
-		Boolean clearedIDs = true;
 		Project originalProject = initializeProject();
 		Project copiedProject = (Project) originalProject.deepCopy();
-		if (copiedProject.getId() != 0) {
-			clearedIDs = false;
+		assertEquals(copiedProject.getId(), 0);
+		for (Scenario copiedScenario: copiedProject.getScenarios()) {
+			assertEquals(copiedScenario.getId(), 0);
 		}
-		for (Scenario s: copiedProject.getScenarios()) {
-			if (s.getId() != 0) {
-				clearedIDs = false;
-			}
-		}
-		assertTrue(clearedIDs);
 	}
 	private Project initializeProject() {
 		Project originalProject = new Project("testProject");
@@ -47,35 +41,23 @@ public class ProjectDeepCopyTest {
 		return originalProject;
 	}
 
-	private Boolean projectIsCopy(final Project original, final Project copy ) {
-		if (!(original.getName().equals(copy.getName()))) {
-			return false;
+	private void assertProjectIsCopy(final Project original, final Project copy ) {
+		assertEquals(original.getName(),copy.getName());
+		assertEquals(original.getScenarios().size(),copy.getScenarios().size());
+		for (int i = 0; i < original.getScenarios().size(); i++) {
+			Scenario origScenario = original.getScenarios().get(i);
+			Scenario copyScenario = copy.getScenarios().get(i);
+			assertScenarioIsCopy(origScenario, copyScenario);
 		}
-		if (original.getScenarios().size() != copy.getScenarios().size()) {
-			return false;
-		}
-		for (Scenario s: original.getScenarios()) {
-			int scenarioIndex = original.getScenarios().indexOf(s);
-			Scenario c = copy.getScenarios().get(scenarioIndex);
-			if (!scenarioIsCopy(s, c)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
-	private Boolean scenarioIsCopy(final Scenario original, final Scenario copy) {
+	private void assertScenarioIsCopy(final Scenario original, final Scenario copy) {
 		//Just check whether scenarios have been copied by comparing their name.
 		//DeepCopy for sceneNodes working correctly is tested seperately and can
 		//be assumed to be true here
-		if (!(original.getName().equals(copy.getName()))) {
-			return false;
-		}
-		SceneNode rootA = original.getRoot();
-		SceneNode rootB = copy.getRoot();
-		if (!(rootA.getName().equals(rootB.getName()))) {
-			return false;
-		}
-		return true;
+		assertEquals(original.getName(), copy.getName());
+		SceneNode origRootSceneNode = original.getRoot();
+		SceneNode copyRootSceneNode = copy.getRoot();
+		assertEquals(origRootSceneNode.getName(), copyRootSceneNode.getName());
 	}
 }
