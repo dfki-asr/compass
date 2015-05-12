@@ -57,7 +57,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>install browserify vinyl-source-stream vinyl-buffer gulp-util gulp-sourcemaps uniq</arguments>
+							<arguments>install</arguments>
 						</configuration>
 					</execution>
 					<execution>
