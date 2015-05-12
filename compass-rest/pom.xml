@@ -36,7 +36,7 @@
 		<packageVersion.dir>de/dfki/asr/compass/rest/mixins</packageVersion.dir>
 		<packageVersion.package>${project.groupId}.rest.mixins</packageVersion.package>
 
-		<replacer.version>1.5.2</replacer.version>
+		<replacer.version>1.5.3</replacer.version>
 
 		<swagger.templateDirectory>${basedir}/src/swagger/templates</swagger.templateDirectory>
 		<swagger.target>${basedir}/target/swagger</swagger.target>
