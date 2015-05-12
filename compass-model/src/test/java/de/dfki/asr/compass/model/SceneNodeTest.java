@@ -6,6 +6,7 @@
  */
 package de.dfki.asr.compass.model;
 
+import de.dfki.asr.compass.math.Vector3f;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -68,5 +69,33 @@ public class SceneNodeTest {
 		parent.setParent(grandparent);
 		child.setParent(parent);
 		assertTrue(child.isChildOf(grandparent));
+	}
+
+	public void sceneNodeIsChildShouldReturnFalse () {
+		SceneNode parent = new SceneNode();
+		SceneNode noChild = new SceneNode();
+		assertFalse(noChild.isChildOf(parent));
+	}
+
+	@Test
+	public void sceneNodeIsChildShouldReturnTrue () {
+		SceneNode parent = new SceneNode();
+		SceneNode child = new SceneNode();
+		child.setParent(parent);
+		assertTrue(child.isChildOf(parent));
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void sceneNodeAddComponentShouldThrowIllegalArgument() {
+		SceneNode sceneNode = new SceneNode();
+		sceneNode.addComponent(null);
+	}
+
+	@Test
+	public void sceneNodeWorldSpaceOfRootShouldBeLocal() {
+		SceneNode sceneNode = new SceneNode();
+		sceneNode.setLocalTranslation(new Vector3f(10.0f, 20.0f, 30.0f));
+		sceneNode.setLocalRoll(40.0);
+		assertEquals(sceneNode.getWorldSpaceTransform(), sceneNode.getLocalTransform());
 	}
 }
