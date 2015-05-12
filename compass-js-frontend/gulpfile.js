@@ -8,7 +8,7 @@ var srcFiles = [
 
 var destination = "./target/webapp";
 
-gulp.task("default", function(){
+gulp.task("build", function(){
 	gulp.src(srcFiles)
 			.pipe(gulp.dest(destination));
 });
