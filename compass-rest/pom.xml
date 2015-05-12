@@ -27,14 +27,14 @@
 	</licenses>
 
 	<properties>
+		<!-- Generate PackageVersion.java into this directory. -->
+		<packageVersion.dir>de/dfki/asr/compass/rest/mixins</packageVersion.dir>
+		<packageVersion.package>${project.groupId}.rest.mixins</packageVersion.package>
 		<!-- borrowed from com.fasterxml.oss-parent pom -->
 		<generatedSourcesDir>${project.build.directory}/generated-sources</generatedSourcesDir>
 		<packageVersion.template.input>${basedir}/src/main/java/${packageVersion.dir}/PackageVersion.java.in</packageVersion.template.input>
 		<packageVersion.template.outputDirectory>${generatedSourcesDir}/maven-replacer-plugin/${packageVersion.dir}</packageVersion.template.outputDirectory>
 		<packageVersion.template.output>${packageVersion.template.outputDirectory}/PackageVersion.java</packageVersion.template.output>
-		<!-- Generate PackageVersion.java into this directory. -->
-		<packageVersion.dir>de/dfki/asr/compass/rest/mixins</packageVersion.dir>
-		<packageVersion.package>${project.groupId}.rest.mixins</packageVersion.package>
 
 		<replacer.version>1.5.3</replacer.version>
 
