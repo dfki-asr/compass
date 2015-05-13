@@ -75,6 +75,7 @@
 						<goals>
 							<goal>npm</goal>
 						</goals>
+						<phase>process-resources</phase>
 						<configuration>
 							<arguments>install</arguments>
 						</configuration>
@@ -84,6 +85,7 @@
 						<goals>
 							<goal>gulp</goal>
 						</goals>
+						<phase>compile</phase>
 						<configuration>
 							<arguments>build</arguments>
 						</configuration>
