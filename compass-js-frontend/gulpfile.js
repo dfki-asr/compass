@@ -27,8 +27,6 @@ var browserifyOptions = {
 	debug: true
 };
 var b = browserify(browserifyOptions);
-
-gulp.task("js", bundle); // so you can run `gulp js` to build the file
 b.on('log', gutil.log); // output build logs to terminal
 
 function bundle() {
