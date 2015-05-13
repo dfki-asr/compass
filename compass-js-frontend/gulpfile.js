@@ -15,10 +15,10 @@ var htmlFiles = [
 	];
 var destination = "./target/webapp";
 
--gulp.task("build", function(){
+gulp.task("build", function(){
 	bundle();
-	gulp.src(htmlFiles)
-			.pipe(gulp.dest(destination));
+	gulp.src(extraFiles)
+	    .pipe(gulp.dest(destination));
 });
 
 var browserifyOptions = {
