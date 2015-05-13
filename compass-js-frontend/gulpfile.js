@@ -1,7 +1,9 @@
 "use strict";
 
 var browserify = require('browserify');
+var watch = require('gulp-watch');
 var gulp = require('gulp');
+var connect = require('gulp-connect');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
@@ -17,8 +19,7 @@ var destination = "./target/webapp";
 
 gulp.task("build", function(){
 	bundle();
-	gulp.src(extraFiles)
-	    .pipe(gulp.dest(destination));
+	copyHTMLFiles();
 });
 
 var browserifyOptions = {
@@ -38,9 +39,25 @@ function bundle() {
     .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
     .pipe(sourcemaps.write('./')) // writes .map file
     .pipe(gulp.dest(destination));
-}
+};
+
+function copyHTMLFiles(){
+	return gulp.src(extraFiles)
+			.pipe(gulp.dest(destination));
+};
 
 gulp.task("clean", function(cb) {
 	del([destination], cb);
 });
 
+gulp.task("watch", function(){
+	connect.server({
+		port: 3030,
+		root: "./target/webapp"
+	});
+	var filesToWatch = srcFolder + "**/*.*";
+	watch(filesToWatch, function(){
+		bundle();
+		copyHTMLFiles();
+	});
+});
