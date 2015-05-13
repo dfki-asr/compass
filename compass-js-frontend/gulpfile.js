@@ -12,14 +12,14 @@ var del = require("del");
 var pkg = require("./package.json");
 
 var srcFolder = "./src/main/webapp/";
-var htmlFiles = [
-		srcFolder + "index.html"
+var extraFiles = [
+		srcFolder + "**/*.html"
 	];
 var destination = "./target/webapp";
 
 gulp.task("build", function(){
 	bundle();
-	copyHTMLFiles();
+	copyExtraFiles();
 });
 
 var browserifyOptions = {
@@ -41,7 +41,7 @@ function bundle() {
     .pipe(gulp.dest(destination));
 };
 
-function copyHTMLFiles(){
+function copyExtraFiles(){
 	return gulp.src(extraFiles)
 			.pipe(gulp.dest(destination));
 };
@@ -58,6 +58,6 @@ gulp.task("watch", function(){
 	var filesToWatch = srcFolder + "**/*.*";
 	watch(filesToWatch, function(){
 		bundle();
-		copyHTMLFiles();
+		copyExtraFiles();
 	});
 });
