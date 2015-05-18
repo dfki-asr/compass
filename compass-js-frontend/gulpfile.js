@@ -27,18 +27,18 @@ var b = browserify(browserifyOptions);
 b.on('log', gutil.log); // output build logs to terminal
 
 gulp.task("bundle", function() {
-  return b.bundle()
-    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('bundle.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-    .pipe(sourcemaps.write('./')) // writes .map file
-    .pipe(gulp.dest(destination));
+	return b.bundle()
+	        .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+	        .pipe(source('bundle.js'))
+	        .pipe(buffer())
+	        .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
+	        .pipe(sourcemaps.write('./')) // writes .map file
+	        .pipe(gulp.dest(destination));
 });
 
 gulp.task("copyFiles", function (){
 	return gulp.src(extraFiles)
-			.pipe(gulp.dest(destination));
+	           .pipe(gulp.dest(destination));
 });
 
 gulp.task("clean", function(cb) {
