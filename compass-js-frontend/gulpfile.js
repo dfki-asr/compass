@@ -17,10 +17,7 @@ var extraFiles = [
 	];
 var destination = "./target/webapp";
 
-gulp.task("build", function(){
-	bundle();
-	copyExtraFiles();
-});
+gulp.task("build", ["bundle", "copyFiles"]);
 
 var browserifyOptions = {
 	entries: [srcFolder + "index.js"],
@@ -29,7 +26,7 @@ var browserifyOptions = {
 var b = browserify(browserifyOptions);
 b.on('log', gutil.log); // output build logs to terminal
 
-function bundle() {
+gulp.task("bundle", function() {
   return b.bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source('bundle.js'))
@@ -37,25 +34,22 @@ function bundle() {
     .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
     .pipe(sourcemaps.write('./')) // writes .map file
     .pipe(gulp.dest(destination));
-};
+});
 
-function copyExtraFiles(){
+gulp.task("copyFiles", function (){
 	return gulp.src(extraFiles)
 			.pipe(gulp.dest(destination));
-};
+});
 
 gulp.task("clean", function(cb) {
 	del([destination], cb);
 });
 
-gulp.task("watch", function(){
+gulp.task("watch", ["build"], function(){
 	connect.server({
 		port: 3030,
 		root: "./target/webapp"
 	});
 	var filesToWatch = srcFolder + "**/*.*";
-	watch(filesToWatch, function(){
-		bundle();
-		copyExtraFiles();
-	});
+	gulp.watch(filesToWatch, ["build"]);
 });
