@@ -122,9 +122,17 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
-					<warSourceDirectory>
-						${project.build.directory}/webapp
-					</warSourceDirectory>
+					<warSourceExcludes>**</warSourceExcludes>
+					<warSourceIncludes></warSourceIncludes>
+					<webResources>
+						<resource>
+							<directory>${project.build.directory}/webapp</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>**</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 		</plugins>
