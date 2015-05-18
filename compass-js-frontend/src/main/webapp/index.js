@@ -6,3 +6,19 @@
  */
 "use strict";
 
+var $ = require("jquery");
+var ProjectCollection = require("./collection/project-collection");
+
+$(window).load(function (event) {
+	var pc = new ProjectCollection();
+	pc.fetch({
+		success: function (model, response, options) {
+			model.forEach(function (project) {
+				console.log(project.name);
+			});
+		},
+		error: function (model, response, options) {
+			console.log("Niederlage ");
+		}
+	});
+});
