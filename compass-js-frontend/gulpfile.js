@@ -9,7 +9,6 @@ var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var del = require("del");
-var pkg = require("./package.json");
 
 var srcFolder = "./src/main/webapp/";
 var extraFiles = [
