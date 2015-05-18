@@ -28,5 +28,6 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "ampersand-model": "^5.0.3",
   }
 }
