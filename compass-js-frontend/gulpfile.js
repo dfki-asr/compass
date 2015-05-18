@@ -7,6 +7,7 @@ var connect = require('gulp-connect');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
+var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var del = require("del");
 
@@ -16,7 +17,16 @@ var extraFiles = [
 	];
 var destination = "./target/webapp";
 
-gulp.task("build", ["bundle", "copyFiles"]);
+gulp.task("build", ["bundle", "sass", "copyFiles"]);
+
+gulp.task("sass", function(){
+	var src = srcFolder + "**/*.scss";
+	gulp.src(src)
+		.pipe(sourcemaps.init())
+		.pipe(sass().on('error', sass.logError))
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(destination));
+});
 
 var browserifyOptions = {
 	entries: [srcFolder + "index.js"],
