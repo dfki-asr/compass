@@ -10,6 +10,8 @@ var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var del = require("del");
+var html = require('html-browserify');
+var riotify = require('riotify');
 
 var srcFolder = "./src/main/webapp/";
 var extraFiles = [
@@ -39,7 +41,11 @@ gulp.task("vendorcss", function(){
 
 var browserifyOptions = {
 	entries: [srcFolder + "app.js"],
-	debug: true
+	debug: true,
+	transform: [
+		html,
+		[riotify]
+	]
 };
 var b = browserify(browserifyOptions);
 b.on('log', gutil.log); // output build logs to terminal
