@@ -2,7 +2,7 @@
   "name": "compass-js-frontend",
   "version": "2.1.0-SNAPSHOT",
   "description": "Javascript based web frontend for COMPASS.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

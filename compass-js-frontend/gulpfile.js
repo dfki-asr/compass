@@ -29,7 +29,7 @@ gulp.task("sass", function(){
 });
 
 var browserifyOptions = {
-	entries: [srcFolder + "index.js"],
+	entries: [srcFolder + "app.js"],
 	debug: true
 };
 var b = browserify(browserifyOptions);
