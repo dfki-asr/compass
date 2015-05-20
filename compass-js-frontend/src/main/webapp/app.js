@@ -6,7 +6,7 @@
  */
 "use strict";
 
-var $ = require("jquery");
+window.$ = window.jQuery = require("jquery");
 var ProjectCollection = require("./collection/project-collection");
 
 $(window).load(function (event) {
