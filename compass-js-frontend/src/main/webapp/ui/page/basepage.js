@@ -8,7 +8,7 @@
 "use strict";
 
 var app = require('ampersand-app');
-var template = require('../ui/templates/basepage.html');
+var template = require('../templates/basepage.html');
 var AmpersandView = require('ampersand-view');
 
 //this is the BasePage - all other pages extend from it
