@@ -17,7 +17,7 @@ var extraFiles = [
 	];
 var destination = "./target/webapp";
 
-gulp.task("build", ["bundle", "sass", "copyFiles"]);
+gulp.task("build", ["bundle", "vendorcss","sass", "copyFiles"]);
 
 gulp.task("sass", function(){
 	var src = srcFolder + "**/*.scss";
@@ -26,6 +26,15 @@ gulp.task("sass", function(){
 		.pipe(sass().on('error', sass.logError))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(destination));
+});
+
+gulp.task("vendorcss", function(){
+	var src = [
+		"./node_modules/bootstrap/dist/css/bootstrap.css",
+		"./node_modules/bootstrap/dist/css/bootstrap.css.map"
+	];
+	return gulp.src(src)
+			.pipe(gulp.dest(destination + "/css"));
 });
 
 var browserifyOptions = {
