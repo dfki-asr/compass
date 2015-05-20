@@ -9,19 +9,21 @@
 window.$ = window.jQuery = require("jquery");
 
 var app = require("ampersand-app");
+var CompassRouter = require("./routing/router");
 
 app.extend({
 	init: function () {
 		console.log('Initializing the global App-Singleton.');
 		app.version = "2.0.1";
 		app.name = "COMPASS";
-		//app.router = new Router();
+		app.router = new CompassRouter();
 		app.basePath = "/";
 		app.rootDomElement = document.getElementById("app");
 		$(document).ready(function () {
 			console.log('DOM is ready ... Initialize UI and Routing.');
 			app.initUI();
 			app.initRouting();
+			app.navigate("/start");
 		});
 		//helper function for easy navigating between pages (taken from AmpersandJS docs)
 		app.navigate = function(page) {
@@ -29,7 +31,7 @@ app.extend({
 			if (url.indexOf('/') !== -1) {
 				url = url.match(/\/(.*?)$/)[1];
 			}
-			//this.router.history.navigate(url, {trigger: true});
+			this.router.history.navigate(url, {trigger: true});
 		};
 		app.initUI= function(){
 			console.log("Initalize UI ... Start with MainView");
@@ -39,7 +41,7 @@ app.extend({
 		};
 		app.initRouting = function(){
 			console.log("Initalize routing ... navigate to /start");
-			app.navigate("/start");
+			app.router.history.start({pushState: true, root: app.basePath, silent: true});
 		};
 	}
 });
