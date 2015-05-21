@@ -57,6 +57,7 @@ app.extend({
 module.exports = (function () {
 	console.log("Start Initialization ...");
 	app.init();
+	window.app = app; //for debugging only
 	console.log("App is up and running ... COMPASS version " + app.version);
 }());
 
