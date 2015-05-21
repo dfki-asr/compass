@@ -13,7 +13,6 @@ var BasePage = require('./basepage');
 var riot = require("riot");
 require("../tags/dummy.tag");
 
-//this is the BasePage - all other pages extend from it
 var StartPage = BasePage.extend({
 	pageTitle: 'Start Page',
 	template: template,
