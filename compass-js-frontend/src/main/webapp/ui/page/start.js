@@ -17,6 +17,7 @@ var StartPage = BasePage.extend({
 	pageTitle: 'Start Page',
 	template: template,
 	initialize: function (options) {
+		app.projects.on("sync", this.initUI.bind(this));
 	},
 	render: function () {
 		this.renderWithTemplate();
