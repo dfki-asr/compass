@@ -36,8 +36,6 @@ var MainView = AmpersandView.extend({
             show: function(newView, oldView) {
                 document.title = "COMPASS - " + (_.result(newView, 'pageTitle') || "");
                 document.scrollTop = 0;
-                //when a page gets switched make it visible in the top-menu
-                AmpersandDom.addClass(newView.el, 'active');
                 app.currentPage = newView;
             }
         });
