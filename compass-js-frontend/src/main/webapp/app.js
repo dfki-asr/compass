@@ -24,6 +24,7 @@ app.extend({
 			console.log('DOM is ready ... Initialize UI and Routing.');
 			app.initUI();
 			app.initRouting();
+			console.log("Initalization done ... navigate to /start");
 			app.navigate("/start");
 		});
 		//helper function for easy navigating between pages (taken from AmpersandJS docs)
@@ -41,7 +42,8 @@ app.extend({
 			//});
 		};
 		app.initRouting = function(){
-			console.log("Initalize routing ... navigate to /start");
+			console.log("Initalize routing ...");
+			app.router.on('page', this.mainView.handleNewPage, this.mainView);
 			app.router.history.start({pushState: true, root: app.basePath, silent: true});
 		};
 	}
