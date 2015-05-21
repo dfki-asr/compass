@@ -11,6 +11,7 @@ var AmpersandModel = require("ampersand-model");
 
 var Project = AmpersandModel.extend({
 	props: {
+		id: "number",
 		name: {
 			type: "string",
 			required: true,
