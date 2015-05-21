@@ -11,7 +11,7 @@ var app = require('ampersand-app');
 var template = require('../templates/startpage.html');
 var BasePage = require('./basepage');
 var riot = require("riot");
-require("../tags/dummy.tag");
+require("../tags/project-selection.tag");
 
 var StartPage = BasePage.extend({
 	pageTitle: 'Start Page',
@@ -26,23 +26,8 @@ var StartPage = BasePage.extend({
 		this.initRiot();
 	},
 	initRiot: function () {
-		//here we mount a RiotJS tag and send some options to it.
-		//The first parameter is the name of the tag like declared in its
-		//tag-file. The second parameter is the "opts" object which will
-		//later be used to read properties during the execution of the
-		//logic inside <script></script> in dummy.tag file
-		//But keep in mind that RiotJS doesn't expect you to explicitely
-		//write a <script></script>. You can simply write your whole logic
-		//after the last HTML-element inside a *.tag-file and RiotJS compiler
-		//will automatically recognize it.
-		//More info:  https://muut.com/riotjs/guide/#tag-syntax
-		riot.mount('dummy', {
-			title: 'I want to behave!',
-			items: [
-				{title: 'Avoid excessive coffeine', text: 'Argh!', done: true},
-				{title: 'Be less provocative', text: 'Argh!', done: true},
-				{title: 'Be nice to people', text: 'Argh!', done: true}
-			]
+		riot.mount('projectselection', {
+			projects: app.projects
 		});
 	}
 });
