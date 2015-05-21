@@ -39,5 +39,6 @@
     "ampersand-view": "^7.4.0",
     "bootstrap": "^3.3.4",
     "jquery": "^2.1.4"
+    "riot": "^2.1.0"
   }
 }
