@@ -65,7 +65,6 @@ by using HTML-attributes directly on the tag itself. See pages/home-page.js
     }
     .riot-style {
       position:relative;
-      left:40%;
       top:0px;
       font-family: Trebuchet MS,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Tahoma,sans-serif
     }
