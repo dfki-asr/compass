@@ -25,12 +25,6 @@ var MainView = AmpersandView.extend({
     initialize: function() {
         this.listenTo(app.router, 'page', this.handleNewPage);
     },
-    bindings: {
-        'model.name': {
-            type: 'text',
-            hook: 'user-fullname'
-        }
-    },
     events: {
         'click a[href]': 'handleLinkClick'
     },
