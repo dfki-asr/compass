@@ -29,21 +29,21 @@ app.extend({
 			app.navigate("/start");
 		});
 		//helper function for easy navigating between pages (taken from AmpersandJS docs)
-		app.navigate = function(page) {
+		app.navigate = function (page) {
 			var url = (page.charAt(0) === '/') ? page.slice(1) : page;
 			if (url.indexOf('/') !== -1) {
 				url = url.match(/\/(.*?)$/)[1];
 			}
 			this.router.history.navigate(url, {trigger: true});
 		};
-		app.initUI= function(){
+		app.initUI = function () {
 			console.log("Initalize UI ... Start with MainView");
 			this.mainView = new MainView({
 				el: this.rootDomElement
 			});
 			this.mainView.render();
 		};
-		app.initRouting = function(){
+		app.initRouting = function () {
 			console.log("Initalize routing ...");
 			app.router.on('page', this.mainView.handleNewPage, this.mainView);
 			app.router.history.start({pushState: true, root: app.basePath, silent: true});
@@ -54,6 +54,6 @@ app.extend({
 module.exports = (function () {
 	console.log("Start Initialization ...");
 	app.init();
-	console.log("Shit is up and running ... COMPASS version " + app.version);
+	console.log("App is up and running ... COMPASS version " + app.version);
 }());
 
