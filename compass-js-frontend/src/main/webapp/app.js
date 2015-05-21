@@ -7,7 +7,7 @@
 "use strict";
 
 window.$ = window.jQuery = require("jquery");
-window.bootstrap = require("bootstrap"); //load Bootstrap jQuery plugins onto the jQuery object
+require("bootstrap"); //load Bootstrap jQuery plugins onto the jQuery object
 
 var app = require("ampersand-app");
 var CompassRouter = require("./routing/router");
