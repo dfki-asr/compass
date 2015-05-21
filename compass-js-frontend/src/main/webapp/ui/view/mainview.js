@@ -40,7 +40,7 @@ var MainView = AmpersandView.extend({
         //take the element with the hook ('child-page') and make it the root-el for all other views
         this.pageSwitcher = new AmpersandViewSwitcher(this.queryByHook('child-page'), {
             show: function(newView, oldView) {
-                document.title = _.result(newView, 'pageTitle') || "COMPASS";
+                document.title = "COMPASS - " + (_.result(newView, 'pageTitle') || "");
                 document.scrollTop = 0;
                 //when a page gets switched make it visible in the top-menu
                 AmpersandDom.addClass(newView.el, 'active');
