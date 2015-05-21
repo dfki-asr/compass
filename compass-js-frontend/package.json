@@ -34,6 +34,7 @@
   "dependencies": {
     "ampersand-app": "^1.0.4",
     "ampersand-dom": "^1.4.0",
+    "ampersand-events": "^1.1.1",
     "ampersand-model": "^5.0.3",
     "ampersand-rest-collection": "^4.0.0",
     "ampersand-router": "^3.0.2",
