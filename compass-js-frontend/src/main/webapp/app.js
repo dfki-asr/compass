@@ -11,6 +11,7 @@ window.bootstrap = require("bootstrap"); //load Bootstrap jQuery plugins onto th
 
 var app = require("ampersand-app");
 var CompassRouter = require("./routing/router");
+var ProjectCollection = require("./collection/project-collection");
 var MainView = require("./ui/view/mainview");
 
 app.extend({
@@ -21,6 +22,8 @@ app.extend({
 		app.router = new CompassRouter();
 		app.basePath = "/";
 		app.rootDomElement = document.getElementById("app");
+		app.projects = new ProjectCollection();
+		app.projects.fetch();
 		$(document).ready(function () {
 			console.log('DOM is ready ... Initialize UI and Routing.');
 			app.initUI();
