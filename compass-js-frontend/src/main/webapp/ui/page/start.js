@@ -11,7 +11,7 @@ var app = require('ampersand-app');
 var template = require('../templates/startpage.html');
 var BasePage = require('./basepage');
 var riot = require("riot");
-require("../tags/project-selection.tag");
+require("../tags/list-selection.tag");
 
 var StartPage = BasePage.extend({
 	pageTitle: 'Start Page',
@@ -27,8 +27,10 @@ var StartPage = BasePage.extend({
 		this.initRiot();
 	},
 	initRiot: function () {
-		riot.mount('projectselection', {
-			projects: app.projects
+		riot.mount("#projectselection", {
+			list: app.projects
+		});
+	},
 		});
 	}
 });
