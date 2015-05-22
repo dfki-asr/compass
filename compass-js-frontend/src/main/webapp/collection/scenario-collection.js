@@ -20,8 +20,8 @@ var ScenarioCollection = AmpersandRestCollection.extend({
 	},
 	url: "http://localhost:8080/compass/resources/restv1/scenarios/",
 	selectById: function(id){
-		this.each(function(p){
-			p.selected = false;
+		this.each(function(s){
+			s.selected = false;
 		});
 		this.get(id).selected = true;
 	}

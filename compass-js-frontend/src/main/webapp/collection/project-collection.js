@@ -30,7 +30,7 @@ var ProjectCollection = AmpersandRestCollection.extend({
 					//the events do not bubble from scenarioCollection (child) to project (parent)
 					//see: http://ampersandjs.com/docs#ampersand-state-collections
 					//thus we trigger them here...
-					project.scenarios.trigger("change", project);
+					project.trigger("change:scenarios", project);
 				}
 			});
 		});

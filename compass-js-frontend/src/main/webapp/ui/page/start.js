@@ -18,6 +18,8 @@ var StartPage = BasePage.extend({
 	template: template,
 	initialize: function (options) {
 		app.projects.on("sync", this.initUI.bind(this));
+		app.projects.on("change:selected", this.renderScenarioList.bind(this));
+		app.projects.on("change:scenarios", this.renderScenarioList.bind(this));
 	},
 	render: function () {
 		this.renderWithTemplate();
@@ -31,6 +33,12 @@ var StartPage = BasePage.extend({
 			list: app.projects
 		});
 	},
+	renderScenarioList: function(project){
+		if(!project.selected){
+			return;
+		}
+		riot.mount("#scenarioselection", {
+			list: project.scenarios
 		});
 	}
 });
