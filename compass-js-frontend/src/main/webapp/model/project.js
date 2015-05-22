@@ -8,6 +8,7 @@
 "use strict";
 
 var AmpersandModel = require("ampersand-model");
+var ScenarioCollection = require("../collection/scenario-collection");
 
 var Project = AmpersandModel.extend({
 	props: {
@@ -17,14 +18,10 @@ var Project = AmpersandModel.extend({
 			required: true,
 			default: "Default Name"
 		},
-		scenarios: {
-			type: "array",
-			required: false,
-			default: function(){
-					return new Array();
-			}
-		},
 		prefabSet: "object"
+	},
+	collections:{
+		scenarios: ScenarioCollection
 	},
 	session: {
 		selected: ["boolean", true, false]
