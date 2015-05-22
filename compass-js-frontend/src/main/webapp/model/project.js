@@ -26,6 +26,14 @@ var Project = AmpersandModel.extend({
 	session: {
 		selected: ["boolean", true, false]
 	},
+	parse: function(attrs){
+		var scenarios = attrs.scenarios;
+		for(var index in scenarios){
+			var id = scenarios[index];
+			scenarios[index] = {id: id};
+		}
+		return attrs;
+	},
 	ajaxConfig: {
 		headers: {
 			"Accept": "application/json"
