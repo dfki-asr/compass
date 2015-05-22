@@ -58,6 +58,10 @@ module.exports = (function () {
 	console.log("Start Initialization ...");
 	app.init();
 	window.app = app; //for debugging only
+	app.projects.on("change:selected", function(model){
+		if(model.selected)
+			console.log("Selected project: " + model.name);
+	});
 	console.log("App is up and running ... COMPASS version " + app.version);
 }());
 

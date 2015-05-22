@@ -17,7 +17,13 @@ var ProjectCollection = AmpersandRestCollection.extend({
 			"Accept": "application/json"
 		}
 	},
-	url: "http://localhost:8080/compass/resources/restv1/projects/"
+	url: "http://localhost:8080/compass/resources/restv1/projects/",
+	selectById: function(id){
+		this.each(function(p){
+			p.selected = false;
+		});
+		this.get(id).selected = true;
+	}
 });
 
 module.exports = exports = ProjectCollection;
