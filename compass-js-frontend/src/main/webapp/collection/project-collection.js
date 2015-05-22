@@ -22,7 +22,18 @@ var ProjectCollection = AmpersandRestCollection.extend({
 		this.each(function(p){
 			p.selected = false;
 		});
-		this.get(id).selected = true;
+		var project = this.get(id);
+		project.selected = true;
+		project.scenarios.each(function(s){
+			s.fetch({
+				success: function(s){
+					//the events do not bubble from scenarioCollection (child) to project (parent)
+					//see: http://ampersandjs.com/docs#ampersand-state-collections
+					//thus we trigger them here...
+					project.scenarios.trigger("change", project);
+				}
+			});
+		});
 	}
 });
 
