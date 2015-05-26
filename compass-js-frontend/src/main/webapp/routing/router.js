@@ -28,7 +28,7 @@ var CompassRouter = AmpersandRouter.extend({
 	},
 	editor: function(){},
 	catchAll: function(){
-		app.navigate("/start", {replace: true});
+		this.redirectTo("start");
 	}
 });
 
