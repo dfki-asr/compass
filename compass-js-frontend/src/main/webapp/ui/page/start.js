@@ -26,15 +26,12 @@ var StartPage = BasePage.extend({
 		return this;
 	},
 	initUI: function () {
-		this.initRiot();
-	},
-	initRiot: function () {
 		riot.mount("#projectselection", {
 			list: app.projects
 		});
 	},
-	renderScenarioList: function(project){
-		if(!project.selected){
+	renderScenarioList: function (project) {
+		if (!project.selected) {
 			return;
 		}
 		riot.mount("#scenarioselection", {
