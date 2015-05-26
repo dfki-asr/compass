@@ -24,14 +24,23 @@ var StartPage = BasePage.extend({
 		app.projects.on("change:selected", this.renderScenarioList.bind(this));
 		app.projects.on("change:scenarios", this.renderScenarioList.bind(this));
 	},
+	onProjectEntryClick: function(event) {
+		// curiously, item is double-wrapped.
+		app.projects.selectById(event.item.item.id);
+	},
+	onScenarioEntryClick: function(event) {
+		// nothing yet
+	},
 	render: function () {
 		this.renderWithTemplate();
 		this.projectSelectionList = riot.mount(
 			this.el.querySelector("#projectselection"), {
 			collection: app.projects,
+			clickHandler: this.onProjectEntryClick.bind(this)
 		});
 		this.scenarioSelectionList = riot.mount(
 			this.el.querySelector("#scenarioselection"), {
+			clickHandler: this.onScenarioEntryClick.bind(this)
 		});
 		return this;
 	},
