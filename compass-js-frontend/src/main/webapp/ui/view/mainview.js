@@ -25,9 +25,6 @@ var MainView = AmpersandView.extend({
     initialize: function() {
         this.listenTo(app.router, 'page', this.handleNewPage);
     },
-    events: {
-        'click a[href]': 'handleLinkClick'
-    },
     render: function() {
         document.head.appendChild(domify(htmlHeaderTemplate));
         this.renderWithTemplate();
@@ -43,19 +40,6 @@ var MainView = AmpersandView.extend({
     },
     handleNewPage: function(view) {
         this.pageSwitcher.set(view);
-    },
-    //for client-side routing
-    handleLinkClick: function(e) {
-        var aTag = e.target;
-        var host = aTag.host;
-        if (host === '') {
-            host = location.host;
-        }
-        var local = host === window.location.host;
-        if (local && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
-            e.preventDefault();
-            app.navigate(aTag.pathname);
-        }
     }
 });
 
