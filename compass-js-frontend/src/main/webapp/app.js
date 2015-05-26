@@ -4,9 +4,12 @@
  * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
+
+/* global global */
+
 "use strict";
 
-window.$ = window.jQuery = require("jquery");
+var jQuery = global.jQuery = require("jquery");
 require("bootstrap"); //load Bootstrap jQuery plugins onto the jQuery object
 
 var app = require("ampersand-app");
@@ -20,16 +23,15 @@ app.extend({
 		app.name = "COMPASS";
 		app.router = new CompassRouter();
 		app.basePath = "/";
-		app.rootDomElement = document.getElementById("app");
 		app.projects = new ProjectCollection();
 		app.projects.fetch();
-		$(document).ready(function () {
+		jQuery(global.document).ready(function () {
 			app.initUI();
 			app.initRouting();
 		});
 		app.initUI = function () {
 			this.mainView = new MainView({
-				el: this.rootDomElement
+				el: global.document.getElementById("app")
 			});
 			this.mainView.render();
 		};
