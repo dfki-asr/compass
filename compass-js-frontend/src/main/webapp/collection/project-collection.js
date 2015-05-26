@@ -12,6 +12,7 @@ var Project = require("./../model/project");
 
 var ProjectCollection = AmpersandRestCollection.extend({
 	model: Project,
+	selectedProject: undefined,
 	ajaxConfig: {
 		headers: {
 			"Accept": "application/json"
@@ -19,11 +20,11 @@ var ProjectCollection = AmpersandRestCollection.extend({
 	},
 	url: "http://localhost:8080/compass/resources/restv1/projects/",
 	selectById: function(id){
-		this.each(function(p){
-			p.selected = false;
-		});
-		var project = this.get(id);
-		project.selected = true;
+		var newSelection = this.get(id);
+		if (newSelection === this.selectedProject) {
+			return;
+		}
+		var project = this.selectedProject = newSelection;
 		project.scenarios.each(function(s){
 			s.fetch({
 				success: function(s){
@@ -34,6 +35,13 @@ var ProjectCollection = AmpersandRestCollection.extend({
 				}
 			});
 		});
+		this.trigger("change:selected");
+	},
+	isSelected: function(model) {
+		return this.selectedProject && this.selectedProject === model;
+	},
+	getSelected: function() {
+		return this.selectedProject;
 	}
 });
 
