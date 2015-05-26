@@ -23,7 +23,6 @@ var CompassRouter = AmpersandRouter.extend({
 	start: function(){
 		var page = new StartPage();
 		this.trigger('page', page);
-		page.initUI();
 	},
 	editor: function(){},
 	catchAll: function(){

@@ -11,32 +11,42 @@ var app = require('ampersand-app');
 var template = require('../templates/startpage.html');
 var BasePage = require('./basepage');
 var riot = require("riot");
+var _ = require('lodash');
 require("../tags/list-selection.tag");
 
 var StartPage = BasePage.extend({
 	pageTitle: 'Start Page',
 	template: template,
+	projectSelectionList: undefined,
+	scenarioSelectionList: undefined,
 	initialize: function (options) {
-		app.projects.on("sync", this.initUI.bind(this));
+		app.projects.on("sync", this.renderScenarioList.bind(this));
 		app.projects.on("change:selected", this.renderScenarioList.bind(this));
 		app.projects.on("change:scenarios", this.renderScenarioList.bind(this));
 	},
 	render: function () {
 		this.renderWithTemplate();
+		this.projectSelectionList = riot.mount(
+			this.el.querySelector("#projectselection"), {
+			collection: app.projects,
+		});
+		this.scenarioSelectionList = riot.mount(
+			this.el.querySelector("#scenarioselection"), {
+		});
 		return this;
 	},
-	initUI: function () {
-		riot.mount("#projectselection", {
-			list: app.projects
-		});
-	},
 	renderScenarioList: function (project) {
-		if (!project.selected) {
-			return;
-		}
-		riot.mount("#scenarioselection", {
-			list: project.scenarios
+		_.each(this.projectSelectionList, function (tag) {
+			tag.update(); // just the selection
 		});
+		var selectedProject = app.projects.getSelected();
+		if (selectedProject) {
+			_.each(this.scenarioSelectionList, function(tag) {
+				// why do I need opts here?
+				// isn't this the equivalent of React's setState()?
+				tag.update({opts:{collection: selectedProject.scenarios}});
+			});
+		}
 	}
 });
 module.exports = StartPage;
