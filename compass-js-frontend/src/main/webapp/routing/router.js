@@ -16,7 +16,6 @@ var CompassRouter = AmpersandRouter.extend({
 		//nothing to do here ...
 	},
 	routes: {
-		"" : "start",
 		"start" : "start",
 		"editor" : "editor",
 		"(*path)" : "catchAll"
