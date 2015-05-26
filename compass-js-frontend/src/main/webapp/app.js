@@ -35,7 +35,7 @@ app.extend({
 		};
 		app.initRouting = function () {
 			app.router.on('page', this.mainView.handleNewPage, this.mainView);
-			app.router.history.start({pushState: true, root: app.basePath, silent: true});
+			app.router.history.start({pushState: false, root: app.basePath});
 		};
 	}
 });
