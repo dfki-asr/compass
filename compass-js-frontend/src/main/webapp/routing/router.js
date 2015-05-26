@@ -10,6 +10,7 @@
 var app = require('ampersand-app');
 var AmpersandRouter = require('ampersand-router');
 var StartPage = require("./../ui/page/start");
+var EditorPage = require("./../ui/page/editor");
 
 var CompassRouter = AmpersandRouter.extend({
 	initialize: function() {
@@ -24,7 +25,11 @@ var CompassRouter = AmpersandRouter.extend({
 		var page = new StartPage();
 		this.trigger('page', page);
 	},
-	editor: function(){},
+	editor: function(){
+		var page = new EditorPage();
+		this.trigger('page', page);
+		page.initUI();
+	},
 	catchAll: function(){
 		this.redirectTo("start");
 	}

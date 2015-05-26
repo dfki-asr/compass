@@ -31,6 +31,9 @@ var StartPage = BasePage.extend({
 	onScenarioEntryClick: function(event) {
 		// nothing yet
 	},
+	events:{
+		"click #openscenariobutton" : "openScenario"
+	},
 	render: function () {
 		this.renderWithTemplate();
 		this.projectSelectionList = riot.mount(
@@ -56,6 +59,9 @@ var StartPage = BasePage.extend({
 				tag.update({opts:{collection: selectedProject.scenarios}});
 			});
 		}
+	},
+	openScenario: function(){
+		app.navigate("/editor");
 	}
 });
 module.exports = StartPage;
