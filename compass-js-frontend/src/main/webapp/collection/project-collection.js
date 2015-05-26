@@ -37,4 +37,4 @@ var ProjectCollection = AmpersandRestCollection.extend({
 	}
 });
 
-module.exports = exports = ProjectCollection;
+module.exports = ProjectCollection;

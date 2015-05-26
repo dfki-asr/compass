@@ -43,4 +43,4 @@ var Project = AmpersandModel.extend({
 	urlRoot: "http://localhost:8080/compass/resources/restv1/projects/"
 });
 
-module.exports = exports = Project;
+module.exports = Project;
