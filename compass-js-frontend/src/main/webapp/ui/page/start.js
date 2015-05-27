@@ -32,6 +32,7 @@ var StartPage = BasePage.extend({
 		var id = event.item.item.id;
 		var selectedProject = app.projects.getSelected();
 		selectedProject.scenarios.selectById(id);
+		this.enableOpenScenarioButton();
 	},
 	events: {
 		"click #openscenariobutton": "openScenario"
@@ -62,11 +63,22 @@ var StartPage = BasePage.extend({
 						clickHandler: self.onScenarioEntryClick.bind(self)
 					}});
 			});
+			if(selectedProject.scenarios.getSelected()){
+				this.enableOpenScenarioButton();
+			}else{
+				this.disableOpenScenarioButton();
+			}
 		}
 	},
 	openScenario: function () {
 		var selectedScenario = app.projects.getSelected().scenarios.getSelected().id;
 		app.router.redirectTo("/editor/" + selectedScenario);
+	},
+	enableOpenScenarioButton: function(){
+		this.el.querySelector("#openscenariobutton").removeAttribute("disabled");
+	},
+	disableOpenScenarioButton: function(){
+		this.el.querySelector("#openscenariobutton").setAttribute("disabled", "disabled");
 	}
 });
 module.exports = StartPage;
