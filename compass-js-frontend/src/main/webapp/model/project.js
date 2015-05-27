@@ -23,9 +23,6 @@ var Project = AmpersandModel.extend({
 	collections:{
 		scenarios: ScenarioCollection
 	},
-	session: {
-		selected: ["boolean", true, false]
-	},
 	parse: function(attrs){
 		//if the ids are just a plain array instead of being wrapped up as an array of {id: id} objects
 		//ampersand will not recognize them as the scenario ids
