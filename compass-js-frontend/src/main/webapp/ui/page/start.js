@@ -29,7 +29,9 @@ var StartPage = BasePage.extend({
 		app.projects.selectById(event.item.item.id);
 	},
 	onScenarioEntryClick: function (event) {
-		// nothing yet
+		var id = event.item.item.id;
+		var selectedProject = app.projects.getSelected();
+		selectedProject.scenarios.selectById(id);
 	},
 	events: {
 		"click #openscenariobutton": "openScenario"
@@ -50,11 +52,15 @@ var StartPage = BasePage.extend({
 			tag.update(); // just the selection
 		});
 		var selectedProject = app.projects.getSelected();
+		var self = this;
 		if (selectedProject) {
 			_.each(this.scenarioSelectionList, function (tag) {
 				// why do I need opts here?
 				// isn't this the equivalent of React's setState()?
-				tag.update({opts:{collection: selectedProject.scenarios}});
+				tag.update({opts: {
+						collection: selectedProject.scenarios,
+						clickHandler: self.onScenarioEntryClick.bind(self)
+					}});
 			});
 		}
 	},

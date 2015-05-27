@@ -20,9 +20,6 @@ var Scenario = AmpersandModel.extend({
 		root: "number",
 		project: "number"
 	},
-	session: {
-		selected: ["boolean", true, false]
-	},
 	ajaxConfig: {
 		headers: {
 			"Accept": "application/json"
