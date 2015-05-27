@@ -18,17 +18,16 @@ var CompassRouter = AmpersandRouter.extend({
 	},
 	routes: {
 		"start" : "start",
-		"editor" : "editor",
+		"editor/:query" : "editor",
 		"(*path)" : "catchAll"
 	},
 	start: function(){
 		var page = new StartPage();
 		this.trigger('page', page);
 	},
-	editor: function(){
-		var page = new EditorPage();
+	editor: function(query){
+		var page = new EditorPage(query);
 		this.trigger('page', page);
-		page.initUI();
 	},
 	catchAll: function(){
 		this.redirectTo("start");

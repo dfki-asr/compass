@@ -64,8 +64,9 @@ var StartPage = BasePage.extend({
 			});
 		}
 	},
-	openScenario: function(){
-		app.router.redirectTo("/editor");
+	openScenario: function () {
+		var selectedScenario = app.projects.getSelected().scenarios.getSelected().id;
+		app.router.redirectTo("/editor/" + selectedScenario);
 	}
 });
 module.exports = StartPage;

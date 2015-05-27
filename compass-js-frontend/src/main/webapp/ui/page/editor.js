@@ -8,6 +8,7 @@
 "use strict";
 
 var app = require('ampersand-app');
+var Scenario = require('../../model/scenario');
 var template = require('../templates/editorpage.html');
 var BasePage = require('./basepage');
 var riot = require("riot");
@@ -15,15 +16,21 @@ var riot = require("riot");
 var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
 	template: template,
-	initialize: function (options) {
-		//nothing to do yet
+	scenario: undefined,
+	initialize: function (scenarioId, options) {
+		//The router gives as a string, but the model wants a number...
+		var idAsNumber = parseInt(scenarioId);
+		this.scenario = new Scenario({id: idAsNumber});
+		this.scenario.fetch({
+			success: this.initUI.bind(this)
+		});
 	},
 	render: function () {
 		this.renderWithTemplate();
 		return this;
 	},
 	initUI: function () {
-		//nothing to mount yet
+		console.log("Editor fetched scenario: " + this.scenario.name);
 	}
 });
 module.exports = EditorPage;
