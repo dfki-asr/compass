@@ -61,7 +61,7 @@ var StartPage = BasePage.extend({
 		}
 	},
 	openScenario: function(){
-		app.navigate("/editor");
+		app.router.redirectTo("/editor");
 	}
 });
 module.exports = StartPage;
