@@ -28,6 +28,8 @@ function subFolder(folderName) {
 	return destination + "/" + folderName;
 }
 
+gulp.task("default", ["build"]);
+
 gulp.task("build", ["bundle", "bower-vendor", "sass", "copyFiles"]);
 
 gulp.task("sass", function(){
