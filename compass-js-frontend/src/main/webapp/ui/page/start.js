@@ -24,25 +24,23 @@ var StartPage = BasePage.extend({
 		app.projects.on("change:selected", this.renderScenarioList.bind(this));
 		app.projects.on("change:scenarios", this.renderScenarioList.bind(this));
 	},
-	onProjectEntryClick: function(event) {
+	onProjectEntryClick: function (event) {
 		// curiously, item is double-wrapped.
 		app.projects.selectById(event.item.item.id);
 	},
-	onScenarioEntryClick: function(event) {
+	onScenarioEntryClick: function (event) {
 		// nothing yet
 	},
-	events:{
-		"click #openscenariobutton" : "openScenario"
+	events: {
+		"click #openscenariobutton": "openScenario"
 	},
 	render: function () {
 		this.renderWithTemplate();
-		this.projectSelectionList = riot.mount(
-			this.el.querySelector("#projectselection"), {
+		this.projectSelectionList = riot.mount( this.el.querySelector("#projectselection"), {
 			collection: app.projects,
 			clickHandler: this.onProjectEntryClick.bind(this)
 		});
-		this.scenarioSelectionList = riot.mount(
-			this.el.querySelector("#scenarioselection"), {
+		this.scenarioSelectionList = riot.mount( this.el.querySelector("#scenarioselection"), {
 			clickHandler: this.onScenarioEntryClick.bind(this)
 		});
 		return this;
@@ -53,7 +51,7 @@ var StartPage = BasePage.extend({
 		});
 		var selectedProject = app.projects.getSelected();
 		if (selectedProject) {
-			_.each(this.scenarioSelectionList, function(tag) {
+			_.each(this.scenarioSelectionList, function (tag) {
 				// why do I need opts here?
 				// isn't this the equivalent of React's setState()?
 				tag.update({opts:{collection: selectedProject.scenarios}});
