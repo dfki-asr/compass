@@ -8,7 +8,13 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var sass = require('gulp-sass');
+var filter = require('gulp-filter');
+var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
+var minifyCSS = require('gulp-minify-css');
+var flatten = require('gulp-flatten');
 var del = require("del");
 var html = require('html-browserify');
 var riotify = require('riotify');
@@ -18,8 +24,11 @@ var extraFiles = [
 		srcFolder + "**/*.html"
 	];
 var destination = "./target/webapp";
+function subFolder(folderName) {
+	return destination + "/" + folderName;
+}
 
-gulp.task("build", ["bundle", "vendorcss","sass", "copyFiles"]);
+gulp.task("build", ["bundle", "bower-vendor", "sass", "copyFiles"]);
 
 gulp.task("sass", function(){
 	var src = srcFolder + "**/*.scss";
@@ -30,13 +39,47 @@ gulp.task("sass", function(){
 		.pipe(gulp.dest(destination));
 });
 
-gulp.task("vendorcss", function(){
-	var src = [
-		"./node_modules/bootstrap/dist/css/bootstrap.css",
-		"./node_modules/bootstrap/dist/css/bootstrap.css.map"
-	];
-	return gulp.src(src)
-			.pipe(gulp.dest(destination + "/css"));
+gulp.task("bower-vendor", function() {
+	var vendorFiles = require('main-bower-files');
+	var jsFilter = filter('*.js')
+	var cssFilter = filter('*.css')
+	var fontFilter = filter(['*.eot', '*.woff', '*.svg', '*.ttf'])
+	var imageFilter = filter(['*.gif', '*.png', '*.svg', '*.jpg', '*.jpeg'])
+
+	return gulp.src(vendorFiles())
+		// JS
+		.pipe(jsFilter)
+		.pipe(concat('lib.js'))
+		.pipe(gulp.dest(subFolder("vendor/js")))
+		.pipe(uglify())
+		.pipe(rename({
+			suffix: ".min"
+		}))
+		.pipe(gulp.dest(subFolder("vendor/js")))
+		.pipe(jsFilter.restore())
+
+		// CSS
+		.pipe(cssFilter)
+		.pipe(concat('lib.css'))
+		.pipe(gulp.dest(subFolder("vendor/css")))
+		.pipe(minifyCSS({keepBreaks:true}))
+		.pipe(rename({
+			suffix: ".min"
+		}))
+		.pipe(gulp.dest(subFolder("vendor/css")))
+		.pipe(cssFilter.restore())
+
+		// FONTS
+		.pipe(fontFilter)
+		.pipe(flatten())
+		.pipe(gulp.dest(subFolder("vendor/fonts")))
+		.pipe(fontFilter.restore())
+
+		// IMAGES
+		.pipe(imageFilter)
+		.pipe(flatten())
+		.pipe(gulp.dest(subFolder("vendor/images")))
+		.pipe(imageFilter.restore())
 });
 
 var browserifyOptions = {

@@ -9,8 +9,7 @@
 
 "use strict";
 
-var jQuery = global.jQuery = require("jquery");
-require("bootstrap"); //load Bootstrap jQuery plugins onto the jQuery object
+var jQuery = global.jQuery;
 
 var app = require("ampersand-app");
 var CompassRouter = require("./routing/router");

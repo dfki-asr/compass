@@ -43,6 +43,11 @@
 				<configuration>
 					<filesets>
 						<fileset>
+							<directory>${basedir}/bower_components</directory>
+							<followSymlinks>false</followSymlinks>
+							<useDefaultExcludes>true</useDefaultExcludes>
+						</fileset>
+						<fileset>
 							<directory>${basedir}/node_modules</directory>
 							<followSymlinks>false</followSymlinks>
 							<useDefaultExcludes>true</useDefaultExcludes>
