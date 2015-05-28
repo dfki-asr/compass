@@ -72,7 +72,7 @@ gulp.task("bower-vendor", function() {
 		.pipe(imageFilter)
 		.pipe(plug.flatten())
 		.pipe(gulp.dest(subFolder("vendor/images")))
-		.pipe(imageFilter.restore())
+		.pipe(imageFilter.restore());
 });
 
 var browserifyOptions = {
