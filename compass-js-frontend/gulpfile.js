@@ -42,23 +42,27 @@ gulp.task("bower-vendor", function() {
 	return gulp.src(vendorFiles())
 		// JS
 		.pipe(jsFilter)
+		.pipe(plug.sourcemaps.init())
 		.pipe(plug.concat('lib.js'))
 		.pipe(gulp.dest(subFolder("vendor/js")))
 		.pipe(plug.uglify())
 		.pipe(plug.rename({
 			suffix: ".min"
 		}))
+		.pipe(plug.sourcemaps.write("./", {sourceRoot: "/source/bower_components/"}))
 		.pipe(gulp.dest(subFolder("vendor/js")))
 		.pipe(jsFilter.restore())
 
 		// CSS
 		.pipe(cssFilter)
+		.pipe(plug.sourcemaps.init())
 		.pipe(plug.concat('lib.css'))
 		.pipe(gulp.dest(subFolder("vendor/css")))
 		.pipe(plug.minifyCss({keepBreaks:true}))
 		.pipe(plug.rename({
 			suffix: ".min"
 		}))
+		.pipe(plug.sourcemaps.write("./", {sourceRoot: "/source/bower_components/"}))
 		.pipe(gulp.dest(subFolder("vendor/css")))
 		.pipe(cssFilter.restore())
 
