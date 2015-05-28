@@ -37,7 +37,8 @@ var StartPage = BasePage.extend({
 	},
 	events: {
 		"click #openscenariobutton": "openScenario",
-		"click #createProjectModalSaveButton" : "createNewProject"
+		"click #createProjectModalSaveButton" : "createNewProject",
+		"click #create-project-modal-button" : "createNewProjectShowModal"
 	},
 	render: function () {
 		this.renderWithTemplate();
@@ -92,9 +93,13 @@ var StartPage = BasePage.extend({
 				$("#create-project-modal").modal("hide");
 			},
 			error: function(model, response, opts){
-				console.log("error: " + response.body);
+				$("#new-project-name-error-msg").text(response.body);
+				$("#new-project-name-error").show().delay("20000").hide("slow");
 			}
 		});
+	},
+	createNewProjectShowModal: function(){
+		$("#new-project-name-error").hide(); //in case it is still visible from an earlier state
 	}
 });
 module.exports = StartPage;

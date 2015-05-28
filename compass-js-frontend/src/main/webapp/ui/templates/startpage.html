@@ -36,6 +36,9 @@
 							<label for="new-project-name" class="control-label">Name:</label>
 							<input type="text" class="form-control" id="new-project-name">
 						</div>
+						<div class="alert alert-danger" role="alert" style="display: none;" id="new-project-name-error">
+							<strong>Ooops:</strong> <span id="new-project-name-error-msg"></span>
+						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -48,7 +51,7 @@
 
 	<div class="row">
         <div class="col-lg-3 col-lg-offset-2 text-center">
-			<button class="btn btn-default" type="button" data-toggle="modal" data-target="#create-project-modal">
+			<button class="btn btn-default" type="button" data-toggle="modal" data-target="#create-project-modal" id="create-project-modal-button">
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create
 			</button>
 			<button class="btn btn-default" type="button" disabled="disabled">Edit</button>
