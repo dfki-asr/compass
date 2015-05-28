@@ -17,8 +17,7 @@ var Project = AmpersandModel.extend({
 			type: "string",
 			required: true,
 			default: "Default Name"
-		},
-		prefabSet: "object"
+		}
 	},
 	collections:{
 		scenarios: ScenarioCollection
