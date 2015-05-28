@@ -20,8 +20,8 @@ function subFolder(folderName) {
 }
 
 gulp.task("default", ["build"]);
-
-gulp.task("build", ["bundle", "bower-vendor", "sass", "copyFiles"]);
+gulp.task("build", ["bower-vendor", "build-ours"]);
+gulp.task("build-ours", ["bundle", "sass", "copyFiles"])
 
 gulp.task("sass", function(){
 	var src = srcFolder + "**/*.scss";
@@ -115,5 +115,5 @@ gulp.task("watch", ["build"], function(){
 		root: "./target/webapp"
 	});
 	var filesToWatch = srcFolder + "**/*.*";
-	gulp.watch(filesToWatch, ["build"]);
+	gulp.watch(filesToWatch, ["build-ours"]);
 });
