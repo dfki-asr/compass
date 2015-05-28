@@ -82,10 +82,6 @@ gulp.task("bower-vendor", function() {
 var browserifyOptions = {
 	entries: [srcFolder + "app.js"],
 	debug: true,
-	transform: [
-		html,
-		[riotify]
-	]
 };
 var b = browserify(browserifyOptions);
 b.on('log', plug.util.log); // output build logs to terminal
