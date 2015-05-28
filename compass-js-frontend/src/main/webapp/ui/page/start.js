@@ -11,6 +11,7 @@ var $ = global.jQuery;
 var app = require('ampersand-app');
 var template = require('../templates/startpage.html');
 var BasePage = require('./basepage');
+var CreateProjectView = require("../view/start/createproject");
 var riot = require("riot");
 var _ = require('lodash');
 require("../tags/list-selection.tag");
@@ -18,6 +19,7 @@ require("../tags/list-selection.tag");
 var StartPage = BasePage.extend({
 	pageTitle: 'Start Page',
 	template: template,
+	modal: undefined,
 	projectSelectionList: undefined,
 	scenarioSelectionList: undefined,
 	initialize: function (options) {
@@ -37,8 +39,7 @@ var StartPage = BasePage.extend({
 	},
 	events: {
 		"click #openscenariobutton": "openScenario",
-		"click #createProjectModalSaveButton" : "createNewProject",
-		"click #create-project-modal-button" : "createNewProjectShowModal"
+		"click [data-action=open-create-project-modal]" : "createNewProjectShowModal"
 	},
 	render: function () {
 		this.renderWithTemplate();
@@ -83,23 +84,12 @@ var StartPage = BasePage.extend({
 	disableOpenScenarioButton: function(){
 		this.el.querySelector("#openscenariobutton").setAttribute("disabled", "disabled");
 	},
-	createNewProject: function(event){
-		var newName = this.el.querySelector("#new-project-name").value;
-		app.projects.create({
-			name: newName
-		}, {
-			wait: true,
-			success: function(){
-				$("#create-project-modal").modal("hide");
-			},
-			error: function(model, response, opts){
-				$("#new-project-name-error-msg").text(response.body);
-				$("#new-project-name-error").show().delay("20000").hide("slow");
-			}
-		});
-	},
 	createNewProjectShowModal: function(){
-		$("#new-project-name-error").hide(); //in case it is still visible from an earlier state
+		var entryPoint = this.el.querySelector("#modal-entry-point");
+		this.modal = new CreateProjectView({
+			el: entryPoint
+		});
+		this.modal.render();
 	}
 });
 module.exports = StartPage;
