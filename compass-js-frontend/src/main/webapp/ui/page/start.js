@@ -7,6 +7,7 @@
 
 "use strict";
 
+var $ = global.jQuery;
 var app = require('ampersand-app');
 var template = require('../templates/startpage.html');
 var BasePage = require('./basepage');
@@ -35,7 +36,8 @@ var StartPage = BasePage.extend({
 		this.enableOpenScenarioButton();
 	},
 	events: {
-		"click #openscenariobutton": "openScenario"
+		"click #openscenariobutton": "openScenario",
+		"click #createProjectModalSaveButton" : "createNewProject"
 	},
 	render: function () {
 		this.renderWithTemplate();
@@ -79,6 +81,20 @@ var StartPage = BasePage.extend({
 	},
 	disableOpenScenarioButton: function(){
 		this.el.querySelector("#openscenariobutton").setAttribute("disabled", "disabled");
+	},
+	createNewProject: function(event){
+		var newName = this.el.querySelector("#new-project-name").value;
+		app.projects.create({
+			name: newName
+		}, {
+			wait: true,
+			success: function(){
+				$("#create-project-modal").modal("hide");
+			},
+			error: function(model, response, opts){
+				console.log("error: " + response.body);
+			}
+		});
 	}
 });
 module.exports = StartPage;
