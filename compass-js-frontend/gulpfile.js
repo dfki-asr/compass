@@ -1,19 +1,14 @@
 "use strict";
 
-var browserify = require('browserify');
 var gulp = require('gulp');
 var plug = require('gulp-load-plugins')();
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var sourcemaps = require('gulp-sourcemaps');
 var del = require("del");
-var html = require('html-browserify');
-var riotify = require('riotify');
+var assetBrowserify = require('asset-browserifier');
 
 var srcFolder = "./src/main/webapp/";
-var extraFiles = [
-		srcFolder + "**/*.html"
-	];
+var entryPoint = srcFolder + "index.html";
 var destination = "./target/webapp";
 function subFolder(folderName) {
 	return destination + "/" + folderName;
@@ -21,7 +16,7 @@ function subFolder(folderName) {
 
 gulp.task("default", ["build"]);
 gulp.task("build", ["bower-vendor", "build-ours"]);
-gulp.task("build-ours", ["bundle", "sass", "copyFiles"])
+gulp.task("build-ours", ["bundle", "sass"]);
 
 gulp.task("sass", function(){
 	var src = srcFolder + "**/*.scss";
@@ -79,26 +74,20 @@ gulp.task("bower-vendor", function() {
 		.pipe(imageFilter.restore());
 });
 
-var browserifyOptions = {
-	entries: [srcFolder + "app.js"],
-	debug: true,
-};
-var b = browserify(browserifyOptions);
-b.on('log', plug.util.log); // output build logs to terminal
-
 gulp.task("bundle", function() {
-	return b.bundle()
-	        .on('error', plug.util.log.bind(plug.util, 'Browserify Error'))
-	        .pipe(source('bundle.js'))
-	        .pipe(buffer())
-	        .pipe(plug.sourcemaps.init({loadMaps: true})) // loads map from browserify file
-	        .pipe(plug.sourcemaps.write('./')) // writes .map file
-	        .pipe(gulp.dest(destination));
-});
+	var filter = new assetBrowserify({
+		"browserifyOpts": { "debug": true }
+	});
+	var assets = plug.useref.assets({}, filter.collect);
 
-gulp.task("copyFiles", function (){
-	return gulp.src(extraFiles)
-	           .pipe(gulp.dest(destination));
+	return gulp.src(entryPoint)
+		.pipe(assets)
+		.pipe(filter.reInject())
+		.pipe(plug.sourcemaps.init({loadMaps: true}))
+		.pipe(assets.restore())
+		.pipe(plug.useref())
+		.pipe(plug.sourcemaps.write('./'))
+		.pipe(gulp.dest(destination));
 });
 
 gulp.task("clean", function(cb) {
