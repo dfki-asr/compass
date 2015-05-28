@@ -1,20 +1,11 @@
 "use strict";
 
 var browserify = require('browserify');
-var watch = require('gulp-watch');
 var gulp = require('gulp');
-var connect = require('gulp-connect');
+var plug = require('gulp-load-plugins')();
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var gutil = require('gulp-util');
-var sass = require('gulp-sass');
-var filter = require('gulp-filter');
-var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var minifyCSS = require('gulp-minify-css');
-var flatten = require('gulp-flatten');
 var del = require("del");
 var html = require('html-browserify');
 var riotify = require('riotify');
@@ -35,26 +26,26 @@ gulp.task("build", ["bundle", "bower-vendor", "sass", "copyFiles"]);
 gulp.task("sass", function(){
 	var src = srcFolder + "**/*.scss";
 	gulp.src(src)
-		.pipe(sourcemaps.init())
-		.pipe(sass().on('error', sass.logError))
-		.pipe(sourcemaps.write())
+		.pipe(plug.sourcemaps.init())
+		.pipe(plug.sass().on('error', plug.sass.logError))
+		.pipe(plug.sourcemaps.write())
 		.pipe(gulp.dest(destination));
 });
 
 gulp.task("bower-vendor", function() {
 	var vendorFiles = require('main-bower-files');
-	var jsFilter = filter('*.js')
-	var cssFilter = filter('*.css')
-	var fontFilter = filter(['*.eot', '*.woff', '*.svg', '*.ttf'])
-	var imageFilter = filter(['*.gif', '*.png', '*.svg', '*.jpg', '*.jpeg'])
+	var jsFilter = plug.filter('*.js');
+	var cssFilter = plug.filter('*.css');
+	var fontFilter = plug.filter(['*.eot', '*.woff', '*.svg', '*.ttf']);
+	var imageFilter = plug.filter(['*.gif', '*.png', '*.svg', '*.jpg', '*.jpeg']);
 
 	return gulp.src(vendorFiles())
 		// JS
 		.pipe(jsFilter)
-		.pipe(concat('lib.js'))
+		.pipe(plug.concat('lib.js'))
 		.pipe(gulp.dest(subFolder("vendor/js")))
-		.pipe(uglify())
-		.pipe(rename({
+		.pipe(plug.uglify())
+		.pipe(plug.rename({
 			suffix: ".min"
 		}))
 		.pipe(gulp.dest(subFolder("vendor/js")))
@@ -62,10 +53,10 @@ gulp.task("bower-vendor", function() {
 
 		// CSS
 		.pipe(cssFilter)
-		.pipe(concat('lib.css'))
+		.pipe(plug.concat('lib.css'))
 		.pipe(gulp.dest(subFolder("vendor/css")))
-		.pipe(minifyCSS({keepBreaks:true}))
-		.pipe(rename({
+		.pipe(plug.minifyCss({keepBreaks:true}))
+		.pipe(plug.rename({
 			suffix: ".min"
 		}))
 		.pipe(gulp.dest(subFolder("vendor/css")))
@@ -73,13 +64,13 @@ gulp.task("bower-vendor", function() {
 
 		// FONTS
 		.pipe(fontFilter)
-		.pipe(flatten())
+		.pipe(plug.flatten())
 		.pipe(gulp.dest(subFolder("vendor/fonts")))
 		.pipe(fontFilter.restore())
 
 		// IMAGES
 		.pipe(imageFilter)
-		.pipe(flatten())
+		.pipe(plug.flatten())
 		.pipe(gulp.dest(subFolder("vendor/images")))
 		.pipe(imageFilter.restore())
 });
@@ -93,15 +84,15 @@ var browserifyOptions = {
 	]
 };
 var b = browserify(browserifyOptions);
-b.on('log', gutil.log); // output build logs to terminal
+b.on('log', plug.util.log); // output build logs to terminal
 
 gulp.task("bundle", function() {
 	return b.bundle()
-	        .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+	        .on('error', plug.util.log.bind(plug.util, 'Browserify Error'))
 	        .pipe(source('bundle.js'))
 	        .pipe(buffer())
-	        .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-	        .pipe(sourcemaps.write('./')) // writes .map file
+	        .pipe(plug.sourcemaps.init({loadMaps: true})) // loads map from browserify file
+	        .pipe(plug.sourcemaps.write('./')) // writes .map file
 	        .pipe(gulp.dest(destination));
 });
 
@@ -115,7 +106,7 @@ gulp.task("clean", function(cb) {
 });
 
 gulp.task("watch", ["build"], function(){
-	connect.server({
+	plug.connect.server({
 		port: 3030,
 		root: "./target/webapp"
 	});
