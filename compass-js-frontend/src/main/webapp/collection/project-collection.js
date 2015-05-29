@@ -8,8 +8,8 @@
 "use strict";
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
-var Project = require("./../model/project");
-var Config = require("./../config");
+var Project = require("../model/project");
+var Config = require("../config");
 
 var ProjectCollection = AmpersandRestCollection.extend({
 	model: Project,

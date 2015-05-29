@@ -8,8 +8,8 @@
 "use strict";
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
-var Scenario = require("./../model/scenario");
-var Config = require("./../config");
+var Scenario = require("../model/scenario");
+var Config = require("../config");
 
 var ScenarioCollection = AmpersandRestCollection.extend({
 	model: Scenario,
