@@ -9,7 +9,7 @@
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
 var Scenario = require("./../model/scenario");
-var app = require("ampersand-app");
+var Config = require("./../config");
 
 var ScenarioCollection = AmpersandRestCollection.extend({
 	model: Scenario,
@@ -19,7 +19,7 @@ var ScenarioCollection = AmpersandRestCollection.extend({
 			"Accept": "application/json"
 		}
 	},
-	url: "http://localhost:8080/compass/resources/restv1/scenarios/",
+	url: Config.getRESTPath("scenarios/"),
 	selectById: function(id){
 		var newSelection = this.get(id);
 		if (newSelection === this.selectedScenario) {

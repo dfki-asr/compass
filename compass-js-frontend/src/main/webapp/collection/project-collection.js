@@ -9,6 +9,7 @@
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
 var Project = require("./../model/project");
+var Config = require("./../config");
 
 var ProjectCollection = AmpersandRestCollection.extend({
 	model: Project,
@@ -18,7 +19,7 @@ var ProjectCollection = AmpersandRestCollection.extend({
 			"Accept": "application/json"
 		}
 	},
-	url: "http://localhost:8080/compass/resources/restv1/projects/",
+	url: Config.getRESTPath("projects/"),
 	selectById: function(id){
 		var newSelection = this.get(id);
 		if (newSelection === this.selectedProject) {
