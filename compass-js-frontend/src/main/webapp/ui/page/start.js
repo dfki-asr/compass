@@ -9,6 +9,7 @@
 
 var $ = global.jQuery;
 var app = require('ampersand-app');
+var AmpersandViewSwitcher = require("ampersand-view-switcher");
 var template = require('../templates/startpage.html');
 var BasePage = require('./basepage');
 var CreateProjectView = require("../view/start/createproject");
@@ -19,7 +20,7 @@ require("../tags/list-selection.tag");
 var StartPage = BasePage.extend({
 	pageTitle: 'Start Page',
 	template: template,
-	modal: undefined,
+	modalViewSwitcher: undefined,
 	projectSelectionList: undefined,
 	scenarioSelectionList: undefined,
 	initialize: function (options) {
@@ -50,6 +51,7 @@ var StartPage = BasePage.extend({
 		this.scenarioSelectionList = riot.mount( this.el.querySelector("#scenarioselection"), {
 			clickHandler: this.onScenarioEntryClick.bind(this)
 		});
+		this.modalViewSwitcher = new AmpersandViewSwitcher(this.el.querySelector("#modal-entry-point"));
 		return this;
 	},
 	renderScenarioList: function (project) {
@@ -85,11 +87,7 @@ var StartPage = BasePage.extend({
 		this.el.querySelector("#openscenariobutton").setAttribute("disabled", "disabled");
 	},
 	createNewProjectShowModal: function(){
-		var entryPoint = this.el.querySelector("#modal-entry-point");
-		this.modal = new CreateProjectView({
-			el: entryPoint
-		});
-		this.modal.render();
+		this.modalViewSwitcher.set(new CreateProjectView());
 	}
 });
 module.exports = StartPage;

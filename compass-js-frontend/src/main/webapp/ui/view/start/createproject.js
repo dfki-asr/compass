@@ -11,12 +11,10 @@ var $ = global.jQuery;
 var app = require('ampersand-app');
 var AmpersandView = require('ampersand-view');
 var template = require('../../templates/start/create-project.html');
-var _ = require('lodash');
 
 var CreateProjectView = AmpersandView.extend({
 	template: template,
 	initialize: function (options) {
-		this.el = options.el;
 	},
 	events: {
 		"click [data-action=save]": "createNewProject",
@@ -24,7 +22,6 @@ var CreateProjectView = AmpersandView.extend({
 	},
 	render: function () {
 		this.renderWithTemplate();
-		//while rendering el gets replaced by the template
 		$(this.el).modal("show");
 		return this;
 	},
@@ -42,8 +39,10 @@ var CreateProjectView = AmpersandView.extend({
 		});
 	},
 	close: function(){
-		$(this.el).modal("hide");
-		this.remove();
+		var self = this;
+		$(this.el).modal("hide").on("hidden.bs.modal", function(){
+			self.remove();
+		});
 	}
 });
 module.exports = CreateProjectView;
