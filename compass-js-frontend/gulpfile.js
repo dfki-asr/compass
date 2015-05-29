@@ -95,9 +95,15 @@ gulp.task("clean", function(cb) {
 });
 
 gulp.task("watch", ["build"], function(){
+	// proxy "/resources" to local WildFly for development
+	var proxySetup = require('url').parse('http://localhost:8080/compass/resources');
+	proxySetup["route"] = "/resources";
+	var proxyMiddleware = require('proxy-middleware')(proxySetup);
+
 	plug.connect.server({
 		port: 3030,
-		root: "./target/webapp"
+		root: "./target/webapp",
+		middleware: function() {return [proxyMiddleware];}
 	});
 	var filesToWatch = srcFolder + "**/*.*";
 	gulp.watch(filesToWatch, ["build-ours"]);
