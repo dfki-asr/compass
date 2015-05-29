@@ -44,7 +44,10 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "browserify": {
-    "transform": ["html-browserify", "riotify" ]
+    "transform": [
+      "html-browserify",
+      "riotify"
+    ]
   },
   "dependencies": {
     "ampersand-app": "^1.0.4",
