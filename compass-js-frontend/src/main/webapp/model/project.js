@@ -9,6 +9,7 @@
 
 var AmpersandModel = require("ampersand-model");
 var ScenarioCollection = require("../collection/scenario-collection");
+var Config = require('../config');
 
 var Project = AmpersandModel.extend({
 	props: {
@@ -46,7 +47,7 @@ var Project = AmpersandModel.extend({
 		}
 	},
 	extraProperties: 'ignore',
-	urlRoot: "http://localhost:8080/compass/resources/restv1/projects/"
+	urlRoot: Config.getRESTPath("projects/")
 });
 
 module.exports = Project;
