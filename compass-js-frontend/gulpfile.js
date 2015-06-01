@@ -94,6 +94,16 @@ gulp.task("clean", function(cb) {
 	del([destination], cb);
 });
 
+gulp.task("build-ours-with-notify", ["build-ours"], function() {
+	var notifier = require('node-notifier');
+	notifier.notify({
+		title: 'Gulp Watch',
+		message: 'COMPASS Frontend build done! Yay!',
+		sound: true,
+		wait: false
+	});
+});
+
 gulp.task("watch", ["build"], function(){
 	// proxy "/resources" to local WildFly for development
 	var proxySetup = require('url').parse('http://localhost:8080/compass/resources');
@@ -106,5 +116,5 @@ gulp.task("watch", ["build"], function(){
 		middleware: function() {return [proxyMiddleware];}
 	});
 	var filesToWatch = srcFolder + "**/*.*";
-	gulp.watch(filesToWatch, ["build-ours"]);
+	gulp.watch(filesToWatch, ["build-ours-with-notify"]);
 });
