@@ -12,6 +12,7 @@ var Scenario = require('../../model/scenario');
 var template = require('../templates/editorpage.html');
 var BasePage = require('./basepage');
 var riot = require("riot");
+var $ = global.jQuery;
 
 var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
@@ -31,6 +32,7 @@ var EditorPage = BasePage.extend({
 	},
 	initUI: function () {
 		console.log("Editor fetched scenario: " + this.scenario.name);
+		$(this.query(".layout-container")).layout();
 	}
 });
 module.exports = EditorPage;
