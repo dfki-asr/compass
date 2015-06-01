@@ -5,8 +5,8 @@
 				<button type="button" class="close" data-action="close"><span>&times;</span></button>
 				<h4 class="modal-title">Create a new Project</h4>
 			</div>
-			<div class="modal-body">
-				<form>
+			<form>
+				<div class="modal-body">
 					<div class="form-group">
 						<label for="new-project-name" class="control-label">Name:</label>
 						<input type="text" class="form-control" id="new-project-name">
@@ -14,12 +14,12 @@
 					<div class="alert alert-danger" role="alert" style="display: none;" id="new-project-name-error">
 						<strong>Ooops:</strong> <span id="new-project-name-error-msg"></span>
 					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-action="close">Close</button>
-				<button type="button" class="btn btn-primary" data-action="save">Save</button>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-action="close">Close</button>
+					<button type="submit" class="btn btn-primary" data-action="save">Save</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
