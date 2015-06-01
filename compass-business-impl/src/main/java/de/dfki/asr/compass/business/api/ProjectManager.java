@@ -65,4 +65,12 @@ public interface ProjectManager extends Manager<Project> {
 	 * @return list of all projects
 	 */
 	List<Project> getAllProjects();
+
+	/**
+	 * Check if a given name is already used.
+	 *
+	 * @param name name to check
+	 * @return boolean
+	 */
+	boolean isNameUnique(final String name);
 }
