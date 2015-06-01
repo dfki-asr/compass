@@ -68,6 +68,10 @@
 						<webModule>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>webapp</artifactId>
+							<!-- feel free to change this to where you want
+							     your COMPASS to be reachable in your container:
+							-->
+							<contextRoot>/compass</contextRoot>
 						</webModule>
 						<ejbModule>
 							<groupId>de.dfki.asr.compass</groupId>
