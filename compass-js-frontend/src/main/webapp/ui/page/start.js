@@ -89,9 +89,6 @@ var StartPage = BasePage.extend({
 	},
 	createNewProjectShowModal: function(){
 		this.modalViewSwitcher.set(new CreateProjectView());
-		$("#modal-entry-point").on('shown.bs.modal', function() {
-			$('#new-project-name').focus();
-		});
 	}
 });
 module.exports = StartPage;

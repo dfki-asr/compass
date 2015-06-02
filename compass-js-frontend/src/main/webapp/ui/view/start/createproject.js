@@ -23,6 +23,9 @@ var CreateProjectView = AmpersandView.extend({
 	render: function () {
 		this.renderWithTemplate();
 		$(this.el).modal("show");
+		$(this.el).on('shown.bs.modal', function() {
+			$('#new-project-name').focus();
+		});
 		return this;
 	},
 	createNewProject: function (event) {
