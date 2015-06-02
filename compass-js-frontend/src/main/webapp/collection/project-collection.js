@@ -26,6 +26,18 @@ var ProjectCollection = AmpersandRestCollection.extend({
 		if (newSelection === this.selectedProject) {
 			return;
 		}
+		this.fetchScenarios(newSelection);
+		this.trigger("change:selected");
+	},
+	selectByName: function(name){
+		var newSelection = this.get(name, 'name');
+		if (newSelection === this.selectedProject) {
+			return;
+		}
+		this.fetchScenarios(newSelection);
+		this.trigger("change:selected");
+	},
+	fetchScenarios: function(newSelection){
 		var project = this.selectedProject = newSelection;
 		project.scenarios.each(function(s){
 			s.fetch({
@@ -37,7 +49,6 @@ var ProjectCollection = AmpersandRestCollection.extend({
 				}
 			});
 		});
-		this.trigger("change:selected");
 	},
 	isSelected: function(model) {
 		return this.selectedProject && this.selectedProject === model;
