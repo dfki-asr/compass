@@ -33,6 +33,7 @@ var EditorPage = BasePage.extend({
 	initUI: function () {
 		console.log("Editor fetched scenario: " + this.scenario.name);
 		$(this.query(".layout-container")).layout();
+		$(this.query(".south-layout-container")).layout();
 	}
 });
 module.exports = EditorPage;
