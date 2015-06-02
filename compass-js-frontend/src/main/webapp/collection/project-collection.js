@@ -14,6 +14,7 @@ var Config = require("../config");
 var ProjectCollection = AmpersandRestCollection.extend({
 	model: Project,
 	selectedProject: undefined,
+	indexes: ['name'],
 	ajaxConfig: {
 		headers: {
 			"Accept": "application/json"
