@@ -30,7 +30,8 @@ var StartPage = BasePage.extend({
 	},
 	onProjectEntryClick: function (event) {
 		// curiously, item is double-wrapped.
-		// Assuming unique scenario names here, as the id might not yet be available for just created projects
+		// Project names are unique, using them as an id substitue,
+		// as the id might not yet be available for just created projects
 		app.projects.selectByName(event.item.item.name);
 	},
 	onScenarioEntryClick: function (event) {
