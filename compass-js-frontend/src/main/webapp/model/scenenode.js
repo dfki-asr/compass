@@ -8,7 +8,7 @@
 "use strict";
 
 var AmpersandModel = require("ampersand-model");
-var ScenarioCollection = require("../collection/scenario-collection");
+var SceneNodeCollection = require("../collection/scenenode-collection");
 var Config = require('../config');
 
 var SceneNode = AmpersandModel.extend({
@@ -17,12 +17,15 @@ var SceneNode = AmpersandModel.extend({
 		name: {
 			type: "string",
 			required: true,
-			default: "Default Name"
+			default: "Scene Node"
 		},
-		parent: "number"
+		parent: "number",
+		selectable3d: "boolean",
+		visible: "boolean"
 	},
 	collections:{
-		children: SceneNodeCollection
+		children: SceneNodeCollection,
+		components: "number"
 	},
 	ajaxConfig: {
 		headers: {
