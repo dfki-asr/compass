@@ -34,7 +34,11 @@ body {
   background-color: grey;
 }
 
-.editorpage .layout-container {
-  // fix to make ui-layout work.
+.layout-container ,
+.layout-container div {
+  overflow:	auto;
+}
+div.layout-container {
   height: 100%;
+  overflow:	visible;
 }

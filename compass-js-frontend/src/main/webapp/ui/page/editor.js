@@ -34,8 +34,18 @@ var EditorPage = BasePage.extend({
 	initUI: function () {
 		console.log("Editor fetched scenario: " + this.scenario.name);
 		this.globalLayout = $(this.query(".layout-container")).layout({
+			name:					"outer",
+			center__paneSelector:	".outer-center",
+			east__paneSelector:		".outer-east",
+			west__paneSelector:		".outer-west",
+			south__paneSelector:	".outer-south",
+			south__size:			150
 		});
 		$(this.globalLayout.options.south.paneSelector).layout({
+			name:					"inner",
+			center__paneSelector:	".inner-center",
+			west__paneSelector:		".inner-west",
+			minSize:				50
 		});
 	}
 });
