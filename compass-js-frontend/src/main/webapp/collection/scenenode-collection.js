@@ -8,13 +8,11 @@
 "use strict";
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
-var SceneNode = require("../model/scenenode");
 var Config = require("../config");
 
 var SceneNodeCollection = AmpersandRestCollection.extend({
-	model: SceneNode,
-	initialize: function(){
-		console.log("initialized SceneNode collection");
 	}
 });
 module.exports = SceneNodeCollection;
+var SceneNode = require("../model/scenenode");
+SceneNodeCollection.prototype.model = SceneNode;
