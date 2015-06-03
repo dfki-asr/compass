@@ -23,9 +23,8 @@ var SceneNode = AmpersandModel.extend({
 		selectable3d: "boolean",
 		visible: "boolean"
 	},
-	collections:{
-		children: SceneNodeCollection,
-		components: "number"
+	collections: {
+		children: SceneNodeCollection
 	},
 	ajaxConfig: {
 		headers: {
