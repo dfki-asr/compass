@@ -18,6 +18,7 @@ var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
 	template: template,
 	scenario: undefined,
+	globalLayout: undefined,
 	initialize: function (scenarioId, options) {
 		//The router gives as a string, but the model wants a number...
 		var idAsNumber = parseInt(scenarioId);
@@ -32,8 +33,10 @@ var EditorPage = BasePage.extend({
 	},
 	initUI: function () {
 		console.log("Editor fetched scenario: " + this.scenario.name);
-		$(this.query(".layout-container")).layout();
-		$(this.query(".south-layout-container")).layout();
+		this.globalLayout = $(this.query(".layout-container")).layout({
+		});
+		$(this.globalLayout.options.south.paneSelector).layout({
+		});
 	}
 });
 module.exports = EditorPage;
