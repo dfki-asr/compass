@@ -13,6 +13,19 @@ var Config = require("../config");
 var SceneNodeCollection = AmpersandRestCollection.extend({
 	url: Config.getRESTPath("scenenodes/"),
 
+	getById: function(id){
+		var newSceneNode = this.getOrFetch(id);
+		return newSceneNode;
+	},
+	fetchNodeTree: function(rootNode) {
+		console.log("Trying to load tree for node " + rootNode);
+		var fetchedNode = this.getById(rootNode);
+		console.log(fetchedNode);
+		this.getById(rootNode).children.each({
+			success: function(n){
+				SceneNodeCollection.fetchNodeTree(n.id);
+			}
+		});
 	}
 });
 module.exports = SceneNodeCollection;
