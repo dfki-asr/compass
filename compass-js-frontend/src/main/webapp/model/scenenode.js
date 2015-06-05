@@ -32,6 +32,22 @@ var SceneNode = AmpersandModel.extend({
 		console.log("initializing SceneNode");
 		this.childNodes = new Array();
 	},
+	parse: function(attrs){
+		if(!this.childNodes){
+			this.childNodes = new Array();
+		}
+		console.log("Parsing sceneNode "+this.id);
+		if(!attrs){
+			return attrs;
+		}
+		if(attrs.children){
+			for(var c in attrs.children){
+				var currentChild = attrs.children[c];
+				this.childNodes.push(currentChild);
+				console.log("Child nodes of node "+this.id+": " +this.childNodes);
+			}
+		}
+	},
 	extraProperties: 'ignore',
 	urlRoot: Config.getRESTPath("scenenodes/")
 });
