@@ -9,9 +9,10 @@
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
 var Config = require("../config");
-
+var SceneNode = require("../model/scenenode");
 var SceneNodeCollection = AmpersandRestCollection.extend({
 	url: Config.getRESTPath("scenenodes/"),
+	model: SceneNode,
 
 	getById: function(id){
 		var newSceneNode = this.getOrFetch(id);
@@ -29,5 +30,5 @@ var SceneNodeCollection = AmpersandRestCollection.extend({
 	}
 });
 module.exports = SceneNodeCollection;
-var SceneNode = require("../model/scenenode");
-SceneNodeCollection.prototype.model = SceneNode;
+
+//SceneNodeCollection.prototype.model = SceneNode;
