@@ -13,18 +13,36 @@ var SceneNode = require("../model/scenenode");
 var SceneNodeCollection = AmpersandRestCollection.extend({
 	url: Config.getRESTPath("scenenodes/"),
 	model: SceneNode,
-
-	getById: function(id){
-		var newSceneNode = this.getOrFetch(id);
-		return newSceneNode;
+	selectNodeById: function(nodeId){
+		console.log("getting or fetching node with id " +nodeId);
+		this.fetchById(nodeId, function(err, model) {
+			if(err){
+				console.log("Could not fetch tree for id "+ nodeId +":"+ err);
+				return;
+			}
+			else {
+				console.log("Successfully fetched");
+				return model;
+			}
+		});
 	},
 	fetchNodeTree: function(rootNode) {
 		console.log("Trying to load tree for node " + rootNode);
-		var fetchedNode = this.getById(rootNode);
+		var fetchedNode = this.selectNodeById(parseInt(rootNode));
 		console.log(fetchedNode);
-		this.getById(rootNode).children.each({
+		if(!fetchedNode) {
+			console.log("Something went wrong while fetching the node");
+			return;
+		}
+		var childNodes = fetchedNode.childNodes;
+		console.log("Child nodes: " + childNodes);
+		if(!childNodes){
+			return;
+		}
+		console.log("iterating over child nodes...");
+		childNodes.each({
 			success: function(n){
-				SceneNodeCollection.fetchNodeTree(n.id);
+				SceneNodeCollection.fetchNodeTree(n);
 			}
 		});
 	}
