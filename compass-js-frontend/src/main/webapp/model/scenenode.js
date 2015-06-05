@@ -8,7 +8,6 @@
 "use strict";
 
 var AmpersandModel = require("ampersand-model");
-var SceneNodeCollection = require("../collection/scenenode-collection");
 var Config = require('../config');
 
 var SceneNode = AmpersandModel.extend({
@@ -20,16 +19,18 @@ var SceneNode = AmpersandModel.extend({
 			default: "Scene Node"
 		},
 		parent: "number",
+		childNodes: "array",
 		selectable3d: "boolean",
 		visible: "boolean"
-	},
-	collections: {
-		children: SceneNodeCollection
 	},
 	ajaxConfig: {
 		headers: {
 			"Accept": "application/json"
 		}
+	},
+	init: function() {
+		console.log("initializing SceneNode");
+		this.childNodes = new Array();
 	},
 	extraProperties: 'ignore',
 	urlRoot: Config.getRESTPath("scenenodes/")
