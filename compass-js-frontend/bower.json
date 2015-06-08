@@ -31,6 +31,12 @@
         "jquery": ">=1.5",
         "jquery-ui": ">=1.11"
       }
+    },
+    "fancytree": {
+      "main": [
+        "dist/jquery.fancytree-all.js",
+        "dist/skin-bootstrap/ui.fancytree.css"
+      ]
     }
   }
 }
