@@ -21,10 +21,13 @@ var SceneNodeCollection = AmpersandRestCollection.extend({
 				return;
 			}
 			else {
-				console.log("Successfully fetched");
-				return model;
-			}
-		});
+				console.log("Successfully fetched" + model);
+				var children = model.children;
+				for(c in children){
+						app.scenenodes.fetchNodeTree(children[c].id);
+					}
+				}
+			});
 	},
 	fetchNodeTree: function(rootNode) {
 		console.log("Trying to load tree for node " + rootNode);
