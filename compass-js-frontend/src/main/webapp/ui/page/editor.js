@@ -31,7 +31,7 @@ var EditorPage = BasePage.extend({
 		},
 		viewport: {
 			hook: 'viewport',
-			constructor: ThreeDView,
+			constructor: ThreeDView
 		},
 		properties: {
 			hook: 'properties',
