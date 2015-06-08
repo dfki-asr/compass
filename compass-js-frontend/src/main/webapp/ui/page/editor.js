@@ -14,11 +14,38 @@ var BasePage = require('./basepage');
 var riot = require("riot");
 var $ = global.jQuery;
 
+var HierarchyView = require('../view/editor/hierarchy.js');
+var PropertiesView = require('../view/editor/properties.js');
+var ThreeDView = require('../view/editor/viewport.js');
+var DisabledView = require('../view/editor/disabled.js');
+
 var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
 	template: template,
 	scenario: undefined,
 	globalLayout: undefined,
+	subviews: {
+		hierarchy: {
+			hook: 'hierarchy',
+			constructor: HierarchyView
+		},
+		viewport: {
+			hook: 'viewport',
+			constructor: ThreeDView,
+		},
+		properties: {
+			hook: 'properties',
+			constructor: PropertiesView
+		},
+		prefabSets: {
+			hook: 'prefabSets',
+			constructor: DisabledView
+		},
+		prefabList: {
+			hook: 'prefabList',
+			constructor: DisabledView
+		}
+	},
 	initialize: function (scenarioId, options) {
 		//The router gives as a string, but the model wants a number...
 		var idAsNumber = parseInt(scenarioId);
