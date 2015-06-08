@@ -31,7 +31,7 @@ var EditorPage = BasePage.extend({
 	},
 	initUI: function () {
 		console.log("Editor fetched scenario: " + this.scenario.name);
-		app.scenenodes.fetchNodeTree(this.scenario.root);
+		app.scenenodes.getOrFetch(this.scenario.root);
 	}
 });
 module.exports = EditorPage;
