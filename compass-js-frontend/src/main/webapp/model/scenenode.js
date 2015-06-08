@@ -48,6 +48,9 @@ var SceneNode = AmpersandModel.extend({
 				this.childNodes.push(app.scenenodes.getOrFetch(currentChild));
 			}
 		}
+		if(attrs.name){
+			this.name = attrs.name;
+		}
 	},
 	extraProperties: 'ignore',
 	urlRoot: Config.getRESTPath("scenenodes/")
