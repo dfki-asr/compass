@@ -8,7 +8,6 @@
 "use strict";
 
 var AmpersandModel = require("ampersand-model");
-var SceneNode = require("scenenode");
 var Config = require('../config');
 
 var SceneNodeComponent = AmpersandModel.extend({
