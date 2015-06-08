@@ -48,8 +48,17 @@ var SceneNode = AmpersandModel.extend({
 				this.childNodes.push(app.scenenodes.getOrFetch(currentChild));
 			}
 		}
+		if(attrs.parent){
+			this.parent = attrs.parent;
+		}
 		if(attrs.name){
 			this.name = attrs.name;
+		}
+		if(attrs.selectable3d){
+			this.selectable3d = attrs.selectable3d;
+		}
+		if(attrs.visible){
+			this.visible = attrs.visible;
 		}
 	},
 	extraProperties: 'ignore',
