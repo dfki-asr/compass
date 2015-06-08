@@ -18,6 +18,35 @@ var HierarchyView = AmpersandView.extend({
     },
     render: function() {
         this.renderWithTemplate();
+        this.tree = $(this.query(".tree")).fancytree({
+            extensions: ["glyph"],
+            source: [
+                {title: "Node 1", key: "1"},
+                {title: "Folder 2", key: "2", folder: true, children: [
+                    {title: "Node 2.1", key: "3"},
+                    {title: "Node 2.2", key: "4"}
+                ]}
+            ],
+            glyph: {
+                map: {
+                    doc: "glyphicon glyphicon-file",
+                    docOpen: "glyphicon glyphicon-file",
+                    checkbox: "glyphicon glyphicon-unchecked",
+                    checkboxSelected: "glyphicon glyphicon-check",
+                    checkboxUnknown: "glyphicon glyphicon-share",
+                    error: "glyphicon glyphicon-warning-sign",
+                    expanderClosed: "glyphicon glyphicon-plus-sign",
+                    expanderLazy: "glyphicon glyphicon-plus-sign",
+                    // expanderLazy: "glyphicon glyphicon-expand",
+                    expanderOpen: "glyphicon glyphicon-minus-sign",
+                    // expanderOpen: "glyphicon glyphicon-collapse-down",
+                    folder: "glyphicon glyphicon-folder-close",
+                    folderOpen: "glyphicon glyphicon-folder-open",
+                    loading: "glyphicon glyphicon-refresh"
+                    // loading: "icon-spinner icon-spin"
+                }
+            }
+        });
         return this;
     }
 });
