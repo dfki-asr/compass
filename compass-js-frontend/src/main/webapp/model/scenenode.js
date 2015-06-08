@@ -45,8 +45,7 @@ var SceneNode = AmpersandModel.extend({
 		if(attrs.children){
 			for(var c in attrs.children){
 				var currentChild = attrs.children[c];
-				this.childNodes.push(currentChild);
-				console.log("Child nodes of node "+this.id+": " +this.childNodes);
+				this.childNodes.push(app.scenenodes.getOrFetch(currentChild));
 			}
 		}
 	},
