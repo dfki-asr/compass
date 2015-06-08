@@ -9,7 +9,6 @@
 
 var app = require('ampersand-app');
 var Scenario = require('../../model/scenario');
-var SceneNodeCollection = require('../../collection/scenenode-collection');
 var template = require('../templates/editorpage.html');
 var BasePage = require('./basepage');
 var riot = require("riot");
@@ -18,7 +17,6 @@ var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
 	template: template,
 	scenario: undefined,
-	scenenodes: new SceneNodeCollection(),
 	initialize: function (scenarioId, options) {
 		//The router gives as a string, but the model wants a number...
 		var idAsNumber = parseInt(scenarioId);
@@ -33,7 +31,7 @@ var EditorPage = BasePage.extend({
 	},
 	initUI: function () {
 		console.log("Editor fetched scenario: " + this.scenario.name);
-		this.scenenodes.fetchNodeTree(this.scenario.root);
+		app.scenenodes.fetchNodeTree(this.scenario.root);
 	}
 });
 module.exports = EditorPage;
