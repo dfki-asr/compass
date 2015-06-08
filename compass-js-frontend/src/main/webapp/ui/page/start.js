@@ -54,6 +54,10 @@ var StartPage = BasePage.extend({
 			clickHandler: this.onScenarioEntryClick.bind(this)
 		});
 		this.modalViewSwitcher = new AmpersandViewSwitcher(this.el.querySelector("#modal-entry-point"));
+		var selectedProject = app.projects.getSelected();
+		if(selectedProject){
+			this.renderScenarioList(selectedProject);
+		}
 		return this;
 	},
 	renderScenarioList: function (project) {
