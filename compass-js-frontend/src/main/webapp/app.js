@@ -13,6 +13,7 @@ var jQuery = global.jQuery;
 
 var app = require("ampersand-app");
 var CompassRouter = require("./routing/router");
+var SceneNodeCollection = require('./collection/scenenode-collection');
 var ProjectCollection = require("./collection/project-collection");
 var MainView = require("./ui/view/mainview");
 
@@ -23,6 +24,7 @@ app.extend({
 		app.router = new CompassRouter();
 		app.basePath = "/";
 		app.projects = new ProjectCollection();
+		app.scenenodes = new SceneNodeCollection();
 		app.projects.fetch();
 		jQuery(global.document).ready(function () {
 			app.initUI();
