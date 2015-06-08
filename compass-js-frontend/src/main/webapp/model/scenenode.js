@@ -9,6 +9,7 @@
 
 var AmpersandModel = require("ampersand-model");
 var Config = require('../config');
+var ComponentCollection = require("../collection/component-collection");
 
 var SceneNode = AmpersandModel.extend({
 	props: {
@@ -24,6 +25,9 @@ var SceneNode = AmpersandModel.extend({
 		parent: "number",
 		selectable3d: "boolean",
 		visible: "boolean"
+	},
+	collections: {
+		components: ComponentCollection
 	},
 	ajaxConfig: {
 		headers: {
