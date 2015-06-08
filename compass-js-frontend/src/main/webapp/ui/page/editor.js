@@ -18,6 +18,7 @@ var HierarchyView = require('../view/editor/hierarchy.js');
 var PropertiesView = require('../view/editor/properties.js');
 var ThreeDView = require('../view/editor/viewport.js');
 var DisabledView = require('../view/editor/disabled.js');
+var NavbarView = require('../view/editor/navbar.js');
 
 var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
@@ -44,6 +45,10 @@ var EditorPage = BasePage.extend({
 		prefabList: {
 			hook: 'prefabList',
 			constructor: DisabledView
+		},
+		navbar:{
+			hook: 'navbar',
+			constructor: NavbarView
 		}
 	},
 	initialize: function (scenarioId, options) {
@@ -74,6 +79,7 @@ var EditorPage = BasePage.extend({
 			west__paneSelector:		".inner-west",
 			minSize:				50
 		});
+		this.navbar.setScenario(this.scenario);
 	}
 });
 module.exports = EditorPage;
