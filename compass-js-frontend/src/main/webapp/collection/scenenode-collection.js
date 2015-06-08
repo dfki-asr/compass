@@ -29,26 +29,6 @@ var SceneNodeCollection = AmpersandRestCollection.extend({
 				}
 			});
 	},
-	fetchNodeTree: function(rootNode) {
-		console.log("Trying to load tree for node " + rootNode);
-		var fetchedNode = this.selectNodeById(parseInt(rootNode));
-		console.log(fetchedNode);
-		if(!fetchedNode) {
-			console.log("Something went wrong while fetching the node");
-			return;
-		}
-		var childNodes = fetchedNode.childNodes;
-		console.log("Child nodes: " + childNodes);
-		if(!childNodes){
-			return;
-		}
-		console.log("iterating over child nodes...");
-		childNodes.each({
-			success: function(n){
-				SceneNodeCollection.fetchNodeTree(n);
-			}
-		});
-	}
 });
 module.exports = SceneNodeCollection;
 
