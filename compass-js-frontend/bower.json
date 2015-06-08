@@ -21,6 +21,15 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
-    "jquery-ui-layout-bower": "~1.4.4"
+    "jquery-ui-layout-bower": "~1.4.4",
+    "jquery-ui": "~1.11.4"
+  },
+  "overrides": {
+    "jquery-ui-layout-bower": {
+      "dependencies": {
+        "jquery": ">=1.5",
+        "jquery-ui": ">=1.11"
+      }
+    }
   }
 }
