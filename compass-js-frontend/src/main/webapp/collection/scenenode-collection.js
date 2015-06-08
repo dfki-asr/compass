@@ -7,15 +7,16 @@
 
 "use strict";
 
+var app = require('ampersand-app');
 var AmpersandRestCollection = require("ampersand-rest-collection");
 var Config = require("../config");
 var SceneNode = require("../model/scenenode");
 var SceneNodeCollection = AmpersandRestCollection.extend({
 	url: Config.getRESTPath("scenenodes/"),
 	model: SceneNode,
-	selectNodeById: function(nodeId){
+	fetchNodeTree: function(nodeId){
 		console.log("getting or fetching node with id " +nodeId);
-		this.fetchById(nodeId, function(err, model) {
+		this.getOrFetch(nodeId, function(err, model) {
 			if(err){
 				console.log("Could not fetch tree for id "+ nodeId +":"+ err);
 				return;
@@ -31,5 +32,3 @@ var SceneNodeCollection = AmpersandRestCollection.extend({
 	},
 });
 module.exports = SceneNodeCollection;
-
-//SceneNodeCollection.prototype.model = SceneNode;
