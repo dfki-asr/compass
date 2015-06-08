@@ -18,8 +18,10 @@ var SceneNode = AmpersandModel.extend({
 			required: true,
 			default: "Scene Node"
 		},
+		children: {
+			childNodes: SceneNode
+		},
 		parent: "number",
-		childNodes: "array",
 		selectable3d: "boolean",
 		visible: "boolean"
 	},
