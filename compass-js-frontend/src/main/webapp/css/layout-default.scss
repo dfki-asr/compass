@@ -19,7 +19,8 @@
  */
 .ui-layout-pane { /* all 'panes' */
     background:	#FFF;
-    border:		1px solid #BBB;
+    border:		1px solid #DDD;
+	border-radius: 5px;
     overflow:	auto;
     /* DO NOT add scrolling (or padding) to 'panes' that have a content-div,
        otherwise you may get double-scrollbars - on the pane AND on the content-div
@@ -31,6 +32,10 @@
 .ui-layout-content {
     position:	relative; /* contain floated or positioned elements */
     overflow:	auto; /* add scrolling to content-div */
+}
+
+.ui-layout-pane.ui-layout-container{
+	border: none;
 }
 
 /*
@@ -57,9 +62,9 @@
  *	RESIZER-BARS
  */
 .ui-layout-resizer	{ /* all 'resizer-bars' */
-    background:		#DDD;
     border:			1px solid #BBB;
     border-width:	0;
+	border-radius: 10px;
 }
 .ui-layout-resizer-drag {		/* REAL resizer while resize in progress */
 }
@@ -111,6 +116,7 @@
 .ui-layout-toggler {
     border: 1px solid #BBB; /* match pane-border */
     background-color: #BBB;
+	border-radius: 10px;
 }
 .ui-layout-resizer-hover .ui-layout-toggler {
     opacity: .60;
