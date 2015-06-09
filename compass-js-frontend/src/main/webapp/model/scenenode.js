@@ -47,18 +47,7 @@ var SceneNode = CompassModel.extend({
 				this.childNodes.push(app.scenenodes.getOrFetch(currentChild));
 			}
 		}
-		if(attrs.parent){
-			this.parent = attrs.parent;
-		}
-		if(attrs.name){
-			this.name = attrs.name;
-		}
-		if(attrs.selectable3d){
-			this.selectable3d = attrs.selectable3d;
-		}
-		if(attrs.visible){
-			this.visible = attrs.visible;
-		}
+		return attrs;
 	},
 	urlRoot: Config.getRESTPath("scenenodes/")
 });
