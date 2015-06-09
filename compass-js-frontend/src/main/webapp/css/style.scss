@@ -33,13 +33,14 @@ body {
   bottom: 0px;
   padding: 2px;
   padding-top: 6px;
-}
 
-.layout-container ,
-.layout-container div {
-  overflow:	auto;
-}
-div.layout-container {
-  height: 100%;
-  overflow:	visible;
+  .layout-container ,
+  .layout-container div {
+    overflow:	auto;
+  }
+
+  div.layout-container {
+    height: 100%;
+    overflow:	visible;
+  }
 }
