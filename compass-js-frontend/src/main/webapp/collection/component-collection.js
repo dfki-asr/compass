@@ -20,4 +20,5 @@ var ComponentCollection = AmpersandRestCollection.extend({
 	},
 	url: Config.getRESTPath("scenenodecomponents/")
 });
+
 module.exports = ComponentCollection;

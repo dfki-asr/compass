@@ -11,8 +11,10 @@ var app = require('ampersand-app');
 var AmpersandRestCollection = require("ampersand-rest-collection");
 var Config = require("../config");
 var SceneNode = require("../model/scenenode");
+
 var SceneNodeCollection = AmpersandRestCollection.extend({
 	url: Config.getRESTPath("scenenodes/"),
 	model: SceneNode
 });
+
 module.exports = SceneNodeCollection;
