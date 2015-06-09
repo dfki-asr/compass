@@ -34,15 +34,11 @@ var EditorPage = BasePage.extend({
 		console.log("Editor fetched root node: " + this.root.name);
 	},
 	fetchData: function(){
-		this.scenario.fetch({
-			success: this.fetchSceneNode.bind(this)
-		});
+		this.scenario.fetch().then(this.fetchSceneNode.bind(this));
 	},
 	fetchSceneNode: function(){
 		this.root = new SceneNode({id: this.scenario.root});
-		this.root.fetch({
-			success: this.initUI.bind(this)
-		});
+		this.root.fetch().then(this.initUI.bind(this));
 	}
 });
 module.exports = EditorPage;

@@ -7,9 +7,11 @@
 
 "use strict";
 
+var syncPromise = require('ampersand-sync-with-promise');
 var AmpersandModel = require("ampersand-model");
 
 var CompassModel = AmpersandModel.extend({
+	sync: syncPromise,
 	ajaxConfig: {
 		headers: {
 			"Accept": "application/json"
