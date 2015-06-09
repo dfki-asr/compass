@@ -23,7 +23,8 @@
     "bootstrap": "~3.3.4",
     "jquery-ui-layout-bower": "~1.4.4",
     "jquery-ui": "~1.11.4",
-    "fancytree": "~2.9.0"
+    "fancytree": "~2.9.0",
+    "fontawesome": "~4.3.0"
   },
   "overrides": {
     "jquery-ui-layout-bower": {
