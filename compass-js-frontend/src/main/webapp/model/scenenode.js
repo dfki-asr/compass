@@ -30,7 +30,6 @@ var SceneNode = CompassModel.extend({
 		components: ComponentCollection
 	},
 	init: function() {
-		console.log("initializing SceneNode");
 		this.childNodes = new Array();
 	},
 	parse: function(attrs){
