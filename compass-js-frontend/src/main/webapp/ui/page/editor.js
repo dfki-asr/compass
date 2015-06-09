@@ -64,7 +64,6 @@ var EditorPage = BasePage.extend({
 		return this;
 	},
 	initUI: function () {
-		console.log("Editor fetched scenario: " + this.scenario.name);
 		this.globalLayout = $(this.query(".layout-container")).layout({
 			name:					"outer",
 			center__paneSelector:	".outer-center",
