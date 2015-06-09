@@ -29,21 +29,18 @@ var HierarchyView = AmpersandView.extend({
             ],
             glyph: {
                 map: {
-                    doc: "glyphicon glyphicon-file",
-                    docOpen: "glyphicon glyphicon-file",
+                    doc: "fa fa-file-o",
+                    docOpen: "fa fa-file",
                     checkbox: "glyphicon glyphicon-unchecked",
                     checkboxSelected: "glyphicon glyphicon-check",
                     checkboxUnknown: "glyphicon glyphicon-share",
                     error: "glyphicon glyphicon-warning-sign",
-                    expanderClosed: "glyphicon glyphicon-plus-sign",
-                    expanderLazy: "glyphicon glyphicon-plus-sign",
-                    // expanderLazy: "glyphicon glyphicon-expand",
-                    expanderOpen: "glyphicon glyphicon-minus-sign",
-                    // expanderOpen: "glyphicon glyphicon-collapse-down",
-                    folder: "glyphicon glyphicon-folder-close",
-                    folderOpen: "glyphicon glyphicon-folder-open",
-                    loading: "glyphicon glyphicon-refresh"
-                    // loading: "icon-spinner icon-spin"
+                    expanderClosed: "fa fa-caret-right",
+                    expanderLazy: "fa fa-caret-right",
+                    expanderOpen: "fa fa-caret-down",
+                    folder: "fa fa-folder-o",
+                    folderOpen: "fa fa-folder-open-o",
+                    loading: "fa fa-spinner fa-pulse"
                 }
             }
         });
