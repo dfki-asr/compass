@@ -7,15 +7,15 @@
 
 "use strict";
 
-var CompassModel = require("./compassmodel");
-var Config = require('../config');
+var AmpersandModel = require("ampersand-model");
 
-var SceneNodeComponent = CompassModel.extend({
-	props: {
-		id: "number",
-		owner: "number"
+var CompassModel = AmpersandModel.extend({
+	ajaxConfig: {
+		headers: {
+			"Accept": "application/json"
+		}
 	},
-	urlRoot: Config.getRESTPath("scenenodecomponents/")
+	extraProperties: 'ignore'
 });
 
-module.exports = SceneNodeComponent;
+module.exports = CompassModel;

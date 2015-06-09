@@ -7,11 +7,11 @@
 
 "use strict";
 
-var AmpersandModel = require("ampersand-model");
+var CompassModel = require("./compassmodel");
 var ScenarioCollection = require("../collection/scenario-collection");
 var Config = require('../config');
 
-var Project = AmpersandModel.extend({
+var Project = CompassModel.extend({
 	props: {
 		id: "number",
 		name: {
@@ -41,12 +41,6 @@ var Project = AmpersandModel.extend({
 		}
 		return attrs;
 	},
-	ajaxConfig: {
-		headers: {
-			"Accept": "application/json"
-		}
-	},
-	extraProperties: 'ignore',
 	urlRoot: Config.getRESTPath("projects/")
 });
 

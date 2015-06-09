@@ -7,11 +7,11 @@
 
 "use strict";
 
-var AmpersandModel = require("ampersand-model");
+var CompassModel = require("./compassmodel");
 var Config = require('../config');
 var ComponentCollection = require("../collection/component-collection");
 
-var SceneNode = AmpersandModel.extend({
+var SceneNode = CompassModel.extend({
 	props: {
 		id: "number",
 		name: {
@@ -28,11 +28,6 @@ var SceneNode = AmpersandModel.extend({
 	},
 	collections: {
 		components: ComponentCollection
-	},
-	ajaxConfig: {
-		headers: {
-			"Accept": "application/json"
-		}
 	},
 	init: function() {
 		console.log("initializing SceneNode");
@@ -65,7 +60,6 @@ var SceneNode = AmpersandModel.extend({
 			this.visible = attrs.visible;
 		}
 	},
-	extraProperties: 'ignore',
 	urlRoot: Config.getRESTPath("scenenodes/")
 });
 
