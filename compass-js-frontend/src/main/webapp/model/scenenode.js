@@ -10,6 +10,7 @@
 var CompassModel = require("./compassmodel");
 var Config = require('../config');
 var ComponentCollection = require("../collection/component-collection");
+var SceneNodeCollection = require("../collection/scenenode-collection");
 
 var SceneNode = CompassModel.extend({
 	props: {
@@ -19,18 +20,15 @@ var SceneNode = CompassModel.extend({
 			required: true,
 			default: "Scene Node"
 		},
-		children: {
-			childNodes: SceneNode
-		},
 		parent: "number",
 		selectable3d: "boolean",
 		visible: "boolean"
 	},
 	collections: {
-		components: ComponentCollection
+		components: ComponentCollection,
+		children: SceneNodeCollection
 	},
 	init: function() {
-		this.childNodes = new Array();
 	},
 	parse: function(attrs){
 		if(!attrs){
