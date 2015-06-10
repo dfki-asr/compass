@@ -36,7 +36,13 @@ var SceneNode = CompassModel.extend({
 		}
 		console.log("Parsing sceneNode "+attrs.id);
 		if(attrs.children){
+			var children = attrs.children;
+			for(var index in children){
+				var id = children[index];
+				children[index] = new SceneNode({id: id});
 			}
+		} else {
+			attrs.children = new SceneNodeCollection([]);
 		}
 		return attrs;
 	},
