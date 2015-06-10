@@ -80,35 +80,22 @@ span.fancytree-title {
 // 	border-radius: $border-radius-small;
 // }
 // Inactive tree:
-span.fancytree-node.fancytree-selected span.fancytree-title { // selected nodes inside inactive tree
-	background-color: lighten($brand-success, 10%);
-	border-color: lighten($brand-success, 10%);
-}
-span.fancytree-node.fancytree-active span.fancytree-title { // active nodes inside inactive tree
-	background-color: lighten($brand-primary, 10%);
-}
-span.fancytree-node.fancytree-active.fancytree-selected span.fancytree-title { // active nodes inside inactive tree
-	color: lighten($brand-success, 10%);
-	// border-color: lighten($brand-success, 10%);
-	// outline: 2px solid lighten($brand-success, 10%);
+@each $state in fancytree-selected, fancytree-active, 'fancytree-selected.fancytree-active' {
+  span.fancytree-node.#{$state} span.fancytree-title { // active nodes inside inactive tree
+	background-color: $btn-primary-bg;
+	border-color: $btn-primary-border;
+	color: $btn-primary-color;
+  }
 }
 // Active tree:
 .fancytree-container.fancytree-treefocus {
-	span.fancytree-node.fancytree-focused span.fancytree-title {
-		border-color: $brand-primary;
+  @each $state in fancytree-selected, fancytree-active, fancytree-focused, 'fancytree-selected.fancytree-active' {
+	span.fancytree-node.#{$state} span.fancytree-title { // active nodes inside inactive tree
+	  background-color: $btn-primary-bg;
+	  border-color: $btn-primary-border;
+	  color: $btn-primary-color;
 	}
-	span.fancytree-node.fancytree-selected span.fancytree-title {
-		background-color: $brand-success;
-	}
-	span.fancytree-node.fancytree-active span.fancytree-title {
-		background-color: $brand-primary;
-		border-color: $brand-primary;
-	}
-	span.fancytree-node.fancytree-active.fancytree-selected span.fancytree-title {
-		color: $brand-success;
-		// border-color: $brand-success;
-		// outline: 2px solid $brand-success;
-	}
+  }
 }
 
 /*******************************************************************************
