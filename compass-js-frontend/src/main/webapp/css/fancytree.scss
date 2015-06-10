@@ -90,9 +90,6 @@ span.fancytree-node.fancytree-active.fancytree-selected span.fancytree-title { /
 }
 // Active tree:
 .fancytree-container.fancytree-treefocus {
-	span.fancytree-title:hover {
-		background-color: lighten($brand-primary, 42%);
-	}
 	span.fancytree-node.fancytree-focused span.fancytree-title {
 		border-color: $brand-primary;
 	}
