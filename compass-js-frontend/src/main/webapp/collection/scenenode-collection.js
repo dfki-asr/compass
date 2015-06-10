@@ -10,11 +10,10 @@
 var app = require('ampersand-app');
 var CompassCollection = require("./compass-collection");
 var Config = require("../config");
-var SceneNode = require("../model/scenenode");
 
 var SceneNodeCollection = CompassCollection.extend({
-	url: Config.getRESTPath("scenenodes/"),
-	model: SceneNode
+	url: Config.getRESTPath("scenenodes/")
+	//we do not specifiy the model (SceneNode) in order to avoid a circular dependency
 });
 
 module.exports = SceneNodeCollection;
