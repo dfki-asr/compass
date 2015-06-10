@@ -11,6 +11,7 @@ var CompassModel = require("./compassmodel");
 var Config = require('../config');
 var ComponentCollection = require("../collection/component-collection");
 var SceneNodeCollection = require("../collection/scenenode-collection");
+var Promise = require('promise');
 
 var SceneNode = CompassModel.extend({
 	props: {
@@ -46,7 +47,21 @@ var SceneNode = CompassModel.extend({
 		}
 		return attrs;
 	},
-	urlRoot: Config.getRESTPath("scenenodes/")
+	urlRoot: Config.getRESTPath("scenenodes/"),
+	fetchRecursively: function(){
+		if(this.children.isEmpty()){
+			return Promise.resolve();
+		}
+		var self = this;
+		return this.children.fetchCollectionEntries().then(function(){
+			var promises = [];
+			self.children.each(function(c){
+				var promise = c.fetchRecursively();
+				promises.push(promise);
+			});
+			return Promise.all(promises);
+		});
+	}
 });
 
 module.exports = SceneNode;

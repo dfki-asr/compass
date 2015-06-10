@@ -29,16 +29,29 @@ var EditorPage = BasePage.extend({
 		this.renderWithTemplate();
 		return this;
 	},
-	initUI: function () {
+	initUI: function (rootNode) {
+		this.root = rootNode;
 		console.log("Editor fetched scenario: " + this.scenario.name);
 		console.log("Editor fetched root node: " + this.root.name);
 	},
 	fetchData: function(){
-		this.scenario.fetch().then(this.fetchSceneNode.bind(this));
+		this.scenario.fetch()
+				.then(this.fetchSceneNodeTree.bind(this))
+				.then(this.initUI.bind(this));
 	},
-	fetchSceneNode: function(){
-		this.root = new SceneNode({id: this.scenario.root});
-		this.root.fetch().then(this.initUI.bind(this));
+	fetchSceneNodeTree: function(){
+		var rootId = this.scenario.root;
+		var promise = new Promise(function(resolve, reject) {
+			var rootNode = new SceneNode({id: rootId});
+			rootNode.fetch()
+					.then(rootNode.fetchRecursively.bind(rootNode))
+					.then(function() {
+							resolve(rootNode);
+						},
+						function() { reject(); }
+					);
+		});
+		return promise;
 	}
 });
 module.exports = EditorPage;
