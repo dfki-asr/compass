@@ -35,8 +35,7 @@
     },
     "fancytree": {
       "main": [
-        "dist/jquery.fancytree-all.js",
-        "dist/skin-bootstrap/ui.fancytree.css"
+        "dist/jquery.fancytree-all.js"
       ]
     }
   }
