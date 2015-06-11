@@ -15,6 +15,10 @@ var template = require('../../templates/editor/hierarchy.html');
 var HierarchyView = AmpersandView.extend({
 	template: template,
 	tree: undefined,
+	events: {
+		"click [data-hook=action-add-child]": "newChild",
+		"click [data-hook=action-delete-selected]": "deleteSelected"
+	},
 	initialize: function (options) {
 		this.parent.on("sceneTreeLoaded", this.renderTree.bind(this));
 	},
@@ -63,6 +67,24 @@ var HierarchyView = AmpersandView.extend({
 			fancyNode.children = this.createFancyTreeStructure(scenenode);
 		}
 		return fancyNode;
+	},
+
+	newChild: function () {
+		console.log("new Node");
+		// if a node is currently selected:
+		//      create a new child node of it
+		// else:
+		//      create a new child of the (invisible) root node
+	},
+
+	deleteSelected: function () {
+		console.log("delete Node");
+		// if a node is currently selected:
+		//      let the user confirm he really wants to delete said node.
+		//      delete it.
+		// else:
+		//      (ideally, the button would be disabled via a binding)
+		//      complain.
 	}
 });
 
