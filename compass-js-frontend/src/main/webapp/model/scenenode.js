@@ -9,7 +9,6 @@
 
 var CompassModel = require("./compass-model");
 var Config = require('../config');
-var ComponentCollection = require("../collection/component-collection");
 var SceneNodeCollection = require("../collection/scenenode-collection");
 var Promise = require('promise');
 
@@ -26,7 +25,6 @@ var SceneNode = CompassModel.extend({
 		visible: "boolean"
 	},
 	collections: {
-		components: ComponentCollection,
 		children: SceneNodeCollection
 	},
 	init: function() {
