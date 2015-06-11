@@ -88,6 +88,9 @@ var EditorPage = BasePage.extend({
 	fetchData: function(){
 		this.scenario.fetch()
 				.then(this.fetchSceneNodeTree.bind(this))
+				.catch(function(err){
+					console.log(err);
+				})
 				.then(this.doneLoadingSceneTree.bind(this));
 	},
 	fetchSceneNodeTree: function(){
