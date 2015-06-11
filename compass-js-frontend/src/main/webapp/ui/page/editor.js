@@ -31,7 +31,7 @@ var EditorPage = BasePage.extend({
 	},
 	doneLoadingSceneTree: function (rootNode) {
 		this.root = rootNode;
-		this.fire("sceneTreeLoaded");
+		this.trigger("sceneTreeLoaded");
 	},
 	fetchData: function(){
 		this.scenario.fetch()
