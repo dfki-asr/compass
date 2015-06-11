@@ -57,12 +57,15 @@
     "ampersand-model": "^5.0.3",
     "ampersand-rest-collection": "^4.0.0",
     "ampersand-router": "^3.0.2",
+    "ampersand-sync": "^3.0.7",
+    "ampersand-sync-with-promise": "^2.1.2",
     "ampersand-view": "^7.4.0",
     "ampersand-view-switcher": "^2.0.0",
     "bootstrap": "^3.3.4",
     "domify": "^1.3.3",
     "jquery": "^2.1.4",
     "lodash": "^3.9.1",
+    "promise": "^7.0.1",
     "riot": "^2.1.0"
   }
 }

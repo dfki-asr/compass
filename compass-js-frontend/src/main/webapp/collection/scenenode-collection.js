@@ -7,21 +7,13 @@
 
 "use strict";
 
-var CompassModel = require("./compass-model");
+var app = require('ampersand-app');
+var CompassCollection = require("./compass-collection");
 var Config = require("../config");
 
-var Scenario = CompassModel.extend({
-	props: {
-		id: "number",
-		name: {
-			type: "string",
-			required: true,
-			default: "Default Name"
-		},
-		root: "number",
-		project: "number"
-	},
-	urlRoot: Config.getRESTPath("scenarios/")
+var SceneNodeCollection = CompassCollection.extend({
+	url: Config.getRESTPath("scenenodes/")
+	//we do not specifiy the model (SceneNode) in order to avoid a circular dependency
 });
 
-module.exports = Scenario;
+module.exports = SceneNodeCollection;

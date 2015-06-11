@@ -9,6 +9,7 @@
 
 var app = require('ampersand-app');
 var Scenario = require('../../model/scenario');
+var SceneNode = require("../../model/scenenode");
 var template = require('../templates/editorpage.html');
 var BasePage = require('./basepage');
 var riot = require("riot");
@@ -51,13 +52,12 @@ var EditorPage = BasePage.extend({
 			constructor: NavbarView
 		}
 	},
+	root: undefined,
 	initialize: function (scenarioId, options) {
 		//The router gives as a string, but the model wants a number...
 		var idAsNumber = parseInt(scenarioId);
 		this.scenario = new Scenario({id: idAsNumber});
-		this.scenario.fetch({
-			success: this.initUI.bind(this)
-		});
+		this.fetchData();
 	},
 	render: function () {
 		this.renderWithTemplate();
@@ -79,6 +79,29 @@ var EditorPage = BasePage.extend({
 			minSize:				50
 		});
 		this.navbar.setScenario(this.scenario);
+	},
+	doneLoadingSceneTree: function (rootNode) {
+		this.root = rootNode;
+		this.trigger("sceneTreeLoaded");
+	},
+	fetchData: function(){
+		this.scenario.fetch()
+				.then(this.fetchSceneNodeTree.bind(this))
+				.then(this.doneLoadingSceneTree.bind(this));
+	},
+	fetchSceneNodeTree: function(){
+		var rootId = this.scenario.root;
+		var promise = new Promise(function(resolve, reject) {
+			var rootNode = new SceneNode({id: rootId});
+			rootNode.fetch()
+					.then(rootNode.fetchRecursively.bind(rootNode))
+					.then(function() {
+							resolve(rootNode);
+						},
+						function() { reject(); }
+					);
+		});
+		return promise;
 	}
 });
 module.exports = EditorPage;
