@@ -5,13 +5,22 @@
  You may not use this file except in compliance with the License.
 -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>COMPASS</title>
-		<script src="bundle.js"></script>
+		<link href="vendor/css/lib.min.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
+		<link href="css/layout-default.css" rel="stylesheet">
+		<link href="css/fancytree.css" rel="stylesheet">
 	</head>
 	<body>
-		<p>He, du da.</p>
+		<div id="app"></div>
+		<!-- Script needs to be here, if moved to head, nothing will work ... -->
+		<script src="vendor/js/lib.min.js" type="text/javascript"></script>
+		<!-- build:js bundle.js -->
+		<script src="app.js" type="text/javascript"></script>
+		<!-- endbuild -->
 	</body>
 </html>

@@ -1,0 +1,42 @@
+{
+  "name": "compass-js-frontend",
+  "version": "2.0.1",
+  "homepage": "https://github.com/dfki-asr/compass",
+  "authors": [
+    "Wolfgang Herget <wolfgang.herget@dfki.de>"
+  ],
+  "description": "COMPASS Frontend JavaScript-Only (Fluxgate)",
+  "main": "src/main/webapp/app.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "license": "Apache 2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "jquery-ui-layout-bower": "~1.4.4",
+    "jquery-ui": "~1.11.4",
+    "fancytree": "~2.9.0",
+    "fontawesome": "~4.3.0"
+  },
+  "overrides": {
+    "jquery-ui-layout-bower": {
+      "dependencies": {
+        "jquery": ">=1.5",
+        "jquery-ui": ">=1.11"
+      }
+    },
+    "fancytree": {
+      "main": [
+        "dist/jquery.fancytree-all.js"
+      ]
+    }
+  }
+}

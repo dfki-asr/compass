@@ -5,3 +5,46 @@
  * You may not use this file except in compliance with the License.
  */
 
+// The fixed navbar will overlay other content, unless you add padding to the <body>.
+// By default, the navbar is 50px high.
+body {
+	padding-top: 65px;
+}
+
+.footer{
+	border-top: 1px solid gainsboro;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	padding-top: 5px;
+}
+
+.panel{
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.editorpage {
+  // fullscreen the editor
+  position: fixed;
+  top: 51px; // bootstrap: navbar-height
+  left: 0px;
+  width: 100%;
+  bottom: 0px;
+  padding: 2px;
+  padding-top: 6px;
+
+  .layout-container ,
+  .layout-container div {
+    overflow:	auto;
+  }
+
+  div.layout-container {
+    height: 100%;
+    overflow:	visible;
+  }
+}
+
+.tree{
+	padding: 2px;
+}

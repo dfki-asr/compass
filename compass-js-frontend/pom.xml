@@ -43,6 +43,11 @@
 				<configuration>
 					<filesets>
 						<fileset>
+							<directory>${basedir}/bower_components</directory>
+							<followSymlinks>false</followSymlinks>
+							<useDefaultExcludes>true</useDefaultExcludes>
+						</fileset>
+						<fileset>
 							<directory>${basedir}/node_modules</directory>
 							<followSymlinks>false</followSymlinks>
 							<useDefaultExcludes>true</useDefaultExcludes>
@@ -76,9 +81,13 @@
 							<goal>npm</goal>
 						</goals>
 						<phase>process-resources</phase>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
+					</execution>
+					<execution>
+						<id>bower install</id>
+						<goals>
+							<goal>bower</goal>
+						</goals>
+						<phase>process-resources</phase>
 					</execution>
 					<execution>
 						<id>gulp build</id>
@@ -86,9 +95,6 @@
 							<goal>gulp</goal>
 						</goals>
 						<phase>compile</phase>
-						<configuration>
-							<arguments>build</arguments>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

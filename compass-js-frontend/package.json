@@ -2,7 +2,7 @@
   "name": "compass-js-frontend",
   "version": "2.1.0-SNAPSHOT",
   "description": "Javascript based web frontend for COMPASS.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,20 +17,55 @@
   },
   "homepage": "https://github.com/dfki-asr/compass",
   "devDependencies": {
+    "asset-browserifier": "git://github.com/l337r007/asset-browserifier.git#0.2.2",
+    "babel": "^5.4.4",
+    "bower": "^1.4.1",
     "browserify": "^10.1.3",
     "del": "^1.1.1",
     "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
     "gulp-connect": "^2.2.0",
+    "gulp-filter": "^2.0.2",
+    "gulp-flatten": "0.0.4",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-minify-css": "^1.1.1",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.1",
     "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.2.0",
+    "gulp-useref": "git://github.com/jonkemp/gulp-useref.git",
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.2.4",
+    "html-browserify": "0.0.4",
+    "main-bower-files": "^2.8.0",
+    "node-notifier": "^4.2.1",
+    "proxy-middleware": "^0.12.0",
+    "riotify": "0.0.9",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
+  "browserify": {
+    "transform": [
+      "html-browserify",
+      "riotify"
+    ]
+  },
   "dependencies": {
+    "ampersand-app": "^1.0.4",
+    "ampersand-dom": "^1.4.0",
+    "ampersand-events": "^1.1.1",
     "ampersand-model": "^5.0.3",
     "ampersand-rest-collection": "^4.0.0",
-    "jquery": "^2.1.4"
+    "ampersand-router": "^3.0.2",
+    "ampersand-sync": "^3.0.7",
+    "ampersand-sync-with-promise": "^2.1.2",
+    "ampersand-view": "^7.4.0",
+    "ampersand-view-switcher": "^2.0.0",
+    "bootstrap": "^3.3.4",
+    "domify": "^1.3.3",
+    "jquery": "^2.1.4",
+    "lodash": "^3.9.1",
+    "promise": "^7.0.1",
+    "riot": "^2.1.0"
   }
 }

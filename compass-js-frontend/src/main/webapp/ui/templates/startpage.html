@@ -1,0 +1,61 @@
+<div class="startpage">
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/#start">COMPASS</a>
+			</div>
+			<div data-hook="navbar"></div>
+		</div>
+	</nav>
+    <div class="row">
+		<div class="col-lg-3 col-lg-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Projects</h3>
+				</div>
+				<div class="panel-body">
+					<listselection id="projectselection"></listselection>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-lg-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Scenarios</h3>
+				</div>
+				<div class="panel-body">
+					<listselection id="scenarioselection"></listselection>
+				</div>
+			</div>
+		</div>
+    </div>
+
+	<div id="modal-entry-point"></div>
+
+	<div class="row">
+        <div class="col-lg-3 col-lg-offset-2 text-center">
+			<button class="btn btn-default" type="button" data-action="open-create-project-modal">
+				<span class="glyphicon glyphicon-plus"></span> Create
+			</button>
+			<button class="btn btn-default" type="button" disabled="disabled">Edit</button>
+			<button class="btn btn-default" type="button" disabled="disabled">Duplicate</button>
+			<button class="btn btn-default" type="button" disabled="disabled">Delete</button>
+        </div>
+		<div class="col-lg-3 col-lg-offset-2 text-center">
+			<button class="btn btn-default" type="button" disabled="disabled">Create</button>
+			<button class="btn btn-default" type="button" disabled="disabled">Edit</button>
+			<button class="btn btn-default" type="button" disabled="disabled">Duplicate</button>
+			<button class="btn btn-default" type="button" disabled="disabled">Delete</button>
+        </div>
+    </div>
+	<div class="row">
+		<div class="col-lg-2 col-lg-offset-5 text-center">
+			<button class="btn btn-primary btn-lg" type="button" id="openscenariobutton" disabled="disabled">Open Scenario</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-10 col-lg-offset-1 text-center footer">
+			© DFKI 2013
+		</div>
+	</div>
+</div>
