@@ -151,6 +151,52 @@
     padding-bottom:	0.35ex; /* to 'vertically center' text inside text-span */
 }
 
+@mixin toggler-fontawesome($content) {
+    display: inline-block;
+    content: $content;
+    position: relative;
+    font: normal normal normal 14px/1 FontAwesome;
+    color: #D8D8D8;
+}
+
+// copy-pasted from bower_components/fontawsome/scss/_variables.scss
+$fa-var-angle-down: "\f107";
+$fa-var-angle-left: "\f104";
+$fa-var-angle-right: "\f105";
+$fa-var-angle-up: "\f106";
+// end copy-paste
+
+.ui-layout-toggler-west-open:after {
+    @include toggler-fontawesome($fa-var-angle-left);
+    margin-top: 16px;
+}
+
+.ui-layout-toggler-east-closed:after {
+    @include toggler-fontawesome($fa-var-angle-left);
+    margin-top: 16px;
+}
+
+.ui-layout-toggler-west-closed:after {
+    @include toggler-fontawesome($fa-var-angle-right);
+    margin-top: 16px;
+}
+
+.ui-layout-toggler-east-open:after {
+    @include toggler-fontawesome($fa-var-angle-right);
+    margin-top: 16px;
+}
+
+.ui-layout-toggler-south-closed:after {
+    @include toggler-fontawesome($fa-var-angle-up);
+    top: -4px;
+}
+
+.ui-layout-toggler-south-open:after {
+    @include toggler-fontawesome($fa-var-angle-down);
+    top: -4px;
+}
+
+
 /*
  *	PANE-MASKS
  *	these styles are hard-coded on mask elems, but are also 
