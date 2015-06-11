@@ -29,15 +29,14 @@ var EditorPage = BasePage.extend({
 		this.renderWithTemplate();
 		return this;
 	},
-	initUI: function (rootNode) {
+	doneLoadingSceneTree: function (rootNode) {
 		this.root = rootNode;
-		console.log("Editor fetched scenario: " + this.scenario.name);
-		console.log("Editor fetched root node: " + this.root.name);
+		this.fire("sceneTreeLoaded");
 	},
 	fetchData: function(){
 		this.scenario.fetch()
 				.then(this.fetchSceneNodeTree.bind(this))
-				.then(this.initUI.bind(this));
+				.then(this.doneLoadingSceneTree.bind(this));
 	},
 	fetchSceneNodeTree: function(){
 		var rootId = this.scenario.root;
