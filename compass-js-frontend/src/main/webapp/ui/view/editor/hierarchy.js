@@ -29,7 +29,7 @@ var HierarchyView = AmpersandView.extend({
             ],
             glyph: {
                 map: {
-                    doc: "fa fa-file-o",
+                    doc: "fa fa-circle-thin", //scenenode without chidlren
                     docOpen: "fa fa-file",
                     checkbox: "glyphicon glyphicon-unchecked",
                     checkboxSelected: "glyphicon glyphicon-check",
@@ -38,8 +38,8 @@ var HierarchyView = AmpersandView.extend({
                     expanderClosed: "fa fa-caret-right",
                     expanderLazy: "fa fa-caret-right",
                     expanderOpen: "fa fa-caret-down",
-                    folder: "fa fa-folder-o",
-                    folderOpen: "fa fa-folder-open-o",
+                    folder: "fa fa-compress", // scenenode with chidlren, not expanded
+                    folderOpen: "fa fa-expand", //expanded scenenode
                     loading: "fa fa-spinner fa-pulse"
                 }
             }
