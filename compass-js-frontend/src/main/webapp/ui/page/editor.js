@@ -58,6 +58,7 @@ var EditorPage = BasePage.extend({
 		var idAsNumber = parseInt(scenarioId);
 		this.scenario = new Scenario({id: idAsNumber});
 		this.fetchData();
+		this.on("sceneTreeLoaded", this.initUI.bind(this));
 	},
 	render: function () {
 		this.renderWithTemplate();
