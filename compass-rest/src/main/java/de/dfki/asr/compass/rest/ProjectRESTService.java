@@ -12,6 +12,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import de.dfki.asr.compass.business.api.ProjectManager;
+import de.dfki.asr.compass.business.exception.EntityConstraintException;
 import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.model.Project;
 import de.dfki.asr.compass.model.Scenario;
@@ -100,9 +101,23 @@ public class ProjectRESTService extends AbstractRESTService {
 			@ApiParam(value = "the project", required = true)
 			final Project entity) throws IllegalArgumentException, UnprocessableEntityException {
 		ensureEntityIntegrityWhenPost(entity);
+		checkProjectName(entity.getName());
 		projectManager.save(entity);
 		LocationBuilder locationPrefix = locationOf(this);
 		return Response.created(locationPrefix.add(entity).uri()).build();
+	}
+
+	private void checkProjectName(final String name) {
+		if (!projectManager.isNameUnique(name)) {
+			throw new EntityConstraintException("A project of the given name already exists.");
+		}
+	}
+
+	private boolean didNameChange(final Project newEntity, final long oldEntityId) throws EntityNotFoundException {
+		Project oldEntity = projectManager.findById(oldEntityId);
+		String oldName = oldEntity.getName();
+		String newName = newEntity.getName();
+		return !oldName.equals(newName);
 	}
 
 	@POST
@@ -122,7 +137,7 @@ public class ProjectRESTService extends AbstractRESTService {
 			final Scenario newChild,
 			@ApiParam(value = "the project the scenario will be added to", required = true)
 			@PathParam("projectId") final Long projectId)
-			throws EntityNotFoundException, UnprocessableEntityException, IllegalArgumentException  {
+			throws EntityNotFoundException, UnprocessableEntityException, IllegalArgumentException {
 		if (newChild.getId() > 0) {
 			throw new UnprocessableEntityException("When POSTing new entities the ID field should be set to 0 or left out entirely.");
 		}
@@ -149,6 +164,9 @@ public class ProjectRESTService extends AbstractRESTService {
 			final Project entity)
 			throws IllegalArgumentException, EntityNotFoundException, UnprocessableEntityException {
 		ensureEntityIntegrityWhenPut(entity, entityId);
+		if (didNameChange(entity, entityId)) {
+			checkProjectName(entity.getName());
+		}
 		projectManager.save(entity);
 		return Response.noContent().build();
 	}
