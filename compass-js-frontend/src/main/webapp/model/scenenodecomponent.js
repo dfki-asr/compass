@@ -7,7 +7,7 @@
 
 "use strict";
 
-var CompassModel = require("./compassmodel");
+var CompassModel = require("./compass-model");
 var Config = require('../config');
 
 var SceneNodeComponent = CompassModel.extend({

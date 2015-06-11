@@ -7,7 +7,7 @@
 
 "use strict";
 
-var CompassModel = require("./compassmodel");
+var CompassModel = require("./compass-model");
 var ScenarioCollection = require("../collection/scenario-collection");
 var Config = require('../config');
 
