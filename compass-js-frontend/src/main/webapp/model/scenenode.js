@@ -53,7 +53,9 @@ var SceneNode = CompassModel.extend({
 		return this.children.fetchCollectionEntries().then(function(){
 			var promises = [];
 			self.children.each(function(c){
-				var promise = c.fetchRecursively();
+				var promise = c.fetchRecursively().catch(function(err){
+				console.log(err);
+			});
 				promises.push(promise);
 			});
 			return Promise.all(promises);
