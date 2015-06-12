@@ -58,6 +58,7 @@ var HierarchyView = AmpersandView.extend({
 		var selectedNode = $.ui.fancytree.getNode(event.originalEvent);
 		var sceneNode = this.getSceneNodeByFancyNode(selectedNode);
 		this.parent.selectedNode = sceneNode;
+		selectedNode.setSelected();
 	},
 	createFancyTreeStructure: function(scenenode){
 		var fancyTree = [];
