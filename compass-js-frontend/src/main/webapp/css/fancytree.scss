@@ -37,6 +37,9 @@ $fancy-node-outline-width: 1px;
 // Import common styles (only after variables have been declared).
 @import "fancytree-common";
 
+ul.fancytree-container {
+  overflow: visible; // leave scrolling to the parent container to avoid flickering.
+}
 
 ul.fancytree-container ul {
 	padding: 0 0 0 1.5em;
