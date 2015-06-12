@@ -92,11 +92,25 @@ var HierarchyView = AmpersandView.extend({
 		return this.tree.getNodeByKey(""+sceneNode.id);
 	},
 	newChild: function () {
-		console.log("new Node");
-		// if a node is currently selected:
-		//      create a new child node of it
-		// else:
-		//      create a new child of the (invisible) root node
+		var sceneNode = this.parent.selectedNode;
+		if (!sceneNode) {
+			sceneNode = this.parent.root;
+		}
+		var newNode = sceneNode.children.add({name: "New Node"});
+		this.insertNodeIntoTree(newNode, sceneNode);
+		this.parent.selectedNode = newNode;
+	},
+	insertNodeIntoTree: function(sceneNode, parent) {
+		var index = sceneNode.collection.indexOf(sceneNode);
+		var fancyNode = this.createFancyTreeNode(sceneNode);
+		if (index === 0) {
+			var fancyParent = this.getFancyNodeBySceneNode(parent);
+			fancyParent.addNode(fancyNode, "child");
+		} else {
+			var predecessor = sceneNode.collection.at(index - 1);
+			var fancyPredecessor = this.getFancyNodeBySceneNode(predecessor);
+			fancyPredecessor.addNode(fancyNode, "after");
+		}
 	},
 	deleteSelected: function () {
 		console.log("delete Node");
