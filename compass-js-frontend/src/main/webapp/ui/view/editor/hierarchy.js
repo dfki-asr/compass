@@ -48,8 +48,16 @@ var HierarchyView = AmpersandView.extend({
 					loading: "fa fa-spinner fa-pulse"
 				}
 			},
-			lazyLoad: this.lazyloadFancyNodes.bind(this)
+			lazyLoad: this.lazyloadFancyNodes.bind(this),
+			click: this.handleClickOnNode.bind(this)
 		});
+	},
+	handleClickOnNode: function(event, data){
+		if(data.targetType === "expander") {
+			return;
+		}
+		var selectedNode = $.ui.fancytree.getNode(event.originalEvent);
+		var sceneNode = this.getSceneNodeByFancyNode(selectedNode);
 	},
 	createFancyTreeStructure: function(scenenode){
 		var fancyTree = [];
