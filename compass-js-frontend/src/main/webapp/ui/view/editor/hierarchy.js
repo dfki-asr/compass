@@ -77,6 +77,7 @@ var HierarchyView = AmpersandView.extend({
 			fancyNode.lazy = true;
 			fancyNode.children = undefined;
 		}
+		fancyNode.sceneNode = scenenode;
 		return fancyNode;
 	},
 	lazyloadFancyNodes: function(event, data){
@@ -84,25 +85,9 @@ var HierarchyView = AmpersandView.extend({
 		var sceneNode = this.getSceneNodeByFancyNode(fancyNode);
 		data.result = this.createFancyTreeStructure(sceneNode);
 	},
-	getSceneNodeByFancyNode: function(node){
-		var pathToNode = this.createIdPathToSceneNode(node);
-		return this.getSceneNodeFromIdPath(pathToNode);
+	getSceneNodeByFancyNode: function(fancyNode){
+		return fancyNode.data.sceneNode;
 	},
-	createIdPathToSceneNode: function(fancyNode){
-		var path = [];
-		while(fancyNode.parent){
-			path.unshift(fancyNode.key);
-			fancyNode = fancyNode.parent;
-		};
-		return path;
-	},
-	getSceneNodeFromIdPath: function(path){
-		var node = this.parent.root;
-		for(var index in path){
-			var id = path[index];
-			node = node.children.get(id);
-		}
-		return node;
 	},
 	newChild: function () {
 		console.log("new Node");
@@ -111,7 +96,6 @@ var HierarchyView = AmpersandView.extend({
 		// else:
 		//      create a new child of the (invisible) root node
 	},
-
 	deleteSelected: function () {
 		console.log("delete Node");
 		// if a node is currently selected:
