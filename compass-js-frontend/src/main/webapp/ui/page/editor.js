@@ -23,6 +23,7 @@ var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
 	template: template,
 	scenario: undefined,
+	selectedNode: undefined,
 	globalLayout: undefined,
 	subviews: {
 		hierarchy: {
