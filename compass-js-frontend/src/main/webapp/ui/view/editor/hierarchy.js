@@ -48,6 +48,7 @@ var HierarchyView = AmpersandView.extend({
 				}
 			},
 			lazyLoad: this.lazyloadFancyNodes.bind(this),
+			selectMode: 1,
 			click: this.handleClickOnNode.bind(this)
 		});
 	},
