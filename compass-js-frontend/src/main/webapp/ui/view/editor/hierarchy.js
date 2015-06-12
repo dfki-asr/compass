@@ -88,6 +88,8 @@ var HierarchyView = AmpersandView.extend({
 	getSceneNodeByFancyNode: function(fancyNode){
 		return fancyNode.data.sceneNode;
 	},
+	getFancyNodeBySceneNode: function(sceneNode){
+		return this.tree.getNodeByKey(""+sceneNode.id);
 	},
 	newChild: function () {
 		console.log("new Node");
