@@ -28,7 +28,7 @@ var HierarchyView = AmpersandView.extend({
 	},
 	renderTree: function () {
 		var fancyTree = this.createFancyTreeStructure(this.parent.root);
-		this.tree = $(this.query(".tree")).fancytree({
+		var $tree = $(this.query(".tree")).fancytree({
 			extensions: ["glyph"],
 			source: fancyTree,
 			glyph: {
@@ -51,6 +51,8 @@ var HierarchyView = AmpersandView.extend({
 			selectMode: 1,
 			activate: this.handleClickOnNode.bind(this)
 		});
+		// what we actually want to save is the internal tree object.
+		this.tree = $tree.fancytree('getTree');
 	},
 	handleClickOnNode: function(event, data){
 		var selectedNode = data.node;
