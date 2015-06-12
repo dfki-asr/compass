@@ -25,7 +25,10 @@ var SceneNode = CompassModel.extend({
 		visible: "boolean"
 	},
 	collections: {
-		children: SceneNodeCollection
+		children: function () {
+			// needs level of indirection to avoid circular require()
+			return new SceneNodeCollection([], {model: SceneNode});
+		}
 	},
 	init: function() {
 	},
