@@ -7,19 +7,14 @@
 
 "use strict";
 
-var AmpersandRestCollection = require("ampersand-rest-collection");
+var CompassCollection = require("./compass-collection");
 var Project = require("../model/project");
 var Config = require("../config");
 
-var ProjectCollection = AmpersandRestCollection.extend({
+var ProjectCollection = CompassCollection.extend({
 	model: Project,
 	selectedProject: undefined,
 	indexes: ['name'],
-	ajaxConfig: {
-		headers: {
-			"Accept": "application/json"
-		}
-	},
 	url: Config.getRESTPath("projects/"),
 	selectById: function(id){
 		var newSelection = this.get(id);
