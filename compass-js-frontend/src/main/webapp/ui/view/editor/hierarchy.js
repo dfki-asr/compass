@@ -49,14 +49,11 @@ var HierarchyView = AmpersandView.extend({
 			},
 			lazyLoad: this.lazyloadFancyNodes.bind(this),
 			selectMode: 1,
-			click: this.handleClickOnNode.bind(this)
+			activate: this.handleClickOnNode.bind(this)
 		});
 	},
 	handleClickOnNode: function(event, data){
-		if(data.targetType === "expander") {
-			return;
-		}
-		var selectedNode = $.ui.fancytree.getNode(event.originalEvent);
+		var selectedNode = data.node;
 		var sceneNode = this.getSceneNodeByFancyNode(selectedNode);
 		this.parent.selectedNode = sceneNode;
 		selectedNode.setSelected();
