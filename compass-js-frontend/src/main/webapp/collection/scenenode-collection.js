@@ -7,7 +7,6 @@
 
 "use strict";
 
-var app = require('ampersand-app');
 var CompassCollection = require("./compass-collection");
 var Config = require("../config");
 

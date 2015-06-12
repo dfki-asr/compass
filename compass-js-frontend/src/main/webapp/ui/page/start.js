@@ -7,7 +7,6 @@
 
 "use strict";
 
-var $ = global.jQuery;
 var app = require('ampersand-app');
 var AmpersandViewSwitcher = require("ampersand-view-switcher");
 var template = require('../templates/startpage.html');

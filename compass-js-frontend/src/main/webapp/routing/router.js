@@ -7,7 +7,6 @@
 
 "use strict";
 
-var app = require('ampersand-app');
 var AmpersandRouter = require('ampersand-router');
 var StartPage = require("./../ui/page/start");
 var EditorPage = require("./../ui/page/editor");

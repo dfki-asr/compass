@@ -7,12 +7,10 @@
 
 "use strict";
 
-var app = require('ampersand-app');
 var Scenario = require('../../model/scenario');
 var SceneNode = require("../../model/scenenode");
 var template = require('../templates/editorpage.html');
 var BasePage = require('./basepage');
-var riot = require("riot");
 var $ = global.jQuery;
 
 var HierarchyView = require('../view/editor/hierarchy.js');

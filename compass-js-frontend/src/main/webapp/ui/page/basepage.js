@@ -7,7 +7,6 @@
 
 "use strict";
 
-var app = require('ampersand-app');
 var template = require('../templates/basepage.html');
 var AmpersandView = require('ampersand-view');
 

@@ -9,7 +9,6 @@
 
 var app = require('ampersand-app');
 var AmpersandView = require('ampersand-view');
-var AmpersandDom = require('ampersand-dom');
 var AmpersandViewSwitcher = require('ampersand-view-switcher');
 var _ = require('lodash');
 var domify = require('domify');

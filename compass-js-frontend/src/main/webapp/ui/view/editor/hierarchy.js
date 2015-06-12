@@ -8,7 +8,6 @@
 "use strict";
 
 var $ = global.jQuery;
-var app = require('ampersand-app');
 var AmpersandView = require('ampersand-view');
 var template = require('../../templates/editor/hierarchy.html');
 

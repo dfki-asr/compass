@@ -9,7 +9,6 @@
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
 var syncPromise = require('ampersand-sync-with-promise');
-var Config = require("../config");
 var Promise = require('promise');
 
 var CompassCollection = AmpersandRestCollection.extend({
