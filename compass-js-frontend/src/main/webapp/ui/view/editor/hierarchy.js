@@ -70,7 +70,7 @@ var HierarchyView = AmpersandView.extend({
 	createFancyTreeNode: function(scenenode){
 		var fancyNode = {};
 		fancyNode.title = scenenode.name;
-		fancyNode.key = scenenode.id;
+		fancyNode.key = scenenode.cid;
 		if(!scenenode.children.isEmpty()){
 			fancyNode.folder = true;
 			fancyNode.children = this.createFancyTreeStructure(scenenode);
@@ -82,7 +82,7 @@ var HierarchyView = AmpersandView.extend({
 		return fancyNode.data.sceneNode;
 	},
 	getFancyNodeBySceneNode: function(sceneNode){
-		return this.tree.getNodeByKey(""+sceneNode.id);
+		return this.tree.getNodeByKey(sceneNode.cid);
 	},
 	newChild: function () {
 		var sceneNode = this.parent.selectedNode;
