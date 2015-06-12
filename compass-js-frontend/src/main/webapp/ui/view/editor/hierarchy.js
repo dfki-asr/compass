@@ -47,7 +47,6 @@ var HierarchyView = AmpersandView.extend({
 					loading: "fa fa-spinner fa-pulse"
 				}
 			},
-			lazyLoad: this.lazyloadFancyNodes.bind(this),
 			selectMode: 1,
 			activate: this.handleClickOnNode.bind(this)
 		});
@@ -74,16 +73,10 @@ var HierarchyView = AmpersandView.extend({
 		fancyNode.key = scenenode.id;
 		if(!scenenode.children.isEmpty()){
 			fancyNode.folder = true;
-			fancyNode.lazy = true;
-			fancyNode.children = undefined;
+			fancyNode.children = this.createFancyTreeStructure(scenenode);
 		}
 		fancyNode.sceneNode = scenenode;
 		return fancyNode;
-	},
-	lazyloadFancyNodes: function(event, data){
-		var fancyNode = data.node;
-		var sceneNode = this.getSceneNodeByFancyNode(fancyNode);
-		data.result = this.createFancyTreeStructure(sceneNode);
 	},
 	getSceneNodeByFancyNode: function(fancyNode){
 		return fancyNode.data.sceneNode;
