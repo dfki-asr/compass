@@ -88,12 +88,13 @@ span.fancytree-title {
   }
 }
 // Active tree:
-.fancytree-container.fancytree-treefocus {
-  @each $state in fancytree-selected, fancytree-active, fancytree-focused, 'fancytree-selected.fancytree-active' {
-	span.fancytree-node.#{$state} span.fancytree-title { // active nodes inside inactive tree
+.fancytree-container {
+  @each $state in fancytree-selected, fancytree-active, fancytree-focused, 'fancytree-selected.fancytree-active'{
+	span.fancytree-node.#{$state} { // active nodes inside inactive tree
 	  background-color: $btn-primary-bg;
 	  border-color: $btn-primary-border;
 	  color: $btn-primary-color;
+	  border-radius: $border-radius-base;
 	}
   }
 }
