@@ -32,7 +32,10 @@
       "dependencies": {
         "jquery": ">=1.5",
         "jquery-ui": ">=1.11"
-      }
+      },
+      "main": [
+        "source/stable/jquery.layout.js"
+      ]
     },
     "fancytree": {
       "main": [
