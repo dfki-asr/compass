@@ -34,15 +34,10 @@ var ProjectCollection = CompassCollection.extend({
 	},
 	fetchScenarios: function(newSelection){
 		var project = this.selectedProject = newSelection;
-		project.scenarios.each(function(s){
-			s.fetch({
-				success: function(s){
-					//the events do not bubble from scenarioCollection (child) to project (parent)
-					//see: http://ampersandjs.com/docs#ampersand-state-collections
-					//thus we trigger them here...
-					project.trigger("change:scenarios", project);
-				}
-			});
+		//the events do not bubble from scenarioCollection (child) to project (parent)
+		//see: http://ampersandjs.com/docs#ampersand-state-collections
+		project.scenarios.fetchCollectionEntries().then(function(){
+			project.trigger("change:scenarios", project);
 		});
 	},
 	isSelected: function(model) {
