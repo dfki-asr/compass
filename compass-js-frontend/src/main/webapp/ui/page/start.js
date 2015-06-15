@@ -25,7 +25,7 @@ var StartPage = BasePage.extend({
 	initialize: function (options) {
 		app.projects.on("sync", this.onProjectsSync.bind(this));
 		app.projects.on("change:selected", this.onProjectsSelectionChange.bind(this));
-		app.projects.on("change:scenarios", this.onScenarioChanges.bind(this));
+		app.projects.on("change:scenarios", this.onScenarioChange.bind(this));
 	},
 	onProjectEntryClick: function (event) {
 		// curiously, item is double-wrapped.
@@ -65,7 +65,7 @@ var StartPage = BasePage.extend({
 		this.updateProjectSelection();
 		this.updateScenarioList();
 	},
-	onScenarioChanges: function(project){
+	onScenarioChange: function(project){
 		if(app.projects.isSelected(project)){
 			this.updateScenarioList();
 		}
