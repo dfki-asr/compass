@@ -17,6 +17,7 @@ import de.dfki.asr.compass.rest.exception.UnprocessableEntityException;
 import de.dfki.asr.compass.model.SceneNode;
 import de.dfki.asr.compass.model.SceneNodeComponent;
 import static de.dfki.asr.compass.rest.util.LocationBuilder.locationOf;
+import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -60,6 +61,41 @@ public class SceneNodeRESTService extends AbstractRESTService {
 			@ApiParam(value = "id of the requested scene node", required = true)
 			@PathParam("id") final long entityId) throws EntityNotFoundException {
 		return sceneTreeManager.findById(entityId);
+	}
+
+	@GET
+	@Path("/{parentId}/children")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Retrieve a scene node's children.",
+			notes = "Create a new scene node, as a child of the specified parent"
+	)
+	@ApiResponses({
+		@ApiResponse(code = 404, message = "Entity not found")
+	})
+	public List<SceneNode> getChildrenForParent(
+			@ApiParam(value = "Parent scene node id", required = true)
+			@PathParam("parentId") final long parentId
+			) throws EntityNotFoundException {
+		SceneNode parent = sceneTreeManager.findById(parentId);
+		return parent.getChildren();
+	}
+
+	@GET
+	@Path("/{parentId}/children/{childId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+			value = "Retrieve a specific child of a node.",
+			notes = "Convenience method, equivalent to /{childId}"
+	)
+	@ApiResponses({
+		@ApiResponse(code = 404, message = "Entity not found")
+	})
+	public SceneNode getChildForParent(
+			@ApiParam(value = "Parent scene node id", required = true)
+			@PathParam("childId") final long childId
+			) throws EntityNotFoundException {
+		return getNodeByID(childId);
 	}
 
 	@POST
