@@ -52,6 +52,14 @@ var HierarchyView = AmpersandView.extend({
 		});
 		// what we actually want to save is the internal tree object.
 		this.tree = $tree.fancytree('getTree');
+		$tree.on('contextmenu', this.showContextMenu.bind(this));
+	},
+	showContextMenu: function(event, data){
+		var items = [
+			{ type: 'item', title: 'Add Node', icon: 'ion-plus-round', fn: function() {} },
+			{ type: 'item', title: 'Delete Node', icon: 'ion-minus-round', fn: function() {} }
+		]
+		basicContext.show(items,event);
 	},
 	handleClickOnNode: function(event, data){
 		var selectedNode = data.node;
