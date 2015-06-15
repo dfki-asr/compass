@@ -97,7 +97,7 @@ var EditorPage = BasePage.extend({
 	fetchSceneNodeTree: function(){
 		var rootId = this.scenario.root;
 		var promise = new Promise(function(resolve, reject) {
-			var rootNode = new SceneNode({id: rootId});
+			var rootNode = new SceneNode({id: rootId, parentNode: null});
 			rootNode.fetch()
 					.then(rootNode.fetchRecursively.bind(rootNode))
 					.then(function() {

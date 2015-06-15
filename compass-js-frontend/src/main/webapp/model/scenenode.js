@@ -20,7 +20,11 @@ var SceneNode = CompassModel.extend({
 			required: true,
 			default: "Scene Node"
 		},
-		parent: "number",
+		parentNode: {
+			type: "number", //SceneNode
+			required: true,
+			allowNull: true
+		},
 		selectable3d: "boolean",
 		visible: "boolean"
 	},
@@ -40,7 +44,7 @@ var SceneNode = CompassModel.extend({
 			var children = attrs.children;
 			for(var index in children){
 				var id = children[index];
-				children[index] = new SceneNode({id: id});
+				children[index] = {id: id, parentNode: this.id};
 			}
 		} else {
 			attrs.children = new SceneNodeCollection([]);
