@@ -23,7 +23,6 @@ var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
 	template: template,
 	scenario: undefined,
-	selectedNode: undefined,
 	globalLayout: undefined,
 	subviews: {
 		hierarchy: {
@@ -50,6 +49,9 @@ var EditorPage = BasePage.extend({
 			hook: 'navbar',
 			constructor: NavbarView
 		}
+	},
+	props: {
+		selectedNode: 'any'
 	},
 	root: undefined,
 	initialize: function (scenarioId, options) {

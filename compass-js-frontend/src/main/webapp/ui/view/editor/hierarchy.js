@@ -20,10 +20,10 @@ var HierarchyView = AmpersandView.extend({
 	},
 	initialize: function (options) {
 		this.parent.on("sceneTreeLoaded", this.renderTree.bind(this));
+		this.parent.on("change:selectedNode", this.updateSelectionDisplay.bind(this));
 	},
 	render: function () {
 		this.renderWithTemplate();
-
 		return this;
 	},
 	renderTree: function () {
@@ -57,7 +57,11 @@ var HierarchyView = AmpersandView.extend({
 		var selectedNode = data.node;
 		var sceneNode = this.getSceneNodeByFancyNode(selectedNode);
 		this.parent.selectedNode = sceneNode;
-		selectedNode.setSelected();
+	},
+	updateSelectionDisplay: function() {
+		if (!!this.parent.selectedNode) {
+			this.tree.activateKey(this.parent.selectedNode.cid);
+		}
 	},
 	createFancyTreeStructure: function(scenenode){
 		var fancyTree = [];
