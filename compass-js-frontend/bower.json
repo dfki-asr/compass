@@ -41,6 +41,12 @@
       "main": [
         "dist/jquery.fancytree-all.js"
       ]
-    }
+    },
+	"basicContext": {
+		"main": [
+			"dist/basicContext.min.js",
+			"dist/basicContext.min.css"
+		]
+	}
   }
 }
