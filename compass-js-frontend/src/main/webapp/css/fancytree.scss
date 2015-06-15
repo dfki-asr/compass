@@ -82,8 +82,6 @@ span.fancytree-title {
 // Inactive tree:
 @each $state in fancytree-selected, fancytree-active, 'fancytree-selected.fancytree-active' {
   span.fancytree-node.#{$state} span.fancytree-title { // active nodes inside inactive tree
-	background-color: $btn-primary-bg;
-	border-color: $btn-primary-border;
 	color: $btn-primary-color;
   }
 }
