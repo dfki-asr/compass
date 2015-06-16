@@ -54,12 +54,20 @@ var HierarchyView = AmpersandView.extend({
 		this.tree = $tree.fancytree('getTree');
 		$tree.on('contextmenu', this.showContextMenu.bind(this));
 	},
+	registerContextOnMenu: function() {
+		var $menu = $('.basicContextContainer');
+		$menu.on('contextmenu', function() {
+			basicContext.close();
+			return false;
+		});
+	},
 	showContextMenu: function(event, data){
 		var items = [
 			{ type: 'item', title: 'Add Node', icon: 'ion-plus-round', fn: function() {} },
 			{ type: 'item', title: 'Delete Node', icon: 'ion-minus-round', fn: function() {} }
 		]
 		basicContext.show(items,event);
+		this.registerContextOnMenu();
 	},
 	handleClickOnNode: function(event, data){
 		var selectedNode = data.node;
