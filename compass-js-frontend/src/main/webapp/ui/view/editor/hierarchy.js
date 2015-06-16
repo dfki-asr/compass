@@ -65,7 +65,7 @@ var HierarchyView = AmpersandView.extend({
 		var node = $.ui.fancytree.getNode(event);
 		this.selectCurrentNode(node);
 		var items = [
-			{ type: 'item', title: 'Add Node', icon: 'ion-plus-round', fn: function() {} },
+			{ type: 'item', title: 'Add Node', icon: 'ion-plus-round', fn: this.newChild.bind(this) },
 			{ type: 'item', title: 'Delete Node', icon: 'ion-minus-round', fn: function() {} }
 		]
 		basicContext.show(items,event);
