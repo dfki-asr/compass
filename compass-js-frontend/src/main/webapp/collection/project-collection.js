@@ -7,19 +7,14 @@
 
 "use strict";
 
-var AmpersandRestCollection = require("ampersand-rest-collection");
+var CompassCollection = require("./compass-collection");
 var Project = require("../model/project");
 var Config = require("../config");
 
-var ProjectCollection = AmpersandRestCollection.extend({
+var ProjectCollection = CompassCollection.extend({
 	model: Project,
 	selectedProject: undefined,
 	indexes: ['name'],
-	ajaxConfig: {
-		headers: {
-			"Accept": "application/json"
-		}
-	},
 	url: Config.getRESTPath("projects/"),
 	selectById: function(id){
 		var newSelection = this.get(id);
@@ -39,15 +34,10 @@ var ProjectCollection = AmpersandRestCollection.extend({
 	},
 	fetchScenarios: function(newSelection){
 		var project = this.selectedProject = newSelection;
-		project.scenarios.each(function(s){
-			s.fetch({
-				success: function(s){
-					//the events do not bubble from scenarioCollection (child) to project (parent)
-					//see: http://ampersandjs.com/docs#ampersand-state-collections
-					//thus we trigger them here...
-					project.trigger("change:scenarios", project);
-				}
-			});
+		//the events do not bubble from scenarioCollection (child) to project (parent)
+		//see: http://ampersandjs.com/docs#ampersand-state-collections
+		project.scenarios.fetchCollectionEntries().then(function(){
+			project.trigger("change:scenarios", project);
 		});
 	},
 	isSelected: function(model) {
