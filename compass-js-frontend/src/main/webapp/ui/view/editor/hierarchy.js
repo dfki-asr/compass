@@ -68,6 +68,7 @@ var HierarchyView = AmpersandView.extend({
 		]
 		basicContext.show(items,event);
 		this.registerContextOnMenu();
+		return false;
 	},
 	handleClickOnNode: function(event, data){
 		var selectedNode = data.node;
