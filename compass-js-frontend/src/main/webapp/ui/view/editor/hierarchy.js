@@ -8,6 +8,7 @@
 "use strict";
 
 var $ = global.jQuery;
+var basicContext = global.basicContext;
 var AmpersandView = require('ampersand-view');
 var template = require('../../templates/editor/hierarchy.html');
 
