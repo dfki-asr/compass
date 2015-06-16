@@ -94,6 +94,7 @@ var HierarchyView = AmpersandView.extend({
 			sceneNode = this.parent.root;
 		}
 		var newNode = sceneNode.children.add({name: "New Node", parentNode: sceneNode.id});
+		newNode.save();
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},
