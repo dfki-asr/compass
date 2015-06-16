@@ -49,7 +49,19 @@ var SceneNode = CompassModel.extend({
 		}
 		return attrs;
 	},
-	urlRoot: Config.getRESTPath("scenenodes/"),
+	url: function() {
+		var basePath = Config.getRESTPath("scenenodes/");
+		if (!this.id) {
+			// must be a new node for POSTing
+			if (!this.parentNode) {
+				throw new Error("Cannot construct URL for this node. Need either id or parentNode.");
+			}
+			return basePath+this.parentNode+"/children/";
+		} else {
+			// has an id, so we might as well...
+			return basePath+this.id;
+		}
+	},
 	fetchRecursively: function(){
 		if(this.children.isEmpty()){
 			return Promise.resolve();
