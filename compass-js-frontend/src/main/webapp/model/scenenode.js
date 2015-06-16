@@ -46,8 +46,6 @@ var SceneNode = CompassModel.extend({
 				var id = children[index];
 				children[index] = {id: id, parentNode: this.id};
 			}
-		} else {
-			attrs.children = new SceneNodeCollection([]);
 		}
 		return attrs;
 	},
