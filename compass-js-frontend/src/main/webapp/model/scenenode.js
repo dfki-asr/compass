@@ -20,13 +20,16 @@ var SceneNode = CompassModel.extend({
 			required: true,
 			default: "Scene Node"
 		},
+		selectable3d: "boolean",
+		visible: "boolean"
+	},
+	session: {
+		// does not take part in serialization, only for internal navigation.
 		parentNode: {
-			type: "number", //SceneNode
+			type: "object", //SceneNode
 			required: true,
 			allowNull: true
 		},
-		selectable3d: "boolean",
-		visible: "boolean"
 	},
 	collections: {
 		children: function () {
@@ -44,7 +47,7 @@ var SceneNode = CompassModel.extend({
 			var children = attrs.children;
 			for(var index in children){
 				var id = children[index];
-				children[index] = {id: id, parentNode: this.id};
+				children[index] = {id: id, parentNode: this};
 			}
 		}
 		return attrs;
@@ -56,7 +59,7 @@ var SceneNode = CompassModel.extend({
 			if (!this.parentNode) {
 				throw new Error("Cannot construct URL for this node. Need either id or parentNode.");
 			}
-			return basePath+this.parentNode+"/children/";
+			return basePath+this.parentNode.id+"/children/";
 		} else {
 			// has an id, so we might as well...
 			return basePath+this.id;
