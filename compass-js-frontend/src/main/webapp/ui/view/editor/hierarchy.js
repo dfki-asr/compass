@@ -72,7 +72,10 @@ var HierarchyView = AmpersandView.extend({
 	},
 	handleClickOnNode: function(event, data){
 		var selectedNode = data.node;
-		var sceneNode = this.getSceneNodeByFancyNode(selectedNode);
+		this.selectCurrentNode(selectedNode);
+	},
+	selectCurrentNode: function(node) {
+		var sceneNode = this.getSceneNodeByFancyNode(node);
 		this.parent.selectedNode = sceneNode;
 	},
 	updateSelectionDisplay: function() {
