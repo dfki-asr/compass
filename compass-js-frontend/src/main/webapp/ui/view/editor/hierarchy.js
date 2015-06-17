@@ -117,7 +117,14 @@ var HierarchyView = AmpersandView.extend({
 			sceneNode = this.parent.root;
 		}
 		var newNode = sceneNode.children.add({name: "New Node", parentNode: sceneNode});
-		newNode.save();
+		var view = this;
+		newNode.save().then(function(){
+			// success
+			// we just expect that, so no need to tell the user anything.
+		}, function() {
+			// fail
+			view.notify("error", "Could not save your new node to the server.");
+		})
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},
@@ -142,6 +149,31 @@ var HierarchyView = AmpersandView.extend({
 		// else:
 		//      (ideally, the button would be disabled via a binding)
 		//      complain.
+	},
+	notify: function(type, message) {
+		var options = {}
+		switch (type) {
+			case "error":
+				options.icon = "fa fa-exclamation-triangle";
+				break;
+			case "success":
+				options.icon = "fa fa-check-square-o"
+				break;
+		}
+		options.message = message;
+		var settings = {
+			type: type,
+			placement: {
+				from: "top",
+				align: "center"
+			},
+			animate: {
+				enter: 'animated fadeInDown',
+				exit: 'animated fadeOutUp'
+			},
+			allow_dismiss: false
+		};
+		$.notify(options, settings);
 	}
 });
 
