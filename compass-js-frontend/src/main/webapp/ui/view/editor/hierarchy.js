@@ -157,6 +157,7 @@ var HierarchyView = AmpersandView.extend({
 		}
 		if(!node.hasChildren()) {
 			node.folder = false;
+			node.setExpanded(false);
 		}
 	}
 });
