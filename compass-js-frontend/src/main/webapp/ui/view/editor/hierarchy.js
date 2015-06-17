@@ -139,8 +139,10 @@ var HierarchyView = AmpersandView.extend({
 		console.log("delete Node");
 		var selectedNode = this.parent.selectedNode;
 		var node = this.getFancyNodeBySceneNode(selectedNode);
-		node.remove();
+		//destroy node in the collection first, as node.remove triggers tree rendering
 		selectedNode.destroy();
+		//do this after destroy, as otherwise the non-destroyed node will be refetched from the collection
+		node.remove();
 		this.parent.selectedNode = this.parent.root;
 	},
 	handleNodeRemove: function(event, data) {
