@@ -84,6 +84,9 @@ var HierarchyView = AmpersandView.extend({
 	updateSelectionDisplay: function() {
 		if (!!this.parent.selectedNode) {
 			this.tree.activateKey(this.parent.selectedNode.cid);
+		} else {
+			// selection cleared
+			this.tree.activateKey(false);
 		}
 	},
 	createFancyTreeStructure: function(scenenode){
