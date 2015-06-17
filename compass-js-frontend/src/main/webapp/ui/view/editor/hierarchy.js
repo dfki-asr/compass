@@ -141,12 +141,7 @@ var HierarchyView = AmpersandView.extend({
 		var node = this.getFancyNodeBySceneNode(selectedNode);
 		node.remove();
 		selectedNode.destroy();
-		// if a node is currently selected:
-		//      let the user confirm he really wants to delete said node.
-		//      delete it.
-		// else:
-		//      (ideally, the button would be disabled via a binding)
-		//      complain.
+		this.parent.selectedNode = this.parent.root;
 	},
 	handleNodeRemove: function(event, data) {
 		console.log('Removed node '+data.node);
