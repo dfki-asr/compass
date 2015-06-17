@@ -147,6 +147,15 @@ var HierarchyView = AmpersandView.extend({
 	},
 	handleNodeRemove: function(event, data) {
 		console.log('Removed node '+data.node);
+	},
+	checkFolderStatus: function(node) {
+		var asSceneNode = this.getSceneNodeByFancyNode(node);
+		if(asSceneNode === this.parent.root) {
+			return;
+		}
+		if(!node.hasChildren()) {
+			node.folder = false;
+		}
 	}
 });
 
