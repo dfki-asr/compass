@@ -68,7 +68,7 @@ var HierarchyView = AmpersandView.extend({
 		this.selectCurrentNode(node);
 		var items = [
 			{ type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this) },
-			{ type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: function() {} }
+			{ type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: this.deleteSelected.bind(this) }
 		]
 		basicContext.show(items,event);
 		this.registerContextOnMenu();
