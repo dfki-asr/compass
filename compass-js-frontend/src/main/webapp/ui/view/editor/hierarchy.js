@@ -49,7 +49,8 @@ var HierarchyView = AmpersandView.extend({
 				}
 			},
 			selectMode: 1,
-			activate: this.handleClickOnNode.bind(this)
+			activate: this.handleClickOnNode.bind(this),
+			removeNode: this.handleNodeRemove.bind(this)
 		});
 		// what we actually want to save is the internal tree object.
 		this.tree = $tree.fancytree('getTree');
@@ -136,12 +137,20 @@ var HierarchyView = AmpersandView.extend({
 	},
 	deleteSelected: function () {
 		console.log("delete Node");
+		var selectedNode = this.parent.selectedNode;
+		var collection = selectedNode.collection;
+		var node = this.getFancyNodeBySceneNode(selectedNode);
+		node.remove();
+		selectedNode.destroy();
 		// if a node is currently selected:
 		//      let the user confirm he really wants to delete said node.
 		//      delete it.
 		// else:
 		//      (ideally, the button would be disabled via a binding)
 		//      complain.
+	},
+	handleNodeRemove: function(event, data) {
+		console.log('Removed node '+data.node);
 	}
 });
 
