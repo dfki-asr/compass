@@ -55,9 +55,9 @@ var HierarchyView = AmpersandView.extend({
 		this.tree = $tree.fancytree('getTree');
 		$tree.on('contextmenu', this.showContextMenu.bind(this));
 	},
-	registerContextOnMenu: function() {
-		var $menu = $('.basicContextContainer');
-		$menu.on('contextmenu', function() {
+	preventMenuOnBackdrop: function() {
+		var $backdrop = $('.basicContextContainer');
+		$backdrop.on('contextmenu', function() {
 			basicContext.close();
 			return false;
 		});
@@ -70,7 +70,7 @@ var HierarchyView = AmpersandView.extend({
 			{ type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: function() {} }
 		];
 		basicContext.show(items,event);
-		this.registerContextOnMenu();
+		this.preventMenuOnBackdrop();
 		return false;
 	},
 	handleClickOnNode: function(event, data){
