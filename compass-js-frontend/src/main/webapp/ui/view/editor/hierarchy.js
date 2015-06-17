@@ -8,6 +8,7 @@
 "use strict";
 
 var $ = global.jQuery;
+var basicContext = global.basicContext;
 var AmpersandView = require('ampersand-view');
 var template = require('../../templates/editor/hierarchy.html');
 
@@ -52,10 +53,32 @@ var HierarchyView = AmpersandView.extend({
 		});
 		// what we actually want to save is the internal tree object.
 		this.tree = $tree.fancytree('getTree');
+		$tree.on('contextmenu', this.showContextMenu.bind(this));
+	},
+	registerContextOnMenu: function() {
+		var $menu = $('.basicContextContainer');
+		$menu.on('contextmenu', function() {
+			basicContext.close();
+			return false;
+		});
+	},
+	showContextMenu: function(event, data){
+		var node = $.ui.fancytree.getNode(event);
+		this.selectCurrentNode(node);
+		var items = [
+			{ type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this) },
+			{ type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: function() {} }
+		]
+		basicContext.show(items,event);
+		this.registerContextOnMenu();
+		return false;
 	},
 	handleClickOnNode: function(event, data){
 		var selectedNode = data.node;
-		var sceneNode = this.getSceneNodeByFancyNode(selectedNode);
+		this.selectCurrentNode(selectedNode);
+	},
+	selectCurrentNode: function(node) {
+		var sceneNode = this.getSceneNodeByFancyNode(node);
 		this.parent.selectedNode = sceneNode;
 	},
 	updateSelectionDisplay: function() {
