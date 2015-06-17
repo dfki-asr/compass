@@ -138,7 +138,6 @@ var HierarchyView = AmpersandView.extend({
 	deleteSelected: function () {
 		console.log("delete Node");
 		var selectedNode = this.parent.selectedNode;
-		var collection = selectedNode.collection;
 		var node = this.getFancyNodeBySceneNode(selectedNode);
 		node.remove();
 		selectedNode.destroy();
