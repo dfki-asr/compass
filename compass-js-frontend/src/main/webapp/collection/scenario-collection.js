@@ -7,18 +7,13 @@
 
 "use strict";
 
-var AmpersandRestCollection = require("ampersand-rest-collection");
+var CompassCollection = require("./compass-collection");
 var Scenario = require("../model/scenario");
 var Config = require("../config");
 
-var ScenarioCollection = AmpersandRestCollection.extend({
+var ScenarioCollection = CompassCollection.extend({
 	model: Scenario,
 	selectedScenario: undefined,
-	ajaxConfig: {
-		headers: {
-			"Accept": "application/json"
-		}
-	},
 	url: Config.getRESTPath("scenarios/"),
 	selectById: function(id){
 		var newSelection = this.get(id);

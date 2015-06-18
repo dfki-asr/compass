@@ -28,7 +28,7 @@ $fancy-node-v-spacing: 0px;    // gap between two node borders
 $fancy-icon-width: 1em;
 $fancy-icon-height: 1em;
 $fancy-icon-spacing: 0.5em;    // margin between icon/icon or icon/title
-$fancy-icon-ofs-top: 2px;      // extra vertical offset for expander, checkbox and icon
+$fancy-icon-ofs-top: 4px;      // extra vertical offset for expander, checkbox and icon
 $fancy-title-ofs-top: 0px;     // extra vertical offset for title
 $fancy-node-border-width: 1px;
 $fancy-node-border-radius: $border-radius-small;
@@ -64,20 +64,23 @@ span.fancytree-title {
 // Inactive tree:
 @each $state in fancytree-selected, fancytree-active, 'fancytree-selected.fancytree-active' {
   span.fancytree-node.#{$state} span.fancytree-title { // active nodes inside inactive tree
-	background-color: $btn-primary-bg;
-	border-color: $btn-primary-border;
 	color: $btn-primary-color;
   }
 }
 // Active tree:
-.fancytree-container.fancytree-treefocus {
-  @each $state in fancytree-selected, fancytree-active, fancytree-focused, 'fancytree-selected.fancytree-active' {
-	span.fancytree-node.#{$state} span.fancytree-title { // active nodes inside inactive tree
+.fancytree-container {
+  @each $state in fancytree-selected, fancytree-active, fancytree-focused, 'fancytree-selected.fancytree-active'{
+	span.fancytree-node.#{$state} { // active nodes inside inactive tree
 	  background-color: $btn-primary-bg;
 	  border-color: $btn-primary-border;
 	  color: $btn-primary-color;
+	  border-radius: $border-radius-base;
 	}
   }
+}
+
+span.fancytree-node {
+  padding-left: 3px;
 }
 
 /*******************************************************************************

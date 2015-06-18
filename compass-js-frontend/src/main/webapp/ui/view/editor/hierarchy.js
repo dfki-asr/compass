@@ -10,6 +10,7 @@
 var $ = global.jQuery;
 var basicContext = global.basicContext;
 var AmpersandView = require('ampersand-view');
+var _notify = require('./_notify');
 var template = require('../../templates/editor/hierarchy.html');
 
 var HierarchyView = AmpersandView.extend({
@@ -55,9 +56,9 @@ var HierarchyView = AmpersandView.extend({
 		this.tree = $tree.fancytree('getTree');
 		$tree.on('contextmenu', this.showContextMenu.bind(this));
 	},
-	registerContextOnMenu: function() {
-		var $menu = $('.basicContextContainer');
-		$menu.on('contextmenu', function() {
+	preventMenuOnBackdrop: function() {
+		var $backdrop = $('.basicContextContainer');
+		$backdrop.on('contextmenu', function() {
 			basicContext.close();
 			return false;
 		});
@@ -68,9 +69,9 @@ var HierarchyView = AmpersandView.extend({
 		var items = [
 			{ type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this) },
 			{ type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: this.deleteSelected.bind(this) }
-		]
+		];
 		basicContext.show(items,event);
-		this.registerContextOnMenu();
+		this.preventMenuOnBackdrop();
 		return false;
 	},
 	handleClickOnNode: function(event, data){
@@ -84,6 +85,9 @@ var HierarchyView = AmpersandView.extend({
 	updateSelectionDisplay: function() {
 		if (!!this.parent.selectedNode) {
 			this.tree.activateKey(this.parent.selectedNode.cid);
+		} else {
+			// selection cleared
+			this.tree.activateKey(false);
 		}
 	},
 	createFancyTreeStructure: function(scenenode){
@@ -117,7 +121,13 @@ var HierarchyView = AmpersandView.extend({
 			sceneNode = this.parent.root;
 		}
 		var newNode = sceneNode.children.add({name: "New Node", parentNode: sceneNode});
-		newNode.save();
+		newNode.save().then(function(){
+			// success
+			// we just expect that, so no need to tell the user anything.
+		}, function() {
+			// fail
+			_notify("danger", "Could not save your new node to the server.");
+		})
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},

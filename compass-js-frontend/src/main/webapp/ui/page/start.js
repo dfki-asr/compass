@@ -23,9 +23,9 @@ var StartPage = BasePage.extend({
 	projectSelectionList: undefined,
 	scenarioSelectionList: undefined,
 	initialize: function (options) {
-		app.projects.on("sync", this.renderScenarioList.bind(this));
-		app.projects.on("change:selected", this.renderScenarioList.bind(this));
-		app.projects.on("change:scenarios", this.renderScenarioList.bind(this));
+		app.projects.on("sync", this.onProjectsSync.bind(this));
+		app.projects.on("change:selected", this.onProjectsSelectionChange.bind(this));
+		app.projects.on("change:scenarios", this.onScenarioChange.bind(this));
 	},
 	onProjectEntryClick: function (event) {
 		// curiously, item is double-wrapped.
@@ -37,61 +37,84 @@ var StartPage = BasePage.extend({
 		var id = event.item.item.id;
 		var selectedProject = app.projects.getSelected();
 		selectedProject.scenarios.selectById(id);
+		this.updateScenarioSelection();
 		this.enableOpenScenarioButton();
 	},
 	events: {
 		"click #openscenariobutton": "openScenario",
-		"click [data-action=open-create-project-modal]" : "createNewProjectShowModal"
+		"click [data-action=open-create-project-modal]": "createNewProjectShowModal"
 	},
 	render: function () {
 		this.renderWithTemplate();
-		this.projectSelectionList = riot.mount( this.el.querySelector("#projectselection"), {
-			collection: app.projects,
+		this.projectSelectionList = riot.mount(this.el.querySelector("#projectselection"), {
+			collection: app.projects, //riot will automagically update the tag on changes on the collection
 			clickHandler: this.onProjectEntryClick.bind(this)
 		});
-		this.scenarioSelectionList = riot.mount( this.el.querySelector("#scenarioselection"), {
+		this.scenarioSelectionList = riot.mount(this.el.querySelector("#scenarioselection"), {
 			clickHandler: this.onScenarioEntryClick.bind(this)
 		});
 		this.modalViewSwitcher = new AmpersandViewSwitcher(this.el.querySelector("#modal-entry-point"));
-		var selectedProject = app.projects.getSelected();
-		if(selectedProject){
-			this.renderScenarioList(selectedProject);
-		}
+		this.updateScenarioList();
 		return this;
 	},
-	renderScenarioList: function (project) {
-		_.each(this.projectSelectionList, function (tag) {
+	onProjectsSync: function () {
+		this.updateProjectSelection();
+		this.updateScenarioList();
+	},
+	onProjectsSelectionChange: function () {
+		this.updateProjectSelection();
+		this.updateScenarioList();
+	},
+	onScenarioChange: function(project){
+		if(app.projects.isSelected(project)){
+			this.updateScenarioList();
+		}
+	},
+	onScenarioSelectionChange: function () {
+		this.updateScenarioSelection();
+	},
+	updateListSelection: function (list) {
+		_.each(list, function (tag) {
 			tag.update(); // just the selection
 		});
+	},
+	updateProjectSelection: function () {
+		this.updateListSelection(this.projectSelectionList);
+	},
+	updateScenarioSelection: function () {
+		this.updateListSelection(this.scenarioSelectionList);
+	},
+	updateScenarioList: function () {
 		var selectedProject = app.projects.getSelected();
+		if (!selectedProject) {
+			return;
+		}
 		var self = this;
-		if (selectedProject) {
-			_.each(this.scenarioSelectionList, function (tag) {
-				// why do I need opts here?
-				// isn't this the equivalent of React's setState()?
-				tag.update({opts: {
-						collection: selectedProject.scenarios,
-						clickHandler: self.onScenarioEntryClick.bind(self)
-					}});
-			});
-			if(selectedProject.scenarios.getSelected()){
-				this.enableOpenScenarioButton();
-			}else{
-				this.disableOpenScenarioButton();
-			}
+		_.each(this.scenarioSelectionList, function (tag) {
+			// why do I need opts here?
+			// isn't this the equivalent of React's setState()?
+			tag.update({opts: {
+					collection: selectedProject.scenarios,
+					clickHandler: self.onScenarioEntryClick.bind(self)
+				}});
+		});
+		if (selectedProject.scenarios.getSelected()) {
+			this.enableOpenScenarioButton();
+		} else {
+			this.disableOpenScenarioButton();
 		}
 	},
 	openScenario: function () {
 		var selectedScenario = app.projects.getSelected().scenarios.getSelected().id;
 		app.router.redirectTo("/editor/" + selectedScenario);
 	},
-	enableOpenScenarioButton: function(){
+	enableOpenScenarioButton: function () {
 		this.el.querySelector("#openscenariobutton").removeAttribute("disabled");
 	},
-	disableOpenScenarioButton: function(){
+	disableOpenScenarioButton: function () {
 		this.el.querySelector("#openscenariobutton").setAttribute("disabled", "disabled");
 	},
-	createNewProjectShowModal: function(){
+	createNewProjectShowModal: function () {
 		this.modalViewSwitcher.set(new CreateProjectView());
 	}
 });

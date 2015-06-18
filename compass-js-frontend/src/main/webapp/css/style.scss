@@ -25,26 +25,42 @@ body {
 }
 
 .editorpage {
-  // fullscreen the editor
-  position: fixed;
-  top: 51px; // bootstrap: navbar-height
-  left: 0px;
-  width: 100%;
-  bottom: 0px;
-  padding: 2px;
-  padding-top: 6px;
-
-  .layout-container ,
-  .layout-container div {
-    overflow:	auto;
-  }
-
-  div.layout-container {
-    height: 100%;
-    overflow:	visible;
-  }
-}
-
-.tree {
+	// fullscreen the editor
+	position: fixed;
+	top: 51px; // bootstrap: navbar-height
+	left: 0px;
+	width: 100%;
+	bottom: 0px;
 	padding: 2px;
+	padding-top: 6px;
+
+	.layout-container ,
+	.layout-container div {
+		overflow:	auto;
+	}
+
+	div.layout-container {
+		height: 100%;
+		overflow:	visible;
+	}
+
+	.hierarchy-panel{
+		.panel{
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+
+			.panel-body{
+				flex: 1;
+				display: flex;
+				padding: 0px;
+				overflow: visible;
+
+				.tree {
+					padding: 2px;
+					overflow: auto;
+				}
+			}
+		}
+	}
 }
