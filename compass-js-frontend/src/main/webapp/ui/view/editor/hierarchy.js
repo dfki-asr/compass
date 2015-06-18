@@ -156,8 +156,8 @@ var HierarchyView = AmpersandView.extend({
 				view.checkFolderStatus(nodeParent);
 			}
 			view.parent.selectedNode = view.parent.root;
-		}, function(){
-			console.log('Could not delete node from server');
+		}, function () {
+			_notify("danger", "Could not delete node" + selectedNode.name + " from the server.");
 		});
 	},
 	checkFolderStatus: function(node) {
