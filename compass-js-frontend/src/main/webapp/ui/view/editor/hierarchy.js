@@ -146,16 +146,16 @@ var HierarchyView = AmpersandView.extend({
 	},
 	deleteSelected: function () {
 		var selectedNode = this.parent.selectedNode;
+		var self = this;
 		var node = this.getFancyNodeBySceneNode(selectedNode);
 		var nodeParent = node.getParent();
-		var view = this;
 		selectedNode.destroy().then(function() {
 			//successfully deleted the node, remove it from the tree
 			node.remove();
 			if(nodeParent) {
 				view.checkFolderStatus(nodeParent);
 			}
-			view.parent.selectedNode = view.parent.root;
+			self.parent.selectedNode = undefined;
 		}, function () {
 			_notify("danger", "Could not delete node" + selectedNode.name + " from the server.");
 		});
