@@ -155,13 +155,28 @@ var HierarchyView = AmpersandView.extend({
 	deleteSelected: function () {
 		var selectedNode = this.parent.selectedNode;
 		var self = this;
-		selectedNode.destroy().then(function () {
-			//successfully deleted the node, remove it from the tree
-			self.removeFancyNodeBySceneNode(selectedNode);
-			self.parent.selectedNode = undefined;
-		}, function () {
-			_notify("danger", "Could not delete node '" + selectedNode.name + "' from the server.");
-		});
+		var $node = $(this.getFancyNodeBySceneNode(selectedNode).span);
+		$node.confirmation({
+			trigger: "manual",
+			placement: "right",
+			container: "body",
+			popout: true,
+			title: "Really delete this?",
+			btnOkIcon: "fa fa-trash-o",
+			btnOkLabel: "Delete",
+			btnCancelIcon: "",
+			btnCancelLabel: "Keep",
+			onConfirm: function() {
+				selectedNode.destroy().then(function () {
+					//successfully deleted the node, remove it from the tree
+					self.removeFancyNodeBySceneNode(selectedNode);
+					self.parent.selectedNode = undefined;
+				}, function () {
+					_notify("danger", "Could not delete node '" + selectedNode.name + "' from the server.");
+				});
+				$node.confirmation('destroy');
+			}
+		}).confirmation("show");
 	},
 	removeFancyNodeBySceneNode: function (sceneNode) {
 		var fancyNode = this.getFancyNodeBySceneNode(sceneNode);
