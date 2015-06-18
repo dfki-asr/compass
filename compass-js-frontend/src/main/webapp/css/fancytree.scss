@@ -39,6 +39,7 @@ $fancy-node-outline-width: 1px;
 
 ul.fancytree-container {
   overflow: visible; // leave scrolling to the parent container to avoid flickering.
+  display: inline-block; // expand to fit children (don't clip background)
 }
 
 ul.fancytree-container ul {
