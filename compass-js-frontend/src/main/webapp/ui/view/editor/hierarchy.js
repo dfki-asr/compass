@@ -135,7 +135,12 @@ var HierarchyView = AmpersandView.extend({
 		var index = sceneNode.collection.indexOf(sceneNode);
 		var fancyNode = this.createFancyTreeNode(sceneNode);
 		if (index === 0) {
-			var fancyParent = this.getFancyNodeBySceneNode(parent);
+			var fancyParent;
+			if(parent.parent) {
+				fancyParent = this.getFancyNodeBySceneNode(parent);
+			} else {
+				fancyParent = this.tree.getRootNode();
+			}
 			fancyParent.folder = true;
 			fancyParent.addNode(fancyNode, "child");
 		} else {
