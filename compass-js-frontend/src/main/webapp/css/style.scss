@@ -58,6 +58,9 @@ body {
 				.tree {
 					padding: 2px;
 					overflow: auto;
+					// I would use position:absolute; left:0px; right:0px;
+					// but that breaks scrolling again. :'-(
+					min-width: 99.7%;
 				}
 			}
 		}
