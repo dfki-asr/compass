@@ -16,6 +16,7 @@ var template = require('../../templates/editor/hierarchy.html');
 var HierarchyView = AmpersandView.extend({
 	template: template,
 	tree: undefined,
+	$scrollArea: undefined,
 	events: {
 		"click [data-hook=action-add-child]": "newChild",
 		"click [data-hook=action-delete-selected]": "deleteSelected"
@@ -54,6 +55,7 @@ var HierarchyView = AmpersandView.extend({
 		});
 		// what we actually want to save is the internal tree object.
 		this.tree = $tree.fancytree('getTree');
+		this.$scrollArea = $tree;
 		$tree.on('contextmenu', this.showContextMenu.bind(this));
 	},
 	preventMenuOnBackdrop: function () {
@@ -84,7 +86,8 @@ var HierarchyView = AmpersandView.extend({
 	},
 	updateSelectionDisplay: function () {
 		if (!!this.parent.selectedNode) {
-			this.tree.activateKey(this.parent.selectedNode.cid);
+			var node = this.tree.activateKey(this.parent.selectedNode.cid);
+			this.$scrollArea.scrollTo(node.span, 150);
 		} else {
 			// selection cleared
 			this.tree.activateKey(false);
