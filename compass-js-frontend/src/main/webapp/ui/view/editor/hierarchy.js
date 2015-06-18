@@ -147,27 +147,21 @@ var HierarchyView = AmpersandView.extend({
 	deleteSelected: function () {
 		var selectedNode = this.parent.selectedNode;
 		var self = this;
-		var node = this.getFancyNodeBySceneNode(selectedNode);
-		var nodeParent = node.getParent();
-		selectedNode.destroy().then(function() {
+		selectedNode.destroy().then(function () {
 			//successfully deleted the node, remove it from the tree
-			node.remove();
-			if(nodeParent) {
-				view.checkFolderStatus(nodeParent);
-			}
+			self.removeFancyNodeBySceneNode(selectedNode);
 			self.parent.selectedNode = undefined;
 		}, function () {
 			_notify("danger", "Could not delete node" + selectedNode.name + " from the server.");
 		});
 	},
-	checkFolderStatus: function(node) {
-		var asSceneNode = this.getSceneNodeByFancyNode(node);
-		if(asSceneNode === this.parent.root) {
-			return;
-		}
-		if(!node.hasChildren()) {
-			node.folder = false;
-			node.setExpanded(false);
+	removeFancyNodeBySceneNode: function (sceneNode) {
+		var fancyNode = this.getFancyNodeBySceneNode(sceneNode);
+		var fancyNodeParent = fancyNode.getParent();
+		fancyNode.remove();
+		if (fancyNodeParent && !fancyNodeParent.hasChildren() && !fancyNodeParent.isRoot()) {
+			fancyNodeParent.folder = false;
+			fancyNodeParent.setExpanded(false);
 		}
 	}
 });
