@@ -1,0 +1,71 @@
+/* Context ------------------------------------------------*/
+$padding: 2px;
+
+.basicContext {
+
+	position: absolute;
+	padding: $padding;
+	background-color: #fff;
+	box-shadow: rgba(0, 0, 0, 0.4) 0 4px 8px, rgba(0, 0, 0, 0.2) 0 0 3px;
+	border-radius: 3px;
+	opacity: 0;
+	transition: opacity .1s;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+
+	box-sizing: content-box;
+	* { box-sizing: content-box; }
+
+	/* Item ------------------------------------------------*/
+	tr {
+		margin-bottom: 2px;
+		cursor: pointer;
+
+		&.separator {
+			float: left;
+			margin: 4px 0;
+			width: 100%;
+			height: 1px;
+			background-color: rgba(0, 0, 0, .1);
+			cursor: default;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	tr td {
+		padding: 3px 7px;
+		min-width: 110px;
+		color: #333;
+		text-align: left;
+		border-radius: 2px;
+		white-space: nowrap;
+
+		&:hover {
+			color: #fff;
+			background-color: $basicContext__color;
+		}
+	}
+
+	tr td span {
+		display: inline-block;
+		margin-right: 10px;
+		width: 12px;
+		text-align: center;
+	}
+
+	/* Scrollable ------------------------------------------------*/
+	&--scrollable {
+		height: calc(100% - $padding * 2);
+		-webkit-overflow-scrolling: touch;
+		overflow-y: auto;
+	}
+
+	&--scrollable tr td {
+		min-width: 130px;
+	}
+
+}

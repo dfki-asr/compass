@@ -8,7 +8,9 @@
 "use strict";
 
 var $ = global.jQuery;
+var basicContext = global.basicContext;
 var AmpersandView = require('ampersand-view');
+var _notify = require('./_notify');
 var template = require('../../templates/editor/hierarchy.html');
 
 var HierarchyView = AmpersandView.extend({
@@ -20,15 +22,15 @@ var HierarchyView = AmpersandView.extend({
 	},
 	initialize: function (options) {
 		this.parent.on("sceneTreeLoaded", this.renderTree.bind(this));
+		this.parent.on("change:selectedNode", this.updateSelectionDisplay.bind(this));
 	},
 	render: function () {
 		this.renderWithTemplate();
-
 		return this;
 	},
 	renderTree: function () {
 		var fancyTree = this.createFancyTreeStructure(this.parent.root);
-		this.tree = $(this.query(".tree")).fancytree({
+		var $tree = $(this.query(".tree")).fancytree({
 			extensions: ["glyph"],
 			source: fancyTree,
 			glyph: {
@@ -47,16 +49,46 @@ var HierarchyView = AmpersandView.extend({
 					loading: "fa fa-spinner fa-pulse"
 				}
 			},
-			lazyLoad: this.lazyloadFancyNodes.bind(this),
 			selectMode: 1,
 			activate: this.handleClickOnNode.bind(this)
 		});
+		// what we actually want to save is the internal tree object.
+		this.tree = $tree.fancytree('getTree');
+		$tree.on('contextmenu', this.showContextMenu.bind(this));
+	},
+	preventMenuOnBackdrop: function() {
+		var $backdrop = $('.basicContextContainer');
+		$backdrop.on('contextmenu', function() {
+			basicContext.close();
+			return false;
+		});
+	},
+	showContextMenu: function(event, data){
+		var node = $.ui.fancytree.getNode(event);
+		this.selectCurrentNode(node);
+		var items = [
+			{ type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this) },
+			{ type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: function() {} }
+		];
+		basicContext.show(items,event);
+		this.preventMenuOnBackdrop();
+		return false;
 	},
 	handleClickOnNode: function(event, data){
 		var selectedNode = data.node;
-		var sceneNode = this.getSceneNodeByFancyNode(selectedNode);
+		this.selectCurrentNode(selectedNode);
+	},
+	selectCurrentNode: function(node) {
+		var sceneNode = this.getSceneNodeByFancyNode(node);
 		this.parent.selectedNode = sceneNode;
-		selectedNode.setSelected();
+	},
+	updateSelectionDisplay: function() {
+		if (!!this.parent.selectedNode) {
+			this.tree.activateKey(this.parent.selectedNode.cid);
+		} else {
+			// selection cleared
+			this.tree.activateKey(false);
+		}
 	},
 	createFancyTreeStructure: function(scenenode){
 		var fancyTree = [];
@@ -69,47 +101,49 @@ var HierarchyView = AmpersandView.extend({
 	createFancyTreeNode: function(scenenode){
 		var fancyNode = {};
 		fancyNode.title = scenenode.name;
-		fancyNode.key = scenenode.id;
+		fancyNode.key = scenenode.cid;
 		if(!scenenode.children.isEmpty()){
 			fancyNode.folder = true;
-			fancyNode.lazy = true;
-			fancyNode.children = undefined;
+			fancyNode.children = this.createFancyTreeStructure(scenenode);
 		}
+		fancyNode.sceneNode = scenenode;
 		return fancyNode;
 	},
-	lazyloadFancyNodes: function(event, data){
-		var fancyNode = data.node;
-		var sceneNode = this.getSceneNodeByFancyNode(fancyNode);
-		data.result = this.createFancyTreeStructure(sceneNode);
+	getSceneNodeByFancyNode: function(fancyNode){
+		return fancyNode.data.sceneNode;
 	},
-	getSceneNodeByFancyNode: function(node){
-		var pathToNode = this.createIdPathToSceneNode(node);
-		return this.getSceneNodeFromIdPath(pathToNode);
-	},
-	createIdPathToSceneNode: function(fancyNode){
-		var path = [];
-		while(fancyNode.parent){
-			path.unshift(fancyNode.key);
-			fancyNode = fancyNode.parent;
-		};
-		return path;
-	},
-	getSceneNodeFromIdPath: function(path){
-		var node = this.parent.root;
-		for(var index in path){
-			var id = path[index];
-			node = node.children.get(id);
-		}
-		return node;
+	getFancyNodeBySceneNode: function(sceneNode){
+		return this.tree.getNodeByKey(sceneNode.cid);
 	},
 	newChild: function () {
-		console.log("new Node");
-		// if a node is currently selected:
-		//      create a new child node of it
-		// else:
-		//      create a new child of the (invisible) root node
+		var sceneNode = this.parent.selectedNode;
+		if (!sceneNode) {
+			sceneNode = this.parent.root;
+		}
+		var newNode = sceneNode.children.add({name: "New Node", parentNode: sceneNode});
+		newNode.save().then(function(){
+			// success
+			// we just expect that, so no need to tell the user anything.
+		}, function() {
+			// fail
+			_notify("danger", "Could not save your new node to the server.");
+		})
+		this.insertNodeIntoTree(newNode, sceneNode);
+		this.parent.selectedNode = newNode;
 	},
-
+	insertNodeIntoTree: function(sceneNode, parent) {
+		var index = sceneNode.collection.indexOf(sceneNode);
+		var fancyNode = this.createFancyTreeNode(sceneNode);
+		if (index === 0) {
+			var fancyParent = this.getFancyNodeBySceneNode(parent);
+			fancyParent.folder = true;
+			fancyParent.addNode(fancyNode, "child");
+		} else {
+			var predecessor = sceneNode.collection.at(index - 1);
+			var fancyPredecessor = this.getFancyNodeBySceneNode(predecessor);
+			fancyPredecessor.addNode(fancyNode, "after");
+		}
+	},
 	deleteSelected: function () {
 		console.log("delete Node");
 		// if a node is currently selected:
@@ -118,7 +152,7 @@ var HierarchyView = AmpersandView.extend({
 		// else:
 		//      (ideally, the button would be disabled via a binding)
 		//      complain.
-	}
+	},
 });
 
 module.exports = HierarchyView;

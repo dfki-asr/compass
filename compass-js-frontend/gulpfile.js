@@ -29,7 +29,7 @@ gulp.task("sass", function(){
 
 gulp.task("bower-vendor", function() {
 	var vendorFiles = require('main-bower-files');
-	var jsFilter = plug.filter(['*.js', '!*.min.js']);
+	var jsFilter = plug.filter(['*.js']);
 	var cssFilter = plug.filter('*.css');
 	var fontFilter = plug.filter(['*.eot', '*.woff', '*.svg', '*.ttf', '*.woff2']);
 	var imageFilter = plug.filter(['*.gif', '*.png', '*.svg', '*.jpg', '*.jpeg']);

@@ -23,7 +23,6 @@ var EditorPage = BasePage.extend({
 	pageTitle: 'Editor',
 	template: template,
 	scenario: undefined,
-	selectedNode: undefined,
 	globalLayout: undefined,
 	subviews: {
 		hierarchy: {
@@ -50,6 +49,9 @@ var EditorPage = BasePage.extend({
 			hook: 'navbar',
 			constructor: NavbarView
 		}
+	},
+	props: {
+		selectedNode: 'any'
 	},
 	root: undefined,
 	initialize: function (scenarioId, options) {
@@ -95,7 +97,7 @@ var EditorPage = BasePage.extend({
 	fetchSceneNodeTree: function(){
 		var rootId = this.scenario.root;
 		var promise = new Promise(function(resolve, reject) {
-			var rootNode = new SceneNode({id: rootId});
+			var rootNode = new SceneNode({id: rootId, parentNode: null});
 			rootNode.fetch()
 					.then(rootNode.fetchRecursively.bind(rootNode))
 					.then(function() {

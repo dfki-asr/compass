@@ -20,12 +20,22 @@ var SceneNode = CompassModel.extend({
 			required: true,
 			default: "Scene Node"
 		},
-		parent: "number",
 		selectable3d: "boolean",
 		visible: "boolean"
 	},
+	session: {
+		// does not take part in serialization, only for internal navigation.
+		parentNode: {
+			type: "object", //SceneNode
+			required: true,
+			allowNull: true
+		},
+	},
 	collections: {
-		children: SceneNodeCollection
+		children: function () {
+			// needs level of indirection to avoid circular require()
+			return new SceneNodeCollection([], {model: SceneNode});
+		}
 	},
 	init: function() {
 	},
@@ -37,14 +47,24 @@ var SceneNode = CompassModel.extend({
 			var children = attrs.children;
 			for(var index in children){
 				var id = children[index];
-				children[index] = new SceneNode({id: id});
+				children[index] = {id: id, parentNode: this};
 			}
-		} else {
-			attrs.children = new SceneNodeCollection([]);
 		}
 		return attrs;
 	},
-	urlRoot: Config.getRESTPath("scenenodes/"),
+	url: function() {
+		var basePath = Config.getRESTPath("scenenodes/");
+		if (!this.id) {
+			// must be a new node for POSTing
+			if (!this.parentNode) {
+				throw new Error("Cannot construct URL for this node. Need either id or parentNode.");
+			}
+			return basePath+this.parentNode.id+"/children/";
+		} else {
+			// has an id, so we might as well...
+			return basePath+this.id;
+		}
+	},
 	fetchRecursively: function(){
 		if(this.children.isEmpty()){
 			return Promise.resolve();

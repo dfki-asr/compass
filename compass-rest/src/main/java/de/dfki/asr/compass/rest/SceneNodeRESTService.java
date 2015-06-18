@@ -65,6 +65,7 @@ public class SceneNodeRESTService extends AbstractRESTService {
 	@POST
 	@Path("/{parentId}/children")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 			value = "Post a scene node.",
 			notes = "Create a new scene node, as a child of the specified parent"
@@ -82,11 +83,13 @@ public class SceneNodeRESTService extends AbstractRESTService {
 			throws EntityNotFoundException, IllegalArgumentException, UnprocessableEntityException {
 		ensureEntityIntegrityWhenPost(newChild);
 		sceneTreeManager.addNode(newChild, parentId);
-		return Response.created(locationOf(SceneNodeRESTService.class).add(newChild).uri()).build();
+		return Response.created(locationOf(SceneNodeRESTService.class).add(newChild).uri())
+				.entity(newChild).build();
 	}
 
 	@POST
 	@Path("/{parentId}/children")
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation("Create a scene node based on a prefab. Add it to the specified parent")
 	@ApiResponses({
 		@ApiResponse(code = 400, message = "Bad Request"),
@@ -100,7 +103,8 @@ public class SceneNodeRESTService extends AbstractRESTService {
 			@QueryParam("instantiate") final long prefabID)
 			throws EntityNotFoundException {
 		SceneNode instantiated = sceneTreeManager.addPrefabInstance(prefabID, parentID);
-		return Response.created(locationOf(this).add(instantiated).uri()).build();
+		return Response.created(locationOf(this).add(instantiated).uri())
+				.entity(instantiated).build();
 	}
 
 	@POST
