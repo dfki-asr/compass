@@ -152,7 +152,7 @@ var HierarchyView = AmpersandView.extend({
 			self.removeFancyNodeBySceneNode(selectedNode);
 			self.parent.selectedNode = undefined;
 		}, function () {
-			_notify("danger", "Could not delete node" + selectedNode.name + " from the server.");
+			_notify("danger", "Could not delete node '" + selectedNode.name + "' from the server.");
 		});
 	},
 	removeFancyNodeBySceneNode: function (sceneNode) {
