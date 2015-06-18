@@ -127,7 +127,7 @@ var HierarchyView = AmpersandView.extend({
 		}, function() {
 			// fail
 			_notify("danger", "Could not save your new node to the server.");
-		})
+		});
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},
