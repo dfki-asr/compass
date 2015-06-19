@@ -8,6 +8,7 @@
 "use strict";
 
 var $ = global.jQuery;
+var setTimeout = global.setTimeout;
 var basicContext = global.basicContext;
 var AmpersandView = require('ampersand-view');
 var _notify = require('./_notify');
@@ -16,6 +17,7 @@ var template = require('../../templates/editor/hierarchy.html');
 var HierarchyView = AmpersandView.extend({
 	template: template,
 	tree: undefined,
+	$scrollArea: undefined,
 	events: {
 		"click [data-hook=action-add-child]": "newChild",
 		"click [data-hook=action-delete-selected]": "deleteSelected"
@@ -54,88 +56,109 @@ var HierarchyView = AmpersandView.extend({
 		});
 		// what we actually want to save is the internal tree object.
 		this.tree = $tree.fancytree('getTree');
+		this.$scrollArea = $tree;
 		$tree.on('contextmenu', this.showContextMenu.bind(this));
 	},
-	preventMenuOnBackdrop: function() {
+	preventMenuOnBackdrop: function () {
 		var $backdrop = $('.basicContextContainer');
-		$backdrop.on('contextmenu', function() {
+		$backdrop.on('contextmenu', function () {
 			basicContext.close();
 			return false;
 		});
 	},
-	showContextMenu: function(event, data){
+	showContextMenu: function (event, data) {
 		var node = $.ui.fancytree.getNode(event);
 		this.selectCurrentNode(node);
 		var items = [
-			{ type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this) },
-			{ type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: function() {} }
+			{type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this)},
+			{type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: this.deleteSelected.bind(this)}
 		];
-		basicContext.show(items,event);
+		basicContext.show(items, event);
 		this.preventMenuOnBackdrop();
 		return false;
 	},
-	handleClickOnNode: function(event, data){
+	handleClickOnNode: function (event, data) {
 		var selectedNode = data.node;
 		this.selectCurrentNode(selectedNode);
 	},
-	selectCurrentNode: function(node) {
+	selectCurrentNode: function (node) {
 		var sceneNode = this.getSceneNodeByFancyNode(node);
 		this.parent.selectedNode = sceneNode;
 	},
-	updateSelectionDisplay: function() {
+	updateSelectionDisplay: function () {
 		if (!!this.parent.selectedNode) {
-			this.tree.activateKey(this.parent.selectedNode.cid);
+			var node = this.tree.activateKey(this.parent.selectedNode.cid);
+			this.$scrollArea.scrollTo(node.span, 150);
 		} else {
 			// selection cleared
 			this.tree.activateKey(false);
 		}
 	},
-	createFancyTreeStructure: function(scenenode){
+	createFancyTreeStructure: function (scenenode) {
 		var fancyTree = [];
 		var self = this;
-		scenenode.children.each(function(child){
+		scenenode.children.each(function (child) {
 			fancyTree.push(self.createFancyTreeNode(child));
 		});
 		return fancyTree;
 	},
-	createFancyTreeNode: function(scenenode){
+	createFancyTreeNode: function (scenenode) {
 		var fancyNode = {};
 		fancyNode.title = scenenode.name;
 		fancyNode.key = scenenode.cid;
-		if(!scenenode.children.isEmpty()){
+		if (!scenenode.children.isEmpty()) {
 			fancyNode.folder = true;
 			fancyNode.children = this.createFancyTreeStructure(scenenode);
 		}
 		fancyNode.sceneNode = scenenode;
 		return fancyNode;
 	},
-	getSceneNodeByFancyNode: function(fancyNode){
+	getSceneNodeByFancyNode: function (fancyNode) {
 		return fancyNode.data.sceneNode;
 	},
-	getFancyNodeBySceneNode: function(sceneNode){
+	getFancyNodeBySceneNode: function (sceneNode) {
 		return this.tree.getNodeByKey(sceneNode.cid);
 	},
-	newChild: function () {
+	newChild: function (event) {
+		if(event){
+			this.blurButtonAfterClickEvent(event);
+		}
 		var sceneNode = this.parent.selectedNode;
 		if (!sceneNode) {
 			sceneNode = this.parent.root;
 		}
 		var newNode = sceneNode.children.add({name: "New Node", parentNode: sceneNode});
-		newNode.save().then(function(){
+		newNode.save().then(function () {
 			// success
 			// we just expect that, so no need to tell the user anything.
-		}, function() {
+		}, function () {
 			// fail
 			_notify("danger", "Could not save your new node to the server.");
-		})
+		});
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},
-	insertNodeIntoTree: function(sceneNode, parent) {
+	blurButtonAfterClickEvent: function(event){
+		if(!event || !event.target){
+			return;
+		}
+		var $eventTarget = $(event.target);
+		var tagName = $eventTarget.prop("tagName");
+		if(tagName === "I" || tagName === "i"){ //target was the icon not the actual button
+			$eventTarget = $eventTarget.parent();
+		}
+		$eventTarget.blur();
+	},
+	insertNodeIntoTree: function (sceneNode, parent) {
 		var index = sceneNode.collection.indexOf(sceneNode);
 		var fancyNode = this.createFancyTreeNode(sceneNode);
 		if (index === 0) {
-			var fancyParent = this.getFancyNodeBySceneNode(parent);
+			var fancyParent;
+			if(parent.parentNode) {
+				fancyParent = this.getFancyNodeBySceneNode(parent);
+			} else {
+				fancyParent = this.tree.getRootNode();
+			}
 			fancyParent.folder = true;
 			fancyParent.addNode(fancyNode, "child");
 		} else {
@@ -144,15 +167,54 @@ var HierarchyView = AmpersandView.extend({
 			fancyPredecessor.addNode(fancyNode, "after");
 		}
 	},
-	deleteSelected: function () {
-		console.log("delete Node");
-		// if a node is currently selected:
-		//      let the user confirm he really wants to delete said node.
-		//      delete it.
-		// else:
-		//      (ideally, the button would be disabled via a binding)
-		//      complain.
+	deleteSelected: function (event) {
+		if(event){
+			this.blurButtonAfterClickEvent(event);
+		}
+		var selectedNode = this.parent.selectedNode;
+		var $node = $(this.getFancyNodeBySceneNode(selectedNode).span).find(".fancytree-title");
+		this.$scrollArea.scrollTo($node, 150, {
+			onAfter: this.triggerConfirmationPopover.bind(this, selectedNode, $node)
+		});
 	},
+	triggerConfirmationPopover: function(nodeToDelete, $titleSpan) {
+		$titleSpan.confirmation({
+			trigger: "manual",
+			placement: "right",
+			container: "body",
+			popout: false,
+			title: "Really delete this?",
+			btnOkIcon: "fa fa-trash-o",
+			btnOkLabel: "Delete",
+			btnCancelIcon: "",
+			btnCancelLabel: "Keep",
+			onConfirm: this.deleteNodeOnServer.bind(this, nodeToDelete, $titleSpan)
+		}).confirmation("show");
+		// due to event race condition, leave a little longer to capture scrolls.
+		var $scroll = this.$scrollArea;
+		setTimeout(function() {
+			$scroll.one("scroll", function() { $titleSpan.confirmation("destroy");});
+		}, 10); // In my tests, the lagging scroll event took at most 5msec to complete.
+	},
+	deleteNodeOnServer: function(nodeToDelete, $titleSpan) {
+		nodeToDelete.destroy().then(function () {
+			//successfully deleted the node, remove it from the tree
+			this.removeFancyNodeBySceneNode(nodeToDelete);
+			this.parent.selectedNode = undefined;
+		}, function () {
+			_notify("danger", "Could not delete node '" + nodeToDelete.name + "' from the server.");
+		});
+		$titleSpan.confirmation('destroy');
+	},
+	removeFancyNodeBySceneNode: function (sceneNode) {
+		var fancyNode = this.getFancyNodeBySceneNode(sceneNode);
+		var fancyNodeParent = fancyNode.getParent();
+		fancyNode.remove();
+		if (fancyNodeParent && !fancyNodeParent.hasChildren() && !fancyNodeParent.isRoot()) {
+			fancyNodeParent.folder = false;
+			fancyNodeParent.setExpanded(false);
+		}
+	}
 });
 
 module.exports = HierarchyView;

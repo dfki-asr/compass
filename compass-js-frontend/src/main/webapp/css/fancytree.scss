@@ -39,6 +39,8 @@ $fancy-node-outline-width: 1px;
 
 ul.fancytree-container {
   overflow: visible; // leave scrolling to the parent container to avoid flickering.
+  display: inline-block; // expand to fit children (don't clip background)
+  min-width: 100%; // but if the container is wide enough, expand.
 }
 
 ul.fancytree-container ul {
@@ -56,6 +58,7 @@ span.fancytree-title {
 	border: $fancy-node-border-width solid transparent;  // avoid jumping, when a border is added on hover
 	border-radius: $border-radius-small;
 	outline-radius: $border-radius-small;
+	transform: translate(0,0); // obscure fix to render the text above the whole-line marker.
 //	padding-left: 8px;
 }
 // span.fancytree-title {
@@ -76,6 +79,19 @@ span.fancytree-title {
 	  color: $btn-primary-color;
 	  border-radius: $border-radius-base;
 	}
+  }
+  span.fancytree-node.fancytree-active:before {
+	// the whole-line marker
+	content: "";
+	float: left;
+	position: absolute;
+	left: 0px;
+	height: 22px; // I don't yet know how to size this using a non-fixed value.
+	width: 100%;
+	background-color: $btn-primary-bg;
+	border-color: $btn-primary-border;
+	color: $btn-primary-color;
+	border-radius: $border-radius-base;
   }
 }
 
