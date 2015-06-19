@@ -197,10 +197,11 @@ var HierarchyView = AmpersandView.extend({
 		}, 10); // In my tests, the lagging scroll event took at most 5msec to complete.
 	},
 	deleteNodeOnServer: function(nodeToDelete, $titleSpan) {
+		var self = this;
 		nodeToDelete.destroy().then(function () {
 			//successfully deleted the node, remove it from the tree
-			this.removeFancyNodeBySceneNode(nodeToDelete);
-			this.parent.selectedNode = undefined;
+			self.removeFancyNodeBySceneNode(nodeToDelete);
+			self.parent.selectedNode = undefined;
 		}, function () {
 			_notify("danger", "Could not delete node '" + nodeToDelete.name + "' from the server.");
 		});
