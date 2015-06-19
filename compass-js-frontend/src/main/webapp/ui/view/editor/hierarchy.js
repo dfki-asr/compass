@@ -177,6 +177,7 @@ var HierarchyView = AmpersandView.extend({
 				$node.confirmation('destroy');
 			}
 		}).confirmation("show");
+		this.$scrollArea.one("scroll", function() { $node.confirmation("destroy");});
 	},
 	removeFancyNodeBySceneNode: function (sceneNode) {
 		var fancyNode = this.getFancyNodeBySceneNode(sceneNode);
