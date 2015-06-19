@@ -118,7 +118,10 @@ var HierarchyView = AmpersandView.extend({
 	getFancyNodeBySceneNode: function (sceneNode) {
 		return this.tree.getNodeByKey(sceneNode.cid);
 	},
-	newChild: function () {
+	newChild: function (event) {
+		if(event){
+			this.blurButtonAfterClickEvent(event);
+		}
 		var sceneNode = this.parent.selectedNode;
 		if (!sceneNode) {
 			sceneNode = this.parent.root;
@@ -133,6 +136,17 @@ var HierarchyView = AmpersandView.extend({
 		});
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
+	},
+	blurButtonAfterClickEvent: function(event){
+		if(!event || !event.target){
+			return;
+		}
+		var $eventTarget = $(event.target);
+		var tagName = $eventTarget.prop("tagName");
+		if(tagName === "I" || tagName === "i"){ //target was the icon not the actual button
+			$eventTarget = $eventTarget.parent();
+		}
+		$eventTarget.blur();
 	},
 	insertNodeIntoTree: function (sceneNode, parent) {
 		var index = sceneNode.collection.indexOf(sceneNode);
@@ -152,7 +166,10 @@ var HierarchyView = AmpersandView.extend({
 			fancyPredecessor.addNode(fancyNode, "after");
 		}
 	},
-	deleteSelected: function () {
+	deleteSelected: function (event) {
+		if(event){
+			this.blurButtonAfterClickEvent(event);
+		}
 		var selectedNode = this.parent.selectedNode;
 		var self = this;
 		var $node = $(this.getFancyNodeBySceneNode(selectedNode).span).find(".fancytree-title");
