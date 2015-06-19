@@ -8,6 +8,7 @@
 "use strict";
 
 var $ = global.jQuery;
+var setTimeout = global.setTimeout;
 var basicContext = global.basicContext;
 var AmpersandView = require('ampersand-view');
 var _notify = require('./_notify');
@@ -171,9 +172,13 @@ var HierarchyView = AmpersandView.extend({
 			this.blurButtonAfterClickEvent(event);
 		}
 		var selectedNode = this.parent.selectedNode;
-		var self = this;
 		var $node = $(this.getFancyNodeBySceneNode(selectedNode).span).find(".fancytree-title");
-		$node.confirmation({
+		this.$scrollArea.scrollTo($node, 150, {
+			onAfter: this.triggerConfirmationPopover.bind(this, selectedNode, $node)
+		});
+	},
+	triggerConfirmationPopover: function(nodeToDelete, $titleSpan) {
+		$titleSpan.confirmation({
 			trigger: "manual",
 			placement: "right",
 			container: "body",
@@ -183,19 +188,23 @@ var HierarchyView = AmpersandView.extend({
 			btnOkLabel: "Delete",
 			btnCancelIcon: "",
 			btnCancelLabel: "Keep",
-			onConfirm: function() {
-				selectedNode.destroy().then(function () {
-					//successfully deleted the node, remove it from the tree
-					self.removeFancyNodeBySceneNode(selectedNode);
-					self.parent.selectedNode = undefined;
-				}, function () {
-					_notify("danger", "Could not delete node '" + selectedNode.name + "' from the server.");
-				});
-				$node.confirmation('destroy');
-			}
+			onConfirm: this.deleteNodeOnServer.bind(this, nodeToDelete, $titleSpan)
 		}).confirmation("show");
-		$(".popover.confirmation").css('left', $(".outer-west").css('width'));
-		this.$scrollArea.one("scroll", function(event, data) { $node.confirmation("destroy");});
+		// due to event race condition, leave a little longer to capture scrolls.
+		var $scroll = this.$scrollArea;
+		setTimeout(function() {
+			$scroll.one("scroll", function() { $titleSpan.confirmation("destroy");});
+		}, 10); // In my tests, the lagging scroll event took at most 5msec to complete.
+	},
+	deleteNodeOnServer: function(nodeToDelete, $titleSpan) {
+		nodeToDelete.destroy().then(function () {
+			//successfully deleted the node, remove it from the tree
+			this.removeFancyNodeBySceneNode(nodeToDelete);
+			this.parent.selectedNode = undefined;
+		}, function () {
+			_notify("danger", "Could not delete node '" + nodeToDelete.name + "' from the server.");
+		});
+		$titleSpan.confirmation('destroy');
 	},
 	removeFancyNodeBySceneNode: function (sceneNode) {
 		var fancyNode = this.getFancyNodeBySceneNode(sceneNode);
