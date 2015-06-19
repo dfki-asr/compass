@@ -155,7 +155,7 @@ var HierarchyView = AmpersandView.extend({
 	deleteSelected: function () {
 		var selectedNode = this.parent.selectedNode;
 		var self = this;
-		var $node = $(this.getFancyNodeBySceneNode(selectedNode).span);
+		var $node = $(this.getFancyNodeBySceneNode(selectedNode).span).find(".fancytree-title");
 		$node.confirmation({
 			trigger: "manual",
 			placement: "right",
