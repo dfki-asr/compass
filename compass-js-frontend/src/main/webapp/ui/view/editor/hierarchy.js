@@ -160,7 +160,7 @@ var HierarchyView = AmpersandView.extend({
 			trigger: "manual",
 			placement: "right",
 			container: "body",
-			popout: true,
+			popout: false,
 			title: "Really delete this?",
 			btnOkIcon: "fa fa-trash-o",
 			btnOkLabel: "Delete",
