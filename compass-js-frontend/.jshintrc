@@ -1,0 +1,33 @@
+{
+	//For an overview of all options, look here: http://jshint.com/docs/options/
+
+	//global variables
+	"globals": {
+		"require" : false,
+		"module": true,
+		"global": true
+	},
+
+	//Enforcing Options
+	"curly": true,
+	"eqeqeq": true,
+	"freeze": true,
+	"latedef": true,
+	"maxcomplexity": 8,
+	"maxdepth": 5,
+	"maxparams": 4,
+	"maxstatements": 32,
+	"noarg": true,
+	"nocomma": true,
+	"nonbsp": true,
+	"strict": true,
+	"undef": true,
+	"unused": true,
+
+	//Relaxing Options
+	//Nothing to relax
+
+	//Environment Options
+	"browser": true,
+	"devel": true
+}
