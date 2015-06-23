@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var plug = require('gulp-load-plugins')();
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
+var jscs = require('gulp-jscs-with-reporter');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var del = require("del");
@@ -22,13 +23,21 @@ gulp.task("build-ours", ["bundle", "sass"]);
 
 gulp.task("js-lint", function(){
 	var src = srcFolder + "**/*.js";
-	return gulp.src(src)
+	gulp.src(src)
 		.pipe(jshint({
 			linter: "jshint",
 			lookup: true
 		}))
 		.pipe(jshint.reporter("jshint-stylish", {verbose: true}))
 		.pipe(jshint.reporter("fail"));
+});
+
+gulp.task("jscs", function(){
+	var src = srcFolder + "**/*.js";
+	gulp.src(src)
+		.pipe(jscs(".jscsrc"))
+		.pipe(jscs.reporter("console"));
+	}
 });
 
 gulp.task("sass", function(){
