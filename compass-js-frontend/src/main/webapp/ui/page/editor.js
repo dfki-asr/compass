@@ -47,7 +47,7 @@ var EditorPage = BasePage.extend({
 			hook: "prefabList",
 			constructor: DisabledView
 		},
-		navbar:{
+		navbar: {
 			hook: "navbar",
 			constructor: NavbarView
 		}

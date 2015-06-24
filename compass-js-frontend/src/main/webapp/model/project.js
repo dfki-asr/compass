@@ -20,7 +20,7 @@ var Project = CompassModel.extend({
 			default: "Default Name"
 		}
 	},
-	collections:{
+	collections: {
 		scenarios: ScenarioCollection
 	},
 	parse: function(attrs){
