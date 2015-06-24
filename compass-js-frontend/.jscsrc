@@ -39,7 +39,7 @@
 	//enforcing options
 	"requireAnonymousFunctions" : true,
 	"requireBlocksOnNewline" : 1,
-	"requireCamelCaseOrUpperCaseIdentifiers" : true, // ???
+	"requireCamelCaseOrUpperCaseIdentifiers" : true,
 	"requireCommaBeforeLineBreak" : true,
 	"requireDollarBeforejQueryAssignment" : true,
 	"requireCurlyBraces" : true,

@@ -22,6 +22,7 @@ var notify = function(type, message) {
 		}
     }
     options.message = message;
+	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     var settings = {
         type: type,
         placement: {
@@ -34,6 +35,7 @@ var notify = function(type, message) {
         },
         allow_dismiss: false
     };
+	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
     $.notify(options, settings);
 };
 

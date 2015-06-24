@@ -68,6 +68,7 @@ var EditorPage = BasePage.extend({
 		return this;
 	},
 	initUI: function () {
+		// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 		this.globalLayout = $(this.query(".layout-container")).layout({
 			name:					"outer",
 			center__paneSelector:	".outer-center",
@@ -82,6 +83,7 @@ var EditorPage = BasePage.extend({
 			west__paneSelector:		".inner-west",
 			minSize:				50
 		});
+		// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 		this.navbar.setScenario(this.scenario);
 	},
 	doneLoadingSceneTree: function (rootNode) {
