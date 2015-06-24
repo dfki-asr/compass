@@ -48,4 +48,5 @@ var CreateProjectView = AmpersandView.extend({
 		});
 	}
 });
+
 module.exports = CreateProjectView;

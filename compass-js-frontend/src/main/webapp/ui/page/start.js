@@ -118,4 +118,5 @@ var StartPage = BasePage.extend({
 		this.modalViewSwitcher.set(new CreateProjectView());
 	}
 });
+
 module.exports = StartPage;

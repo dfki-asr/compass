@@ -111,4 +111,5 @@ var EditorPage = BasePage.extend({
 		return promise;
 	}
 });
+
 module.exports = EditorPage;
