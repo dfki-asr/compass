@@ -1,4 +1,5 @@
 {
+	//Most style options are trying to reflect our rules for the java code
 	//Disallowing options
 	"disallowEmptyBlocks" : true,
 	"disallowKeywordsInComments" : "\\b(todo|fixme)\\b",
@@ -114,10 +115,10 @@
 
 	//all the other options
 	"maximumLineLength" : {
-		"value" : 100,
+		"value" : 160,
 		"tabSize" : 4,
 		"allExcept" : ["urlComments", "regex"]
 	},
-	"maximumNumberOfLines" : 300,
+	"maximumNumberOfLines" : 450,
 	"safeContextKeyword" : ["that", "self"]
 }
