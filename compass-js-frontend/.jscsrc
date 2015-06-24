@@ -117,7 +117,8 @@
 	"maximumLineLength" : {
 		"value" : 160,
 		"tabSize" : 4,
-		"allExcept" : ["urlComments", "regex"]
+		"allowUrlComments": true,
+		"allowRegex": true
 	},
 	"maximumNumberOfLines" : 450,
 	"safeContextKeyword" : ["that", "self"]
