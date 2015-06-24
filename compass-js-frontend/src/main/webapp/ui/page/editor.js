@@ -25,7 +25,7 @@ var EditorPage = BasePage.extend({
 	pageTitle: "Editor",
 	template: template,
 	scenario: undefined,
-	globalLayout: undefined,
+	$globalLayout: undefined,
 	subviews: {
 		hierarchy: {
 			hook: "hierarchy",
@@ -69,7 +69,7 @@ var EditorPage = BasePage.extend({
 	},
 	initUI: function () {
 		// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-		this.globalLayout = $(this.query(".layout-container")).layout({
+		this.$globalLayout = $(this.query(".layout-container")).layout({
 			name:					"outer",
 			center__paneSelector:	".outer-center",
 			east__paneSelector:		".outer-east",
@@ -77,7 +77,7 @@ var EditorPage = BasePage.extend({
 			south__paneSelector:	".outer-south",
 			south__size:			150
 		});
-		$(this.globalLayout.options.south.paneSelector).layout({
+		$(this.$globalLayout.options.south.paneSelector).layout({
 			name:					"inner",
 			center__paneSelector:	".inner-center",
 			west__paneSelector:		".inner-west",
