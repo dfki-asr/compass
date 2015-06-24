@@ -1,0 +1,123 @@
+{
+	//Disallowing options
+	"disallowEmptyBlocks" : true,
+	"disallowKeywordsInComments" : "\\b(todo|fixme)\\b",
+	"disallowKeywordsOnNewLine" : ["else"],
+	"disallowKeywords" : ["with"],
+	"disallowMixedSpacesAndTabs" : "smart",
+	"disallowMultipleLineBreaks" : true,
+	"disallowMultipleLineStrings" : true,
+	"disallowMultipleSpaces" : true,
+	"disallowNewlineBeforeBlockStatements" : true,
+	"disallowOperatorBeforeLineBreak" : ["+", ".", ","],
+	"disallowPaddingNewLinesAfterBlocks" : true,
+	"disallowPaddingNewlinesBeforeKeywords" : [
+		"do",
+		"for",
+		"if",
+		"else",
+		"switch",
+		"case",
+		"try",
+		"catch",
+		"void",
+		"while",
+		"with",
+		"return",
+		"typeof",
+		"function"
+	],
+	"disallowPaddingNewLinesBeforeLineComments" : true,
+	"disallowPaddingNewlinesInBlocks" : true,
+	"disallowSpaceAfterLineComment" : true,
+	"disallowSpaceAfterObjectKeys" : true,
+	"disallowSpaceAfterPrefixUnaryOperators" : true,
+	"disallowSpaceBeforeBinaryOperators" : [",", ":"],
+	"disallowSpaceBeforePostfixUnaryOperators" : true,
+	"disallowSpacesInAnonymousFunctionExpression" : {
+		"beforeOpeningRoundBrace" : true
+	},
+	"disallowSpacesInCallExpression" : true,
+	"disallowSpacesInFunctionDeclaration" : {
+		"beforeOpeningRoundBrace" : true
+	},
+	"disallowSpacesInFunctionExpression" : {
+		"beforeOpeningRoundBrace" : true
+	},
+	"disallowSpacesInNamedFunctionExpression" : {
+		"beforeOpeningRoundBrace" : true
+	},
+	"disallowSpacesInsideArrayBrackets" : "nested",
+	"disallowSpacesInsideBrackets" : {
+		"allExcept" : ["[", "]", "{", "}"]
+	},
+	"disallowSpacesInsideObjectBrackets" : "nested",
+	"disallowSpacesInsideParentheses" : true,
+	"disallowTrailingComma" : true,
+	"disallowTrailingWhitespace" : true,
+
+	//enforcing options
+	"requireAnonymousFunctions" : true,
+	"requireBlocksOnNewline" : 1,
+	"requireCamelCaseOrUpperCaseIdentifiers" : true, // ???
+	"requireCommaBeforeLineBreak" : true,
+	"requireDollarBeforejQueryAssignment" : true,
+	"requireCurlyBraces" : true,
+	"requireDotNotation" : true,
+	"requireLineFeedAtFileEnd" : true,
+	"requireOperatorBeforeLineBreak" : true,
+	"requirePaddingNewLinesAfterUseStrict" : true,
+	"requirePaddingNewLinesBeforeExport" : true,
+	"requireParenthesesAroundIIFE" : true,
+	"requireSemicolons" : true,
+	"requireSpaceAfterBinaryOperators" : true,
+	"requireSpaceAfterKeywords" : true,
+	"requireSpaceBeforeBinaryOperators" : true,
+	"requireSpaceBeforeBlockStatements" : true,
+	"requireSpaceBeforeKeywords" : [
+		"else",
+		"while",
+		"catch"
+	],
+	"requireSpaceBeforeObjectValues" : true,
+	"requireSpaceBetweenArguments" : true,
+	"requireSpacesInAnonymousFunctionExpression" : {
+		"beforeOpeningCurlyBrace" : true
+	},
+	"requireSpacesInConditionalExpression" : true,
+	"requireSpacesInForStatement" : true,
+	"requireSpacesInFunctionDeclaration" : {
+		"beforeOpeningCurlyBrace" : true
+	},
+	"requireSpacesInFunctionExpression" : {
+		"beforeOpeningCurlyBrace" : true
+	},
+	"requireSpacesInFunction" : {
+		"beforeOpeningCurlyBrace" : true
+	},
+	"requireSpacesInNamedFunctionExpression" : {
+		"beforeOpeningCurlyBrace" : true
+	},
+
+	//validating options
+	"validateAlignedFunctionParameters" : {
+		"lineBreakAfterOpeningBraces" : true,
+		"lineBreakBeforeClosingBraces" : true
+	},
+	//TODO: Set this option based on OS???
+	//"validateLineBreaks" : "CRLF" or "LF"
+	"validateParameterSeparator" : ", ",
+	"validateQuoteMarks" : {
+		"mark" : "\"",
+		"escape" : true
+	},
+
+	//all the other options
+	"maximumLineLength" : {
+		"value" : 100,
+		"tabSize" : 4,
+		"allExcept" : ["urlComments", "regex"]
+	},
+	"maximumNumberOfLines" : 300,
+	"safeContextKeyword" : ["that", "self"]
+}
