@@ -14,7 +14,7 @@ var AmpersandView = require('ampersand-view');
 var BasePage = AmpersandView.extend({
 	pageTitle: 'Base Page',
 	template: template,
-	initialize: function (options) {
+	initialize: function () {
 	},
 	render: function () {
 		this.renderWithTemplate();

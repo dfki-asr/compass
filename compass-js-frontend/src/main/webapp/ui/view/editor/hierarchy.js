@@ -22,7 +22,7 @@ var HierarchyView = AmpersandView.extend({
 		"click [data-hook=action-add-child]": "newChild",
 		"click [data-hook=action-delete-selected]": "deleteSelected"
 	},
-	initialize: function (options) {
+	initialize: function () {
 		this.parent.on("sceneTreeLoaded", this.renderTree.bind(this));
 		this.parent.on("change:selectedNode", this.updateSelectionDisplay.bind(this));
 	},

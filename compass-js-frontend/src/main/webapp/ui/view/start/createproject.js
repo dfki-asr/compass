@@ -14,7 +14,7 @@ var template = require('../../templates/start/create-project.html');
 
 var CreateProjectView = AmpersandView.extend({
 	template: template,
-	initialize: function (options) {
+	initialize: function () {
 	},
 	events: {
 		"click [data-action=save]": "createNewProject",

@@ -12,7 +12,7 @@ var template = require('../../templates/editor/properties.html');
 
 var PropertiesView = AmpersandView.extend({
     template: template,
-    initialize: function (options) {
+    initialize: function () {
     },
     render: function() {
         this.renderWithTemplate();

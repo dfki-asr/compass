@@ -22,7 +22,7 @@ var StartPage = BasePage.extend({
 	modalViewSwitcher: undefined,
 	projectSelectionList: undefined,
 	scenarioSelectionList: undefined,
-	initialize: function (options) {
+	initialize: function () {
 		app.projects.on("sync", this.onProjectsSync.bind(this));
 		app.projects.on("change:selected", this.onProjectsSelectionChange.bind(this));
 		app.projects.on("change:scenarios", this.onScenarioChange.bind(this));

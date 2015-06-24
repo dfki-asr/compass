@@ -12,7 +12,7 @@ var template = require('../../templates/editor/viewport.html');
 
 var ThreeDView = AmpersandView.extend({
     template: template,
-    initialize: function (options) {
+    initialize: function () {
     },
     render: function() {
         this.renderWithTemplate();

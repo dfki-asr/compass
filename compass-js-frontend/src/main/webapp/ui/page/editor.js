@@ -56,7 +56,7 @@ var EditorPage = BasePage.extend({
 		selectedNode: 'any'
 	},
 	root: undefined,
-	initialize: function (scenarioId, options) {
+	initialize: function (scenarioId) {
 		//The router gives as a string, but the model wants a number...
 		var idAsNumber = parseInt(scenarioId);
 		this.scenario = new Scenario({id: idAsNumber});

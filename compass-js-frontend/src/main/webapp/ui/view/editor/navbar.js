@@ -13,7 +13,7 @@ var template = require('../../templates/editor/navbar.html');
 var EditorNavbarView = AmpersandView.extend({
     template: template,
 	scenario: undefined,
-    initialize: function (options) {
+    initialize: function () {
     },
 	bindings: {
 		"scenario.name": "[data-hook=scenarioname]"

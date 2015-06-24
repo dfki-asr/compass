@@ -12,7 +12,7 @@ var template = require('../../templates/editor/disabled.html');
 
 var DisabledView = AmpersandView.extend({
     template: template,
-    initialize: function (options) {
+    initialize: function () {
     },
     render: function() {
         this.renderWithTemplate();
