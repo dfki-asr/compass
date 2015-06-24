@@ -14,14 +14,8 @@
 	"disallowSpaceAfterPrefixUnaryOperators" : true,
 	"disallowSpaceBeforeBinaryOperators" : [",", ":"],
 	"disallowSpaceBeforePostfixUnaryOperators" : true,
-	"disallowSpacesInAnonymousFunctionExpression" : {
-		"beforeOpeningRoundBrace" : true
-	},
 	"disallowSpacesInCallExpression" : true,
 	"disallowSpacesInFunctionDeclaration" : {
-		"beforeOpeningRoundBrace" : true
-	},
-	"disallowSpacesInFunctionExpression" : {
 		"beforeOpeningRoundBrace" : true
 	},
 	"disallowSpacesInNamedFunctionExpression" : {
@@ -76,6 +70,7 @@
 	"requireSpaceBeforeObjectValues" : true,
 	"requireSpaceBetweenArguments" : true,
 	"requireSpacesInAnonymousFunctionExpression" : {
+		"beforeOpeningRoundBrace": true,
 		"beforeOpeningCurlyBrace" : true
 	},
 	"requireSpacesInConditionalExpression" : true,

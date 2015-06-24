@@ -23,7 +23,7 @@ var Project = CompassModel.extend({
 	collections: {
 		scenarios: ScenarioCollection
 	},
-	parse: function(attrs) {
+	parse: function (attrs) {
 		if (!attrs) {
 			return attrs;
 		}

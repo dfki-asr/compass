@@ -37,9 +37,9 @@ var SceneNode = CompassModel.extend({
 			return new SceneNodeCollection([], {model: SceneNode});
 		}
 	},
-	init: function() {
+	init: function () {
 	},
-	parse: function(attrs) {
+	parse: function (attrs) {
 		if (!attrs) {
 			return attrs;
 		}
@@ -52,7 +52,7 @@ var SceneNode = CompassModel.extend({
 		}
 		return attrs;
 	},
-	url: function() {
+	url: function () {
 		var basePath = Config.getRESTPath("scenenodes/");
 		if (!this.id) {
 			// must be a new node for POSTing
@@ -65,15 +65,15 @@ var SceneNode = CompassModel.extend({
 			return basePath + this.id;
 		}
 	},
-	fetchRecursively: function() {
+	fetchRecursively: function () {
 		if (this.children.isEmpty()) {
 			return Promise.resolve();
 		}
 		var self = this;
-		return this.children.fetchCollectionEntries().then(function() {
+		return this.children.fetchCollectionEntries().then(function () {
 			var promises = [];
-			self.children.each(function(c) {
-				var promise = c.fetchRecursively().catch(function(err) {
+			self.children.each(function (c) {
+				var promise = c.fetchRecursively().catch(function (err) {
 				console.log(err);
 			});
 				promises.push(promise);

@@ -9,7 +9,7 @@
 
 var $ = global.jQuery;
 
-var notify = function(type, message) {
+var notify = function (type, message) {
     var options = {};
     switch (type) {
         case "danger": {

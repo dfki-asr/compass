@@ -14,7 +14,7 @@ var ThreeDView = AmpersandView.extend({
     template: template,
     initialize: function () {
     },
-    render: function() {
+    render: function () {
         this.renderWithTemplate();
         return this;
     }

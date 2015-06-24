@@ -13,8 +13,8 @@ var Config = require("../config");
 var SceneNodeCollection = CompassCollection.extend({
 	// we do not specifiy the model (SceneNode) in order to avoid a circular dependency
 	url: Config.getRESTPath("scenenodes/"),
-	serialize: function() {
-		return this.models.map(function(model) {return model.id;});
+	serialize: function () {
+		return this.models.map(function (model) {return model.id;});
 	}
 });
 

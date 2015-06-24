@@ -21,15 +21,15 @@ var htmlHeaderTemplate = require("../templates/html-header.html");
 // ampersand-view-switcher: https://www.npmjs.com/package/ampersand-view-switcher
 var MainView = AmpersandView.extend({
     template: mainViewTemplate,
-    initialize: function() {
+    initialize: function () {
         this.listenTo(app.router, "page", this.handleNewPage);
     },
-    render: function() {
+    render: function () {
         document.head.appendChild(domify(htmlHeaderTemplate));
         this.renderWithTemplate();
         // take the element with the hook ("child-page") and make it the root-el for all other views
         this.pageSwitcher = new AmpersandViewSwitcher(this.queryByHook("child-page"), {
-            show: function(newView) {
+            show: function (newView) {
                 document.title = "COMPASS - " + (_.result(newView, "pageTitle") || "");
                 document.scrollTop = 0;
                 app.currentPage = newView;
@@ -37,7 +37,7 @@ var MainView = AmpersandView.extend({
         });
         return this;
     },
-    handleNewPage: function(view) {
+    handleNewPage: function (view) {
         this.pageSwitcher.set(view);
     }
 });

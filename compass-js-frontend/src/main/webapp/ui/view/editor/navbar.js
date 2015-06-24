@@ -18,11 +18,11 @@ var EditorNavbarView = AmpersandView.extend({
 	bindings: {
 		"scenario.name": "[data-hook=scenarioname]"
 	},
-    render: function() {
+    render: function () {
         this.renderWithTemplate();
         return this;
     },
-	setScenario: function(scenario) {
+	setScenario: function (scenario) {
 		this.scenario = scenario;
 		this.render();
 	}

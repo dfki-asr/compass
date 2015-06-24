@@ -138,7 +138,7 @@ var HierarchyView = AmpersandView.extend({
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},
-	blurButtonAfterClickEvent: function(event) {
+	blurButtonAfterClickEvent: function (event) {
 		if (!event || !event.target) {
 			return;
 		}
@@ -177,7 +177,7 @@ var HierarchyView = AmpersandView.extend({
 			onAfter: this.triggerConfirmationPopover.bind(this, selectedNode, $node)
 		});
 	},
-	triggerConfirmationPopover: function(nodeToDelete, $titleSpan) {
+	triggerConfirmationPopover: function (nodeToDelete, $titleSpan) {
 		$titleSpan.confirmation({
 			trigger: "manual",
 			placement: "right",
@@ -192,11 +192,11 @@ var HierarchyView = AmpersandView.extend({
 		}).confirmation("show");
 		// due to event race condition, leave a little longer to capture scrolls.
 		var $scroll = this.$scrollArea;
-		browserSetTimeout(function() {
-			$scroll.one("scroll", function() { $titleSpan.confirmation("destroy");});
+		browserSetTimeout(function () {
+			$scroll.one("scroll", function () { $titleSpan.confirmation("destroy");});
 		}, 10); // In my tests, the lagging scroll event took at most 5msec to complete.
 	},
-	deleteNodeOnServer: function(nodeToDelete, $titleSpan) {
+	deleteNodeOnServer: function (nodeToDelete, $titleSpan) {
 		var self = this;
 		nodeToDelete.destroy().then(function () {
 			// successfully deleted the node, remove it from the tree

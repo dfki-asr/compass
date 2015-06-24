@@ -15,17 +15,17 @@ var ScenarioCollection = CompassCollection.extend({
 	model: Scenario,
 	selectedScenario: undefined,
 	url: Config.getRESTPath("scenarios/"),
-	selectById: function(id) {
+	selectById: function (id) {
 		var newSelection = this.get(id);
 		if (newSelection === this.selectedScenario) {
 			return;
 		}
 		this.selectedScenario = newSelection;
 	},
-	isSelected: function(model) {
+	isSelected: function (model) {
 		return this.selectedScenario && this.selectedScenario === model;
 	},
-	getSelected: function() {
+	getSelected: function () {
 		return this.selectedScenario;
 	}
 });
