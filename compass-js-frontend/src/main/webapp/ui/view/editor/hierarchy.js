@@ -8,7 +8,7 @@
 "use strict";
 
 var $ = global.jQuery;
-var setTimeout = global.setTimeout;
+var browserSetTimeout = global.setTimeout;
 var basicContext = global.basicContext;
 var AmpersandView = require('ampersand-view');
 var _notify = require('./_notify');
@@ -192,7 +192,7 @@ var HierarchyView = AmpersandView.extend({
 		}).confirmation("show");
 		// due to event race condition, leave a little longer to capture scrolls.
 		var $scroll = this.$scrollArea;
-		setTimeout(function() {
+		browserSetTimeout(function() {
 			$scroll.one("scroll", function() { $titleSpan.confirmation("destroy");});
 		}, 10); // In my tests, the lagging scroll event took at most 5msec to complete.
 	},
