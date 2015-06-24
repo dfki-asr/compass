@@ -10,13 +10,13 @@
 var $ = global.jQuery;
 
 var notify = function(type, message) {
-    var options = {}
+    var options = {};
     switch (type) {
         case "danger":
             options.icon = "fa fa-exclamation-triangle";
             break;
         case "success":
-            options.icon = "fa fa-check-square-o"
+            options.icon = "fa fa-check-square-o";
             break;
     }
     options.message = message;
