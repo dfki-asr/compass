@@ -15,10 +15,10 @@ var domify = require("domify");
 var mainViewTemplate = require("../templates/main-view.html");
 var htmlHeaderTemplate = require("../templates/html-header.html");
 
-//This is a main view which is also a "view switcher" for other views.
-//Those views will be hosted inside a preordained position inside view-switcher's
-//structure. Check its "render" method and also read the into from
-//ampersand-view-switcher: https://www.npmjs.com/package/ampersand-view-switcher
+// This is a main view which is also a "view switcher" for other views.
+// Those views will be hosted inside a preordained position inside view-switcher's
+// structure. Check its "render" method and also read the into from
+// ampersand-view-switcher: https://www.npmjs.com/package/ampersand-view-switcher
 var MainView = AmpersandView.extend({
     template: mainViewTemplate,
     initialize: function() {
@@ -27,7 +27,7 @@ var MainView = AmpersandView.extend({
     render: function() {
         document.head.appendChild(domify(htmlHeaderTemplate));
         this.renderWithTemplate();
-        //take the element with the hook ("child-page") and make it the root-el for all other views
+        // take the element with the hook ("child-page") and make it the root-el for all other views
         this.pageSwitcher = new AmpersandViewSwitcher(this.queryByHook("child-page"), {
             show: function(newView) {
                 document.title = "COMPASS - " + (_.result(newView, "pageTitle") || "");

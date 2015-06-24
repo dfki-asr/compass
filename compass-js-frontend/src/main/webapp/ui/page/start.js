@@ -47,7 +47,7 @@ var StartPage = BasePage.extend({
 	render: function () {
 		this.renderWithTemplate();
 		this.projectSelectionList = riot.mount(this.el.querySelector("#projectselection"), {
-			collection: app.projects, //riot will automagically update the tag on changes on the collection
+			collection: app.projects, // riot will automagically update the tag on changes on the collection
 			clickHandler: this.onProjectEntryClick.bind(this)
 		});
 		this.scenarioSelectionList = riot.mount(this.el.querySelector("#scenarioselection"), {

@@ -34,8 +34,8 @@ var ProjectCollection = CompassCollection.extend({
 	},
 	fetchScenarios: function(newSelection){
 		var project = this.selectedProject = newSelection;
-		//the events do not bubble from scenarioCollection (child) to project (parent)
-		//see: http://ampersandjs.com/docs#ampersand-state-collections
+		// the events do not bubble from scenarioCollection (child) to project (parent)
+		// see: http://ampersandjs.com/docs#ampersand-state-collections
 		project.scenarios.fetchCollectionEntries().then(function(){
 			project.trigger("change:scenarios", project);
 		});

@@ -13,7 +13,6 @@ var EditorPage = require("./../ui/page/editor");
 
 var CompassRouter = AmpersandRouter.extend({
 	initialize: function() {
-		//nothing to do here ...
 	},
 	routes: {
 		"start" : "start",

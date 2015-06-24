@@ -37,7 +37,7 @@ var HierarchyView = AmpersandView.extend({
 			source: fancyTree,
 			glyph: {
 				map: {
-					doc: "fa fa-circle-thin", //scenenode without chidlren
+					doc: "fa fa-circle-thin", // scenenode without chidlren
 					docOpen: "fa fa-file",
 					checkbox: "glyphicon glyphicon-unchecked",
 					checkboxSelected: "glyphicon glyphicon-check",
@@ -47,7 +47,7 @@ var HierarchyView = AmpersandView.extend({
 					expanderLazy: "fa fa-caret-right",
 					expanderOpen: "fa fa-caret-down",
 					folder: "fa fa-compress", // scenenode with chidlren, not expanded
-					folderOpen: "fa fa-expand", //expanded scenenode
+					folderOpen: "fa fa-expand", // expanded scenenode
 					loading: "fa fa-spinner fa-pulse"
 				}
 			},
@@ -144,7 +144,7 @@ var HierarchyView = AmpersandView.extend({
 		}
 		var $eventTarget = $(event.target);
 		var tagName = $eventTarget.prop("tagName");
-		if(tagName === "I" || tagName === "i"){ //target was the icon not the actual button
+		if(tagName === "I" || tagName === "i"){ // target was the icon not the actual button
 			$eventTarget = $eventTarget.parent();
 		}
 		$eventTarget.blur();
@@ -199,7 +199,7 @@ var HierarchyView = AmpersandView.extend({
 	deleteNodeOnServer: function(nodeToDelete, $titleSpan) {
 		var self = this;
 		nodeToDelete.destroy().then(function () {
-			//successfully deleted the node, remove it from the tree
+			// successfully deleted the node, remove it from the tree
 			self.removeFancyNodeBySceneNode(nodeToDelete);
 			self.parent.selectedNode = undefined;
 		}, function () {

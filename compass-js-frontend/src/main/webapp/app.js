@@ -43,6 +43,6 @@ app.extend({
 
 module.exports = (function () {
 	app.init();
-	window.app = app; //for debugging only
+	window.app = app; // for debugging only
 }());
 

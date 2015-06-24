@@ -26,7 +26,7 @@ var SceneNode = CompassModel.extend({
 	session: {
 		// does not take part in serialization, only for internal navigation.
 		parentNode: {
-			type: "object", //SceneNode
+			type: "object", // SceneNode
 			required: true,
 			allowNull: true
 		},
