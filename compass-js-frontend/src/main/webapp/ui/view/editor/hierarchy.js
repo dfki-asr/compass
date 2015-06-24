@@ -66,7 +66,7 @@ var HierarchyView = AmpersandView.extend({
 			return false;
 		});
 	},
-	showContextMenu: function (event, data) {
+	showContextMenu: function (event) {
 		var node = $.ui.fancytree.getNode(event);
 		this.selectCurrentNode(node);
 		var items = [

@@ -29,7 +29,7 @@ var MainView = AmpersandView.extend({
         this.renderWithTemplate();
         //take the element with the hook ('child-page') and make it the root-el for all other views
         this.pageSwitcher = new AmpersandViewSwitcher(this.queryByHook('child-page'), {
-            show: function(newView, oldView) {
+            show: function(newView) {
                 document.title = "COMPASS - " + (_.result(newView, 'pageTitle') || "");
                 document.scrollTop = 0;
                 app.currentPage = newView;

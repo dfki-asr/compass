@@ -28,14 +28,14 @@ var CreateProjectView = AmpersandView.extend({
 		});
 		return this;
 	},
-	createNewProject: function (event) {
+	createNewProject: function () {
 		var newName = this.el.querySelector("#new-project-name").value;
 		app.projects.create({
 			name: newName
 		}, {
 			wait: true,
 			success: this.close.bind(this),
-			error: function (model, response, opts) {
+			error: function (model, response) {
 				$("#new-project-name-error-msg").text(response.body);
 				$("#new-project-name-error").show().delay("20000").hide("slow");
 			}
