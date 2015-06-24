@@ -65,10 +65,10 @@
 		"return",
 		"typeof"
 	],
+	"requireSpaceAfterLineComment": true,
 	"requireSpaceBeforeBinaryOperators" : true,
 	"requireSpaceBeforeBlockStatements" : true,
 	"requireSpaceBeforeKeywords" : [
-	"requireSpaceAfterLineComment": true,
 		"else",
 		"while",
 		"catch"
