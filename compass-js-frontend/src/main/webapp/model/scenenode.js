@@ -59,10 +59,10 @@ var SceneNode = CompassModel.extend({
 			if (!this.parentNode) {
 				throw new Error("Cannot construct URL for this node. Need either id or parentNode.");
 			}
-			return basePath+this.parentNode.id+"/children/";
+			return basePath + this.parentNode.id + "/children/";
 		} else {
 			// has an id, so we might as well...
-			return basePath+this.id;
+			return basePath + this.id;
 		}
 	},
 	fetchRecursively: function(){
