@@ -15,9 +15,9 @@ var CompassRouter = AmpersandRouter.extend({
 	initialize: function() {
 	},
 	routes: {
-		"start" : "start",
-		"editor/:query" : "editor",
-		"(*path)" : "catchAll"
+		"start": "start",
+		"editor/:query": "editor",
+		"(*path)": "catchAll"
 	},
 	start: function(){
 		var page = new StartPage();
