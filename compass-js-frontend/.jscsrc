@@ -8,7 +8,6 @@
 	"disallowMixedSpacesAndTabs" : "smart",
 	"disallowMultipleLineBreaks" : true,
 	"disallowMultipleLineStrings" : true,
-	"disallowMultipleSpaces" : true,
 	"disallowNewlineBeforeBlockStatements" : true,
 	"disallowOperatorBeforeLineBreak" : ["+", ".", ","],
 	"disallowPaddingNewLinesAfterBlocks" : true,
