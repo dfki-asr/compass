@@ -9,7 +9,7 @@
 	"disallowMultipleLineBreaks" : true,
 	"disallowMultipleLineStrings" : true,
 	"disallowNewlineBeforeBlockStatements" : true,
-	"disallowOperatorBeforeLineBreak" : ["+", ".", ","],
+	"disallowOperatorBeforeLineBreak" : ["+", "."],
 	"disallowPaddingNewLinesAfterBlocks" : true,
 	"disallowPaddingNewlinesBeforeKeywords" : [
 		"do",
