@@ -10,9 +10,9 @@
 var $ = global.jQuery;
 var browserSetTimeout = global.setTimeout;
 var basicContext = global.basicContext;
-var AmpersandView = require('ampersand-view');
-var _notify = require('./_notify');
-var template = require('../../templates/editor/hierarchy.html');
+var AmpersandView = require("ampersand-view");
+var _notify = require("./_notify");
+var template = require("../../templates/editor/hierarchy.html");
 
 var HierarchyView = AmpersandView.extend({
 	template: template,
@@ -55,13 +55,13 @@ var HierarchyView = AmpersandView.extend({
 			activate: this.handleClickOnNode.bind(this)
 		});
 		// what we actually want to save is the internal tree object.
-		this.tree = $tree.fancytree('getTree');
+		this.tree = $tree.fancytree("getTree");
 		this.$scrollArea = $tree;
-		$tree.on('contextmenu', this.showContextMenu.bind(this));
+		$tree.on("contextmenu", this.showContextMenu.bind(this));
 	},
 	preventMenuOnBackdrop: function () {
-		var $backdrop = $('.basicContextContainer');
-		$backdrop.on('contextmenu', function () {
+		var $backdrop = $(".basicContextContainer");
+		$backdrop.on("contextmenu", function () {
 			basicContext.close();
 			return false;
 		});
@@ -70,8 +70,8 @@ var HierarchyView = AmpersandView.extend({
 		var node = $.ui.fancytree.getNode(event);
 		this.selectCurrentNode(node);
 		var items = [
-			{type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this)},
-			{type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: this.deleteSelected.bind(this)}
+			{type: "item", title: "Add Node", icon: "fa fa-plus-circle", fn: this.newChild.bind(this)},
+			{type: "item", title: "Delete Node", icon: "fa fa-trash-o", fn: this.deleteSelected.bind(this)}
 		];
 		basicContext.show(items, event);
 		this.preventMenuOnBackdrop();
@@ -205,7 +205,7 @@ var HierarchyView = AmpersandView.extend({
 		}, function () {
 			_notify("danger", "Could not delete node '" + nodeToDelete.name + "' from the server.");
 		});
-		$titleSpan.confirmation('destroy');
+		$titleSpan.confirmation("destroy");
 	},
 	removeFancyNodeBySceneNode: function (sceneNode) {
 		var fancyNode = this.getFancyNodeBySceneNode(sceneNode);

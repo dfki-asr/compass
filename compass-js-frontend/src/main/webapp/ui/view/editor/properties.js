@@ -7,8 +7,8 @@
 
 "use strict";
 
-var AmpersandView = require('ampersand-view');
-var template = require('../../templates/editor/properties.html');
+var AmpersandView = require("ampersand-view");
+var template = require("../../templates/editor/properties.html");
 
 var PropertiesView = AmpersandView.extend({
     template: template,

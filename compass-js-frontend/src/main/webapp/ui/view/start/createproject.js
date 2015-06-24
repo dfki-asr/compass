@@ -8,9 +8,9 @@
 "use strict";
 
 var $ = global.jQuery;
-var app = require('ampersand-app');
-var AmpersandView = require('ampersand-view');
-var template = require('../../templates/start/create-project.html');
+var app = require("ampersand-app");
+var AmpersandView = require("ampersand-view");
+var template = require("../../templates/start/create-project.html");
 
 var CreateProjectView = AmpersandView.extend({
 	template: template,
@@ -23,8 +23,8 @@ var CreateProjectView = AmpersandView.extend({
 	render: function () {
 		this.renderWithTemplate();
 		$(this.el).modal("show");
-		$(this.el).on('shown.bs.modal', function() {
-			$('#new-project-name').focus();
+		$(this.el).on("shown.bs.modal", function() {
+			$("#new-project-name").focus();
 		});
 		return this;
 	},

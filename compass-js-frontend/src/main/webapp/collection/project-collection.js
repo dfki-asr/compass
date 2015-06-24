@@ -14,7 +14,7 @@ var Config = require("../config");
 var ProjectCollection = CompassCollection.extend({
 	model: Project,
 	selectedProject: undefined,
-	indexes: ['name'],
+	indexes: ["name"],
 	url: Config.getRESTPath("projects/"),
 	selectById: function(id){
 		var newSelection = this.get(id);
@@ -25,7 +25,7 @@ var ProjectCollection = CompassCollection.extend({
 		this.trigger("change:selected");
 	},
 	selectByName: function(name){
-		var newSelection = this.get(name, 'name');
+		var newSelection = this.get(name, "name");
 		if (newSelection === this.selectedProject) {
 			return;
 		}

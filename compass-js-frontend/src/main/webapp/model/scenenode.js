@@ -8,9 +8,9 @@
 "use strict";
 
 var CompassModel = require("./compass-model");
-var Config = require('../config');
+var Config = require("../config");
 var SceneNodeCollection = require("../collection/scenenode-collection");
-var Promise = require('promise');
+var Promise = require("promise");
 
 var SceneNode = CompassModel.extend({
 	props: {

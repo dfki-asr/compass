@@ -7,17 +7,17 @@
 
 "use strict";
 
-var app = require('ampersand-app');
+var app = require("ampersand-app");
 var AmpersandViewSwitcher = require("ampersand-view-switcher");
-var template = require('../templates/startpage.html');
-var BasePage = require('./basepage');
+var template = require("../templates/startpage.html");
+var BasePage = require("./basepage");
 var CreateProjectView = require("../view/start/createproject");
 var riot = require("riot");
-var _ = require('lodash');
+var _ = require("lodash");
 require("../tags/list-selection.tag");
 
 var StartPage = BasePage.extend({
-	pageTitle: 'Start Page',
+	pageTitle: "Start Page",
 	template: template,
 	modalViewSwitcher: undefined,
 	projectSelectionList: undefined,

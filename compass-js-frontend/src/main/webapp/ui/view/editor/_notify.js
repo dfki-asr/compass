@@ -27,8 +27,8 @@ var notify = function(type, message) {
             align: "center"
         },
         animate: {
-            enter: 'animated fadeInDown',
-            exit: 'animated fadeOutUp'
+            enter: "animated fadeInDown",
+            exit: "animated fadeOutUp"
         },
         allow_dismiss: false
     };

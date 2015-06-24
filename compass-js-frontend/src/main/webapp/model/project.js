@@ -9,7 +9,7 @@
 
 var CompassModel = require("./compass-model");
 var ScenarioCollection = require("../collection/scenario-collection");
-var Config = require('../config');
+var Config = require("../config");
 
 var Project = CompassModel.extend({
 	props: {

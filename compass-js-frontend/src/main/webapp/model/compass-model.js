@@ -7,7 +7,7 @@
 
 "use strict";
 
-var syncPromise = require('ampersand-sync-with-promise');
+var syncPromise = require("ampersand-sync-with-promise");
 var AmpersandModel = require("ampersand-model");
 
 var CompassModel = AmpersandModel.extend({
@@ -17,7 +17,7 @@ var CompassModel = AmpersandModel.extend({
 			"Accept": "application/json"
 		}
 	},
-	extraProperties: 'ignore'
+	extraProperties: "ignore"
 });
 
 module.exports = CompassModel;

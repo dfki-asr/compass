@@ -7,53 +7,53 @@
 
 "use strict";
 
-var Promise = require('promise');
+var Promise = require("promise");
 
-var Scenario = require('../../model/scenario');
+var Scenario = require("../../model/scenario");
 var SceneNode = require("../../model/scenenode");
-var template = require('../templates/editorpage.html');
-var BasePage = require('./basepage');
+var template = require("../templates/editorpage.html");
+var BasePage = require("./basepage");
 var $ = global.jQuery;
 
-var HierarchyView = require('../view/editor/hierarchy.js');
-var PropertiesView = require('../view/editor/properties.js');
-var ThreeDView = require('../view/editor/viewport.js');
-var DisabledView = require('../view/editor/disabled.js');
-var NavbarView = require('../view/editor/navbar.js');
+var HierarchyView = require("../view/editor/hierarchy.js");
+var PropertiesView = require("../view/editor/properties.js");
+var ThreeDView = require("../view/editor/viewport.js");
+var DisabledView = require("../view/editor/disabled.js");
+var NavbarView = require("../view/editor/navbar.js");
 
 var EditorPage = BasePage.extend({
-	pageTitle: 'Editor',
+	pageTitle: "Editor",
 	template: template,
 	scenario: undefined,
 	globalLayout: undefined,
 	subviews: {
 		hierarchy: {
-			hook: 'hierarchy',
+			hook: "hierarchy",
 			constructor: HierarchyView
 		},
 		viewport: {
-			hook: 'viewport',
+			hook: "viewport",
 			constructor: ThreeDView
 		},
 		properties: {
-			hook: 'properties',
+			hook: "properties",
 			constructor: PropertiesView
 		},
 		prefabSets: {
-			hook: 'prefabSets',
+			hook: "prefabSets",
 			constructor: DisabledView
 		},
 		prefabList: {
-			hook: 'prefabList',
+			hook: "prefabList",
 			constructor: DisabledView
 		},
 		navbar:{
-			hook: 'navbar',
+			hook: "navbar",
 			constructor: NavbarView
 		}
 	},
 	props: {
-		selectedNode: 'any'
+		selectedNode: "any"
 	},
 	root: undefined,
 	initialize: function (scenarioId) {

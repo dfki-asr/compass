@@ -7,8 +7,8 @@
 
 "use strict";
 
-var AmpersandView = require('ampersand-view');
-var template = require('../../templates/editor/viewport.html');
+var AmpersandView = require("ampersand-view");
+var template = require("../../templates/editor/viewport.html");
 
 var ThreeDView = AmpersandView.extend({
     template: template,

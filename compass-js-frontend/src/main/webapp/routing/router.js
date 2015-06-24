@@ -7,7 +7,7 @@
 
 "use strict";
 
-var AmpersandRouter = require('ampersand-router');
+var AmpersandRouter = require("ampersand-router");
 var StartPage = require("./../ui/page/start");
 var EditorPage = require("./../ui/page/editor");
 
@@ -22,11 +22,11 @@ var CompassRouter = AmpersandRouter.extend({
 	},
 	start: function(){
 		var page = new StartPage();
-		this.trigger('page', page);
+		this.trigger("page", page);
 	},
 	editor: function(query){
 		var page = new EditorPage(query);
-		this.trigger('page', page);
+		this.trigger("page", page);
 	},
 	catchAll: function(){
 		this.redirectTo("start");
