@@ -45,7 +45,6 @@
 	"requireCurlyBraces" : true,
 	"requireDotNotation" : true,
 	"requireLineFeedAtFileEnd" : true,
-	"requireOperatorBeforeLineBreak" : true,
 	"requirePaddingNewLinesAfterUseStrict" : true,
 	"requirePaddingNewLinesBeforeExport" : true,
 	"requireParenthesesAroundIIFE" : true,
