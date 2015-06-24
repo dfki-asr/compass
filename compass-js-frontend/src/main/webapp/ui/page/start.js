@@ -66,7 +66,7 @@ var StartPage = BasePage.extend({
 		this.updateScenarioList();
 	},
 	onScenarioChange: function(project){
-		if(app.projects.isSelected(project)){
+		if (app.projects.isSelected(project)){
 			this.updateScenarioList();
 		}
 	},

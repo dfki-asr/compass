@@ -40,12 +40,12 @@ var SceneNode = CompassModel.extend({
 	init: function() {
 	},
 	parse: function(attrs){
-		if(!attrs){
+		if (!attrs){
 			return attrs;
 		}
-		if(attrs.children){
+		if (attrs.children){
 			var children = attrs.children;
-			for(var index in children){
+			for (var index in children){
 				var id = children[index];
 				children[index] = {id: id, parentNode: this};
 			}
@@ -66,7 +66,7 @@ var SceneNode = CompassModel.extend({
 		}
 	},
 	fetchRecursively: function(){
-		if(this.children.isEmpty()){
+		if (this.children.isEmpty()){
 			return Promise.resolve();
 		}
 		var self = this;

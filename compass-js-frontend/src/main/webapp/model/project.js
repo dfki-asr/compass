@@ -24,15 +24,15 @@ var Project = CompassModel.extend({
 		scenarios: ScenarioCollection
 	},
 	parse: function(attrs){
-		if(!attrs){
+		if (!attrs){
 			return attrs;
 		}
 		// if the ids are just a plain array instead of being wrapped up as an array of {id: id} objects
 		// ampersand will not recognize them as the scenario ids
 		// as a result we need to wrap them properly before ampersand parses the attributes
-		if(attrs.scenarios){
+		if (attrs.scenarios){
 			var scenarios = attrs.scenarios;
-			for(var index in scenarios){
+			for (var index in scenarios){
 				var id = scenarios[index];
 				scenarios[index] = {id: id};
 			}

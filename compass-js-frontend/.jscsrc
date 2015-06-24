@@ -50,7 +50,21 @@
 	"requireParenthesesAroundIIFE" : true,
 	"requireSemicolons" : true,
 	"requireSpaceAfterBinaryOperators" : true,
-	"requireSpaceAfterKeywords" : true,
+	"requireSpaceAfterKeywords" : [
+		"do",
+		"for",
+		"if",
+		"else",
+		"switch",
+		"case",
+		"try",
+		"catch",
+		"void",
+		"while",
+		"with",
+		"return",
+		"typeof"
+	],
 	"requireSpaceBeforeBinaryOperators" : true,
 	"requireSpaceBeforeBlockStatements" : true,
 	"requireSpaceBeforeKeywords" : [
