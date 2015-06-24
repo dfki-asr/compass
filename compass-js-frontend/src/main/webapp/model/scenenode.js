@@ -29,7 +29,7 @@ var SceneNode = CompassModel.extend({
 			type: "object", // SceneNode
 			required: true,
 			allowNull: true
-		},
+		}
 	},
 	collections: {
 		children: function () {
