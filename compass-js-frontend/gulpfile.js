@@ -21,9 +21,9 @@ gulp.task("default", ["build"]);
 gulp.task("build", ["bower-vendor", "build-ours"]);
 gulp.task("build-ours", ["bundle", "sass"]);
 
-gulp.task("js-lint", function(){
+gulp.task("lint", function(){
 	var src = srcFolder + "**/*.js";
-	gulp.src(src)
+	return gulp.src(src)
 		.pipe(jshint({
 			linter: "jshint",
 			lookup: true
@@ -32,17 +32,17 @@ gulp.task("js-lint", function(){
 		.pipe(jshint.reporter("fail"));
 });
 
-gulp.task("jscs", function(){
+gulp.task("jscs", ["lint"], function(){
 	var src = srcFolder + "**/*.js";
-	gulp.src(src)
+	return gulp.src(src)
 		.pipe(jscs(".jscsrc"))
-		.pipe(jscs.reporter("console"));
-	}
+		.pipe(jscs.reporter("console"))
+		.pipe(jscs.reporter("fail"));
 });
 
 gulp.task("sass", function(){
 	var src = srcFolder + "**/*.scss";
-	gulp.src(src)
+	return gulp.src(src)
 		.pipe(plug.sourcemaps.init())
 		.pipe(plug.sass().on('error', plug.sass.logError))
 		.pipe(plug.sourcemaps.write())
@@ -96,7 +96,7 @@ gulp.task("bower-vendor", function() {
 		.pipe(imageFilter.restore());
 });
 
-gulp.task("bundle", function() {
+gulp.task("bundle", ["jscs"], function() {
 	var filter = new assetBrowserify({
 		"browserifyOpts": { "debug": true }
 	});
