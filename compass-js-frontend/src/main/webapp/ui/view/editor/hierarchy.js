@@ -120,7 +120,7 @@ var HierarchyView = AmpersandView.extend({
 		return this.tree.getNodeByKey(sceneNode.cid);
 	},
 	newChild: function (event) {
-		if (event){
+		if (event) {
 			this.blurButtonAfterClickEvent(event);
 		}
 		var sceneNode = this.parent.selectedNode;
@@ -138,13 +138,13 @@ var HierarchyView = AmpersandView.extend({
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},
-	blurButtonAfterClickEvent: function(event){
-		if (!event || !event.target){
+	blurButtonAfterClickEvent: function(event) {
+		if (!event || !event.target) {
 			return;
 		}
 		var $eventTarget = $(event.target);
 		var tagName = $eventTarget.prop("tagName");
-		if (tagName === "I" || tagName === "i"){ // target was the icon not the actual button
+		if (tagName === "I" || tagName === "i") { // target was the icon not the actual button
 			$eventTarget = $eventTarget.parent();
 		}
 		$eventTarget.blur();
@@ -168,7 +168,7 @@ var HierarchyView = AmpersandView.extend({
 		}
 	},
 	deleteSelected: function (event) {
-		if (event){
+		if (event) {
 			this.blurButtonAfterClickEvent(event);
 		}
 		var selectedNode = this.parent.selectedNode;

@@ -41,9 +41,9 @@ var CreateProjectView = AmpersandView.extend({
 			}
 		});
 	},
-	close: function(){
+	close: function() {
 		var self = this;
-		$(this.el).modal("hide").on("hidden.bs.modal", function(){
+		$(this.el).modal("hide").on("hidden.bs.modal", function() {
 			self.remove();
 		});
 	}

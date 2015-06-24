@@ -90,15 +90,15 @@ var EditorPage = BasePage.extend({
 		this.root = rootNode;
 		this.trigger("sceneTreeLoaded");
 	},
-	fetchData: function(){
+	fetchData: function() {
 		this.scenario.fetch()
 				.then(this.fetchSceneNodeTree.bind(this))
-				.catch(function(err){
+				.catch(function(err) {
 					console.log(err);
 				})
 				.then(this.doneLoadingSceneTree.bind(this));
 	},
-	fetchSceneNodeTree: function(){
+	fetchSceneNodeTree: function() {
 		var rootId = this.scenario.root;
 		var promise = new Promise(function(resolve, reject) {
 			var rootNode = new SceneNode({id: rootId, parentNode: null});

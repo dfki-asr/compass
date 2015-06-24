@@ -19,15 +19,15 @@ var CompassRouter = AmpersandRouter.extend({
 		"editor/:query": "editor",
 		"(*path)": "catchAll"
 	},
-	start: function(){
+	start: function() {
 		var page = new StartPage();
 		this.trigger("page", page);
 	},
-	editor: function(query){
+	editor: function(query) {
 		var page = new EditorPage(query);
 		this.trigger("page", page);
 	},
-	catchAll: function(){
+	catchAll: function() {
 		this.redirectTo("start");
 	}
 });

@@ -16,7 +16,7 @@ var ProjectCollection = CompassCollection.extend({
 	selectedProject: undefined,
 	indexes: ["name"],
 	url: Config.getRESTPath("projects/"),
-	selectById: function(id){
+	selectById: function(id) {
 		var newSelection = this.get(id);
 		if (newSelection === this.selectedProject) {
 			return;
@@ -24,7 +24,7 @@ var ProjectCollection = CompassCollection.extend({
 		this.fetchScenarios(newSelection);
 		this.trigger("change:selected");
 	},
-	selectByName: function(name){
+	selectByName: function(name) {
 		var newSelection = this.get(name, "name");
 		if (newSelection === this.selectedProject) {
 			return;
@@ -32,11 +32,11 @@ var ProjectCollection = CompassCollection.extend({
 		this.fetchScenarios(newSelection);
 		this.trigger("change:selected");
 	},
-	fetchScenarios: function(newSelection){
+	fetchScenarios: function(newSelection) {
 		var project = this.selectedProject = newSelection;
 		// the events do not bubble from scenarioCollection (child) to project (parent)
 		// see: http://ampersandjs.com/docs#ampersand-state-collections
-		project.scenarios.fetchCollectionEntries().then(function(){
+		project.scenarios.fetchCollectionEntries().then(function() {
 			project.trigger("change:scenarios", project);
 		});
 	},

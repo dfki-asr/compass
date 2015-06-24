@@ -39,13 +39,13 @@ var SceneNode = CompassModel.extend({
 	},
 	init: function() {
 	},
-	parse: function(attrs){
-		if (!attrs){
+	parse: function(attrs) {
+		if (!attrs) {
 			return attrs;
 		}
-		if (attrs.children){
+		if (attrs.children) {
 			var children = attrs.children;
-			for (var index in children){
+			for (var index in children) {
 				var id = children[index];
 				children[index] = {id: id, parentNode: this};
 			}
@@ -65,15 +65,15 @@ var SceneNode = CompassModel.extend({
 			return basePath + this.id;
 		}
 	},
-	fetchRecursively: function(){
-		if (this.children.isEmpty()){
+	fetchRecursively: function() {
+		if (this.children.isEmpty()) {
 			return Promise.resolve();
 		}
 		var self = this;
-		return this.children.fetchCollectionEntries().then(function(){
+		return this.children.fetchCollectionEntries().then(function() {
 			var promises = [];
-			self.children.each(function(c){
-				var promise = c.fetchRecursively().catch(function(err){
+			self.children.each(function(c) {
+				var promise = c.fetchRecursively().catch(function(err) {
 				console.log(err);
 			});
 				promises.push(promise);

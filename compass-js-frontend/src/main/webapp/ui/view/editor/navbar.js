@@ -22,7 +22,7 @@ var EditorNavbarView = AmpersandView.extend({
         this.renderWithTemplate();
         return this;
     },
-	setScenario: function(scenario){
+	setScenario: function(scenario) {
 		this.scenario = scenario;
 		this.render();
 	}

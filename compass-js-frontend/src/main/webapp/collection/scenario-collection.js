@@ -15,7 +15,7 @@ var ScenarioCollection = CompassCollection.extend({
 	model: Scenario,
 	selectedScenario: undefined,
 	url: Config.getRESTPath("scenarios/"),
-	selectById: function(id){
+	selectById: function(id) {
 		var newSelection = this.get(id);
 		if (newSelection === this.selectedScenario) {
 			return;

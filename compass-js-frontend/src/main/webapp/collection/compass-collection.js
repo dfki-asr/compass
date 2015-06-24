@@ -18,9 +18,9 @@ var CompassCollection = AmpersandRestCollection.extend({
 			"Accept": "application/json"
 		}
 	},
-	fetchCollectionEntries: function(){
+	fetchCollectionEntries: function() {
 		var promises = [];
-		this.each(function(model){
+		this.each(function(model) {
 			promises.push(model.fetch());
 		});
 		return Promise.all(promises);
