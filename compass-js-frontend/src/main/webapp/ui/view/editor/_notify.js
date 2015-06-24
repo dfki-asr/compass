@@ -12,12 +12,14 @@ var $ = global.jQuery;
 var notify = function(type, message) {
     var options = {};
     switch (type) {
-        case "danger":
+        case "danger": {
             options.icon = "fa fa-exclamation-triangle";
             break;
-        case "success":
+		}
+        case "success": {
             options.icon = "fa fa-check-square-o";
             break;
+		}
     }
     options.message = message;
     var settings = {
