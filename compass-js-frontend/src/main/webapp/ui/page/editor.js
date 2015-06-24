@@ -7,6 +7,8 @@
 
 "use strict";
 
+var Promise = require('promise');
+
 var Scenario = require('../../model/scenario');
 var SceneNode = require("../../model/scenenode");
 var template = require('../templates/editorpage.html');
