@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+"use strict";
+
 // POjsO to provide "compile time" app configuration
 var Config = function() {
 	this.restPath = "./resources/restv1/";
