@@ -15,12 +15,6 @@
 	"disallowSpaceBeforeBinaryOperators" : [",", ":"],
 	"disallowSpaceBeforePostfixUnaryOperators" : true,
 	"disallowSpacesInCallExpression" : true,
-	"disallowSpacesInFunctionDeclaration" : {
-		"beforeOpeningRoundBrace" : true
-	},
-	"disallowSpacesInNamedFunctionExpression" : {
-		"beforeOpeningRoundBrace" : true
-	},
 	"disallowSpacesInsideArrayBrackets" : "nested",
 	"disallowSpacesInsideBrackets" : {
 		"allExcept" : ["[", "]", "{", "}"]
@@ -76,15 +70,6 @@
 	"requireSpacesInConditionalExpression" : true,
 	"requireSpacesInForStatement" : true,
 	"requireSpacesInFunctionDeclaration" : {
-		"beforeOpeningCurlyBrace" : true
-	},
-	"requireSpacesInFunctionExpression" : {
-		"beforeOpeningCurlyBrace" : true
-	},
-	"requireSpacesInFunction" : {
-		"beforeOpeningCurlyBrace" : true
-	},
-	"requireSpacesInNamedFunctionExpression" : {
 		"beforeOpeningCurlyBrace" : true
 	},
 
