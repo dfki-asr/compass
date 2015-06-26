@@ -57,7 +57,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 
 	@Override
 	public void removeById(final long entityId) throws EntityNotFoundException {
-		remove(findById(entityId) );
+		remove(findById(entityId));
 	}
 
 	@Override
