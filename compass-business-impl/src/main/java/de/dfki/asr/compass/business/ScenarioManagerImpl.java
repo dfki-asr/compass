@@ -156,7 +156,7 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 		crudService.save(scenario);
 	}
 
-	private void ensureUniqueScenarioName(final String name, final Project project) {
+	public boolean isNameValid(final String name, final Project project) {
 		CriteriaQuery<Long> q = criteriaBuilder.createQuery(Long.class);
 		Root<Scenario> s = q.from(Scenario.class);
 		q.where(criteriaBuilder.and(
@@ -165,7 +165,11 @@ public class ScenarioManagerImpl implements Serializable, ScenarioManager {
 		));
 		q.select(criteriaBuilder.count(s));
 		Long count = crudService.createQuery(q).getSingleResult();
-		if (count > 0) {
+		return count == 0;
+	}
+
+	private void ensureUniqueScenarioName(final String name, final Project project) {
+		if (!isNameValid(name, project)) {
 			throw new EntityConstraintException("A scenario of the given name already exists in the project.");
 		}
 	}
