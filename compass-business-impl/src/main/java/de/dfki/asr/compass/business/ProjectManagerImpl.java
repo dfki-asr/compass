@@ -6,6 +6,7 @@
  */
 package de.dfki.asr.compass.business;
 
+import de.dfki.asr.compass.business.api.ScenarioManager;
 import de.dfki.asr.compass.business.api.ProjectManager;
 import de.dfki.asr.compass.business.exception.CompassRuntimeException;
 import de.dfki.asr.compass.business.exception.EntityConstraintException;
@@ -36,6 +37,9 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 
 	@Inject
 	private CriteriaBuilder criteriaBuilder;
+
+	@Inject
+	private ScenarioManager scenarioManager;
 
 	@Override
 	public Project findById(final long id) throws EntityNotFoundException {
@@ -74,6 +78,9 @@ public class ProjectManagerImpl implements Serializable, ProjectManager {
 
 	@Override
 	public void addScenarioToProject(final Scenario scenario, final Project project) throws IllegalArgumentException {
+		if (!scenarioManager.isNameValid(scenario.getName(), project)) {
+			throw new EntityConstraintException("A scenario of the given name already exists in the project.");
+		}
 		project.addScenario(scenario);
 		crudService.save(scenario);
 	}
