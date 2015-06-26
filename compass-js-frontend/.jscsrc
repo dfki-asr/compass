@@ -78,8 +78,6 @@
 		"lineBreakAfterOpeningBraces" : true,
 		"lineBreakBeforeClosingBraces" : true
 	},
-	//TODO: Set this option based on OS???
-	//"validateLineBreaks" : "CRLF" or "LF"
 	"validateParameterSeparator" : ", ",
 	"validateQuoteMarks" : {
 		"mark" : "\"",
