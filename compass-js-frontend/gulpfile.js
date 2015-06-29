@@ -15,9 +15,9 @@ var gulpFile = "./gulpfile.js";
 var entryPoint = srcFolder + "index.html";
 var destination = "./target/webapp";
 
-function subFolder(folderName) {
+var subFolder = function (folderName) {
 	return destination + "/" + folderName;
-}
+};
 
 gulp.task("default", ["build"]);
 gulp.task("build", ["bower-vendor", "build-ours"]);
