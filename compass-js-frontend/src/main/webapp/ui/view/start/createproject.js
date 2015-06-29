@@ -8,13 +8,13 @@
 "use strict";
 
 var $ = global.jQuery;
-var app = require('ampersand-app');
-var AmpersandView = require('ampersand-view');
-var template = require('../../templates/start/create-project.html');
+var app = require("ampersand-app");
+var AmpersandView = require("ampersand-view");
+var template = require("../../templates/start/create-project.html");
 
 var CreateProjectView = AmpersandView.extend({
 	template: template,
-	initialize: function (options) {
+	initialize: function () {
 	},
 	events: {
 		"click [data-action=save]": "createNewProject",
@@ -23,29 +23,30 @@ var CreateProjectView = AmpersandView.extend({
 	render: function () {
 		this.renderWithTemplate();
 		$(this.el).modal("show");
-		$(this.el).on('shown.bs.modal', function() {
-			$('#new-project-name').focus();
+		$(this.el).on("shown.bs.modal", function () {
+			$("#new-project-name").focus();
 		});
 		return this;
 	},
-	createNewProject: function (event) {
+	createNewProject: function () {
 		var newName = this.el.querySelector("#new-project-name").value;
 		app.projects.create({
 			name: newName
 		}, {
 			wait: true,
 			success: this.close.bind(this),
-			error: function (model, response, opts) {
+			error: function (model, response) {
 				$("#new-project-name-error-msg").text(response.body);
 				$("#new-project-name-error").show().delay("20000").hide("slow");
 			}
 		});
 	},
-	close: function(){
+	close: function () {
 		var self = this;
-		$(this.el).modal("hide").on("hidden.bs.modal", function(){
+		$(this.el).modal("hide").on("hidden.bs.modal", function () {
 			self.remove();
 		});
 	}
 });
+
 module.exports = CreateProjectView;

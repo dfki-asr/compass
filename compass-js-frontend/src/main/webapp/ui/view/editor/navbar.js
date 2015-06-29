@@ -7,22 +7,22 @@
 
 "use strict";
 
-var AmpersandView = require('ampersand-view');
-var template = require('../../templates/editor/navbar.html');
+var AmpersandView = require("ampersand-view");
+var template = require("../../templates/editor/navbar.html");
 
 var EditorNavbarView = AmpersandView.extend({
     template: template,
 	scenario: undefined,
-    initialize: function (options) {
+    initialize: function () {
     },
 	bindings: {
 		"scenario.name": "[data-hook=scenarioname]"
 	},
-    render: function() {
+    render: function () {
         this.renderWithTemplate();
         return this;
     },
-	setScenario: function(scenario){
+	setScenario: function (scenario) {
 		this.scenario = scenario;
 		this.render();
 	}

@@ -7,14 +7,13 @@
 
 "use strict";
 
-var template = require('../templates/basepage.html');
-var AmpersandView = require('ampersand-view');
+var template = require("../templates/basepage.html");
+var AmpersandView = require("ampersand-view");
 
-//this is the BasePage - all other pages extend from it
 var BasePage = AmpersandView.extend({
-	pageTitle: 'Base Page',
+	pageTitle: "Base Page",
 	template: template,
-	initialize: function (options) {
+	initialize: function () {
 	},
 	render: function () {
 		this.renderWithTemplate();

@@ -8,8 +8,8 @@
 "use strict";
 
 var AmpersandRestCollection = require("ampersand-rest-collection");
-var syncPromise = require('ampersand-sync-with-promise');
-var Promise = require('promise');
+var syncPromise = require("ampersand-sync-with-promise");
+var Promise = require("promise");
 
 var CompassCollection = AmpersandRestCollection.extend({
 	sync: syncPromise,
@@ -18,9 +18,9 @@ var CompassCollection = AmpersandRestCollection.extend({
 			"Accept": "application/json"
 		}
 	},
-	fetchCollectionEntries: function(){
+	fetchCollectionEntries: function () {
 		var promises = [];
-		this.each(function(model){
+		this.each(function (model) {
 			promises.push(model.fetch());
 		});
 		return Promise.all(promises);

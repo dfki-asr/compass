@@ -1,0 +1,96 @@
+{
+	//Most style options are trying to reflect our rules for the java code
+	//Disallowing options
+	"disallowEmptyBlocks" : true,
+	"disallowKeywordsInComments" : "\\b(todo|fixme)\\b",
+	"disallowKeywordsOnNewLine" : ["else"],
+	"disallowKeywords" : ["with"],
+	"disallowMixedSpacesAndTabs" : "smart",
+	"disallowMultipleLineBreaks" : true,
+	"disallowMultipleLineStrings" : true,
+	"disallowNewlineBeforeBlockStatements" : true,
+	"disallowOperatorBeforeLineBreak" : ["+", "."],
+	"disallowSpaceAfterObjectKeys" : true,
+	"disallowSpaceAfterPrefixUnaryOperators" : true,
+	"disallowSpaceBeforeBinaryOperators" : [",", ":"],
+	"disallowSpaceBeforePostfixUnaryOperators" : true,
+	"disallowSpacesInCallExpression" : true,
+	"disallowSpacesInsideArrayBrackets" : "nested",
+	"disallowSpacesInsideBrackets" : {
+		"allExcept" : ["[", "]", "{", "}"]
+	},
+	"disallowSpacesInsideObjectBrackets" : "nested",
+	"disallowSpacesInsideParentheses" : true,
+	"disallowTrailingComma" : true,
+	"disallowTrailingWhitespace" : true,
+
+	//enforcing options
+	"requireAnonymousFunctions" : true,
+	"requireBlocksOnNewline" : 1,
+	"requireCamelCaseOrUpperCaseIdentifiers" : true,
+	"requireCommaBeforeLineBreak" : true,
+	"requireDollarBeforejQueryAssignment" : true,
+	"requireCurlyBraces" : true,
+	"requireDotNotation" : true,
+	"requireLineFeedAtFileEnd" : true,
+	"requirePaddingNewLinesAfterUseStrict" : true,
+	"requirePaddingNewLinesBeforeExport" : true,
+	"requireParenthesesAroundIIFE" : true,
+	"requireSemicolons" : true,
+	"requireSpaceAfterBinaryOperators" : true,
+	"requireSpaceAfterKeywords" : [
+		"do",
+		"for",
+		"if",
+		"else",
+		"switch",
+		"case",
+		"try",
+		"catch",
+		"void",
+		"while",
+		"with",
+		"return",
+		"typeof"
+	],
+	"requireSpaceAfterLineComment": true,
+	"requireSpaceBeforeBinaryOperators" : true,
+	"requireSpaceBeforeBlockStatements" : true,
+	"requireSpaceBeforeKeywords" : [
+		"else",
+		"while",
+		"catch"
+	],
+	"requireSpaceBeforeObjectValues" : true,
+	"requireSpaceBetweenArguments" : true,
+	"requireSpacesInAnonymousFunctionExpression" : {
+		"beforeOpeningRoundBrace": true,
+		"beforeOpeningCurlyBrace" : true
+	},
+	"requireSpacesInConditionalExpression" : true,
+	"requireSpacesInForStatement" : true,
+	"requireSpacesInFunctionDeclaration" : {
+		"beforeOpeningCurlyBrace" : true
+	},
+
+	//validating options
+	"validateAlignedFunctionParameters" : {
+		"lineBreakAfterOpeningBraces" : true,
+		"lineBreakBeforeClosingBraces" : true
+	},
+	"validateParameterSeparator" : ", ",
+	"validateQuoteMarks" : {
+		"mark" : "\"",
+		"escape" : true
+	},
+
+	//all the other options
+	"maximumLineLength" : {
+		"value" : 160,
+		"tabSize" : 4,
+		"allowUrlComments": true,
+		"allowRegex": true
+	},
+	"maximumNumberOfLines" : 450,
+	"safeContextKeyword" : ["that", "self"]
+}

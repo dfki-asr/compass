@@ -35,7 +35,7 @@ app.extend({
 			this.mainView.render();
 		};
 		app.initRouting = function () {
-			app.router.on('page', this.mainView.handleNewPage, this.mainView);
+			app.router.on("page", this.mainView.handleNewPage, this.mainView);
 			app.router.history.start({pushState: false, root: app.basePath});
 		};
 	}
@@ -43,6 +43,6 @@ app.extend({
 
 module.exports = (function () {
 	app.init();
-	window.app = app; //for debugging only
+	window.app = app; // for debugging only
 }());
 

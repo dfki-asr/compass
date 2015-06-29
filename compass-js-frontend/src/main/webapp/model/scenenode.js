@@ -8,9 +8,9 @@
 "use strict";
 
 var CompassModel = require("./compass-model");
-var Config = require('../config');
+var Config = require("../config");
 var SceneNodeCollection = require("../collection/scenenode-collection");
-var Promise = require('promise');
+var Promise = require("promise");
 
 var SceneNode = CompassModel.extend({
 	props: {
@@ -26,10 +26,10 @@ var SceneNode = CompassModel.extend({
 	session: {
 		// does not take part in serialization, only for internal navigation.
 		parentNode: {
-			type: "object", //SceneNode
+			type: "object", // SceneNode
 			required: true,
 			allowNull: true
-		},
+		}
 	},
 	collections: {
 		children: function () {
@@ -37,43 +37,43 @@ var SceneNode = CompassModel.extend({
 			return new SceneNodeCollection([], {model: SceneNode});
 		}
 	},
-	init: function() {
+	init: function () {
 	},
-	parse: function(attrs){
-		if(!attrs){
+	parse: function (attrs) {
+		if (!attrs) {
 			return attrs;
 		}
-		if(attrs.children){
+		if (attrs.children) {
 			var children = attrs.children;
-			for(var index in children){
+			for (var index in children) {
 				var id = children[index];
 				children[index] = {id: id, parentNode: this};
 			}
 		}
 		return attrs;
 	},
-	url: function() {
+	url: function () {
 		var basePath = Config.getRESTPath("scenenodes/");
 		if (!this.id) {
 			// must be a new node for POSTing
 			if (!this.parentNode) {
 				throw new Error("Cannot construct URL for this node. Need either id or parentNode.");
 			}
-			return basePath+this.parentNode.id+"/children/";
+			return basePath + this.parentNode.id + "/children/";
 		} else {
 			// has an id, so we might as well...
-			return basePath+this.id;
+			return basePath + this.id;
 		}
 	},
-	fetchRecursively: function(){
-		if(this.children.isEmpty()){
+	fetchRecursively: function () {
+		if (this.children.isEmpty()) {
 			return Promise.resolve();
 		}
 		var self = this;
-		return this.children.fetchCollectionEntries().then(function(){
+		return this.children.fetchCollectionEntries().then(function () {
 			var promises = [];
-			self.children.each(function(c){
-				var promise = c.fetchRecursively().catch(function(err){
+			self.children.each(function (c) {
+				var promise = c.fetchRecursively().catch(function (err) {
 				console.log(err);
 			});
 				promises.push(promise);
