@@ -29,5 +29,6 @@
 
 	//Environment Options
 	"browser": true,
+	"browserify": true,
 	"devel": true
 }

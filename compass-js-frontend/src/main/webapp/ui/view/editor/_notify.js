@@ -9,17 +9,20 @@
 
 var $ = global.jQuery;
 
-var notify = function(type, message) {
-    var options = {}
+var notify = function (type, message) {
+    var options = {};
     switch (type) {
-        case "danger":
+        case "danger": {
             options.icon = "fa fa-exclamation-triangle";
             break;
-        case "success":
-            options.icon = "fa fa-check-square-o"
+		}
+        case "success": {
+            options.icon = "fa fa-check-square-o";
             break;
+		}
     }
     options.message = message;
+	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     var settings = {
         type: type,
         placement: {
@@ -27,11 +30,12 @@ var notify = function(type, message) {
             align: "center"
         },
         animate: {
-            enter: 'animated fadeInDown',
-            exit: 'animated fadeOutUp'
+            enter: "animated fadeInDown",
+            exit: "animated fadeOutUp"
         },
         allow_dismiss: false
     };
+	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
     $.notify(options, settings);
 };
 

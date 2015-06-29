@@ -8,11 +8,11 @@
 "use strict";
 
 var $ = global.jQuery;
-var setTimeout = global.setTimeout;
+var browserSetTimeout = global.setTimeout;
 var basicContext = global.basicContext;
-var AmpersandView = require('ampersand-view');
-var _notify = require('./_notify');
-var template = require('../../templates/editor/hierarchy.html');
+var AmpersandView = require("ampersand-view");
+var _notify = require("./_notify");
+var template = require("../../templates/editor/hierarchy.html");
 
 var HierarchyView = AmpersandView.extend({
 	template: template,
@@ -22,7 +22,7 @@ var HierarchyView = AmpersandView.extend({
 		"click [data-hook=action-add-child]": "newChild",
 		"click [data-hook=action-delete-selected]": "deleteSelected"
 	},
-	initialize: function (options) {
+	initialize: function () {
 		this.parent.on("sceneTreeLoaded", this.renderTree.bind(this));
 		this.parent.on("change:selectedNode", this.updateSelectionDisplay.bind(this));
 	},
@@ -37,7 +37,7 @@ var HierarchyView = AmpersandView.extend({
 			source: fancyTree,
 			glyph: {
 				map: {
-					doc: "fa fa-circle-thin", //scenenode without chidlren
+					doc: "fa fa-circle-thin", // scenenode without chidlren
 					docOpen: "fa fa-file",
 					checkbox: "glyphicon glyphicon-unchecked",
 					checkboxSelected: "glyphicon glyphicon-check",
@@ -47,7 +47,7 @@ var HierarchyView = AmpersandView.extend({
 					expanderLazy: "fa fa-caret-right",
 					expanderOpen: "fa fa-caret-down",
 					folder: "fa fa-compress", // scenenode with chidlren, not expanded
-					folderOpen: "fa fa-expand", //expanded scenenode
+					folderOpen: "fa fa-expand", // expanded scenenode
 					loading: "fa fa-spinner fa-pulse"
 				}
 			},
@@ -55,23 +55,23 @@ var HierarchyView = AmpersandView.extend({
 			activate: this.handleClickOnNode.bind(this)
 		});
 		// what we actually want to save is the internal tree object.
-		this.tree = $tree.fancytree('getTree');
+		this.tree = $tree.fancytree("getTree");
 		this.$scrollArea = $tree;
-		$tree.on('contextmenu', this.showContextMenu.bind(this));
+		$tree.on("contextmenu", this.showContextMenu.bind(this));
 	},
 	preventMenuOnBackdrop: function () {
-		var $backdrop = $('.basicContextContainer');
-		$backdrop.on('contextmenu', function () {
+		var $backdrop = $(".basicContextContainer");
+		$backdrop.on("contextmenu", function () {
 			basicContext.close();
 			return false;
 		});
 	},
-	showContextMenu: function (event, data) {
+	showContextMenu: function (event) {
 		var node = $.ui.fancytree.getNode(event);
 		this.selectCurrentNode(node);
 		var items = [
-			{type: 'item', title: 'Add Node', icon: 'fa fa-plus-circle', fn: this.newChild.bind(this)},
-			{type: 'item', title: 'Delete Node', icon: 'fa fa-trash-o', fn: this.deleteSelected.bind(this)}
+			{type: "item", title: "Add Node", icon: "fa fa-plus-circle", fn: this.newChild.bind(this)},
+			{type: "item", title: "Delete Node", icon: "fa fa-trash-o", fn: this.deleteSelected.bind(this)}
 		];
 		basicContext.show(items, event);
 		this.preventMenuOnBackdrop();
@@ -120,7 +120,7 @@ var HierarchyView = AmpersandView.extend({
 		return this.tree.getNodeByKey(sceneNode.cid);
 	},
 	newChild: function (event) {
-		if(event){
+		if (event) {
 			this.blurButtonAfterClickEvent(event);
 		}
 		var sceneNode = this.parent.selectedNode;
@@ -138,13 +138,13 @@ var HierarchyView = AmpersandView.extend({
 		this.insertNodeIntoTree(newNode, sceneNode);
 		this.parent.selectedNode = newNode;
 	},
-	blurButtonAfterClickEvent: function(event){
-		if(!event || !event.target){
+	blurButtonAfterClickEvent: function (event) {
+		if (!event || !event.target) {
 			return;
 		}
 		var $eventTarget = $(event.target);
 		var tagName = $eventTarget.prop("tagName");
-		if(tagName === "I" || tagName === "i"){ //target was the icon not the actual button
+		if (tagName === "I" || tagName === "i") { // target was the icon not the actual button
 			$eventTarget = $eventTarget.parent();
 		}
 		$eventTarget.blur();
@@ -154,7 +154,7 @@ var HierarchyView = AmpersandView.extend({
 		var fancyNode = this.createFancyTreeNode(sceneNode);
 		if (index === 0) {
 			var fancyParent;
-			if(parent.parentNode) {
+			if (parent.parentNode) {
 				fancyParent = this.getFancyNodeBySceneNode(parent);
 			} else {
 				fancyParent = this.tree.getRootNode();
@@ -168,7 +168,7 @@ var HierarchyView = AmpersandView.extend({
 		}
 	},
 	deleteSelected: function (event) {
-		if(event){
+		if (event) {
 			this.blurButtonAfterClickEvent(event);
 		}
 		var selectedNode = this.parent.selectedNode;
@@ -177,7 +177,7 @@ var HierarchyView = AmpersandView.extend({
 			onAfter: this.triggerConfirmationPopover.bind(this, selectedNode, $node)
 		});
 	},
-	triggerConfirmationPopover: function(nodeToDelete, $titleSpan) {
+	triggerConfirmationPopover: function (nodeToDelete, $titleSpan) {
 		$titleSpan.confirmation({
 			trigger: "manual",
 			placement: "right",
@@ -192,20 +192,20 @@ var HierarchyView = AmpersandView.extend({
 		}).confirmation("show");
 		// due to event race condition, leave a little longer to capture scrolls.
 		var $scroll = this.$scrollArea;
-		setTimeout(function() {
-			$scroll.one("scroll", function() { $titleSpan.confirmation("destroy");});
+		browserSetTimeout(function () {
+			$scroll.one("scroll", function () { $titleSpan.confirmation("destroy");});
 		}, 10); // In my tests, the lagging scroll event took at most 5msec to complete.
 	},
-	deleteNodeOnServer: function(nodeToDelete, $titleSpan) {
+	deleteNodeOnServer: function (nodeToDelete, $titleSpan) {
 		var self = this;
 		nodeToDelete.destroy().then(function () {
-			//successfully deleted the node, remove it from the tree
+			// successfully deleted the node, remove it from the tree
 			self.removeFancyNodeBySceneNode(nodeToDelete);
 			self.parent.selectedNode = undefined;
 		}, function () {
 			_notify("danger", "Could not delete node '" + nodeToDelete.name + "' from the server.");
 		});
-		$titleSpan.confirmation('destroy');
+		$titleSpan.confirmation("destroy");
 	},
 	removeFancyNodeBySceneNode: function (sceneNode) {
 		var fancyNode = this.getFancyNodeBySceneNode(sceneNode);

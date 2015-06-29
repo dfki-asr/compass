@@ -7,22 +7,22 @@
 
 "use strict";
 
-var app = require('ampersand-app');
+var app = require("ampersand-app");
 var AmpersandViewSwitcher = require("ampersand-view-switcher");
-var template = require('../templates/startpage.html');
-var BasePage = require('./basepage');
+var template = require("../templates/startpage.html");
+var BasePage = require("./basepage");
 var CreateProjectView = require("../view/start/createproject");
 var riot = require("riot");
-var _ = require('lodash');
+var _ = require("lodash");
 require("../tags/list-selection.tag");
 
 var StartPage = BasePage.extend({
-	pageTitle: 'Start Page',
+	pageTitle: "Start Page",
 	template: template,
 	modalViewSwitcher: undefined,
 	projectSelectionList: undefined,
 	scenarioSelectionList: undefined,
-	initialize: function (options) {
+	initialize: function () {
 		app.projects.on("sync", this.onProjectsSync.bind(this));
 		app.projects.on("change:selected", this.onProjectsSelectionChange.bind(this));
 		app.projects.on("change:scenarios", this.onScenarioChange.bind(this));
@@ -47,7 +47,7 @@ var StartPage = BasePage.extend({
 	render: function () {
 		this.renderWithTemplate();
 		this.projectSelectionList = riot.mount(this.el.querySelector("#projectselection"), {
-			collection: app.projects, //riot will automagically update the tag on changes on the collection
+			collection: app.projects, // riot will automagically update the tag on changes on the collection
 			clickHandler: this.onProjectEntryClick.bind(this)
 		});
 		this.scenarioSelectionList = riot.mount(this.el.querySelector("#scenarioselection"), {
@@ -65,8 +65,8 @@ var StartPage = BasePage.extend({
 		this.updateProjectSelection();
 		this.updateScenarioList();
 	},
-	onScenarioChange: function(project){
-		if(app.projects.isSelected(project)){
+	onScenarioChange: function (project) {
+		if (app.projects.isSelected(project)) {
 			this.updateScenarioList();
 		}
 	},
@@ -118,4 +118,5 @@ var StartPage = BasePage.extend({
 		this.modalViewSwitcher.set(new CreateProjectView());
 	}
 });
+
 module.exports = StartPage;

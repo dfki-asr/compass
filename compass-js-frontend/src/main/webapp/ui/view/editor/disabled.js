@@ -7,14 +7,14 @@
 
 "use strict";
 
-var AmpersandView = require('ampersand-view');
-var template = require('../../templates/editor/disabled.html');
+var AmpersandView = require("ampersand-view");
+var template = require("../../templates/editor/disabled.html");
 
 var DisabledView = AmpersandView.extend({
     template: template,
-    initialize: function (options) {
+    initialize: function () {
     },
-    render: function() {
+    render: function () {
         this.renderWithTemplate();
         return this;
     }

@@ -14,9 +14,9 @@ var Config = require("../config");
 var ProjectCollection = CompassCollection.extend({
 	model: Project,
 	selectedProject: undefined,
-	indexes: ['name'],
+	indexes: ["name"],
 	url: Config.getRESTPath("projects/"),
-	selectById: function(id){
+	selectById: function (id) {
 		var newSelection = this.get(id);
 		if (newSelection === this.selectedProject) {
 			return;
@@ -24,26 +24,26 @@ var ProjectCollection = CompassCollection.extend({
 		this.fetchScenarios(newSelection);
 		this.trigger("change:selected");
 	},
-	selectByName: function(name){
-		var newSelection = this.get(name, 'name');
+	selectByName: function (name) {
+		var newSelection = this.get(name, "name");
 		if (newSelection === this.selectedProject) {
 			return;
 		}
 		this.fetchScenarios(newSelection);
 		this.trigger("change:selected");
 	},
-	fetchScenarios: function(newSelection){
+	fetchScenarios: function (newSelection) {
 		var project = this.selectedProject = newSelection;
-		//the events do not bubble from scenarioCollection (child) to project (parent)
-		//see: http://ampersandjs.com/docs#ampersand-state-collections
-		project.scenarios.fetchCollectionEntries().then(function(){
+		// the events do not bubble from scenarioCollection (child) to project (parent)
+		// see: http://ampersandjs.com/docs#ampersand-state-collections
+		project.scenarios.fetchCollectionEntries().then(function () {
 			project.trigger("change:scenarios", project);
 		});
 	},
-	isSelected: function(model) {
+	isSelected: function (model) {
 		return this.selectedProject && this.selectedProject === model;
 	},
-	getSelected: function() {
+	getSelected: function () {
 		return this.selectedProject;
 	}
 });
