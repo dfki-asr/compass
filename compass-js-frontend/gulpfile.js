@@ -2,9 +2,7 @@
 
 var gulp = require('gulp');
 var plug = require('gulp-load-plugins')();
-var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
-var jscs = require('gulp-jscs-with-reporter');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var del = require("del");
@@ -28,16 +26,16 @@ gulp.task("lint", function(){
 			linter: "jshint",
 			lookup: true
 		}))
-		.pipe(jshint.reporter("jshint-stylish", {verbose: true}))
-		.pipe(jshint.reporter("fail"));
+		.pipe(plug.jshint.reporter("jshint-stylish", {verbose: true}))
+		.pipe(plug.jshint.reporter("fail"));
 });
 
 gulp.task("jscs", ["lint"], function(){
 	var src = srcFolder + "**/*.js";
 	return gulp.src(src)
-		.pipe(jscs(".jscsrc"))
-		.pipe(jscs.reporter("console"))
-		.pipe(jscs.reporter("fail"));
+		.pipe(plug.jscs(".jscsrc"))
+		.pipe(plug.jscs.reporter("console"))
+		.pipe(plug.jscs.reporter("fail"));
 });
 
 gulp.task("sass", function(){
