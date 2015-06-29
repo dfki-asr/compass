@@ -1,13 +1,13 @@
 "use strict";
 
-var gulp = require('gulp');
-var plug = require('gulp-load-plugins')({
+var gulp = require("gulp");
+var plug = require("gulp-load-plugins")({
 	rename: {
-		'gulp-jscs-with-reporter': 'jscs'
+		"gulp-jscs-with-reporter": "jscs"
 	}
 });
 var del = require("del");
-var assetBrowserify = require('asset-browserifier');
+var assetBrowserify = require("asset-browserifier");
 
 var srcFolder = "./src/main/webapp/";
 var javaScriptSrc = srcFolder + "**/*.js";
@@ -43,23 +43,23 @@ gulp.task("sass", function(){
 	var src = srcFolder + "**/*.scss";
 	return gulp.src(src)
 		.pipe(plug.sourcemaps.init())
-		.pipe(plug.sass().on('error', plug.sass.logError))
+		.pipe(plug.sass().on("error", plug.sass.logError))
 		.pipe(plug.sourcemaps.write())
 		.pipe(gulp.dest(destination));
 });
 
 gulp.task("bower-vendor", function() {
-	var vendorFiles = require('main-bower-files');
-	var jsFilter = plug.filter(['*.js']);
-	var cssFilter = plug.filter('*.css');
-	var fontFilter = plug.filter(['*.eot', '*.woff', '*.svg', '*.ttf', '*.woff2']);
-	var imageFilter = plug.filter(['*.gif', '*.png', '*.svg', '*.jpg', '*.jpeg']);
+	var vendorFiles = require("main-bower-files");
+	var jsFilter = plug.filter(["*.js"]);
+	var cssFilter = plug.filter("*.css");
+	var fontFilter = plug.filter(["*.eot", "*.woff", "*.svg", "*.ttf", "*.woff2"]);
+	var imageFilter = plug.filter(["*.gif", "*.png", "*.svg", "*.jpg", "*.jpeg"]);
 
 	return gulp.src(vendorFiles())
 		// JS
 		.pipe(jsFilter)
 		.pipe(plug.sourcemaps.init())
-		.pipe(plug.concat('lib.js'))
+		.pipe(plug.concat("lib.js"))
 		.pipe(gulp.dest(subFolder("vendor/js")))
 		.pipe(plug.uglify())
 		.pipe(plug.rename({
@@ -72,7 +72,7 @@ gulp.task("bower-vendor", function() {
 		// CSS
 		.pipe(cssFilter)
 		.pipe(plug.sourcemaps.init())
-		.pipe(plug.concat('lib.css'))
+		.pipe(plug.concat("lib.css"))
 		.pipe(gulp.dest(subFolder("vendor/css")))
 		.pipe(plug.minifyCss({keepBreaks:true}))
 		.pipe(plug.rename({
@@ -107,7 +107,7 @@ gulp.task("bundle", ["jscs"], function() {
 		.pipe(plug.sourcemaps.init({loadMaps: true}))
 		.pipe(assets.restore())
 		.pipe(plug.useref())
-		.pipe(plug.sourcemaps.write('./'))
+		.pipe(plug.sourcemaps.write("./"))
 		.pipe(gulp.dest(destination));
 });
 
@@ -116,10 +116,10 @@ gulp.task("clean", function(cb) {
 });
 
 gulp.task("build-ours-with-notify", ["build-ours"], function() {
-	var notifier = require('node-notifier');
+	var notifier = require("node-notifier");
 	notifier.notify({
-		title: 'Gulp Watch',
-		message: 'COMPASS Frontend build done! Yay!',
+		title: "Gulp Watch",
+		message: "COMPASS Frontend build done! Yay!",
 		sound: true,
 		wait: false
 	});
@@ -127,9 +127,9 @@ gulp.task("build-ours-with-notify", ["build-ours"], function() {
 
 gulp.task("watch", ["build"], function(){
 	// proxy "/resources" to local WildFly for development
-	var proxySetup = require('url').parse('http://localhost:8080/compass/resources');
+	var proxySetup = require("url").parse("http://localhost:8080/compass/resources");
 	proxySetup.route = "/resources";
-	var proxyMiddleware = require('proxy-middleware')(proxySetup);
+	var proxyMiddleware = require("proxy-middleware")(proxySetup);
 
 	plug.connect.server({
 		port: 3030,
