@@ -9,6 +9,8 @@ var del = require("del");
 var assetBrowserify = require('asset-browserifier');
 
 var srcFolder = "./src/main/webapp/";
+var javaScriptSrc = srcFolder + "**/*.js";
+var gulpFile = "./gulpfile.js";
 var entryPoint = srcFolder + "index.html";
 var destination = "./target/webapp";
 function subFolder(folderName) {
@@ -20,9 +22,8 @@ gulp.task("build", ["bower-vendor", "build-ours"]);
 gulp.task("build-ours", ["bundle", "sass"]);
 
 gulp.task("lint", function(){
-	var src = srcFolder + "**/*.js";
-	return gulp.src(src)
-		.pipe(jshint({
+	return gulp.src([javaScriptSrc, gulpFile])
+		.pipe(plug.jshint({
 			linter: "jshint",
 			lookup: true
 		}))
@@ -31,8 +32,7 @@ gulp.task("lint", function(){
 });
 
 gulp.task("jscs", ["lint"], function(){
-	var src = srcFolder + "**/*.js";
-	return gulp.src(src)
+	return gulp.src([javaScriptSrc, gulpFile])
 		.pipe(plug.jscs(".jscsrc"))
 		.pipe(plug.jscs.reporter("console"))
 		.pipe(plug.jscs.reporter("fail"));
