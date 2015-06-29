@@ -2,9 +2,6 @@
 
 var gulp = require('gulp');
 var plug = require('gulp-load-plugins')();
-var stylish = require('jshint-stylish');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 var del = require("del");
 var assetBrowserify = require('asset-browserifier');
 
