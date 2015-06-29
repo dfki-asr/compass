@@ -1,7 +1,11 @@
 "use strict";
 
 var gulp = require('gulp');
-var plug = require('gulp-load-plugins')();
+var plug = require('gulp-load-plugins')({
+	rename: {
+		'gulp-jscs-with-reporter': 'jscs'
+	}
+});
 var del = require("del");
 var assetBrowserify = require('asset-browserifier');
 
