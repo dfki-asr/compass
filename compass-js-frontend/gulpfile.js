@@ -14,6 +14,7 @@ var javaScriptSrc = srcFolder + "**/*.js";
 var gulpFile = "./gulpfile.js";
 var entryPoint = srcFolder + "index.html";
 var destination = "./target/webapp";
+
 function subFolder(folderName) {
 	return destination + "/" + folderName;
 }
