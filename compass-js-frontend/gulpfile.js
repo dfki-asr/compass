@@ -128,7 +128,7 @@ gulp.task("build-ours-with-notify", ["build-ours"], function() {
 gulp.task("watch", ["build"], function(){
 	// proxy "/resources" to local WildFly for development
 	var proxySetup = require('url').parse('http://localhost:8080/compass/resources');
-	proxySetup["route"] = "/resources";
+	proxySetup.route = "/resources";
 	var proxyMiddleware = require('proxy-middleware')(proxySetup);
 
 	plug.connect.server({
