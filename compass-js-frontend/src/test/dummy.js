@@ -11,11 +11,4 @@ describe("Dummy", function () {
 			dummy.should.be.a("string");
 		});
 	});
-	describe("Dummy", function () {
-		it("should always fail, since this is DUMMY test", function () {
-			assert.typeOf(dummy, "number");
-			expect(dummy).to.be.a("number");
-			dummy.should.be.a("number");
-		});
-	});
 });
