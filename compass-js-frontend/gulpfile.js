@@ -11,6 +11,7 @@ var assetBrowserify = require("asset-browserifier");
 
 var srcFolder = "./src/main/webapp/";
 var javaScriptSrc = srcFolder + "**/*.js";
+var testFiles = "./src/test/**/*.js";
 var gulpFile = "./gulpfile.js";
 var entryPoint = srcFolder + "index.html";
 var destination = "./target/webapp";
@@ -22,6 +23,12 @@ var subFolder = function (folderName) {
 gulp.task("default", ["build"]);
 gulp.task("build", ["bower-vendor", "build-ours"]);
 gulp.task("build-ours", ["bundle", "sass"]);
+
+gulp.task("test", function () {
+	return gulp.src(testFiles, {read: false})
+        // gulp-mocha needs filepaths so you can't have any plugins before it
+        .pipe(plug.mocha({reporter: 'nyan'}));
+});
 
 gulp.task("lint", function () {
 	return gulp.src([javaScriptSrc, gulpFile])
