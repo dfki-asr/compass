@@ -16,7 +16,7 @@ public class EntityNotFoundException extends Exception {
 	private final long entityId;
 
 	private static String getExceptionMessage(final Class<?> entityClass, final long entityId) {
-		return "Entity (" + entityClass.getSimpleName() + ")not found with ID '" + entityId + "'.";
+		return "Entity (" + entityClass.getSimpleName() + ") not found with ID '" + entityId + "'.";
 	}
 
 	public EntityNotFoundException(final Class<?> entityClass, final long entityId) {
