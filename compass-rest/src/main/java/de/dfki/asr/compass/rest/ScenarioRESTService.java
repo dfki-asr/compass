@@ -12,7 +12,6 @@ import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import de.dfki.asr.compass.business.api.ScenarioManager;
-import de.dfki.asr.compass.business.exception.EntityConstraintException;
 import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.rest.exception.UnprocessableEntityException;
 import de.dfki.asr.compass.model.Scenario;
@@ -91,9 +90,9 @@ public class ScenarioRESTService extends AbstractRESTService {
 		return !oldName.equals(newName);
 	}
 
-	private void checkScenarioName(final Scenario scenario) {
+	private void checkScenarioName(final Scenario scenario) throws UnprocessableEntityException {
 		if (!manager.isNameValid(scenario.getName(), scenario.getProject())) {
-			throw new EntityConstraintException("A scenario of the given name already exists within its parent project.");
+			throw new UnprocessableEntityException("A scenario of the given name already exists within its parent project.");
 		}
 	}
 

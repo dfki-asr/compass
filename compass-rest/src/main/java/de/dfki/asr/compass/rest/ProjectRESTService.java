@@ -107,9 +107,9 @@ public class ProjectRESTService extends AbstractRESTService {
 		return Response.created(locationPrefix.add(entity).uri()).build();
 	}
 
-	private void checkProjectName(final String name) {
+	private void checkProjectName(final String name) throws UnprocessableEntityException {
 		if (!projectManager.isNameUnique(name)) {
-			throw new EntityConstraintException("A project of the given name already exists.");
+			throw new UnprocessableEntityException("A project of the given name already exists.");
 		}
 	}
 
@@ -141,7 +141,11 @@ public class ProjectRESTService extends AbstractRESTService {
 		if (newChild.getId() > 0) {
 			throw new UnprocessableEntityException("When POSTing new entities the ID field should be set to 0 or left out entirely.");
 		}
-		projectManager.addScenarioToProject(newChild, projectId);
+		try {
+			projectManager.addScenarioToProject(newChild, projectId);
+		} catch (EntityConstraintException e) {
+			throw new UnprocessableEntityException(e.getMessage(), e);
+		}
 		return Response.created(locationOf(ScenarioRESTService.class).add(newChild).uri()).build();
 	}
 
