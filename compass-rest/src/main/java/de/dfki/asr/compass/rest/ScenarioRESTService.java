@@ -76,8 +76,24 @@ public class ScenarioRESTService extends AbstractRESTService {
 			final Scenario entity)
 			throws IllegalArgumentException, EntityNotFoundException, UnprocessableEntityException {
 		ensureEntityIntegrityWhenPut(entity, entityId);
+		if (didNameChange(entity, entityId)) {
+			checkScenarioName(entity);
+		}
 		manager.save(entity);
 		return Response.noContent().build();
+	}
+
+	private boolean didNameChange(final Scenario newEntity, final long oldEntityId) throws EntityNotFoundException {
+		Scenario oldEntity = manager.findById(oldEntityId);
+		String oldName = oldEntity.getName();
+		String newName = newEntity.getName();
+		return !oldName.equals(newName);
+	}
+
+	private void checkScenarioName(final Scenario scenario) throws UnprocessableEntityException {
+		if (!manager.isNameValid(scenario.getName(), scenario.getProject())) {
+			throw new UnprocessableEntityException("A scenario of the given name already exists within its parent project.");
+		}
 	}
 
 	@Path("/{id}")
