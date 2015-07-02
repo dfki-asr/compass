@@ -26,8 +26,8 @@ gulp.task("build-ours", ["bundle", "sass"]);
 
 gulp.task("test", function () {
 	return gulp.src(testFiles, {read: false})
-        // gulp-mocha needs filepaths so you can't have any plugins before it
-        .pipe(plug.mocha({reporter: "spec"}));
+		// gulp-mocha needs filepaths so you can't have any plugins before it
+		.pipe(plug.mocha({reporter: "spec"}));
 });
 
 gulp.task("lint", function () {
