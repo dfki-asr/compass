@@ -59,7 +59,9 @@ describe("A SceneNode",function() {
 
 	describe("'s URL", function() {
 		it("should end in its ID, if it has one", function() {
-			expect.fail();
+			var node = new SceneNode({id: 1});
+			expect(node.url()).to.be.a("string")
+				.and.endWith("scenenodes/1");
 		});
 		it("should be located below its parent, if it is new", function() {
 			expect.fail();
