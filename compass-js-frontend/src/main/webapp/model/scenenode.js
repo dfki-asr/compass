@@ -45,6 +45,9 @@ var SceneNode = CompassModel.extend({
 		if (!attrs) {
 			return attrs;
 		}
+		if (attrs.id !== undefined && attrs.id === 0) {
+			throw new CompassError("id 0 is reserved");
+		}
 		if (attrs.children) {
 			var children = attrs.children;
 			for (var index in children) {
