@@ -5,6 +5,7 @@
  */
 
 var SceneNode = require("../../main/webapp/model/scenenode");
+var CompassError = require("../../main/webapp/compass-error");
 var chai = require("chai");
 chai.use(require("chai-things"));
 chai.use(require("chai-spies"));
@@ -63,7 +64,8 @@ describe("A SceneNode",function() {
 			expect.fail();
 		});
 		it("should error, if neither parent nor id are defined", function() {
-			expect.fail();
+			var node = new SceneNode();
+			expect(node.url.bind(node)).to.throw(CompassError);
 		});
 	});
 });
