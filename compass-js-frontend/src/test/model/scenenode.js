@@ -44,7 +44,9 @@ describe("A SceneNode",function() {
 		});
 
 		it("shouldn't complain about unknown properties from the server", function() {
-			expect.fail();
+			expect(function() {
+				var node = new SceneNode({someUndefinedProp: "test"}, {parse: true});
+			}).to.not.throw();
 		});
 
 		it("should keep unknown properties from the server, for plugins", function() {
