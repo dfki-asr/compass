@@ -61,7 +61,7 @@ var SceneNode = CompassModel.extend({
 		var basePath = Config.getRESTPath("scenenodes/");
 		if (!this.id) {
 			// must be a new node for POSTing
-			if (!this.parentNode) {
+			if (!(this.parentNode instanceof SceneNode)) {
 				throw new CompassError("Cannot construct URL for this node. Need either id or parentNode.");
 			}
 			return basePath + this.parentNode.id + "/children/";
