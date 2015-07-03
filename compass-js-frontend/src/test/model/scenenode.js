@@ -9,6 +9,7 @@ var CompassError = require("../../main/webapp/compass-error");
 var chai = require("chai");
 chai.use(require("chai-things"));
 chai.use(require("chai-spies"));
+chai.use(require("chai-string"));
 var expect = chai.expect;
 var _ = require("lodash");
 
