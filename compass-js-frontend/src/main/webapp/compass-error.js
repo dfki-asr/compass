@@ -5,10 +5,13 @@
  * You may not use this file except in compliance with the License.
  */
 
-function CompassError(message) {
-  this.name = 'CompassError';
-  this.message = message || 'COMPASS frontend Error';
-}
+"use strict";
+
+var CompassError = function (message) {
+  this.name = "CompassError";
+  this.message = message || "COMPASS frontend Error";
+};
+
 CompassError.prototype = Object.create(Error.prototype);
 CompassError.prototype.constructor = CompassError;
 
