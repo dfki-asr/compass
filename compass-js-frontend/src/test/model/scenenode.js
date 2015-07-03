@@ -64,7 +64,11 @@ describe("A SceneNode",function() {
 				.and.endWith("scenenodes/1");
 		});
 		it("should be located below its parent, if it is new", function() {
-			expect.fail();
+			var parentNode = new SceneNode({id: 1});
+			var node = new SceneNode({parentNode: parentNode});
+			expect(node.url.bind(node)).to.not.throw(Error);
+			expect(node.url()).to.be.a("string")
+				.and.endWith("scenenodes/1/children/");
 		});
 		it("should error, if neither parent nor id are defined", function() {
 			var node = new SceneNode();
