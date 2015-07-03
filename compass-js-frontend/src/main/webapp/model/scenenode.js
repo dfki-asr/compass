@@ -23,6 +23,7 @@ var SceneNode = CompassModel.extend({
 		selectable3d: "boolean",
 		visible: "boolean"
 	},
+	extraProperties: "allow",
 	session: {
 		// does not take part in serialization, only for internal navigation.
 		parentNode: {
