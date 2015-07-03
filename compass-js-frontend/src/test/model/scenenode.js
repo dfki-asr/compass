@@ -55,6 +55,12 @@ describe("A SceneNode",function() {
 			var node = new SceneNode({someUndefinedProp: "test"}, {parse: true});
 			expect(node.someUndefinedProp).to.equal("test");
 		});
+
+		it("shouldn't accept id 0.", function() {
+			expect(function() {
+				new SceneNode({id: 0}, {parse: true});
+			}).to.throw();
+		});
 	});
 
 	describe("'s URL", function() {
