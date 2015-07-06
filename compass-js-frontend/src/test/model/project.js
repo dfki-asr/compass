@@ -5,11 +5,13 @@
  * You may not use this file except in compliance with the License.
  */
 
+/* global describe, it */
+"use strict";
+
 var Project = require("../../main/webapp/model/project");
 var chai = require("chai");
 chai.use(require("chai-things"));
 var expect = chai.expect;
-var _ = require("lodash");
 
 describe("A project",function() {
 	describe(", when parsing a server response", function() {

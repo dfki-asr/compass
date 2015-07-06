@@ -5,6 +5,9 @@
  * You may not use this file except in compliance with the License.
  */
 
+/* global describe, it */
+"use strict";
+
 var SceneNode = require("../../main/webapp/model/scenenode");
 var CompassError = require("../../main/webapp/compass-error");
 var chai = require("chai");
@@ -12,7 +15,6 @@ chai.use(require("chai-things"));
 chai.use(require("chai-spies"));
 chai.use(require("chai-string"));
 var expect = chai.expect;
-var _ = require("lodash");
 
 describe("A SceneNode",function() {
 	describe(", when setting the 'visible' property", function() {
@@ -48,7 +50,7 @@ describe("A SceneNode",function() {
 
 		it("shouldn't complain about unknown properties from the server", function() {
 			expect(function() {
-				var node = new SceneNode({someUndefinedProp: "test"}, {parse: true});
+				new SceneNode({someUndefinedProp: "test"}, {parse: true});
 			}).to.not.throw();
 		});
 
