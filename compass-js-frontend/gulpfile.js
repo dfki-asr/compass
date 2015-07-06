@@ -20,32 +20,44 @@ var subFolder = function (folderName) {
 	return destination + "/" + folderName;
 };
 
+var lint = function (fileSources) {
+	return function () {
+		return gulp.src(fileSources)
+			.pipe(plug.jshint({
+				linter: "jshint",
+				lookup: true
+			}))
+			.pipe(plug.jshint.reporter("jshint-stylish", {verbose: true}))
+			.pipe(plug.jshint.reporter("fail"));
+	};
+};
+
+var jscs = function (fileSources) {
+	return function () {
+		return gulp.src(fileSources)
+			.pipe(plug.jscs(".jscsrc"))
+			.pipe(plug.jscs.reporter("console"))
+			.pipe(plug.jscs.reporter("fail"));
+	};
+};
+
 gulp.task("default", ["build"]);
 gulp.task("build", ["bower-vendor", "build-ours"]);
 gulp.task("build-ours", ["bundle", "sass"]);
 
-gulp.task("test", function () {
+gulp.task("test", ["test-jscs"], function () {
 	return gulp.src(testFiles, {read: false})
-		// gulp-mocha needs filepaths so you can't have any plugins before it
-		.pipe(plug.mocha({reporter: "spec"}));
+        // gulp-mocha needs filepaths so you can't have any plugins before it
+        .pipe(plug.mocha({
+			globals: ["global"],
+			reporter: "spec"
+		}));
 });
+gulp.task("test-jscs", ["test-lint"], jscs(testFiles));
+gulp.task("test-lint", lint(testFiles));
 
-gulp.task("lint", function () {
-	return gulp.src([javaScriptSrc, gulpFile])
-		.pipe(plug.jshint({
-			linter: "jshint",
-			lookup: true
-		}))
-		.pipe(plug.jshint.reporter("jshint-stylish", {verbose: true}))
-		.pipe(plug.jshint.reporter("fail"));
-});
-
-gulp.task("jscs", ["lint"], function () {
-	return gulp.src([javaScriptSrc, gulpFile])
-		.pipe(plug.jscs(".jscsrc"))
-		.pipe(plug.jscs.reporter("console"))
-		.pipe(plug.jscs.reporter("fail"));
-});
+gulp.task("lint", lint([javaScriptSrc, gulpFile]));
+gulp.task("jscs", ["lint"], jscs([javaScriptSrc, gulpFile]));
 
 gulp.task("sass", function () {
 	var src = srcFolder + "**/*.scss";
