@@ -13,13 +13,13 @@ var chai = require("chai");
 chai.use(require("chai-things"));
 var expect = chai.expect;
 
-describe("A project",function() {
-	describe(", when parsing a server response", function() {
-		it("should convert a plain array to scenario id objects", function() {
+describe("A project", function () {
+	describe(", when parsing a server response", function () {
+		it("should convert a plain array to scenario id objects", function () {
 			var project = new Project();
 			project.id = 1;
 			var serverEntity = {
-				scenarios: [1,2,3]
+				scenarios: [1, 2, 3]
 			};
 			var parsed = project.parse(serverEntity);
 			expect(parsed).to.have.property("scenarios")
@@ -33,3 +33,4 @@ describe("A project",function() {
 		});
 	});
 });
+

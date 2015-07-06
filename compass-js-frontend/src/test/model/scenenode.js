@@ -16,9 +16,9 @@ chai.use(require("chai-spies"));
 chai.use(require("chai-string"));
 var expect = chai.expect;
 
-describe("A SceneNode",function() {
-	describe(", when setting the 'visible' property", function() {
-		it("should emit the 'change' event.", function() {
+describe("A SceneNode", function () {
+	describe(", when setting the 'visible' property", function () {
+		it("should emit the 'change' event.", function () {
 			var node = new SceneNode();
 			var handler = chai.spy();
 			node.on("change", handler);
@@ -26,11 +26,11 @@ describe("A SceneNode",function() {
 			expect(handler).to.have.been.called();
 		});
 	});
-	
+
 	describe(", when parsing a response from the server,", function () {
-		it("should transform the children.", function() {
+		it("should transform the children.", function () {
 			var serverEntity = {
-				children: [2,3,4]
+				children: [2, 3, 4]
 			};
 			var node = new SceneNode();
 			var parsed = node.parse(serverEntity);
@@ -43,45 +43,48 @@ describe("A SceneNode",function() {
 			expect(parsed.children).to.contain.an.item.with.property("id", 4);
 		});
 
-		it("shouldn't do anything to an undefined.", function() {
+		it("shouldn't do anything to an undefined.", function () {
 			var node = new SceneNode();
 			expect(node.parse(undefined)).to.be.an("undefined");
 		});
 
-		it("shouldn't complain about unknown properties from the server", function() {
-			expect(function() {
+		it("shouldn't complain about unknown properties from the server", function () {
+			expect(function () {
 				new SceneNode({someUndefinedProp: "test"}, {parse: true});
 			}).to.not.throw();
 		});
 
-		it("should keep unknown properties from the server, for plugins", function() {
+		it("should keep unknown properties from the server, for plugins", function () {
 			var node = new SceneNode({someUndefinedProp: "test"}, {parse: true});
 			expect(node.someUndefinedProp).to.equal("test");
 		});
 
-		it("shouldn't accept id 0.", function() {
-			expect(function() {
+		it("shouldn't accept id 0.", function () {
+			expect(function () {
 				new SceneNode({id: 0}, {parse: true});
 			}).to.throw();
 		});
 	});
 
-	describe("'s URL", function() {
-		it("should end in its ID, if it has one", function() {
+	describe("'s URL", function () {
+		it("should end in its ID, if it has one", function () {
 			var node = new SceneNode({id: 1});
 			expect(node.url()).to.be.a("string")
 				.and.endWith("scenenodes/1");
 		});
-		it("should be located below its parent, if it is new", function() {
+
+		it("should be located below its parent, if it is new", function () {
 			var parentNode = new SceneNode({id: 1});
 			var node = new SceneNode({parentNode: parentNode});
 			expect(node.url.bind(node)).to.not.throw(Error);
 			expect(node.url()).to.be.a("string")
 				.and.endWith("scenenodes/1/children/");
 		});
-		it("should error, if neither parent nor id are defined", function() {
+
+		it("should error, if neither parent nor id are defined", function () {
 			var node = new SceneNode();
 			expect(node.url.bind(node)).to.throw(CompassError);
 		});
 	});
 });
+
