@@ -9,6 +9,7 @@
 "use strict";
 
 var Project = require("../../main/webapp/model/project");
+var ScenarioCollection = require("../../main/webapp/collection/scenario-collection");
 var chai = require("chai");
 chai.use(require("chai-things"));
 var expect = chai.expect;
@@ -30,6 +31,16 @@ describe("A project", function () {
 			expect(parsed.scenarios).to.contain.an.item.with.property("id", 1);
 			expect(parsed.scenarios).to.contain.an.item.with.property("id", 2);
 			expect(parsed.scenarios).to.contain.an.item.with.property("id", 3);
+		});
+	});
+
+	describe(", when not having any scenarios", function () {
+		it("should initialize an empty collection", function () {
+			var serverEntity = {};
+			var project = new Project();
+			var parsed = project.parse(serverEntity);
+			expect(parsed.scenarios).to.be.instanceOf(ScenarioCollection);
+			expect(parsed.scenarios.length).to.equal(0);
 		});
 	});
 });
