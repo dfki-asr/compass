@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This file is part of COMPASS. It is subject to the license terms in
+ * the LICENSE file found in the top-level directory of this distribution.
+ * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
+ * You may not use this file except in compliance with the License.
  */
 
 var SceneNode = require("../../main/webapp/model/scenenode");
