@@ -14,7 +14,12 @@ var Config = require("../config");
 var ScenenodeComponent = CompassModel.extend({
 	props: {
 		id: "number",
-		owner: Scenenode
+		owner: Scenenode,
+		type: {
+			type: "string",
+			required: true,
+			default: "de.dfki.asr.compass.model.components.SceneNodeComponent"
+		}
 	},
 	extraProperties: "allow",
 	urlRoot: Config.getRESTPath("scenenodecomponents/")
