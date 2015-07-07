@@ -37,7 +37,6 @@ var SceneNode = CompassModel.extend({
 			// needs level of indirection to avoid circular require()
 			return new SceneNodeCollection([], {model: SceneNode});
 		},
-		}
 		components: ScenenodeComponentCollection
 	},
 	init: function () {
@@ -77,11 +76,18 @@ var SceneNode = CompassModel.extend({
 		}
 	},
 	fetchRecursively: function () {
+		var outerPromises = [];
+		if (this.components.isEmpty()) {
+			outerPromises.push(Promise.resolve());
+		} else {
+			var collectionPromise = this.components.fetchCollectionEntries();
+			outerPromises.push(collectionPromise);
+		}
 		if (this.children.isEmpty()) {
-			return Promise.resolve();
+			outerPromises.push(Promise.resolve());
 		}
 		var self = this;
-		return this.children.fetchCollectionEntries().then(function () {
+		var fetchPromises = this.children.fetchCollectionEntries().then(function () {
 			var promises = [];
 			self.children.each(function (c) {
 				var promise = c.fetchRecursively().catch(function (err) {
@@ -91,6 +97,8 @@ var SceneNode = CompassModel.extend({
 			});
 			return Promise.all(promises);
 		});
+		outerPromises.push(fetchPromises);
+		return Promise.all(outerPromises);
 	}
 });
 
