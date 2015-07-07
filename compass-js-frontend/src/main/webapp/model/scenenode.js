@@ -80,8 +80,8 @@ var SceneNode = CompassModel.extend({
 		if (this.components.isEmpty()) {
 			outerPromises.push(Promise.resolve());
 		} else {
-			var collectionPromise = this.components.fetchCollectionEntries();
-			outerPromises.push(collectionPromise);
+			var componentPromise = this.components.fetchCollectionEntries();
+			outerPromises.push(componentPromise);
 		}
 		if (this.children.isEmpty()) {
 			outerPromises.push(Promise.resolve());
