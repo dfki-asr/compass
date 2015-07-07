@@ -16,6 +16,7 @@ var ScenenodeComponent = CompassModel.extend({
 		id: "number",
 		owner: Scenenode
 	},
+	extraProperties: "allow",
 	urlRoot: Config.getRESTPath("scenenodecomponents/")
 });
 
