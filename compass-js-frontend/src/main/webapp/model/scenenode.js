@@ -10,6 +10,7 @@
 var CompassModel = require("./compass-model");
 var Config = require("../config");
 var SceneNodeCollection = require("../collection/scenenode-collection");
+var ScenenodeComponentCollection = require("../collection/scenenode-component-collection");
 var Promise = require("promise");
 
 var SceneNode = CompassModel.extend({
@@ -35,7 +36,9 @@ var SceneNode = CompassModel.extend({
 		children: function () {
 			// needs level of indirection to avoid circular require()
 			return new SceneNodeCollection([], {model: SceneNode});
+		},
 		}
+		components: ScenenodeComponentCollection
 	},
 	init: function () {
 	},
@@ -43,11 +46,19 @@ var SceneNode = CompassModel.extend({
 		if (!attrs) {
 			return attrs;
 		}
+		var index, id;
 		if (attrs.children) {
 			var children = attrs.children;
-			for (var index in children) {
-				var id = children[index];
+			for (index in children) {
+				id = children[index];
 				children[index] = {id: id, parentNode: this};
+			}
+		}
+		if (attrs.components) {
+			var components = attrs.components;
+			for (index in components) {
+				id = components[index];
+				components[index] = {id: id, owner: this};
 			}
 		}
 		return attrs;
