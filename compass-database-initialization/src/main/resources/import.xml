@@ -13,8 +13,12 @@
 			<root name="Root" selectable3d="true" visible="true">
 				<components/>
 				<children>
-					<node name="First Child" selectable3d="true" visible="true">
-						<components/>
+					<node name="First Teapot" selectable3d="true" visible="true">
+						<components>
+							<renderGeometry>
+								<meshSource>http://xml3d.github.io/xml3d-examples/examples/assets/res/assets.xml#teapot</meshSource>
+							</renderGeometry>
+						</components>
 						<children/>
 						<localTranslation x="-10.0" y="0.0" z="0.0"/>
 						<localScale>1.0</localScale>
