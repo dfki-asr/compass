@@ -104,7 +104,7 @@ var HierarchyView = AmpersandView.extend({
 	},
 	createFancyTreeNode: function (scenenode) {
 		var fancyNode = {};
-		fancyNode.title = scenenode.name;
+		fancyNode.title = this.generateTitle(scenenode);
 		fancyNode.key = scenenode.cid;
 		if (!scenenode.children.isEmpty()) {
 			fancyNode.folder = true;
@@ -112,6 +112,20 @@ var HierarchyView = AmpersandView.extend({
 		}
 		fancyNode.sceneNode = scenenode;
 		return fancyNode;
+	},
+	generateTitle: function (scenenode) {
+		var title = scenenode.name;
+		if (scenenode.components.isEmpty()) {
+			return title;
+		}
+		scenenode.components.each(function (component) {
+			var icon = component.hierarchyIcon;
+			if (!icon || icon.length === 0) {
+				return;
+			}
+			title += "<span class='iconaftertitle fa " + icon + "'></span>";
+		});
+		return title;
 	},
 	getSceneNodeByFancyNode: function (fancyNode) {
 		return fancyNode.data.sceneNode;
