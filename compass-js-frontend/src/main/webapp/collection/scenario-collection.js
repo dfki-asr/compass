@@ -23,7 +23,7 @@ var ScenarioCollection = CompassCollection.extend({
 		this.selectedScenario = newSelection;
 	},
 	isSelected: function (model) {
-		return this.selectedScenario && this.selectedScenario === model;
+		return !!this.selectedScenario && this.selectedScenario === model;
 	},
 	getSelected: function () {
 		return this.selectedScenario;
