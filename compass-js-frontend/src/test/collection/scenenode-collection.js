@@ -6,7 +6,7 @@
  */
 
 /* global describe, it */
-/* jshint -W030 */
+/* jshint -W030 */ // needed for .to.be.empty (which is a hidden function call via getter)
 "use strict";
 
 var SceneNodeCollection = require("../../main/webapp/collection/scenenode-collection");
