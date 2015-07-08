@@ -193,7 +193,9 @@ var HierarchyView = AmpersandView.extend({
 		// due to event race condition, leave a little longer to capture scrolls.
 		var $scroll = this.$scrollArea;
 		browserSetTimeout(function () {
-			$scroll.one("scroll", function () { $titleSpan.confirmation("destroy");});
+			$scroll.one("scroll", function () {
+				$titleSpan.confirmation("destroy");
+			});
 		}, 10); // In my tests, the lagging scroll event took at most 5msec to complete.
 	},
 	deleteNodeOnServer: function (nodeToDelete, $titleSpan) {
