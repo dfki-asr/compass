@@ -16,6 +16,9 @@ var RenderGeometry = ScenenodeComponent.extend({
 			required: true,
 			default: ""
 		}
+	},
+	initialize: function () {
+		this.hierarchyIcon = "";
 	}
 });
 
