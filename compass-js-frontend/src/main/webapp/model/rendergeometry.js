@@ -18,7 +18,7 @@ var RenderGeometry = ScenenodeComponent.extend({
 		}
 	},
 	initialize: function () {
-		this.hierarchyIcon = "";
+		this.hierarchyIcon = "fa-cube";
 	}
 });
 
