@@ -9,10 +9,23 @@
 
 var CompassCollection = require("./compass-collection");
 var ScenenodeComponent = require("../model/scenenode-component");
+var RenderGeometry = require("./../model/rendergeometry");
 var Config = require("../config");
 
 var ScenenodeComponentCollection = CompassCollection.extend({
-	model: ScenenodeComponent,
+	model: function (attrs, options) {
+		switch (attrs.type) {
+			case "de.dfki.asr.compass.model.components.RenderGeometry": {
+				return new RenderGeometry(attrs, options);
+			}
+			case "de.dfki.asr.compass.model.components.ScenenodeComponent": {
+				return new ScenenodeComponent(attrs, options);
+			}
+			default: {
+				return new ScenenodeComponent(attrs, options);
+			}
+		}
+	},
 	url: Config.getRESTPath("scenenodecomponents/")
 });
 
