@@ -9,6 +9,7 @@
 
 var CompassModel = require("./compass-model");
 var Config = require("../config");
+var CompassError = require("../compass-error");
 var SceneNodeCollection = require("../collection/scenenode-collection");
 var ScenenodeComponentCollection = require("../collection/scenenode-component-collection");
 var Promise = require("promise");
@@ -24,6 +25,7 @@ var SceneNode = CompassModel.extend({
 		selectable3d: "boolean",
 		visible: "boolean"
 	},
+	extraProperties: "allow",
 	session: {
 		// does not take part in serialization, only for internal navigation.
 		parentNode: {
@@ -45,11 +47,13 @@ var SceneNode = CompassModel.extend({
 		if (!attrs) {
 			return attrs;
 		}
-		var index, id;
+		if (attrs.id !== undefined && attrs.id === 0) {
+			throw new CompassError("id 0 is reserved");
+		}
 		if (attrs.children) {
 			var children = attrs.children;
-			for (index in children) {
-				id = children[index];
+			for (var index in children) {
+				var id = children[index];
 				children[index] = {id: id, parentNode: this};
 			}
 		}
@@ -65,8 +69,8 @@ var SceneNode = CompassModel.extend({
 		var basePath = Config.getRESTPath("scenenodes/");
 		if (!this.id) {
 			// must be a new node for POSTing
-			if (!this.parentNode) {
-				throw new Error("Cannot construct URL for this node. Need either id or parentNode.");
+			if (!(this.parentNode instanceof SceneNode)) {
+				throw new CompassError("Cannot construct URL for this node. Need either id or parentNode.");
 			}
 			return basePath + this.parentNode.id + "/children/";
 		} else {

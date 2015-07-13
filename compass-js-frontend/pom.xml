@@ -174,6 +174,35 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>JS-Unit-Tests</id>
+			<activation>
+				<property>
+					<name>!skipTests</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>0.0.23</version>
+						<executions>
+							<execution>
+								<id>gulp test</id>
+								<goals>
+									<goal>gulp</goal>
+								</goals>
+								<phase>test</phase>
+								<configuration>
+									<arguments>test</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 </project>
