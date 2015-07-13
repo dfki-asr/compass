@@ -52,15 +52,15 @@ var SceneNode = CompassModel.extend({
 		}
 		if (attrs.children) {
 			var children = attrs.children;
-			for (var index in children) {
-				var id = children[index];
-				children[index] = {id: id, parentNode: this};
+			for (var childIndex in children) {
+				var id = children[childIndex];
+				children[childIndex] = {id: id, parentNode: this};
 			}
 		}
 		if (attrs.components) {
 			var components = attrs.components;
-			for (index in components) {
-				components[index].owner = this;
+			for (var componentIndex in components) {
+				components[componentIndex].owner = this;
 			}
 		}
 		return attrs;
