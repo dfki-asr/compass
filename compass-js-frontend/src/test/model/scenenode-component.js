@@ -9,6 +9,7 @@
 "use strict";
 
 var SceneNodeComponent = require("../../main/webapp/model/scenenode-component");
+var CompassError = require("../../main/webapp/compass-error");
 var chai = require("chai");
 chai.use(require("chai-things"));
 chai.use(require("chai-spies"));
@@ -19,5 +20,11 @@ describe("A SceneNodeComponent", function () {
 	it("should retain extra properties", function () {
 		var comp = new SceneNodeComponent({foo: "bar"}, {parse: true});
 		expect(comp).to.include.property("foo");
+	});
+	it("should not serialize when not subclassed", function () {
+		// since SceneNodeComponent is an abstract base class, which should
+		// never be pushed to the server.
+		var comp = new SceneNodeComponent();
+		expect(function () { comp.serialize(); }).to.throw(CompassError);
 	});
 });
