@@ -9,6 +9,7 @@
 
 var CompassModel = require("./compass-model");
 var Scenenode = require("./scenenode");
+var CompassError = require("../compass-error");
 var Config = require("../config");
 var _ = require("lodash");
 
@@ -30,6 +31,9 @@ var ScenenodeComponent = CompassModel.extend({
 		}
 	},
 	serialize: function () {
+		if (this.type === "de.dfki.asr.compass.model.components.SceneNodeComponent") {
+			throw new CompassError("Trying to serialize abstract base class.");
+		}
 		var base = CompassModel.prototype.serialize.apply(this);
 		base.owner = this.owner.id;
 		return base;
