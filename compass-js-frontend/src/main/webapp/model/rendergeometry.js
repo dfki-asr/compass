@@ -15,6 +15,11 @@ var RenderGeometry = ScenenodeComponent.extend({
 			type: "string",
 			required: true,
 			default: ""
+		},
+		type: {
+			type: "string",
+			required: true,
+			default: "de.dfki.asr.compass.model.components.RenderGeometry"
 		}
 	},
 	initialize: function () {
