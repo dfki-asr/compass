@@ -23,8 +23,9 @@ describe("A RenderGeometry", function () {
 		var serialized = component.serialize();
 		expect(serialized).to.be.an("object");
 		expect(serialized).to.have.keys("meshSource", "type", "owner");
-		expect(serialized.owner).to.be.a("number")
-				.and.to.equal(42);
+		expect(serialized).to.have.property("owner")
+				.which.is.a("number")
+				.and.equal(42);
 		expect(serialized.meshSource).to.be.a("string");
 		expect(serialized.type).to.be.a("string")
 				.and.to.equal("de.dfki.asr.compass.model.components.RenderGeometry");
