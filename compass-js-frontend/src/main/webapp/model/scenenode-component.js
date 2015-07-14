@@ -19,7 +19,9 @@ var ScenenodeComponent = CompassModel.extend({
 			type: "string",
 			required: true,
 			default: "de.dfki.asr.compass.model.components.SceneNodeComponent"
-		},
+		}
+	},
+	session: {
 		hierarchyIcon: {
 			type: "string",
 			required: false,
