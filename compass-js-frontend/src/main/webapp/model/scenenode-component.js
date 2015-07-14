@@ -10,6 +10,7 @@
 var CompassModel = require("./compass-model");
 var Scenenode = require("./scenenode");
 var Config = require("../config");
+var _ = require("lodash");
 
 var ScenenodeComponent = CompassModel.extend({
 	props: {
@@ -27,6 +28,11 @@ var ScenenodeComponent = CompassModel.extend({
 			required: false,
 			default: ""
 		}
+	},
+	serialize: function () {
+		var base = CompassModel.prototype.serialize.apply(this);
+		base.owner = this.owner.id;
+		return base;
 	},
 	extraProperties: "allow",
 	urlRoot: Config.getRESTPath("scenenodecomponents/")
