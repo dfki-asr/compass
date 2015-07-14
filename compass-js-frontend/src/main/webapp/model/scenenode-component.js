@@ -11,7 +11,6 @@ var CompassModel = require("./compass-model");
 var Scenenode = require("./scenenode");
 var CompassError = require("../compass-error");
 var Config = require("../config");
-var _ = require("lodash");
 
 var ScenenodeComponent = CompassModel.extend({
 	props: {
