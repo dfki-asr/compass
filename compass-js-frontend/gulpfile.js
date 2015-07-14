@@ -45,7 +45,7 @@ gulp.task("default", ["build"]);
 gulp.task("build", ["bower-vendor", "build-ours"]);
 gulp.task("build-ours", ["bundle", "sass"]);
 
-gulp.task("test", ["test-jscs"], function () {
+gulp.task("test", ["test-jscs", "jscs"], function () {
 	return gulp.src(testFiles, {read: false})
         // gulp-mocha needs filepaths so you can't have any plugins before it
         .pipe(plug.mocha({
