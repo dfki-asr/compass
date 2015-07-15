@@ -11,6 +11,7 @@ var CompassModel = require("./compass-model");
 var Config = require("../config");
 var CompassError = require("../compass-error");
 var SceneNodeCollection = require("../collection/scenenode-collection");
+var ScenenodeComponentCollection = require("../collection/scenenode-component-collection");
 var Promise = require("promise");
 
 var SceneNode = CompassModel.extend({
@@ -37,7 +38,8 @@ var SceneNode = CompassModel.extend({
 		children: function () {
 			// needs level of indirection to avoid circular require()
 			return new SceneNodeCollection([], {model: SceneNode});
-		}
+		},
+		components: ScenenodeComponentCollection
 	},
 	init: function () {
 	},
@@ -50,9 +52,15 @@ var SceneNode = CompassModel.extend({
 		}
 		if (attrs.children) {
 			var children = attrs.children;
-			for (var index in children) {
-				var id = children[index];
-				children[index] = {id: id, parentNode: this};
+			for (var childIndex in children) {
+				var id = children[childIndex];
+				children[childIndex] = {id: id, parentNode: this};
+			}
+		}
+		if (attrs.components) {
+			var components = attrs.components;
+			for (var componentIndex in components) {
+				components[componentIndex].owner = this;
 			}
 		}
 		return attrs;
@@ -71,11 +79,18 @@ var SceneNode = CompassModel.extend({
 		}
 	},
 	fetchRecursively: function () {
+		var outerPromises = [];
+		if (this.components.isEmpty()) {
+			outerPromises.push(Promise.resolve());
+		} else {
+			var componentPromise = this.components.fetchCollectionEntries();
+			outerPromises.push(componentPromise);
+		}
 		if (this.children.isEmpty()) {
-			return Promise.resolve();
+			outerPromises.push(Promise.resolve());
 		}
 		var self = this;
-		return this.children.fetchCollectionEntries().then(function () {
+		var fetchPromises = this.children.fetchCollectionEntries().then(function () {
 			var promises = [];
 			self.children.each(function (c) {
 				var promise = c.fetchRecursively().catch(function (err) {
@@ -85,6 +100,8 @@ var SceneNode = CompassModel.extend({
 			});
 			return Promise.all(promises);
 		});
+		outerPromises.push(fetchPromises);
+		return Promise.all(outerPromises);
 	}
 });
 

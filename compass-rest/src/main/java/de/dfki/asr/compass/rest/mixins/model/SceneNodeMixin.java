@@ -9,10 +9,8 @@ package de.dfki.asr.compass.rest.mixins.model;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.dfki.asr.compass.model.SceneNode;
-import de.dfki.asr.compass.model.SceneNodeComponent;
 import de.dfki.asr.compass.rest.serialization.EntityListToIDListSerializer;
 import de.dfki.asr.compass.rest.serialization.EntityToIDSerializer;
-import de.dfki.asr.compass.rest.serialization.SceneNodeComponentListDeserializer;
 import de.dfki.asr.compass.rest.serialization.SceneNodeDeserializer;
 import de.dfki.asr.compass.rest.serialization.SceneNodeListDeserializer;
 import java.util.List;
@@ -23,10 +21,6 @@ public class SceneNodeMixin {
 	@JsonSerialize(using = EntityToIDSerializer.class)
 	@JsonDeserialize(using = SceneNodeDeserializer.class)
 	private SceneNode parent;
-
-	@JsonSerialize(using = EntityListToIDListSerializer.class)
-	@JsonDeserialize(using = SceneNodeComponentListDeserializer.class)
-	private List<SceneNodeComponent> components;
 
 	@JsonSerialize(using = EntityListToIDListSerializer.class)
 	@JsonDeserialize(using = SceneNodeListDeserializer.class)
