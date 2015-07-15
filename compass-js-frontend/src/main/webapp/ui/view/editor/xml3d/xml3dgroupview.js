@@ -9,7 +9,7 @@
 
 var AmpersandView = require("ampersand-view");
 
-var ThreeDNodeView = AmpersandView.extend({
+var XML3DGroupView = AmpersandView.extend({
     template: "<group></group>",
 	initialize: function (sceneNode, $rootView) {
 		this.sceneNode = sceneNode;
@@ -40,4 +40,4 @@ var ThreeDNodeView = AmpersandView.extend({
 	}
 });
 
-module.exports = ThreeDNodeView;
+module.exports = XML3DGroupView;

@@ -17,7 +17,7 @@ var $ = global.jQuery;
 
 var HierarchyView = require("../view/editor/hierarchy.js");
 var PropertiesView = require("../view/editor/properties.js");
-var ThreeDView = require("../view/editor/viewport.js");
+var XML3DView = require("../view/editor/xml3dview.js");
 var DisabledView = require("../view/editor/disabled.js");
 var NavbarView = require("../view/editor/navbar.js");
 
@@ -33,7 +33,7 @@ var EditorPage = BasePage.extend({
 		},
 		viewport: {
 			hook: "viewport",
-			constructor: ThreeDView
+			constructor: XML3DView
 		},
 		properties: {
 			hook: "properties",

@@ -9,10 +9,10 @@
 
 var $ = global.jQuery;
 var AmpersandView = require("ampersand-view");
-var ThreeDNodeView = require("./threeD/threeDNodeView");
+var XML3DGroupView = require("./xml3d/xml3dgroupview");
 var template = require("../../templates/editor/viewport.html");
 
-var ThreeDView = AmpersandView.extend({
+var XML3DView = AmpersandView.extend({
     template: template,
     initialize: function () {
 		this.parent.on("sceneTreeLoaded", this.renderXML3DTree.bind(this));
@@ -38,4 +38,4 @@ var ThreeDView = AmpersandView.extend({
 	}
 });
 
-module.exports = ThreeDView;
+module.exports = XML3DView;
