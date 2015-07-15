@@ -13,6 +13,9 @@ var template = require("../../templates/editor/navbar.html");
 var EditorNavbarView = AmpersandView.extend({
     template: template,
 	scenario: undefined,
+	events: {
+		"click [data-hook=action-toggle-light]": "toggleDefaultLight"
+	},
     initialize: function () {
     },
 	bindings: {
