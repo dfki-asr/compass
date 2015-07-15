@@ -11,17 +11,17 @@ var AmpersandView = require("ampersand-view");
 
 var XML3DGroupView = AmpersandView.extend({
     template: "<group></group>",
-	initialize: function (sceneNode, $rootView) {
-		this.sceneNode = sceneNode;
-		this.$rootView = $rootView;
+	initialize: function (rootView) {
+		this.rootView = rootView;
     },
     render: function () {
+		console.log("rendering scenenode with id: " + this.model.id + " and name: " + this.model.name);
         this.renderWithTemplate();
-		var renderGeometry = this.sceneNode.components.getComponentByType("de.dfki.asr.compass.model.components.RenderGeometry");
+		var renderGeometry = this.model.components.getComponentByType("de.dfki.asr.compass.model.components.RenderGeometry");
 		if (renderGeometry.length) {
 			this.renderRenderGeometry(renderGeometry);
 		}
-		this.renderChildSceneNode();
+		this.renderCollection(this.model.children, XML3DGroupView, this.el, {rootView: this});
         return this;
     },
 	renderRenderGeometry: function (renderGeometries) {
@@ -29,14 +29,6 @@ var XML3DGroupView = AmpersandView.extend({
 			var rg = renderGeometries[index];
 			console.log("render renderGeometry with geometry url: " + rg.meshSource);
 		}
-	},
-	renderChildSceneNode: function () {
-		var self = this;
-		this.sceneNode.children.each(function (child) {
-			var sceneNodeView = new ThreeDNodeView(child, self.rootView);
-			self.registerSubView(sceneNodeView);
-			self.renderSubview(sceneNodeView, self.el);
-		});
 	}
 });
 

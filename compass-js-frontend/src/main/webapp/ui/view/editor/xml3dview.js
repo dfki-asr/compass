@@ -23,15 +23,9 @@ var XML3DView = AmpersandView.extend({
         return this;
     },
 	renderXML3DTree: function () {
-		var self = this;
-		this.parent.root.children.each(function (child) {
-			self.renderSceneNode(child);
-		});
-	},
-	renderSceneNode: function (node) {
-		var $rootGroup = $(this.el).find("#rootGroup");
-		var sceneNodeView = new ThreeDNodeView(node, this);
-		this.renderSubview(sceneNodeView, $rootGroup);
+		this.sceneNodeRoot = this.parent.root;
+		var rootGroup = ($(this.el).find("#rootGroup"))[0];
+		this.renderCollection(this.sceneNodeRoot.children, XML3DGroupView, rootGroup, {rootView: this});
 	},
 	updateSelectionDisplay: function () {
 		console.log("3DView: update selected scene node ... ");
