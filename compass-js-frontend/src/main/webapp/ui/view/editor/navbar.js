@@ -25,6 +25,9 @@ var EditorNavbarView = AmpersandView.extend({
 	setScenario: function (scenario) {
 		this.scenario = scenario;
 		this.render();
+	},
+	toggleDefaultLight: function () {
+		console.log("Hey there, I\'m toggling the default light!");
 	}
 });
 
