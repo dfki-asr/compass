@@ -61,6 +61,10 @@ body {
 					// I would use position:absolute; left:0px; right:0px;
 					// but that breaks scrolling again. :'-(
 					min-width: 99.7%;
+
+					.iconaftertitle{
+						margin-left: 0.5em;
+					}
 				}
 			}
 		}
