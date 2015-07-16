@@ -10,11 +10,17 @@
 var AmpersandView = require("ampersand-view");
 
 var RenderGeometryView = AmpersandView.extend({
-    template: "<model></model>",
+    template: "<model data-hook='meshSource'></model>",
 	initialize: function () {
     },
+	bindings: {
+		"model.meshSource": {
+			type: "attribute",
+			name: "src",
+			hook: "meshSource"
+		}
+	},
     render: function () {
-		console.log("render renderGeometry with geometry url: " + this.model.meshSource);
         this.renderWithTemplate();
     }
 });
