@@ -7,6 +7,7 @@
 
 "use strict";
 
+var $ = global.jQuery;
 var AmpersandView = require("ampersand-view");
 var template = require("../../templates/editor/navbar.html");
 
@@ -30,7 +31,10 @@ var EditorNavbarView = AmpersandView.extend({
 		this.render();
 	},
 	toggleDefaultLight: function () {
-		console.log("Hey there, I\'m toggling the default light!");
+		var light = this.parent.viewport.defaultLight;
+		light.toggleVisibility();
+		this.setButtonCSS($(this.queryByHook("action-toggle-light")), light.enabled);
+	},
 	setButtonCSS: function ($button, isActive) {
 		if (isActive) {
 			$button.addClass("active");
