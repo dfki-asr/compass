@@ -8,19 +8,15 @@
 "use strict";
 
 var AmpersandView = require("ampersand-view");
-var template = require("../../../templates/editor/xml3d/xml3dgroup.html");
-var XML3DComponentViewFactory = require("./xml3dcomponentviewfactory");
 
-var XML3DGroupView = AmpersandView.extend({
-    template: template,
+var RenderGeometryView = AmpersandView.extend({
+    template: "<model></model>",
 	initialize: function () {
     },
     render: function () {
+		console.log("render renderGeometry with geometry url: " + this.model.meshSource);
         this.renderWithTemplate();
-		this.renderCollection(this.model.components, XML3DComponentViewFactory, ".componentGroups");
-		this.renderCollection(this.model.children, XML3DGroupView, ".childGroups");
-        return this;
     }
 });
 
-module.exports = XML3DGroupView;
+module.exports = RenderGeometryView;
