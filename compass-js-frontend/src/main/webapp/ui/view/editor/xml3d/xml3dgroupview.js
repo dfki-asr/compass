@@ -17,7 +17,6 @@ var XML3DGroupView = AmpersandView.extend({
 	initialize: function () {
     },
     render: function () {
-		console.log("rendering scenenode with id: " + this.model.id + " and name: " + this.model.name);
         this.renderWithTemplate();
 		var renderGeometry = this.model.components.getComponentByType("de.dfki.asr.compass.model.components.RenderGeometry");
 		if (renderGeometry.length) {
