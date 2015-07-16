@@ -9,11 +9,12 @@
 
 var AmpersandView = require("ampersand-view");
 var template = require("../../../templates/editor/xml3d/xml3dgroup.html");
+// var SceneNode = require("../../../../model/scenenode");
+// var RenderGeometry = require("../../../../model/rendergeometry");
 
 var XML3DGroupView = AmpersandView.extend({
     template: template,
-	initialize: function (rootView) {
-		this.rootView = rootView;
+	initialize: function () {
     },
     render: function () {
 		console.log("rendering scenenode with id: " + this.model.id + " and name: " + this.model.name);
@@ -22,7 +23,7 @@ var XML3DGroupView = AmpersandView.extend({
 		if (renderGeometry.length) {
 			this.renderRenderGeometry(renderGeometry);
 		}
-		this.renderCollection(this.model.children, XML3DGroupView, this.el, {rootView: this});
+		this.renderCollection(this.model.children, XML3DGroupView, ".childGroups");
         return this;
     },
 	renderRenderGeometry: function (renderGeometries) {

@@ -7,7 +7,6 @@
 
 "use strict";
 
-var $ = global.jQuery;
 var AmpersandView = require("ampersand-view");
 var XML3DGroupView = require("./xml3d/xml3dgroupview");
 var template = require("../../templates/editor/viewport.html");
@@ -23,9 +22,7 @@ var XML3DView = AmpersandView.extend({
         return this;
     },
 	renderXML3DTree: function () {
-		this.sceneNodeRoot = this.parent.root;
-		var rootGroup = ($(this.el).find("#rootGroup"))[0];
-		this.renderCollection(this.sceneNodeRoot.children, XML3DGroupView, rootGroup, {rootView: this});
+		this.renderCollection(this.parent.root.children, XML3DGroupView, ".rootChildren");
 	},
 	updateSelectionDisplay: function () {
 		console.log("3DView: update selected scene node ... ");
