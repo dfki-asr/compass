@@ -8,9 +8,10 @@
 "use strict";
 
 var AmpersandView = require("ampersand-view");
+var template = require("../../../templates/editor/xml3d/xml3dgroup.html");
 
 var XML3DGroupView = AmpersandView.extend({
-    template: "<group></group>",
+    template: template,
 	initialize: function (rootView) {
 		this.rootView = rootView;
     },
