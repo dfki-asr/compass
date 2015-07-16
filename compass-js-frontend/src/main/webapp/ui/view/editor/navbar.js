@@ -31,6 +31,13 @@ var EditorNavbarView = AmpersandView.extend({
 	},
 	toggleDefaultLight: function () {
 		console.log("Hey there, I\'m toggling the default light!");
+	setButtonCSS: function ($button, isActive) {
+		if (isActive) {
+			$button.addClass("active");
+		} else {
+			$button.removeClass("active");
+		}
+		$button.blur();
 	}
 });
 
