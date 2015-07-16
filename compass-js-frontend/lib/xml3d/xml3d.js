@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-@version: DEVELOPMENT SNAPSHOT (14.07.2015 14:55:33 GMT+0200)
+@version: DEVELOPMENT SNAPSHOT (16.07.2015 13:46:48 GMT+0200)
 **/
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
@@ -6768,7 +6768,7 @@ module.exports = restParam;
 
 },{}],24:[function(require,module,exports){
 /**
- * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+ * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -6792,7 +6792,7 @@ var hasOwnProperty = objectProto.hasOwnProperty;
 var nativeKeys = getNative(Object, 'keys');
 
 /**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
  * of an array-like value.
  */
 var MAX_SAFE_INTEGER = 9007199254740991;
@@ -6850,7 +6850,7 @@ function isIndex(value, length) {
 /**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
  *
  * @private
  * @param {*} value The value to check.
@@ -6919,7 +6919,7 @@ function isObject(value) {
  * Creates an array of the own enumerable property names of `object`.
  *
  * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * [ES spec](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.keys)
  * for more details.
  *
  * @static
@@ -6943,7 +6943,7 @@ function isObject(value) {
  * // => ['0', '1']
  */
 var keys = !nativeKeys ? shimKeys : function(object) {
-  var Ctor = object == null ? undefined : object.constructor;
+  var Ctor = object == null ? null : object.constructor;
   if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
       (typeof object != 'function' && isArrayLike(object))) {
     return shimKeys(object);
@@ -7006,7 +7006,7 @@ module.exports = keys;
 
 },{"lodash._getnative":25,"lodash.isarguments":26,"lodash.isarray":27}],25:[function(require,module,exports){
 /**
- * lodash 3.9.1 (Custom Build) <https://lodash.com/>
+ * lodash 3.9.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -7017,8 +7017,31 @@ module.exports = keys;
 /** `Object#toString` result references. */
 var funcTag = '[object Function]';
 
+/**
+ * Used to match `RegExp` [special characters](http://www.regular-expressions.info/characters.html#special).
+ * In addition to special characters the forward slash is escaped to allow for
+ * easier `eval` use and `Function` compilation.
+ */
+var reRegExpChars = /[.*+?^${}()|[\]\/\\]/g,
+    reHasRegExpChars = RegExp(reRegExpChars.source);
+
 /** Used to detect host constructors (Safari > 5). */
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/**
+ * Converts `value` to a string if it's not one. An empty string is returned
+ * for `null` or `undefined` values.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ */
+function baseToString(value) {
+  if (typeof value == 'string') {
+    return value;
+  }
+  return value == null ? '' : (value + '');
+}
 
 /**
  * Checks if `value` is object-like.
@@ -7041,14 +7064,14 @@ var fnToString = Function.prototype.toString;
 var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
  * of values.
  */
 var objToString = objectProto.toString;
 
 /** Used to detect if a method is native. */
 var reIsNative = RegExp('^' +
-  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+  escapeRegExp(fnToString.call(hasOwnProperty))
   .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
 );
 
@@ -7063,56 +7086,6 @@ var reIsNative = RegExp('^' +
 function getNative(object, key) {
   var value = object == null ? undefined : object[key];
   return isNative(value) ? value : undefined;
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in older versions of Chrome and Safari which return 'function' for regexes
-  // and Safari 8 equivalents which return 'object' for typed array constructors.
-  return isObject(value) && objToString.call(value) == funcTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
 }
 
 /**
@@ -7135,23 +7108,47 @@ function isNative(value) {
   if (value == null) {
     return false;
   }
-  if (isFunction(value)) {
+  if (objToString.call(value) == funcTag) {
     return reIsNative.test(fnToString.call(value));
   }
   return isObjectLike(value) && reIsHostCtor.test(value);
+}
+
+/**
+ * Escapes the `RegExp` special characters "\", "/", "^", "$", ".", "|", "?",
+ * "*", "+", "(", ")", "[", "]", "{" and "}" in `string`.
+ *
+ * @static
+ * @memberOf _
+ * @category String
+ * @param {string} [string=''] The string to escape.
+ * @returns {string} Returns the escaped string.
+ * @example
+ *
+ * _.escapeRegExp('[lodash](https://lodash.com/)');
+ * // => '\[lodash\]\(https:\/\/lodash\.com\/\)'
+ */
+function escapeRegExp(string) {
+  string = baseToString(string);
+  return (string && reHasRegExpChars.test(string))
+    ? string.replace(reRegExpChars, '\\$&')
+    : string;
 }
 
 module.exports = getNative;
 
 },{}],26:[function(require,module,exports){
 /**
- * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * lodash 3.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]';
 
 /**
  * Checks if `value` is object-like.
@@ -7167,14 +7164,14 @@ function isObjectLike(value) {
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Native method references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+/**
+ * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
 
 /**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
  * of an array-like value.
  */
 var MAX_SAFE_INTEGER = 9007199254740991;
@@ -7218,7 +7215,7 @@ function isArrayLike(value) {
 /**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
  *
  * @private
  * @param {*} value The value to check.
@@ -7245,15 +7242,14 @@ function isLength(value) {
  * // => false
  */
 function isArguments(value) {
-  return isObjectLike(value) && isArrayLike(value) &&
-    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+  return isObjectLike(value) && isArrayLike(value) && objToString.call(value) == argsTag;
 }
 
 module.exports = isArguments;
 
 },{}],27:[function(require,module,exports){
 /**
- * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * lodash 3.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -7265,8 +7261,31 @@ module.exports = isArguments;
 var arrayTag = '[object Array]',
     funcTag = '[object Function]';
 
+/**
+ * Used to match `RegExp` [special characters](http://www.regular-expressions.info/characters.html#special).
+ * In addition to special characters the forward slash is escaped to allow for
+ * easier `eval` use and `Function` compilation.
+ */
+var reRegExpChars = /[.*+?^${}()|[\]\/\\]/g,
+    reHasRegExpChars = RegExp(reRegExpChars.source);
+
 /** Used to detect host constructors (Safari > 5). */
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/**
+ * Converts `value` to a string if it's not one. An empty string is returned
+ * for `null` or `undefined` values.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ */
+function baseToString(value) {
+  if (typeof value == 'string') {
+    return value;
+  }
+  return value == null ? '' : (value + '');
+}
 
 /**
  * Checks if `value` is object-like.
@@ -7289,14 +7308,14 @@ var fnToString = Function.prototype.toString;
 var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
  * of values.
  */
 var objToString = objectProto.toString;
 
 /** Used to detect if a method is native. */
 var reIsNative = RegExp('^' +
-  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+  escapeRegExp(fnToString.call(hasOwnProperty))
   .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
 );
 
@@ -7304,7 +7323,7 @@ var reIsNative = RegExp('^' +
 var nativeIsArray = getNative(Array, 'isArray');
 
 /**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
  * of an array-like value.
  */
 var MAX_SAFE_INTEGER = 9007199254740991;
@@ -7325,7 +7344,7 @@ function getNative(object, key) {
 /**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
  *
  * @private
  * @param {*} value The value to check.
@@ -7356,56 +7375,6 @@ var isArray = nativeIsArray || function(value) {
 };
 
 /**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in older versions of Chrome and Safari which return 'function' for regexes
-  // and Safari 8 equivalents which return 'object' for typed array constructors.
-  return isObject(value) && objToString.call(value) == funcTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
  * Checks if `value` is a native function.
  *
  * @static
@@ -7425,17 +7394,38 @@ function isNative(value) {
   if (value == null) {
     return false;
   }
-  if (isFunction(value)) {
+  if (objToString.call(value) == funcTag) {
     return reIsNative.test(fnToString.call(value));
   }
   return isObjectLike(value) && reIsHostCtor.test(value);
+}
+
+/**
+ * Escapes the `RegExp` special characters "\", "/", "^", "$", ".", "|", "?",
+ * "*", "+", "(", ")", "[", "]", "{" and "}" in `string`.
+ *
+ * @static
+ * @memberOf _
+ * @category String
+ * @param {string} [string=''] The string to escape.
+ * @returns {string} Returns the escaped string.
+ * @example
+ *
+ * _.escapeRegExp('[lodash](https://lodash.com/)');
+ * // => '\[lodash\]\(https:\/\/lodash\.com\/\)'
+ */
+function escapeRegExp(string) {
+  string = baseToString(string);
+  return (string && reHasRegExpChars.test(string))
+    ? string.replace(reRegExpChars, '\\$&')
+    : string;
 }
 
 module.exports = isArray;
 
 },{}],28:[function(require,module,exports){
 /**
- * lodash 3.1.1 (Custom Build) <https://lodash.com/>
+ * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -7483,7 +7473,7 @@ var baseAssign = require('lodash._baseassign'),
 function create(prototype, properties, guard) {
   var result = baseCreate(prototype);
   if (guard && isIterateeCall(prototype, properties, guard)) {
-    properties = undefined;
+    properties = null;
   }
   return properties ? baseAssign(result, properties) : result;
 }
@@ -7504,7 +7494,7 @@ arguments[4][26][0].apply(exports,arguments)
 arguments[4][27][0].apply(exports,arguments)
 },{"dup":27}],35:[function(require,module,exports){
 /**
- * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+ * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -7526,7 +7516,7 @@ var baseCreate = (function() {
     if (isObject(prototype)) {
       object.prototype = prototype;
       var result = new object;
-      object.prototype = undefined;
+      object.prototype = null;
     }
     return result || {};
   };
@@ -7565,7 +7555,7 @@ module.exports = baseCreate;
 arguments[4][22][0].apply(exports,arguments)
 },{"dup":22}],37:[function(require,module,exports){
 /**
- * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+ * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -7588,25 +7578,6 @@ function assignDefaults(objectValue, sourceValue) {
 }
 
 /**
- * Creates a `_.defaults` or `_.defaultsDeep` function.
- *
- * @private
- * @param {Function} assigner The function to assign values.
- * @param {Function} customizer The function to customize assigned values.
- * @returns {Function} Returns the new defaults function.
- */
-function createDefaults(assigner, customizer) {
-  return restParam(function(args) {
-    var object = args[0];
-    if (object == null) {
-      return object;
-    }
-    args.push(customizer);
-    return assigner.apply(undefined, args);
-  });
-}
-
-/**
  * Assigns own enumerable properties of source object(s) to the destination
  * object for all destination properties that resolve to `undefined`. Once a
  * property is set, additional values of the same property are ignored.
@@ -7624,16 +7595,43 @@ function createDefaults(assigner, customizer) {
  * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
  * // => { 'user': 'barney', 'age': 36 }
  */
-var defaults = createDefaults(assign, assignDefaults);
+var defaults = restParam(function(args) {
+  var object = args[0];
+  if (object == null) {
+    return object;
+  }
+  args.push(assignDefaults);
+  return assign.apply(undefined, args);
+});
 
 module.exports = defaults;
 
-},{"lodash.assign":17,"lodash.restparam":38}],38:[function(require,module,exports){
+},{"lodash.assign":38,"lodash.restparam":48}],38:[function(require,module,exports){
+arguments[4][17][0].apply(exports,arguments)
+},{"dup":17,"lodash._baseassign":39,"lodash._createassigner":41,"lodash.keys":44}],39:[function(require,module,exports){
+arguments[4][18][0].apply(exports,arguments)
+},{"dup":18,"lodash._basecopy":40,"lodash.keys":44}],40:[function(require,module,exports){
+arguments[4][19][0].apply(exports,arguments)
+},{"dup":19}],41:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20,"lodash._bindcallback":42,"lodash._isiterateecall":43,"lodash.restparam":48}],42:[function(require,module,exports){
+arguments[4][21][0].apply(exports,arguments)
+},{"dup":21}],43:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"dup":22}],44:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24,"lodash._getnative":45,"lodash.isarguments":46,"lodash.isarray":47}],45:[function(require,module,exports){
+arguments[4][25][0].apply(exports,arguments)
+},{"dup":25}],46:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"dup":26}],47:[function(require,module,exports){
+arguments[4][27][0].apply(exports,arguments)
+},{"dup":27}],48:[function(require,module,exports){
 arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],39:[function(require,module,exports){
+},{"dup":23}],49:[function(require,module,exports){
 module.exports = require( './lib/' );
 
-},{"./lib/":40}],40:[function(require,module,exports){
+},{"./lib/":50}],50:[function(require,module,exports){
 module.exports = function () {
 
     var now = require("performance-now");
@@ -7765,7 +7763,7 @@ module.exports = function () {
     };
 }();
 
-},{"performance-now":41}],41:[function(require,module,exports){
+},{"performance-now":51}],51:[function(require,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.7.1
 (function() {
@@ -7801,7 +7799,7 @@ module.exports = function () {
 }).call(this);
 
 }).call(this,require('_process'))
-},{"_process":14}],42:[function(require,module,exports){
+},{"_process":14}],52:[function(require,module,exports){
 var Set = require("../xflow/utils/utils.js").set;
 var DataNode = require("../xflow/interface/graph.js").DataNode;
 
@@ -8537,7 +8535,7 @@ module.exports = {
     AssetResult: AssetResult
 };
 
-},{"../xflow/interface/graph.js":179,"../xflow/utils/utils.js":228}],43:[function(require,module,exports){
+},{"../xflow/interface/graph.js":190,"../xflow/utils/utils.js":239}],53:[function(require,module,exports){
 var registerFactory = require("./resourcemanager.js").registerFactory;
 var Resource = require("./resourcemanager.js").Resource;
 var Events = require("../interface/notification.js");
@@ -8794,7 +8792,7 @@ AdapterFactory : AdapterFactory,
 NodeAdapterFactory : NodeAdapterFactory
 };
 
-},{"../interface/elements.js":69,"../interface/notification.js":71,"./resourcemanager.js":46}],44:[function(require,module,exports){
+},{"../interface/elements.js":79,"../interface/notification.js":81,"./resourcemanager.js":56}],54:[function(require,module,exports){
 var Events = require("../interface/notification.js");
 
 "use strict";
@@ -8879,7 +8877,7 @@ AdapterHandle.prototype.removeListener = function(listener) {
 };
 
 module.exports = AdapterHandle;
-},{"../interface/notification.js":71}],45:[function(require,module,exports){
+},{"../interface/notification.js":81}],55:[function(require,module,exports){
 var AdapterFactory = require("./adapter.js").AdapterFactory;
 var registerFormat = require("./resourcemanager.js").registerFormat;
 var config = require("../interface/elements.js").config;
@@ -9046,7 +9044,7 @@ module.exports = {
     xml3dFormatHandler: xml3dFormatHandler
 };
 
-},{"../interface/elements.js":69,"./adapter.js":43,"./resourcemanager.js":46}],46:[function(require,module,exports){
+},{"../interface/elements.js":79,"./adapter.js":53,"./resourcemanager.js":56}],56:[function(require,module,exports){
 "use strict";
 
 var AdapterHandle = require("./adapterhandle.js");
@@ -9844,7 +9842,7 @@ module.exports = {
     Resource: Resource
 };
 
-},{"../utils/options.js":173,"../utils/uri.js":174,"./adapterhandle.js":44}],47:[function(require,module,exports){
+},{"../utils/options.js":184,"../utils/uri.js":185,"./adapterhandle.js":54}],57:[function(require,module,exports){
 /*jslint white: false, onevar: false, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, sub: true, nomen: false */
 
 /**
@@ -10037,7 +10035,7 @@ GLU.invertMatrix = function(m, invOut) {
 };
 
 module.exports = GLU;
-},{}],48:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 // Domain Public by Eric Wendelin http://eriwen.com/ (2008)
 //                  Luke Smith http://lucassmith.name/ (2008)
 //                  Loic Dachary <loic@dachary.org> (2008)
@@ -10487,7 +10485,7 @@ printStackTrace.implementation.prototype = {
 };
 
 module.exports = printStackTrace;
-},{}],49:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 
 var StateMachine = {
 
@@ -10647,7 +10645,7 @@ window.StateMachine = StateMachine;
 module.exports = StateMachine;
 
 
-},{}],50:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var DOMTransformFetcher = require("../transform-fetcher.js");
 var DataAdapter = require("./data.js");
 var DataNode = require("../../xflow/interface/graph.js").DataNode;
@@ -10948,7 +10946,7 @@ module.exports = {
     AssetAdapter: AssetAdapter, AssetMeshAdapter: AssetMeshAdapter, AssetDataAdapter: AssetDataAdapter
 };
 
-},{"../../asset/asset.js":42,"../../base/adapter.js":43,"../../base/adapterhandle.js":44,"../../base/resourcemanager.js":46,"../../interface/notification.js":71,"../../utils/misc.js":172,"../../xflow/interface/graph.js":179,"../transform-fetcher.js":63,"./data.js":53}],51:[function(require,module,exports){
+},{"../../asset/asset.js":52,"../../base/adapter.js":53,"../../base/adapterhandle.js":54,"../../base/resourcemanager.js":56,"../../interface/notification.js":81,"../../utils/misc.js":183,"../../xflow/interface/graph.js":190,"../transform-fetcher.js":73,"./data.js":63}],61:[function(require,module,exports){
 var ComputeRequest = require("../../xflow/interface/request.js").ComputeRequest;
 var setShaderConstant = require("../../xflow/processing/vs-connect.js").setShaderConstant;
 var registerErrorCallback = require("../../xflow/base.js").registerErrorCallback;
@@ -11024,7 +11022,7 @@ registerErrorCallback(function(message, xflowNode){
 
 module.exports = BaseDataAdapter;
 
-},{"../../base/adapter.js":43,"../../utils/uri.js":174,"../../xflow/base.js":176,"../../xflow/interface/constants.js":177,"../../xflow/interface/request.js":180,"../../xflow/processing/vs-connect.js":227}],52:[function(require,module,exports){
+},{"../../base/adapter.js":53,"../../utils/uri.js":185,"../../xflow/base.js":187,"../../xflow/interface/constants.js":188,"../../xflow/interface/request.js":191,"../../xflow/processing/vs-connect.js":238}],62:[function(require,module,exports){
 var Events = require("../../interface/notification.js");
 var NodeAdapter = require("../../base/adapter.js").NodeAdapter;
 
@@ -11061,7 +11059,7 @@ ComputeDataAdapter.prototype.notifyChanged = function (evt) {
 
 module.exports = ComputeDataAdapter;
 
-},{"../../base/adapter.js":43,"../../interface/notification.js":71}],53:[function(require,module,exports){
+},{"../../base/adapter.js":53,"../../interface/notification.js":81}],63:[function(require,module,exports){
 var BaseDataAdapter = require("./base.js");
 var DataNode = require("../../xflow/interface/graph.js").DataNode;
 var XC = require("../../xflow/interface/constants.js");
@@ -11313,7 +11311,7 @@ module.exports = DataAdapter;
 
 
 
-},{"../../base/adapterhandle.js":44,"../../interface/notification.js":71,"../../utils/misc.js":172,"../../xflow/interface/constants.js":177,"../../xflow/interface/graph.js":179,"./base.js":51}],54:[function(require,module,exports){
+},{"../../base/adapterhandle.js":54,"../../interface/notification.js":81,"../../utils/misc.js":183,"../../xflow/interface/constants.js":188,"../../xflow/interface/graph.js":190,"./base.js":61}],64:[function(require,module,exports){
 var BaseDataAdapter = require("./base.js");
 var DataNode = require("../../xflow/interface/graph.js").DataNode;
 var XC = require("../../xflow/interface/constants.js");
@@ -11519,7 +11517,7 @@ function updateDataflowXflowNode(adapter, node) {
 
 module.exports = DataflowDataAdapter;
 
-},{"../../base/adapterhandle.js":44,"../../interface/notification.js":71,"../../xflow/interface/constants.js":177,"../../xflow/interface/graph.js":179,"./base.js":51}],55:[function(require,module,exports){
+},{"../../base/adapterhandle.js":54,"../../interface/notification.js":81,"../../xflow/interface/constants.js":188,"../../xflow/interface/graph.js":190,"./base.js":61}],65:[function(require,module,exports){
 var NodeAdapterFactory = require("../../base/adapter.js").NodeAdapterFactory;
 var Asset = require("./asset.js");
 var Misc = require("./misc.js");
@@ -11601,7 +11599,7 @@ XML3DDataAdapterFactory.prototype.createAdapter = function (node) {
 
 module.exports =  XML3DDataAdapterFactory;
 
-},{"../../base/adapter.js":43,"./asset.js":50,"./compute.js":52,"./data.js":53,"./dataflow.js":54,"./javascript/factory.js":56,"./json/factory.js":57,"./misc.js":58,"./script.js":59,"./texture.js":60,"./transform.js":61,"./values.js":62}],56:[function(require,module,exports){
+},{"../../base/adapter.js":53,"./asset.js":60,"./compute.js":62,"./data.js":63,"./dataflow.js":64,"./javascript/factory.js":66,"./json/factory.js":67,"./misc.js":68,"./script.js":69,"./texture.js":70,"./transform.js":71,"./values.js":72}],66:[function(require,module,exports){
 var registerFormat = require("../../../base/resourcemanager.js").registerFormat;
 var FormatHandler = require("../../../base/formathandler.js").FormatHandler;
 var AdapterFactory = require("../../../base/adapter.js").AdapterFactory;
@@ -11651,7 +11649,7 @@ ScriptFactory.prototype.createAdapter = function (xflowNode) {
 
 javaScriptFormatHandler.registerFactoryClass(ScriptFactory);
 
-},{"../../../base/adapter.js":43,"../../../base/formathandler.js":45,"../../../base/resourcemanager.js":46}],57:[function(require,module,exports){
+},{"../../../base/adapter.js":53,"../../../base/formathandler.js":55,"../../../base/resourcemanager.js":56}],67:[function(require,module,exports){
 var XC = require("../../../xflow/interface/constants.js");
 var InputNode = require("../../../xflow/interface/graph.js").InputNode;
 var DataNode = require("../../../xflow/interface/graph.js").DataNode;
@@ -11810,7 +11808,7 @@ JSONFactory.prototype.createAdapter = function(xflowNode) {
 
 xml3dJSonFormatHandler.registerFactoryClass(JSONFactory);
 
-},{"../../../base/adapter.js":43,"../../../base/formathandler.js":45,"../../../base/resourcemanager.js":46,"../../../xflow/interface/constants.js":177,"../../../xflow/interface/data.js":178,"../../../xflow/interface/graph.js":179}],58:[function(require,module,exports){
+},{"../../../base/adapter.js":53,"../../../base/formathandler.js":55,"../../../base/resourcemanager.js":56,"../../../xflow/interface/constants.js":188,"../../../xflow/interface/data.js":189,"../../../xflow/interface/graph.js":190}],68:[function(require,module,exports){
 var DataAdapter = require("./data.js");
 var Events = require("../../interface/notification.js");
 var URI = require("../../utils/uri.js").URI;
@@ -12018,7 +12016,7 @@ createClass(SinkDataAdapter, DataAdapter, {
     };
 
 
-},{"../../base/adapter.js":43,"../../base/resourcemanager.js":46,"../../interface/notification.js":71,"../../utils/misc.js":172,"../../utils/uri.js":174,"./data.js":53}],59:[function(require,module,exports){
+},{"../../base/adapter.js":53,"../../base/resourcemanager.js":56,"../../interface/notification.js":81,"../../utils/misc.js":183,"../../utils/uri.js":185,"./data.js":63}],69:[function(require,module,exports){
 var Events = require("../../interface/notification.js");
 var createClass = XML3D.createClass;
 var NodeAdapter = require("../../base/adapter.js").NodeAdapter;
@@ -12068,7 +12066,7 @@ createClass(ScriptDataAdapter, NodeAdapter, {
 
 module.exports = ScriptDataAdapter;
 
-},{"../../base/adapter.js":43,"../../interface/notification.js":71}],60:[function(require,module,exports){
+},{"../../base/adapter.js":53,"../../interface/notification.js":81}],70:[function(require,module,exports){
 var TextureEntry = require("../../xflow/interface/data.js").TextureEntry;
 var InputNode = require("../../xflow/interface/graph.js").InputNode;
 var XC = require("../../xflow/interface/constants.js");
@@ -12224,7 +12222,7 @@ function initTextureSamplingParameters(config, wrap, filter, samples) {
 // Export
 module.exports = TextureDataAdapter;
 
-},{"../../base/adapter.js":43,"../../interface/notification.js":71,"../../xflow/interface/constants.js":177,"../../xflow/interface/data.js":178,"../../xflow/interface/graph.js":179,"lodash.assign":17,"lodash.defaults":37}],61:[function(require,module,exports){
+},{"../../base/adapter.js":53,"../../interface/notification.js":81,"../../xflow/interface/constants.js":188,"../../xflow/interface/data.js":189,"../../xflow/interface/graph.js":190,"lodash.assign":17,"lodash.defaults":37}],71:[function(require,module,exports){
 var Events = require("../../interface/notification.js");
 var NodeAdapter = require("../../base/adapter.js").NodeAdapter;
 var mat4 = require("gl-matrix").mat4;
@@ -12325,7 +12323,7 @@ module.exports = TransformDataAdapter;
 
 
 
-},{"../../base/adapter.js":43,"../../interface/notification.js":71,"gl-matrix":1}],62:[function(require,module,exports){
+},{"../../base/adapter.js":53,"../../interface/notification.js":81,"gl-matrix":1}],72:[function(require,module,exports){
 var BufferEntry = require("../../xflow/interface/data.js").BufferEntry;
 var InputNode = require("../../xflow/interface/graph.js").InputNode;
 var XC = require("../../xflow/interface/constants.js");
@@ -12420,7 +12418,7 @@ ValueDataAdapter.prototype.checkForImproperNesting = function() {
 // Export
 module.exports = ValueDataAdapter;
 
-},{"../../base/adapter.js":43,"../../interface/notification.js":71,"../../xflow/interface/constants.js":177,"../../xflow/interface/data.js":178,"../../xflow/interface/graph.js":179}],63:[function(require,module,exports){
+},{"../../base/adapter.js":53,"../../interface/notification.js":81,"../../xflow/interface/constants.js":188,"../../xflow/interface/data.js":189,"../../xflow/interface/graph.js":190}],73:[function(require,module,exports){
 var ComputeRequest = require("../xflow/interface/request.js").ComputeRequest;
 var Events = require("../interface/notification.js");
 var CSS = require("../utils/css.js");
@@ -12495,7 +12493,7 @@ DOMTransformFetcher.prototype._onChange = function (evt) {
 
 module.exports = DOMTransformFetcher;
 
-},{"../interface/notification.js":71,"../utils/css.js":169,"../xflow/interface/request.js":180,"gl-matrix":1}],64:[function(require,module,exports){
+},{"../interface/notification.js":81,"../utils/css.js":180,"../xflow/interface/request.js":191,"gl-matrix":1}],74:[function(require,module,exports){
 var assign = require("lodash.assign");
 var create = require("lodash.create");
 
@@ -12508,7 +12506,7 @@ var Xflow = Xflow || {};
 window.XML3D = XML3D;
 window.Xflow = Xflow;
 
-XML3D.version = 'DEVELOPMENT SNAPSHOT (14.07.2015 14:55:33 GMT+0200)';
+XML3D.version = 'DEVELOPMENT SNAPSHOT (16.07.2015 13:46:48 GMT+0200)';
 /** @const */
 XML3D.xml3dNS = 'http://www.xml3d.org/2009/xml3d';
 /** @const */
@@ -12562,6 +12560,7 @@ XML3D.Mat4 = require("./types/mat4.js");
 XML3D.Vec2 = require("./types/vec2.js");
 XML3D.Vec3 = require("./types/vec3.js");
 XML3D.Vec4 = require("./types/vec4.js");
+XML3D.AxisAngle = require("./types/axisangle.js");
 XML3D.Quat = require("./types/quat.js");
 XML3D.Ray = require("./types/ray.js");
 XML3D.Box = require("./types/box.js");
@@ -12581,7 +12580,7 @@ module.exports = {
     Xflow : Xflow
 };
 
-},{"./base/resourcemanager.js":46,"./math/bbox.js":73,"./math/math.js":74,"./math/ray.js":75,"./renderer/webgl/materials/urn/registery.js":130,"./types/box.js":158,"./types/data-observer.js":159,"./types/mat2.js":160,"./types/mat3.js":161,"./types/mat4.js":162,"./types/quat.js":163,"./types/ray.js":164,"./types/vec2.js":165,"./types/vec3.js":166,"./types/vec4.js":167,"./utils/debug.js":171,"./utils/misc.js":172,"./utils/options.js":173,"./utils/webcl.js":175,"./xflow/interface/constants.js":177,"./xflow/interface/data.js":178,"./xflow/interface/graph.js":179,"./xflow/interface/request.js":180,"./xflow/operator/default":197,"./xflow/operator/operator.js":217,"gl-matrix":1,"lodash.assign":17,"lodash.create":28}],65:[function(require,module,exports){
+},{"./base/resourcemanager.js":56,"./math/bbox.js":83,"./math/math.js":84,"./math/ray.js":85,"./renderer/webgl/materials/urn/registery.js":140,"./types/axisangle.js":168,"./types/box.js":169,"./types/data-observer.js":170,"./types/mat2.js":171,"./types/mat3.js":172,"./types/mat4.js":173,"./types/quat.js":174,"./types/ray.js":175,"./types/vec2.js":176,"./types/vec3.js":177,"./types/vec4.js":178,"./utils/debug.js":182,"./utils/misc.js":183,"./utils/options.js":184,"./utils/webcl.js":186,"./xflow/interface/constants.js":188,"./xflow/interface/data.js":189,"./xflow/interface/graph.js":190,"./xflow/interface/request.js":191,"./xflow/operator/default":208,"./xflow/operator/operator.js":228,"gl-matrix":1,"lodash.assign":17,"lodash.create":28}],75:[function(require,module,exports){
 var XML3D = require("./global.js").XML3D;
 var Config = require("./interface/elements.js").config;
 var sendAdapterEvent = require("./utils/misc.js").sendAdapterEvent;
@@ -12855,7 +12854,7 @@ window.addEventListener('reload', onUnload, false);
 module.exports = XML3D;
 
 
-},{"./global.js":64,"./interface/dom.js":68,"./interface/elements.js":69,"./renderer/renderer/configure.js":89,"./renderer/webgl/base/utils.js":116,"./utils/css.js":169,"./utils/debug.js":171,"./utils/misc.js":172,"./utils/options.js":173}],66:[function(require,module,exports){
+},{"./global.js":74,"./interface/dom.js":78,"./interface/elements.js":79,"./renderer/renderer/configure.js":99,"./renderer/webgl/base/utils.js":126,"./utils/css.js":180,"./utils/debug.js":182,"./utils/misc.js":183,"./utils/options.js":184}],76:[function(require,module,exports){
 var Resource = require("../base/resourcemanager.js").Resource;
 
 var string2bool = function(string) {
@@ -13154,7 +13153,7 @@ handlers.Vec3AttributeHandler = function(id, defaultValue) {
 };
 
 // Note: All vec4 attributes are considered to be axis-angle, NOT quaternions!
-handlers.Vec4AttributeHandler = function(id, defaultValue) {
+handlers.AxisAngleAttributeHandler = function(id, defaultValue) {
     var that = this;
     id = id.toLowerCase();
 
@@ -13184,7 +13183,7 @@ handlers.Vec4AttributeHandler = function(id, defaultValue) {
             if (!storage[id]) {
                 that.setFromAttribute(this.getAttribute(id), null, this, storage, true);
             }
-            return new XML3D.Vec4(storage[id]);
+            return new XML3D.AxisAngle(storage[id]);
         },
         set : function(value) {
             var storage = getStorage(this);
@@ -13322,7 +13321,7 @@ handlers.CanvasClassHandler = function(id) {
 
 module.exports = handlers;
 
-},{"../base/resourcemanager.js":46}],67:[function(require,module,exports){
+},{"../base/resourcemanager.js":56}],77:[function(require,module,exports){
 var methods = require("./methods.js");
 var handlers = require("./attributes.js");
 var properties = require("./properties.js");
@@ -13587,9 +13586,9 @@ classInfo['transform'] = {
     className: {a: handlers.StringAttributeHandler, id: 'class'},
     translation: {a: handlers.Vec3AttributeHandler, params: [0, 0, 0]},
     scale: {a: handlers.Vec3AttributeHandler, params: [1, 1, 1]},
-    rotation: {a: handlers.Vec4AttributeHandler, params: [0, 0, 1, 0]},
+    rotation: {a: handlers.AxisAngleAttributeHandler, params: [0, 0, 1, 0]},
     center: {a: handlers.Vec3AttributeHandler, params: [0, 0, 0]},
-    scaleOrientation: {a: handlers.Vec4AttributeHandler, params: [0, 0, 1, 0]}
+    scaleOrientation: {a: handlers.AxisAngleAttributeHandler, params: [0, 0, 1, 0]}
     };
 /**
  * Properties and methods for <material>
@@ -13863,7 +13862,7 @@ classInfo['view'] = {
     onkeydown: {a: handlers.EventAttributeHandler},
     onkeyup: {a: handlers.EventAttributeHandler},
     position: {a: handlers.Vec3AttributeHandler, params: [0, 0, 0]},
-    orientation: {a: handlers.Vec4AttributeHandler, params: [0, 0, 1, 0]},
+    orientation: {a: handlers.AxisAngleAttributeHandler, params: [0, 0, 1, 0]},
     fieldOfView: {a: handlers.FloatAttributeHandler, params: 0.785398},
     getWorldMatrix: {m: methods.XML3DGraphTypeGetWorldMatrix},
     setDirection: {m: methods.viewSetDirection},
@@ -13884,7 +13883,7 @@ module.exports = {
     DataChannelOrigin : DataChannelOrigin
 };
 
-},{"./attributes.js":66,"./methods.js":70,"./properties.js":72}],68:[function(require,module,exports){
+},{"./attributes.js":76,"./methods.js":80,"./properties.js":82}],78:[function(require,module,exports){
 var config = require("./elements.js").config;
 var classInfo = require("./configuration.js").classInfo;
 
@@ -13924,7 +13923,7 @@ doc.createElement = function(name) {
 
 XML3D.extend(window.document, doc);
 
-},{"./configuration.js":67,"./elements.js":69}],69:[function(require,module,exports){
+},{"./configuration.js":77,"./elements.js":79}],79:[function(require,module,exports){
 var events = require("./notification.js");
 var ClassInfo = require("./configuration.js").classInfo;
 var Resource = require("../base/resourcemanager.js").Resource;
@@ -14339,13 +14338,17 @@ module.exports = {
     config : config
 };
 
-},{"../base/resourcemanager.js":46,"./configuration.js":67,"./notification.js":71}],70:[function(require,module,exports){
+},{"../base/resourcemanager.js":56,"./configuration.js":77,"./notification.js":81}],80:[function(require,module,exports){
 var Resource = require("../base/resourcemanager.js").Resource;
 var sendAdapterEvent = require("../utils/misc.js").sendAdapterEvent;
 var callAdapterFunc = require("../utils/misc.js").callAdapterFunc;
+var Vec3 = require("../types/vec3.js");
+var Quat = require("../types/quat.js");
+var Mat4 = require("../types/mat4.js");
+var AxisAngle = require("../types/axisangle.js");
+var vec3 = require("gl-matrix").vec3;
 
 var methods = {};
-var vec3 = XML3D.math.vec3;
 
 methods.xml3dGetElementByRay = function(ray, hitPoint, hitNormal) {
     XML3D.flushDOMChanges();
@@ -14360,8 +14363,8 @@ methods.xml3dGetElementByRay = function(ray, hitPoint, hitNormal) {
 };
 
 methods.viewGetDirection = function() {
-    var dir = XML3D.Vec3.fromValues(0,0,-1);
-    var orientation = XML3D.Quat.fromAxisAngle(this.orientation);
+    var dir = Vec3.fromValues(0,0,-1);
+    var orientation = Quat.fromAxisAngle(this.orientation);
     return dir.transformQuat(orientation);
 };
 
@@ -14371,37 +14374,37 @@ methods.viewSetPosition = function(pos) {
 
 methods.viewSetDirection = function(direction) {
     direction = direction.normalize();
-    var up = XML3D.Vec3.fromValues(0,1,0);
-    var orientation = XML3D.Quat.fromAxisAngle(this.orientation);
+    var up = Vec3.fromValues(0,1,0);
+    var orientation = Quat.fromAxisAngle(this.orientation);
     up = up.transformQuat(orientation).normalize();
 
-    var basisX = new XML3D.Vec3(direction).cross(up);
+    var basisX = new Vec3(direction).cross(up);
     if (!basisX.length()) {
-        basisX = XML3D.Vec3.fromValues(1,0,0).transformQuat(orientation);
+        basisX = Vec3.fromValues(1,0,0).transformQuat(orientation);
     }
     var basisY = basisX.clone().cross(direction);
-    var basisZ = new XML3D.Vec3(direction).negate();
+    var basisZ = new Vec3(direction).negate();
 
-    var q = XML3D.Quat.fromBasis(basisX, basisY, basisZ);
-    this.orientation = XML3D.Vec4.fromQuat(q);
+    var q = Quat.fromBasis(basisX, basisY, basisZ);
+    this.orientation = AxisAngle.fromQuat(q);
 };
 
 methods.viewSetUpVector = function(up) {
     up = up.normalize();
-    var orientation = XML3D.Quat.fromAxisAngle(this.orientation);
-    var r = XML3D.Quat.fromRotationTo([0,1,0], up);
+    var orientation = Quat.fromAxisAngle(this.orientation);
+    var r = Quat.fromRotationTo([0,1,0], up);
     orientation = orientation.mul(r).normalize();
-    this.orientation = XML3D.Vec4.fromQuat(orientation);
+    this.orientation = AxisAngle.fromQuat(orientation);
 };
 
 methods.viewGetUpVector = function() {
-    var up = XML3D.Vec3.fromValues(0, 1, 0);
-    var orientation = XML3D.Quat.fromAxisAngle(this.orientation);
+    var up = Vec3.fromValues(0, 1, 0);
+    var orientation = Quat.fromAxisAngle(this.orientation);
     return up.transformQuat(orientation);
 };
 
 methods.viewLookAt = function(point) {
-    var dir = new XML3D.Vec3();
+    var dir = new Vec3();
     vec3.sub(dir.data, point.data, this.position.data);
     this.setDirection(dir);
 };
@@ -14416,8 +14419,8 @@ methods.viewGetViewMatrix = function() {
     }
     // Fallback implementation
     var p = this.position;
-    var r = XML3D.Quat.fromAxisAngle(this.orientation);
-    return XML3D.Mat4.fromRotationTranslation(r,p).invert();
+    var r = Quat.fromAxisAngle(this.orientation);
+    return Mat4.fromRotationTranslation(r,p).invert();
 };
 
 methods.xml3dGetElementByPoint = function(x, y, hitPoint, hitNormal) {
@@ -14450,7 +14453,7 @@ methods.groupGetLocalMatrix = function() {
             return adapters[adapter].getLocalMatrix();
         }
     }
-    return new XML3D.Mat4();
+    return new Mat4();
 };
 
 /**
@@ -14505,7 +14508,7 @@ methods.XML3DGraphTypeGetWorldMatrix = function() {
             return adapters[adapter].getWorldMatrix();
         }
     }
-    return new XML3D.Mat4();
+    return new Mat4();
 };
 
 methods.videoPlay = function() {
@@ -14642,7 +14645,7 @@ methods.XML3DDataSourceTypeSetScriptValue = function(data){
 
 module.exports = methods;
 
-},{"../base/resourcemanager.js":46,"../utils/misc.js":172}],71:[function(require,module,exports){
+},{"../base/resourcemanager.js":56,"../types/axisangle.js":168,"../types/mat4.js":173,"../types/quat.js":174,"../types/vec3.js":177,"../utils/misc.js":183,"gl-matrix":1}],81:[function(require,module,exports){
 
 /**
  * Types of change events
@@ -14707,7 +14710,7 @@ events.ConnectedAdapterNotification.prototype.toString = function() {
 };
 
 module.exports = events;
-},{}],72:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var properties = {};
 
 properties.XML3DNestedDataContainerTypeComplete = {
@@ -14783,7 +14786,7 @@ properties.xml3dComplete = {
 
 module.exports = properties;
 
-},{}],73:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 (function (module) {
 
     /**
@@ -15003,7 +15006,7 @@ module.exports = properties;
 }(module));
 
 
-},{}],74:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 module.exports = function (math) {
 
 // Additional methods in glMatrix style
@@ -15291,7 +15294,7 @@ module.exports = function (math) {
 
 };
 
-},{}],75:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function (module) {
     /**
      * @class A ray in the style of glMatrix
@@ -15384,7 +15387,7 @@ module.exports = function (math) {
     module.exports = ray;
 
 })(module);
-},{}],76:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 var NodeAdapter = require("../../../base/adapter.js").NodeAdapter;
 
 var RenderAdapter = function (factory, node) {
@@ -15433,7 +15436,7 @@ XML3D.createClass(RenderAdapter, NodeAdapter, {
 
 module.exports = RenderAdapter;
 
-},{"../../../base/adapter.js":43}],77:[function(require,module,exports){
+},{"../../../base/adapter.js":53}],87:[function(require,module,exports){
 var RenderAdapter = require("./base.js");
 
 //Adapter for <defs>
@@ -15444,7 +15447,7 @@ XML3D.createClass(DefsRenderAdapter, RenderAdapter);
 
 module.exports = DefsRenderAdapter;
 
-},{"./base.js":76}],78:[function(require,module,exports){
+},{"./base.js":86}],88:[function(require,module,exports){
 var NodeAdapterFactory = require("../../../base/adapter.js").NodeAdapterFactory;
 var DataAdapterFactory = require("../../../data/adapter/factory.js");
 require("../../../base/formathandler.js").xml3dFormatHandler.registerFactoryClass(DataAdapterFactory);
@@ -15507,7 +15510,7 @@ RenderAdapterFactory.prototype.getRenderer = function () {
 // Export
 module.exports = RenderAdapterFactory;
 
-},{"../../../base/adapter.js":43,"../../../base/formathandler.js":45,"../../../data/adapter/factory.js":55,"./defs.js":77,"./group.js":79,"./light.js":80,"./lightshader.js":81,"./material.js":82,"./mesh.js":83,"./model.js":84,"./view.js":86,"./xml3d.js":87}],79:[function(require,module,exports){
+},{"../../../base/adapter.js":53,"../../../base/formathandler.js":55,"../../../data/adapter/factory.js":65,"./defs.js":87,"./group.js":89,"./light.js":90,"./lightshader.js":91,"./material.js":92,"./mesh.js":93,"./model.js":94,"./view.js":96,"./xml3d.js":97}],89:[function(require,module,exports){
 var TransformableAdapter = require("./transformable.js");
 var Events = require("../../../interface/notification.js");
 var mat4 = require("gl-matrix").mat4;
@@ -15621,7 +15624,7 @@ XML3D.createClass(GroupRenderAdapter, TransformableAdapter, {
 
 module.exports = GroupRenderAdapter;
 
-},{"../../../interface/notification.js":71,"./transformable.js":85,"gl-matrix":1}],80:[function(require,module,exports){
+},{"../../../interface/notification.js":81,"./transformable.js":95,"gl-matrix":1}],90:[function(require,module,exports){
 var TransformableAdapter = require("./transformable.js");
 var Events = require("../../../interface/notification.js");
 var Resource = require("../../../base/resourcemanager.js").Resource;
@@ -15716,7 +15719,7 @@ XML3D.createClass(LightRenderAdapter, TransformableAdapter, {
 module.exports = LightRenderAdapter;
 
 
-},{"../../../base/resourcemanager.js":46,"../../../interface/notification.js":71,"../scene/light-configuration.js":97,"./transformable.js":85}],81:[function(require,module,exports){
+},{"../../../base/resourcemanager.js":56,"../../../interface/notification.js":81,"../scene/light-configuration.js":107,"./transformable.js":95}],91:[function(require,module,exports){
 var RenderAdapter = require("./base.js");
 
 /**
@@ -15736,7 +15739,7 @@ var LightShaderRenderAdapter = function (factory, node) {
 module.exports = LightShaderRenderAdapter;
 
 
-},{"./base.js":76}],82:[function(require,module,exports){
+},{"./base.js":86}],92:[function(require,module,exports){
 var RenderAdapter = require("./base.js");
 var Events = require("../../../interface/notification.js");
 var URI = require("../../../utils/uri.js").URI;
@@ -15820,7 +15823,7 @@ XML3D.createClass(MaterialRenderAdapter, RenderAdapter,  {
 module.exports = MaterialRenderAdapter;
 
 
-},{"../../../base/adapterhandle.js":44,"../../../base/resourcemanager.js":46,"../../../interface/notification.js":71,"../../../utils/uri.js":174,"./base.js":76}],83:[function(require,module,exports){
+},{"../../../base/adapterhandle.js":54,"../../../base/resourcemanager.js":56,"../../../interface/notification.js":81,"../../../utils/uri.js":185,"./base.js":86}],93:[function(require,module,exports){
 var TransformableAdapter = require("./transformable.js");
 var Events = require("../../../interface/notification.js");
 var Resource = require("../../../base/resourcemanager.js").Resource;
@@ -15938,7 +15941,7 @@ XML3D.createClass(MeshRenderAdapter, TransformableAdapter, {
 module.exports = MeshRenderAdapter;
 
 
-},{"../../../base/resourcemanager.js":46,"../../../interface/notification.js":71,"./transformable.js":85}],84:[function(require,module,exports){
+},{"../../../base/resourcemanager.js":56,"../../../interface/notification.js":81,"./transformable.js":95}],94:[function(require,module,exports){
 var TransformableAdapter = require("./transformable.js");
 var ComputeRequest = require("../../../xflow/interface/request.js").ComputeRequest;
 var Events = require("../../../interface/notification.js");
@@ -16223,7 +16226,7 @@ XML3D.extend(ModelRenderAdapter.prototype, {
 module.exports = ModelRenderAdapter;
 
 
-},{"../../../base/adapterhandle.js":44,"../../../base/resourcemanager.js":46,"../../../interface/notification.js":71,"../../../xflow/interface/request.js":180,"./transformable.js":85,"gl-matrix":1}],85:[function(require,module,exports){
+},{"../../../base/adapterhandle.js":54,"../../../base/resourcemanager.js":56,"../../../interface/notification.js":81,"../../../xflow/interface/request.js":191,"./transformable.js":95,"gl-matrix":1}],95:[function(require,module,exports){
 var RenderAdapter = require("./base.js");
 var DOMTransformFetcher = require("../../../data/transform-fetcher.js");
 var Events = require("../../../interface/notification.js");
@@ -16339,7 +16342,7 @@ function getMaterialURI(node) {
 
 module.exports = TransformableAdapter;
 
-},{"../../../base/adapterhandle.js":44,"../../../data/transform-fetcher.js":63,"../../../interface/notification.js":71,"./base.js":76}],86:[function(require,module,exports){
+},{"../../../base/adapterhandle.js":54,"../../../data/transform-fetcher.js":73,"../../../interface/notification.js":81,"./base.js":86}],96:[function(require,module,exports){
 var TransformableAdapter = require("./transformable.js");
 var DOMTransformFetcher = require("../../../data/transform-fetcher.js");
 var Events = require("../../../interface/notification.js");
@@ -16433,7 +16436,7 @@ XML3D.createClass(ViewRenderAdapter, TransformableAdapter, {
 module.exports = ViewRenderAdapter;
 
 
-},{"../../../data/transform-fetcher.js":63,"../../../interface/notification.js":71,"./transformable.js":85,"gl-matrix":1}],87:[function(require,module,exports){
+},{"../../../data/transform-fetcher.js":73,"../../../interface/notification.js":81,"./transformable.js":95,"gl-matrix":1}],97:[function(require,module,exports){
 var RenderAdapter = require("./base.js");
 var Utils = require("../utils.js");
 var Events = require("../../../interface/notification.js");
@@ -16630,7 +16633,7 @@ module.exports = XML3DRenderAdapter;
 
 
 
-},{"../../../base/resourcemanager.js":46,"../../../interface/notification.js":71,"../../../utils/misc.js":172,"../utils.js":109,"./base.js":76}],88:[function(require,module,exports){
+},{"../../../base/resourcemanager.js":56,"../../../interface/notification.js":81,"../../../utils/misc.js":183,"../utils.js":119,"./base.js":86}],98:[function(require,module,exports){
 var MouseEvents = require("./events/mouse.js");
 var TouchEvents = require("./events/touch.js");
 
@@ -16721,7 +16724,7 @@ AbstractCanvasHandler.prototype.dispatchFrameDrawnEvent = function (start, end, 
 
 module.exports = AbstractCanvasHandler;
 
-},{"./events/mouse.js":90,"./events/touch.js":91}],89:[function(require,module,exports){
+},{"./events/mouse.js":100,"./events/touch.js":101}],99:[function(require,module,exports){
 var RenderAdapterFactory = require("./adapter/factory.js");
 var xml3dFormatHandler = require("../../base/formathandler.js").xml3dFormatHandler;
 
@@ -16741,7 +16744,7 @@ var configure = function(xml3ds) {
 };
 
 module.exports = configure;
-},{"../../base/formathandler.js":45,"./adapter/factory.js":78,"./renderer-factory.js":94}],90:[function(require,module,exports){
+},{"../../base/formathandler.js":55,"./adapter/factory.js":88,"./renderer-factory.js":104}],100:[function(require,module,exports){
 var Options = require("../../../utils/options.js");
 
 var OPTION_MOUSEMOVE_PICKING = "renderer-mousemove-picking";
@@ -17026,7 +17029,7 @@ module.exports = {
     EVENTS: EVENTS, MouseEventHandler: MouseEventHandler
 };
 
-},{"../../../utils/options.js":173}],91:[function(require,module,exports){
+},{"../../../utils/options.js":184}],101:[function(require,module,exports){
 /**
  *
  * @param {Element} defaultTarget
@@ -17133,7 +17136,7 @@ module.exports = {
     EVENTS: EVENTS, TouchEventHandler: TouchEventHandler
 };
 
-},{}],92:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 function LightManager() {
     this._lights = [];
     this._models = {};
@@ -17248,7 +17251,7 @@ LightManager.prototype = {
 
 module.exports = LightManager;
 
-},{}],93:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 var Frustum = require("../tools/frustum.js").Frustum;
 var XC = require("../../../xflow/interface/constants.js");
 var DataNode = require("../../../xflow/interface/graph.js").DataNode;
@@ -17645,7 +17648,7 @@ module.exports = {
 
 };
 
-},{"../../../xflow/interface/constants.js":177,"../../../xflow/interface/data.js":178,"../../../xflow/interface/graph.js":179,"../../../xflow/interface/request.js":180,"../tools/frustum.js":107,"gl-matrix":1}],94:[function(require,module,exports){
+},{"../../../xflow/interface/constants.js":188,"../../../xflow/interface/data.js":189,"../../../xflow/interface/graph.js":190,"../../../xflow/interface/request.js":191,"../tools/frustum.js":117,"gl-matrix":1}],104:[function(require,module,exports){
 var GLRenderer = require("../webgl/renderer.js");
 var GLCanvasHandler = require("../webgl/canvas-handler.js");
 
@@ -17668,7 +17671,7 @@ module.exports = new RendererFactory();
 
 
 
-},{"../webgl/canvas-handler.js":117,"../webgl/renderer.js":149}],95:[function(require,module,exports){
+},{"../webgl/canvas-handler.js":127,"../webgl/renderer.js":159}],105:[function(require,module,exports){
 module.exports = {
     NODE_TYPE: {
         GROUP: "group", OBJECT: "object", LIGHT: "light", VIEW: "view"
@@ -17685,13 +17688,16 @@ module.exports = {
     }
 };
 
-},{}],96:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 
 var DrawableClosure = function (context, type) {
+    EventEmitter.call(this);
     this.context = context;
     this._type = type;
     this._valid = false;
+    // Do not limit the number of listeners
+    this.setMaxListeners(0);
 };
 
 DrawableClosure.TYPES = {
@@ -17717,7 +17723,7 @@ XML3D.createClass(DrawableClosure, EventEmitter, {
 module.exports = DrawableClosure;
 
 
-},{"events":12}],97:[function(require,module,exports){
+},{"events":12}],107:[function(require,module,exports){
 var uniqueObjectId = require("../../webgl/base/utils.js").getUniqueCounter();
 /**
  * Connects a light model with a data node containing light paramters
@@ -17755,7 +17761,7 @@ var LightConfiguration = function(model, dataNode, opt) {
 
 module.exports = LightConfiguration;
 
-},{"../../webgl/base/utils.js":116}],98:[function(require,module,exports){
+},{"../../webgl/base/utils.js":126}],108:[function(require,module,exports){
 var uniqueObjectId = require("../../webgl/base/utils.js").getUniqueCounter();
 /**
  * Connects a material model with a set of default parameters defined by
@@ -17791,7 +17797,7 @@ var MaterialConfiguration = function(model, dataNode, opt) {
 
 module.exports = MaterialConfiguration;
 
-},{"../../webgl/base/utils.js":116}],99:[function(require,module,exports){
+},{"../../webgl/base/utils.js":126}],109:[function(require,module,exports){
 var DEFAULT_PAGE_SIZE = 1 << 12;
 
 /**
@@ -17869,7 +17875,7 @@ XML3D.extend(Pager.prototype, {
 module.exports = Pager;
 
 
-},{}],100:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 var RenderNode = require("./rendernode.js");
 var Constants = require("./constants.js");
 
@@ -17985,12 +17991,13 @@ XML3D.extend(RenderGroup.prototype, {
     setTransformDirty: function () {
         if (this.transformDirty) {
             //We can be sure all child nodes are already set to transformDirty from here
-            //return;
+            return;
         }
         this.transformDirty = true;
-        this.children.forEach(function (obj) {
-            obj.setTransformDirty();
-        });
+        var children = this.children;
+        for(var i = 0, l = children.length; i < l; i++) {
+            children[i].setTransformDirty();
+        }
     },
 
     /**
@@ -18022,6 +18029,18 @@ XML3D.extend(RenderGroup.prototype, {
         return this._material || this.parent.getMaterial();
     },
 
+    /**
+     * A group propagates its visibility
+     */
+    visibilityChanged: function () {
+        var children = this.children;
+        for (var i = 0, l = children.length; i < l; i++) {
+            children[i].evaluateVisibility();
+        }
+    },
+
+
+
     setBoundingBoxDirty: function () {
         this.boundingBoxDirty = true;
         if (this.parent) {
@@ -18048,7 +18067,7 @@ XML3D.extend(RenderGroup.prototype, {
 module.exports = RenderGroup;
 
 
-},{"./constants.js":95,"./rendernode.js":102}],101:[function(require,module,exports){
+},{"./constants.js":105,"./rendernode.js":112}],111:[function(require,module,exports){
 var RenderNode = require("./rendernode.js");
 var Constants = require("./constants.js");
 var LightModels = require("../lights/light-models.js");
@@ -18169,7 +18188,7 @@ module.exports = RenderLight;
 
 
 
-},{"../lights/light-models.js":93,"./constants.js":95,"./rendernode.js":102}],102:[function(require,module,exports){
+},{"../lights/light-models.js":103,"./constants.js":105,"./rendernode.js":112}],112:[function(require,module,exports){
 /** @const */
 var WORLD_MATRIX_OFFSET = 0;
 
@@ -18191,14 +18210,14 @@ var RenderNode = function (type, scene, pageEntry, opt) {
     this.entrySize = pageEntry.size;
     this.transformDirty = true;
     this.children = [];
-    this.localVisible = true;
     this.parent = null;
 
-    Object.defineProperties(this, {
-        visible: { get: function() { return this.parent ? (this.parent.visible && this.localVisible) : this.localVisible; } }
-    });
-
     this.setParent(opt.parent || scene.rootNode);
+
+    this.localVisible = true;
+    // The global visibility depends on visibility of parents
+    this.visible = true;
+    this.evaluateVisibility();
 };
 
 XML3D.extend(RenderNode.prototype, {
@@ -18207,16 +18226,28 @@ XML3D.extend(RenderNode.prototype, {
         return this.children;
     },
 
-    setLocalVisible: function(visible) {
-        if (visible == this.setLocalVisible) {
-            return;
+    evaluateVisibility: function() {
+        var oldVisible = this.visible;
+        if(this.parent && !this.parent.visible) {
+            this.visible = false;
+        } else {
+            this.visible = this.localVisible;
         }
-        this.localVisible = visible;
-        this.visibilityChanged();
-        this.scene.requestRedraw && this.scene.requestRedraw("Visibility changed.");
+        if(oldVisible !== this.visible) {
+            this.visibilityChanged();
+            this.scene.requestRedraw && this.scene.requestRedraw("Visibility changed.");
+        }
     },
 
-    // Overwrite if additional checks need to be made
+    setLocalVisible: function(newVisible) {
+        if (this.localVisible === newVisible) {
+            return;
+        }
+        this.localVisible = newVisible;
+        this.evaluateVisibility();
+    },
+
+    // Needs to be overwritten
     visibilityChanged: function() {},
 
     getParent: function () {
@@ -18228,6 +18259,9 @@ XML3D.extend(RenderNode.prototype, {
         if (parent && parent.addChild) {
             parent.addChild(this);
         }
+        // Reevaluate visibility, which might change due to
+        // invisibility of parent
+        this.evaluateVisibility();
     },
 
     traverse: function (callback) {
@@ -18292,7 +18326,7 @@ XML3D.extend(RenderNode.prototype, {
 
 module.exports = RenderNode;
 
-},{}],103:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 var SystemNotifier = require("../../webgl/system/system-notifier.js");
 var RenderNode = require("./rendernode.js");
 var DrawableClosure= require("./drawableclosure.js");
@@ -18627,7 +18661,7 @@ XML3D.createClass(RenderObject, RenderNode, {
         }
     })(),
 
-    visibilityChanged: function (newVal) {
+    visibilityChanged: function () {
         this.setBoundingBoxDirty();
     },
 
@@ -18717,7 +18751,7 @@ XML3D.createClass(RenderObject, RenderNode, {
 module.exports = RenderObject;
 
 
-},{"../../../xflow/interface/request.js":180,"../../webgl/system/system-notifier.js":155,"./constants.js":95,"./drawableclosure.js":96,"./rendernode.js":102,"./scene.js":105,"gl-matrix":1}],104:[function(require,module,exports){
+},{"../../../xflow/interface/request.js":191,"../../webgl/system/system-notifier.js":165,"./constants.js":105,"./drawableclosure.js":106,"./rendernode.js":112,"./scene.js":115,"gl-matrix":1}],114:[function(require,module,exports){
 var RenderNode = require("./rendernode.js");
 var Constants = require("./constants.js");
 var Frustum = require("../tools/frustum.js").Frustum;
@@ -18919,7 +18953,7 @@ var EVENT_TYPE = Constants.EVENT_TYPE;
     module.exports = RenderView;
 
 
-},{"../tools/frustum.js":107,"./constants.js":95,"./rendernode.js":102,"gl-matrix":1}],105:[function(require,module,exports){
+},{"../tools/frustum.js":117,"./constants.js":105,"./rendernode.js":112,"gl-matrix":1}],115:[function(require,module,exports){
 var Pager = require("./pager.js");
 var RenderObject = require("./renderobject.js");
 var RenderView = require("./renderview.js");
@@ -19071,7 +19105,7 @@ XML3D.createClass(Scene, EventEmitter, {
 
 module.exports = Scene;
 
-},{"../../../utils/uri.js":174,"../../../xflow/interface/constants.js":177,"../../../xflow/interface/data.js":178,"../../../xflow/interface/graph.js":179,"../lights/light-manager.js":92,"./constants.js":95,"./material-configuration.js":98,"./pager.js":99,"./rendergroup.js":100,"./renderlight.js":101,"./renderobject.js":103,"./renderview.js":104,"events":12,"gl-matrix":1}],106:[function(require,module,exports){
+},{"../../../utils/uri.js":185,"../../../xflow/interface/constants.js":188,"../../../xflow/interface/data.js":189,"../../../xflow/interface/graph.js":190,"../lights/light-manager.js":102,"./constants.js":105,"./material-configuration.js":108,"./pager.js":109,"./rendergroup.js":110,"./renderlight.js":111,"./renderobject.js":113,"./renderview.js":114,"events":12,"gl-matrix":1}],116:[function(require,module,exports){
 var DataChangeNotifier = require("../../../xflow/interface/data.js").DataChangeNotifier;
 
 /**
@@ -19098,7 +19132,7 @@ DataChangeListener.prototype.dataEntryChanged = function (entry, notification) {
 
 module.exports = DataChangeListener;
 
-},{"../../../xflow/interface/data.js":178}],107:[function(require,module,exports){
+},{"../../../xflow/interface/data.js":189}],117:[function(require,module,exports){
 var vec3 = require("gl-matrix").vec3;
 var tmp1 = vec3.create();
 var tmp2 = vec3.create();
@@ -19349,7 +19383,7 @@ module.exports = {
     FrustumTest: FrustumTest
 };
 
-},{"gl-matrix":1}],108:[function(require,module,exports){
+},{"gl-matrix":1}],118:[function(require,module,exports){
 var vec3 = require("gl-matrix").vec3;
 
 /**
@@ -19439,7 +19473,7 @@ module.exports = ObjectSorter;
 
 
 
-},{"gl-matrix":1}],109:[function(require,module,exports){
+},{"gl-matrix":1}],119:[function(require,module,exports){
 /** Calculate the offset of the given element and return it.
  *
  *  @param {Object} element
@@ -19491,7 +19525,7 @@ module.exports = {
     }
 };
 
-},{}],110:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 var TextureManager = require("texture-manager").SimpleTextureManager;
 var GLTexture = require("./texture.js").GLTexture;
 var GLCubeMap = require("./texture.js").GLCubeMap;
@@ -19604,7 +19638,7 @@ module.exports = GLContext;
 
 
 
-},{"../../../xflow/interface/constants.js":177,"./../shader/programfactory.js":153,"./rendertarget.js":114,"./texture.js":115,"texture-manager":39}],111:[function(require,module,exports){
+},{"../../../xflow/interface/constants.js":188,"./../shader/programfactory.js":163,"./rendertarget.js":124,"./texture.js":125,"texture-manager":49}],121:[function(require,module,exports){
 var FullscreenQuad = function (context) {
     this.gl = context.gl;
     this.createGLAssets();
@@ -19636,7 +19670,7 @@ XML3D.extend(FullscreenQuad.prototype, {
 module.exports = FullscreenQuad;
 
 
-},{}],112:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 
 
 /**
@@ -19844,7 +19878,7 @@ var getGLTypeFromString = function (typeName) {
 
 module.exports = GLMesh;
 
-},{}],113:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 
 var utils = require("./utils.js");
 var SystemNotifier = require("../system/system-notifier.js");
@@ -20137,7 +20171,7 @@ XML3D.extend(ProgramObject.prototype, {
 module.exports = ProgramObject;
 
 
-},{"../system/system-notifier.js":155,"./utils.js":116}],114:[function(require,module,exports){
+},{"../system/system-notifier.js":165,"./utils.js":126}],124:[function(require,module,exports){
 /**
  * @interface
  */
@@ -20610,7 +20644,7 @@ module.exports = {
 
 
 
-},{}],115:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 var utils = require("./utils.js");
 var StateMachine = require("../../../contrib/state-machine.js");
 var SamplerConfig = require("../../../xflow/interface/data.js").SamplerConfig;
@@ -20994,7 +21028,7 @@ module.exports = {
 
 
 
-},{"../../../contrib/state-machine.js":49,"../../../xflow/interface/constants.js":177,"../../../xflow/interface/data.js":178,"./utils.js":116}],116:[function(require,module,exports){
+},{"../../../contrib/state-machine.js":59,"../../../xflow/interface/constants.js":188,"../../../xflow/interface/data.js":189,"./utils.js":126}],126:[function(require,module,exports){
 module.exports = {
     /**
      * Set uniforms for active program
@@ -21121,7 +21155,7 @@ module.exports = {
 };
 
 
-},{}],117:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 var AbstractCanvasHandler = require("../renderer/canvas-handler.js");
 var Options = require("../../utils/options.js");
 var xml3dFormatHandler = require("../../base/formathandler.js").xml3dFormatHandler;
@@ -21304,7 +21338,7 @@ GLCanvasHandler.prototype.getMousePosition = function (evt) {
 module.exports =  GLCanvasHandler;
 
 
-},{"../../base/formathandler.js":45,"../../utils/options.js":173,"../renderer/canvas-handler.js":88}],118:[function(require,module,exports){
+},{"../../base/formathandler.js":55,"../../utils/options.js":184,"../renderer/canvas-handler.js":98}],128:[function(require,module,exports){
 var GLProgramObject = require("../base/program.js");
 var XflowUtils= require("../xflow/utils.js");
 
@@ -21434,7 +21468,7 @@ XML3D.createClass(AbstractShaderClosure, null, {
 module.exports = AbstractShaderClosure;
 
 
-},{"../base/program.js":113,"../xflow/utils.js":156}],119:[function(require,module,exports){
+},{"../base/program.js":123,"../xflow/utils.js":166}],129:[function(require,module,exports){
 var GLScene = require("../scene/glscene.js");
 var GLLights = require("../scene/gllights.js");
 var MaterialEvents = require("../materials/events.js");
@@ -21490,6 +21524,7 @@ IShaderComposer.prototype.getShaderAttributes = function () {
 
 /**
  * @constructor
+ * @extends EventEmitter
  */
 var AbstractShaderComposer = function (context, shaderInfo) {
     EventEmitter.call(this);
@@ -21498,6 +21533,7 @@ var AbstractShaderComposer = function (context, shaderInfo) {
     this.dataChanged = false;
     this.updateLightValues = false;
     this.request = null;
+    this.setMaxListeners(0);
 };
 
 XML3D.createClass(AbstractShaderComposer, EventEmitter, {
@@ -21692,13 +21728,13 @@ module.exports = {
 }
 
 
-},{"../../../xflow/interface/constants.js":177,"../../../xflow/interface/request.js":180,"../materials/events.js":120,"../scene/gllights.js":151,"../scene/glscene.js":152,"events":12}],120:[function(require,module,exports){
+},{"../../../xflow/interface/constants.js":188,"../../../xflow/interface/request.js":191,"../materials/events.js":130,"../scene/gllights.js":161,"../scene/glscene.js":162,"events":12}],130:[function(require,module,exports){
 module.exports = {
     MATERIAL_STRUCTURE_CHANGED: "material_structure_changed",
     MATERIAL_INITIALIZED: "material_initialized"
 };
 
-},{}],121:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 var AbstractShaderClosure = require("./../abstractshaderclosure.js");
 var JSShaderComposer = require("./jsshadercomposer.js");
 var SystemNotifier = require("../../system/system-notifier.js");
@@ -21706,18 +21742,6 @@ var getJSSystemConfiguration = require("./jssystemconfiguration.js");
 var XC = require("../../../../xflow/interface/constants.js");
 var Options = require("../../../../utils/options.js");
 
-var c_SystemUpdate = {
-    "pointLightOn": {
-        staticValue: "MAX_POINTLIGHTS",
-        staticSize: ["pointLightOn", "pointLightAttenuation", "pointLightIntensity", "pointLightPosition", "pointLightCastShadow", "pointLightShadowBias", "pointLightShadowMap", "pointLightMatrix", "pointLightNearFar"]
-    }, "directionalLightOn": {
-        staticValue: "MAX_DIRECTIONALLIGHTS",
-        staticSize: ["directionalLightOn", "directionalLightIntensity", "directionalLightDirection", "directionalLightCastShadow", "directionalLightShadowBias", "directionalLightShadowMap", "directionalLightMatrix"]
-    }, "spotLightOn": {
-        staticValue: "MAX_SPOTLIGHTS",
-        staticSize: ["spotLightOn", "spotLightAttenuation", "spotLightIntensity", "spotLightPosition", "spotLightDirection", "spotLightCosFalloffAngle", "spotLightCosSoftFalloffAngle", "spotLightCastShadow", "spotLightShadowBias", "spotLightShadowMap", "spotLightMatrix"]
-    }
-};
 
 var c_jsShaderCache = {};
 
@@ -21842,32 +21866,27 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
 
         var vsDataResult = vsRequest.getResult();
 
-        var contextData = {
-            "this": getJSSystemConfiguration(this.context),
-            "global.shade": [{"extra": {"type": "object", "kind": "any", "global": true, "info": {}}}]
-        };
+        var systemParameters = getSystemParameters(this.context, scene.systemUniforms);
+        var environmentParameters = {};
 
-        var systemUniforms = scene.systemUniforms, systemInfo = contextData["this"].info;
-        for (var systemSource in c_SystemUpdate) {
-            var entry = c_SystemUpdate[systemSource];
-            var length = systemUniforms[systemSource] && systemUniforms[systemSource].length;
-            systemInfo[entry.staticValue].staticValue = length;
-            for (var i = 0; i < entry.staticSize.length; ++i)
-                systemInfo[entry.staticSize[i]].staticSize = length;
-        }
 
-        var contextInfo = contextData["global.shade"][0].extra.info;
 
         var shaderEntries = shaderResult && shaderResult.getOutputMap(), vsShaderOutput = vsDataResult && vsDataResult.outputNames;
 
         for (var i = 0; i < this.extractedParams.length; ++i) {
             var paramName = this.extractedParams[i];
             if (vsShaderOutput && vsShaderOutput.indexOf(paramName) != -1) {
-                contextInfo[paramName] = convertXflow2ShadeType(vsDataResult.getOutputType(paramName), vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
+                environmentParameters[paramName] = convertXflow2ShadeType(vsDataResult.getOutputType(paramName), vsDataResult.isOutputUniform(paramName) ? Shade.SOURCES.UNIFORM : Shade.SOURCES.VERTEX);
             } else if (shaderEntries && shaderEntries[paramName]) {
-                contextInfo[paramName] = convertXflow2ShadeType(shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
+                environmentParameters[paramName] = convertXflow2ShadeType(shaderEntries[paramName].type, Shade.SOURCES.UNIFORM);
             }
         }
+
+        var contextData = {
+            "this": { "type": "object", "kind": "any", "info": systemParameters },
+            "global.shade": [{"extra": {"type": "object", "kind": "any", "global": true, "info": environmentParameters }}]
+        };
+
         XML3D.debug.logDebug("CONTEXT:", contextData);
 
         var options = {
@@ -21882,7 +21901,7 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
         };
         var implementation = scene.deferred ? "xml3d-glsl-deferred" : "xml3d-glsl-forward";
 
-        var jsShaderKey = implementation + ";" + JSON.stringify(options) + ";" + JSON.stringify(contextInfo) + ";" + this.sourceTemplate;
+        var jsShaderKey = implementation + ";" + JSON.stringify(options) + ";" + JSON.stringify(environmentParameters) + ";" + this.sourceTemplate;
 
         var cacheEntry;
         if (!(cacheEntry = c_jsShaderCache[jsShaderKey])) {
@@ -21895,12 +21914,14 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
 
                 cacheEntry = {
                     source: glslShader.source, uniformSetter: glslShader.uniformSetter, spaceInfo: spaceInfo
-                }
+                };
+                cacheEntry.hasTransparentShaderClosure = workSet.getProcessingData("isTransparent");
 
                 this.uniformSetter = glslShader.uniformSetter;
                 this.source = {
                     fragment: glslShader.source, vertex: this.createVertexShader(vsRequest, vsDataResult, spaceInfo)
                 }
+
                 if (scene.deferred) {
                     cacheEntry.signatures = workSet.getProcessingData("colorClosureSignatures");
                 }
@@ -21917,7 +21938,9 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
         }
         this.source = {
             fragment: cacheEntry.source, vertex: this.createVertexShader(vsRequest, vsDataResult, cacheEntry.spaceInfo)
-        }
+        };
+        this.hasTransparentShaderClosure = cacheEntry.hasTransparentShaderClosure;
+
         this.uniformSetter = cacheEntry.uniformSetter;
         if (scene.deferred) {
             scene.colorClosureSignatures.push.apply(scene.colorClosureSignatures, cacheEntry.signatures);
@@ -21951,7 +21974,7 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
 
     getTransparencyFromInputData: function (dataMap) {
         // TODO: Compute Transparency
-        return false;
+        return this.hasTransparentShaderClosure;
     },
 
     /* Default values are compiled into shade.js */
@@ -21959,10 +21982,65 @@ XML3D.createClass(JSShaderClosure, AbstractShaderClosure, {
     }
 
 });
+
+/**
+ * @param {GLContext} context
+ * @param {{}} globals
+ * @returns {{}}
+ */
+function getSystemParameters(context, globals) {
+    var result = getJSSystemConfiguration(context);
+
+    // Update light parameters which vary in their size depending on number of lights defined
+    ["point", "directional", "spot"].forEach(function(model) {
+        var on = model + "LightOn";
+        result["MAX_" + model.toUpperCase() + "LIGHTS"].staticValue = globals[on] && globals[on].length;
+    });
+
+    for (var global in globals) {
+        var entry = result[global];
+        if(entry && entry.staticSize) {
+            var aLength = globals[global].length;
+            if (aLength) {
+                var tupleSize = getTupleSize(entry);
+                entry.staticSize = aLength / tupleSize;
+            } else {
+                // Do not allow a array of size 0, remove entry instead
+                // TODO(ksons): Remove once we can check array size in shade.js
+                delete result[global];
+            }
+        }
+
+    }
+    return result;
+}
+
+/**
+ * @param {{}} desc Object type descriptor
+ * @returns {number}
+ */
+function getTupleSize(desc) {
+    if(desc.type == "array") {
+        var elements = desc.elements;
+        if (elements.type == "object") {
+            switch(elements.kind) {
+                case "texture":
+                case "float": return 1;
+                case "float2": return 2;
+                case "float3": return 3;
+                case "float4": return 4;
+                case "matrix4": return 16;
+                default: throw ("Unknown array element kind:" + elements.kind);
+            }
+        }
+    }
+    return 1;
+}
+
 module.exports = JSShaderClosure;
 
 
-},{"../../../../utils/options.js":173,"../../../../xflow/interface/constants.js":177,"../../system/system-notifier.js":155,"./../abstractshaderclosure.js":118,"./jsshadercomposer.js":122,"./jssystemconfiguration.js":123}],122:[function(require,module,exports){
+},{"../../../../utils/options.js":184,"../../../../xflow/interface/constants.js":188,"../../system/system-notifier.js":165,"./../abstractshaderclosure.js":128,"./jsshadercomposer.js":132,"./jssystemconfiguration.js":133}],132:[function(require,module,exports){
 var AbstractShaderComposer = require("./../abstractshadercomposer.js").AbstractShaderComposer;
 var JSShaderClosure = require("./jsshaderclosure.js");
 var VSConfig = require("../../../../xflow/processing/vs-connect.js").VSConfig;
@@ -22009,7 +22087,8 @@ JSShaderComposer.convertSysName = function (name) {
 XML3D.createClass(JSShaderComposer, AbstractShaderComposer, {
     setShaderInfo: function (config) {
         try {
-            this.extractedParams = Shade.extractParameters(this.sourceTemplate, {implementation: "xml3d-glsl-forward"}).shaderParameters;
+            var ast = Shade.parse(this.sourceTemplate, {loc: true});
+            this.extractedParams = Shade.extractParameters(ast, {implementation: "xml3d-glsl-forward"}).shaderParameters;
             // FIXME: Shader.js should always request position (in case
         } catch (e) {
             // We ignore errors here. They will reoccur when updating connected mesh closures
@@ -22081,12 +22160,11 @@ module.exports = JSShaderComposer;
 
 
 
-},{"../../../../xflow/interface/constants.js":177,"../../../../xflow/interface/request.js":180,"../../../../xflow/processing/vs-connect.js":227,"./../abstractshadercomposer.js":119,"./jsshaderclosure.js":121}],123:[function(require,module,exports){
+},{"../../../../xflow/interface/constants.js":188,"../../../../xflow/interface/request.js":191,"../../../../xflow/processing/vs-connect.js":238,"./../abstractshadercomposer.js":129,"./jsshaderclosure.js":131}],133:[function(require,module,exports){
 var GLContext = require("../../base/context.js");
 var singleton = null;
 
-var SYSTEM_CONTEXT_TEMPLATE = {
-    "type": "object", "kind": "any", "info": {
+var SYSTEM_CONTEXT_TEMPLATE =  {
         "coords": {"type": "object", "kind": "float3", "source": "uniform"},
         "cameraPosition": {"type": "object", "kind": "float3", "source": "uniform"},
         "viewMatrix": {"type": "object", "kind": "matrix4", "source": "uniform"},
@@ -22197,16 +22275,15 @@ var SYSTEM_CONTEXT_TEMPLATE = {
         },
         "ssaoMap": {"type": "object", "kind": "texture", "source": "uniform"},
         "environment": {"type": "object", "kind": "texture", "source": "uniform"}
-    }
 };
 
 function createSystemConfiguration(context) {
     var result = SYSTEM_CONTEXT_TEMPLATE;
     var ext = context.getExtensionByName(GLContext.EXTENSIONS.STANDARD_DERIVATES);
     if (ext) {
-        result.info.fwidth = {type: Shade.TYPES.FUNCTION};
-        result.info.dx = {type: Shade.TYPES.FUNCTION};
-        result.info.dy = {type: Shade.TYPES.FUNCTION};
+        result.fwidth = {type: Shade.TYPES.FUNCTION};
+        result.dx = {type: Shade.TYPES.FUNCTION};
+        result.dy = {type: Shade.TYPES.FUNCTION};
     }
     return result;
 }
@@ -22222,7 +22299,7 @@ module.exports = function (context) {
 
 
 
-},{"../../base/context.js":110}],124:[function(require,module,exports){
+},{"../../base/context.js":120}],134:[function(require,module,exports){
 var JSShaderComposer = require("./js/jsshadercomposer.js");
 var URNShaderComposer = require("./urn/urnshadercomposer.js");
 var DefaultComposer = require("./abstractshadercomposer.js").DefaultComposer;
@@ -22319,7 +22396,7 @@ module.exports = ShaderComposerFactory;
 
 
 
-},{"./abstractshadercomposer.js":119,"./js/jsshadercomposer.js":122,"./urn/urnshadercomposer.js":133}],125:[function(require,module,exports){
+},{"./abstractshadercomposer.js":129,"./js/jsshadercomposer.js":132,"./urn/urnshadercomposer.js":143}],135:[function(require,module,exports){
 var EVENT_TYPE = require("../../renderer/scene/constants.js").EVENT_TYPE;
 var Targets = require("../base/rendertarget");
 
@@ -22456,7 +22533,7 @@ function mergeShadowParameters(shadowMapInfos) {
 
 module.exports = ShadowMapService;
 
-},{"../../renderer/scene/constants.js":95,"../base/rendertarget":114,"../render-passes/light-pass":139,"../render-passes/pointlight-pass":143}],126:[function(require,module,exports){
+},{"../../renderer/scene/constants.js":105,"../base/rendertarget":124,"../render-passes/light-pass":149,"../render-passes/pointlight-pass":153}],136:[function(require,module,exports){
 XML3D.materials.register("diffuse", {
 
     vertex : [
@@ -22634,7 +22711,7 @@ XML3D.materials.register("diffuse", {
     }
 });
 
-},{}],127:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 XML3D.materials.register("matte", {
 
     vertex: [
@@ -22677,7 +22754,7 @@ XML3D.materials.register("matte", {
 
 XML3D.materials.register("flat", XML3D.materials.getScript("matte"));
 
-},{}],128:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 XML3D.materials.register("phong", {
 
     vertex : [
@@ -23013,7 +23090,7 @@ XML3D.materials.register("phong", {
     }
 });
 
-},{}],129:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 XML3D.materials.register("point", {
 
     vertex : [
@@ -23105,7 +23182,7 @@ XML3D.materials.register("point", {
     }
 });
 
-},{}],130:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 var c_globalScripts = {};
 
 module.exports = {
@@ -23120,7 +23197,7 @@ module.exports = {
     }
 };
 
-},{}],131:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 var ShaderDescriptor = function () {
     this.uniforms = {};
     this.samplers = {};
@@ -23137,7 +23214,7 @@ ShaderDescriptor.prototype.hasTransparency = function () {
 
 module.exports = ShaderDescriptor;
 
-},{}],132:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 var AbstractShaderClosure = require("./../abstractshaderclosure.js");
 var SystemNotifier = require("../../system/system-notifier.js");
 
@@ -23206,7 +23283,7 @@ XML3D.extend(ShaderClosure.prototype, {
 module.exports = ShaderClosure;
 
 
-},{"../../system/system-notifier.js":155,"./../abstractshaderclosure.js":118}],133:[function(require,module,exports){
+},{"../../system/system-notifier.js":165,"./../abstractshaderclosure.js":128}],143:[function(require,module,exports){
 var AbstractShaderComposer = require("../abstractshadercomposer.js").AbstractShaderComposer;
 var URNShaderClosure= require("./urnshaderclosure.js");
 var ShaderDescriptor = require("./shader-descriptor.js");
@@ -23317,7 +23394,7 @@ module.exports = URNShaderComposer;
 
 
 
-},{"../../../../xflow/interface/request.js":180,"../../shader/shader-utils.js":154,"../abstractshadercomposer.js":119,"./diffuse.js":126,"./matte.js":127,"./phong.js":128,"./point.js":129,"./shader-descriptor.js":131,"./urnshaderclosure.js":132,"./utility.js":134}],134:[function(require,module,exports){
+},{"../../../../xflow/interface/request.js":191,"../../shader/shader-utils.js":164,"../abstractshadercomposer.js":129,"./diffuse.js":136,"./matte.js":137,"./phong.js":138,"./point.js":139,"./shader-descriptor.js":141,"./urnshaderclosure.js":142,"./utility.js":144}],144:[function(require,module,exports){
 XML3D.materials.register("pickobjectid", {
     vertex : [
         "attribute vec3 position;",
@@ -23610,7 +23687,7 @@ XML3D.materials.register("ssao", {
     }
 });
 
-},{}],135:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 // Note: This context should only be used to access GL constants
 var GL = window.WebGLRenderingContext;
 var ForwardRenderTree = require("./render-trees/forward.js");
@@ -23651,7 +23728,7 @@ XML3D.extend(GLRenderInterface.prototype, {
 module.exports = GLRenderInterface;
 
 
-},{"./render-trees/forward.js":148}],136:[function(require,module,exports){
+},{"./render-trees/forward.js":158}],146:[function(require,module,exports){
 /**
  * @constructor
  */
@@ -23741,7 +23818,7 @@ XML3D.extend(BaseRenderPass.prototype, {
 module.exports = BaseRenderPass;
 
 
-},{}],137:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 var BaseRenderPass = require("./base.js");
 var FullscreenQuad = require("../base/fullscreenquad.js");
 
@@ -23798,7 +23875,7 @@ XML3D.extend(BoxBlurPass.prototype, {
 module.exports = BoxBlurPass;
 
 
-},{"../base/fullscreenquad.js":111,"./base.js":136}],138:[function(require,module,exports){
+},{"../base/fullscreenquad.js":121,"./base.js":146}],148:[function(require,module,exports){
 var SceneRenderPass = require("./scene-pass.js");
 var ObjectSorter = require("../../renderer/tools/objectsorter.js");
 var mat4 = require("gl-matrix").mat4;
@@ -23880,7 +23957,7 @@ XML3D.extend(ForwardRenderPass.prototype, {
 module.exports = ForwardRenderPass;
 
 
-},{"../../renderer/tools/objectsorter.js":108,"./scene-pass.js":144,"gl-matrix":1}],139:[function(require,module,exports){
+},{"../../renderer/tools/objectsorter.js":118,"./scene-pass.js":154,"gl-matrix":1}],149:[function(require,module,exports){
 var SceneRenderPass = require("./scene-pass.js");
 var ObjectSorter = require("../../renderer/tools/objectsorter.js");
 var mat4 = require("gl-matrix").mat4;
@@ -23951,7 +24028,7 @@ XML3D.createClass(LightPass, SceneRenderPass, {
 module.exports = LightPass;
 
 
-},{"../../renderer/tools/objectsorter.js":108,"./scene-pass.js":144,"gl-matrix":1}],140:[function(require,module,exports){
+},{"../../renderer/tools/objectsorter.js":118,"./scene-pass.js":154,"gl-matrix":1}],150:[function(require,module,exports){
 var BaseRenderPass = require("./base.js");
 var vec3 = require("gl-matrix").vec3;
 var mat4 = require("gl-matrix").mat4;
@@ -24034,7 +24111,7 @@ XML3D.createClass(PickNormalRenderPass, BaseRenderPass, {
 module.exports = PickNormalRenderPass;
 
 
-},{"./base.js":136,"gl-matrix":1}],141:[function(require,module,exports){
+},{"./base.js":146,"gl-matrix":1}],151:[function(require,module,exports){
 var BaseRenderPass = require("./base.js");
 var mat4 = require("gl-matrix").mat4;
 
@@ -24122,7 +24199,7 @@ XML3D.extend(PickObjectRenderPass.prototype, {
 module.exports = PickObjectRenderPass;
 
 
-},{"./base.js":136,"gl-matrix":1}],142:[function(require,module,exports){
+},{"./base.js":146,"gl-matrix":1}],152:[function(require,module,exports){
 var BaseRenderPass = require("./base.js");
 var mat4 = require("gl-matrix").mat4;
 var vec3 = require("gl-matrix").vec3;
@@ -24200,7 +24277,7 @@ XML3D.createClass(PickPositionRenderPass, BaseRenderPass, {
 module.exports = PickPositionRenderPass;
 
 
-},{"./base.js":136,"gl-matrix":1}],143:[function(require,module,exports){
+},{"./base.js":146,"gl-matrix":1}],153:[function(require,module,exports){
 var SceneRenderPass = require("./scene-pass.js");
 var ObjectSorter = require("../../renderer/tools/objectsorter.js");
 var mat4 = require("gl-matrix").mat4;
@@ -24350,7 +24427,7 @@ XML3D.createClass(PointLightPass, SceneRenderPass, {
 module.exports = PointLightPass;
 
 
-},{"../../renderer/tools/objectsorter.js":108,"./scene-pass.js":144,"gl-matrix":1}],144:[function(require,module,exports){
+},{"../../renderer/tools/objectsorter.js":118,"./scene-pass.js":154,"gl-matrix":1}],154:[function(require,module,exports){
 var BaseRenderPass = require("./base.js");
 var Options = require("../../../utils/options.js");
 var mat4 = require("gl-matrix").mat4;
@@ -24518,7 +24595,7 @@ function getGlobalFaceCullingSetter(mode) {
 
 module.exports = SceneRenderPass;
 
-},{"../../../utils/options.js":173,"./base.js":136,"gl-matrix":1}],145:[function(require,module,exports){
+},{"../../../utils/options.js":184,"./base.js":146,"gl-matrix":1}],155:[function(require,module,exports){
 var BaseRenderPass = require("./base.js");
 var VertexAttributePass = require("./vertexattribute-pass.js");
 var GLRenderTarget = require("../base/rendertarget.js").GLRenderTarget;
@@ -24657,7 +24734,7 @@ XML3D.extend(SSAOPass.prototype, {
 module.exports = SSAOPass;
 
 
-},{"../../../utils/options.js":173,"../base/fullscreenquad.js":111,"../base/rendertarget.js":114,"./base.js":136,"./vertexattribute-pass.js":146}],146:[function(require,module,exports){
+},{"../../../utils/options.js":184,"../base/fullscreenquad.js":121,"../base/rendertarget.js":124,"./base.js":146,"./vertexattribute-pass.js":156}],156:[function(require,module,exports){
 var SceneRenderPass = require("./scene-pass.js");
 
 var VertexAttributePass = function (renderInterface, output, opt) {
@@ -24693,7 +24770,7 @@ XML3D.extend(VertexAttributePass.prototype, {
 module.exports = VertexAttributePass;
 
 
-},{"./scene-pass.js":144}],147:[function(require,module,exports){
+},{"./scene-pass.js":154}],157:[function(require,module,exports){
 var BaseRenderTree = function (renderInterface) {
     this.mainRenderPass = null;
     this.renderInterface = renderInterface;
@@ -24708,7 +24785,7 @@ XML3D.extend(BaseRenderTree.prototype, {
 module.exports = BaseRenderTree;
 
 
-},{}],148:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 var BaseRenderTree = require("./base.js");
 var GLRenderTarget = require("../base/rendertarget.js").GLRenderTarget;
 var GLCubeMapRenderTarget = require("../base/rendertarget.js").GLCubeMapRenderTarget;
@@ -24835,7 +24912,7 @@ XML3D.extend(ForwardRenderTree.prototype, {
 module.exports = ForwardRenderTree;
 
 
-},{"../../renderer/scene/constants.js":95,"../base/rendertarget.js":114,"../materials/events.js":120,"../render-passes/boxblur.js":137,"../render-passes/forward.js":138,"../render-passes/light-pass.js":139,"../render-passes/pointlight-pass.js":143,"../render-passes/ssao-pass.js":145,"../render-passes/vertexattribute-pass.js":146,"./base.js":147}],149:[function(require,module,exports){
+},{"../../renderer/scene/constants.js":105,"../base/rendertarget.js":124,"../materials/events.js":130,"../render-passes/boxblur.js":147,"../render-passes/forward.js":148,"../render-passes/light-pass.js":149,"../render-passes/pointlight-pass.js":153,"../render-passes/ssao-pass.js":155,"../render-passes/vertexattribute-pass.js":156,"./base.js":157}],159:[function(require,module,exports){
 var GLContext = require("./base/context.js");
 var GLScene = require("./scene/glscene.js");
 var GLScaledRenderTarget = require("./base/rendertarget.js").GLScaledRenderTarget;
@@ -25187,7 +25264,7 @@ XML3D.extend(GLRenderer.prototype, {
 
 module.exports = GLRenderer;
 
-},{"../../base/formathandler.js":45,"../../contrib/glu.js":47,"../../utils/options.js":173,"../renderer/tools/datachangelistener.js":106,"./base/context.js":110,"./base/rendertarget.js":114,"./render-interface.js":135,"./render-passes/pick-normal.js":140,"./render-passes/pick-object.js":141,"./render-passes/pick-position.js":142,"./render-trees/forward.js":148,"./scene/glscene.js":152,"gl-matrix":1}],150:[function(require,module,exports){
+},{"../../base/formathandler.js":55,"../../contrib/glu.js":57,"../../utils/options.js":184,"../renderer/tools/datachangelistener.js":116,"./base/context.js":120,"./base/rendertarget.js":124,"./render-interface.js":145,"./render-passes/pick-normal.js":150,"./render-passes/pick-object.js":151,"./render-passes/pick-position.js":152,"./render-trees/forward.js":158,"./scene/glscene.js":162,"gl-matrix":1}],160:[function(require,module,exports){
 var XflowMesh = require("../xflow/xflow-mesh.js");
 
 /**
@@ -25213,7 +25290,7 @@ module.exports = DrawableFactory;
 
 
 
-},{"../xflow/xflow-mesh.js":157}],151:[function(require,module,exports){
+},{"../xflow/xflow-mesh.js":167}],161:[function(require,module,exports){
 var lightModels = {
     point: {
         parameters: [ "pointLightPosition", "pointLightAttenuation", "pointLightIntensity", "pointLightOn", "pointLightCastShadow", "pointLightMatrix", "pointLightShadowBias", "pointLightNearFar", "pointLightShadowMap"]
@@ -25232,7 +25309,7 @@ module.exports = {
     ALL_PARAMETERS: ALL_PARAMETERS
 };
 
-},{}],152:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 var Scene = require("./../../renderer/scene/scene.js");
 var DrawableFactory = require("./drawable-factory.js");
 var C = require("./../../renderer/scene/constants.js");
@@ -25386,16 +25463,17 @@ XML3D.extend(GLScene.prototype, {
         var c_frustumTest = new FrustumTest();
 
         return function (aspectRatio) {
-            var activeView = this.getActiveView(), readyObjects = this.ready;
+            var activeView = this.getActiveView(), readyObjects = this.ready, i, l, obj;
 
             // Update all MV matrices
             activeView.getWorldToViewMatrix(c_worldToViewMatrix);
-            readyObjects.forEach(function (obj) {
+
+            for (i = 0, l = readyObjects.length; i < l; i++) {
+                obj = readyObjects[i];
                 obj.updateModelViewMatrix(c_worldToViewMatrix);
                 obj.updateModelMatrixN();
                 obj.updateModelViewMatrixN();
-            });
-
+            }
             this.updateBoundingBox();
 
             activeView.getProjectionMatrix(c_projMat_tmp, aspectRatio);
@@ -25404,8 +25482,8 @@ XML3D.extend(GLScene.prototype, {
             var frustum = activeView.getFrustum();
             c_frustumTest.set(frustum, c_viewToWorldMatrix);
 
-            for (var i = 0, l = readyObjects.length; i < l; i++) {
-                var obj = readyObjects[i];
+            for (i = 0, l = readyObjects.length; i < l; i++) {
+                obj = readyObjects[i];
                 obj.updateModelViewProjectionMatrix(c_projMat_tmp);
                 obj.getWorldSpaceBoundingBox(c_bbox);
                 obj.inFrustum = this.doFrustumCulling ? c_frustumTest.isBoxVisible(c_bbox) : true;
@@ -25445,6 +25523,7 @@ XML3D.extend(GLScene.prototype, {
         });
          this.on(C.EVENT_TYPE.SCENE_SHAPE_CHANGED, function (/* event */) {
             // Need to update light frustum. Defer this until the next render phase
+            // TODO(ksons) Only light frustum and shadow maps need update, not the whole scene
              this.lightsNeedUpdate = true;
         });
 
@@ -25489,7 +25568,7 @@ XML3D.extend(GLScene.prototype, {
 module.exports = GLScene;
 
 
-},{"../../../utils/options.js":173,"../materials/shadercomposerfactory.js":124,"../materials/shadowmap-service":125,"./../../renderer/scene/constants.js":95,"./../../renderer/scene/scene.js":105,"./../../renderer/tools/frustum.js":107,"./drawable-factory.js":150,"gl-matrix":1}],153:[function(require,module,exports){
+},{"../../../utils/options.js":184,"../materials/shadercomposerfactory.js":134,"../materials/shadowmap-service":135,"./../../renderer/scene/constants.js":105,"./../../renderer/scene/scene.js":115,"./../../renderer/tools/frustum.js":117,"./drawable-factory.js":160,"gl-matrix":1}],163:[function(require,module,exports){
 var ShaderUtils = require("./shader-utils.js");
 var ShaderDescriptor = require("../materials/urn/shader-descriptor.js");
 var URNShaderClosure = require("../materials/urn/urnshaderclosure.js");
@@ -25568,7 +25647,7 @@ XML3D.extend(ProgramFactory.prototype, {
 module.exports = ProgramFactory;
 
 
-},{"../materials/urn/shader-descriptor.js":131,"../materials/urn/urnshaderclosure.js":132,"./shader-utils.js":154}],154:[function(require,module,exports){
+},{"../materials/urn/shader-descriptor.js":141,"../materials/urn/urnshaderclosure.js":142,"./shader-utils.js":164}],164:[function(require,module,exports){
 var FRAGMENT_HEADER = ["#ifdef GL_FRAGMENT_PRECISION_HIGH", "precision highp float;", "#else", "precision mediump float;", "#endif // GL_FRAGMENT_PRECISION_HIGH", "\n"].join("\n");
 
 module.exports = {
@@ -25577,7 +25656,7 @@ module.exports = {
     }
 };
 
-},{}],155:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 var SystemNotifier = {
     node: null,
 
@@ -25597,7 +25676,7 @@ var SystemNotifier = {
 
 module.exports = SystemNotifier;
 
-},{}],156:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 var XC = require("../../../xflow/interface/constants.js");
 
 function convertToJSArray(value) {
@@ -25830,7 +25909,7 @@ module.exports = {
     }
 };
 
-},{"../../../xflow/interface/constants.js":177}],157:[function(require,module,exports){
+},{"../../../xflow/interface/constants.js":188}],167:[function(require,module,exports){
 var DrawableClosure = require("../../renderer/scene/drawableclosure.js");
 var GLMesh = require("../base/mesh.js");
 var XflowUtils = require("./utils.js");
@@ -26234,7 +26313,74 @@ XML3D.createClass(XflowMesh, DrawableClosure, {
 module.exports = XflowMesh;
 
 
-},{"../../../xflow/interface/constants.js":177,"../../../xflow/interface/request.js":180,"../../renderer/scene/constants.js":95,"../../renderer/scene/drawableclosure.js":96,"../base/mesh.js":112,"../materials/events.js":120,"./utils.js":156}],158:[function(require,module,exports){
+},{"../../../xflow/interface/constants.js":188,"../../../xflow/interface/request.js":191,"../../renderer/scene/constants.js":105,"../../renderer/scene/drawableclosure.js":106,"../base/mesh.js":122,"../materials/events.js":130,"./utils.js":166}],168:[function(require,module,exports){
+var vec4 = require("gl-matrix").vec4;
+var Vec3 = require("./vec3.js");
+
+var AxisAngle = function(vec) {
+    if (this instanceof AxisAngle) {
+        this.data = vec4.create();
+        if (vec) {
+            this.data.set(vec.data ? vec.data : vec);
+        }
+    } else return new AxisAngle(vec);
+};
+
+
+Object.defineProperty(AxisAngle.prototype, "axis", {
+    set: function(vec){
+        this.data[0] = vec.data ? vec.data[0] : vec[0];
+        this.data[1] = vec.data ? vec.data[1] : vec[1];
+        this.data[2] = vec.data ? vec.data[2] : vec[2];
+    },
+    get: function(){ return Vec3.wrap(this.data) }
+});
+Object.defineProperty(AxisAngle.prototype, "angle", {
+    set: function(a){
+        this.data[3] = a;
+    },
+    get: function(){ return this.data[3]; }
+});
+
+AxisAngle.prototype.clone = function() {
+   return new AxisAngle(this);
+};
+
+AxisAngle.fromValues = function(x, y, z, angle) {
+    return new AxisAngle(vec4.fromValues(x,y,z,angle));
+};
+
+AxisAngle.fromQuat = function(q) {
+    var out = new AxisAngle();
+    out.data.set(XML3D.math.vec4.fromQuat(q.data ? q.data : q));
+    return out;
+};
+
+AxisAngle.prototype.toDOMString = function() {
+    return vec4.toDOMString(this.data);
+};
+
+AxisAngle.fromDOMString = function(str) {
+    var out = new AxisAngle();
+    out.data.set( vec4.fromDOMString(str) );
+    return out;
+};
+
+AxisAngle.prototype.toQuat = function() {
+    var out = new Quat();
+    quat.setAxisAngle(out.data, this.data, this.data[3]);
+    return out;
+};
+
+AxisAngle.wrap = function(vec) {
+    var v = AxisAngle();
+    v.data = vec.data ? vec.data : vec;
+    return v;
+};
+
+module.exports = AxisAngle;
+
+},{"./vec3.js":177,"gl-matrix":1}],169:[function(require,module,exports){
 var Vec3 = require("./vec3.js");
 var vec3 = require("gl-matrix").vec3;
 
@@ -26433,7 +26579,7 @@ Box.EMPTY_BOX = new Box();
 
 module.exports = Box;
 
-},{"./vec3.js":166,"gl-matrix":1}],159:[function(require,module,exports){
+},{"./vec3.js":177,"gl-matrix":1}],170:[function(require,module,exports){
 var XC = require("../xflow/interface/constants.js");
 var Resource = require("../base/resourcemanager.js").Resource;
 
@@ -26607,7 +26753,7 @@ module.exports = {
     XML3DDataObserver: XML3DDataObserver
 };
 
-},{"../base/resourcemanager.js":46,"../xflow/interface/constants.js":177}],160:[function(require,module,exports){
+},{"../base/resourcemanager.js":56,"../xflow/interface/constants.js":188}],171:[function(require,module,exports){
 var mat2 = require("gl-matrix").mat2;
 
 var Mat2 = function(mat) {
@@ -26680,16 +26826,6 @@ Mat2.prototype.transpose = function() {
     return out;
 };
 
-Mat2.prototype.toDOMString = function() {
-    return mat2.toDOMString(this.data);
-};
-
-Mat2.fromDOMString = function(str) {
-    var out = new Mat2();
-    out.data.set( mat2.fromDOMString(str) );
-    return out;
-};
-
 Mat2.wrap = function(mat) {
     var m = Mat2();
     m.data = mat.data ? mat.data : mat;
@@ -26698,7 +26834,7 @@ Mat2.wrap = function(mat) {
 
 module.exports = Mat2;
 
-},{"gl-matrix":1}],161:[function(require,module,exports){
+},{"gl-matrix":1}],172:[function(require,module,exports){
 var mat3 = require("gl-matrix").mat3;
 
 var Mat3 = function(mat) {
@@ -26816,16 +26952,6 @@ Mat3.prototype.translate = function(vec) {
     return out;
 };
 
-Mat3.prototype.toDOMString = function() {
-    return mat3.toDOMString(this.data);
-};
-
-Mat3.fromDOMString = function(str) {
-    var out = new Mat3();
-    out.data.set( mat3.fromDOMString(str) );
-    return out;
-};
-
 Mat3.wrap = function(mat) {
     var m = Mat3();
     m.data = mat.data ? mat.data : mat;
@@ -26834,7 +26960,7 @@ Mat3.wrap = function(mat) {
 
 module.exports = Mat3;
 
-},{"gl-matrix":1}],162:[function(require,module,exports){
+},{"gl-matrix":1}],173:[function(require,module,exports){
 var mat4 = require("gl-matrix").mat4;
 
 var Mat4 = function(mat) {
@@ -27015,16 +27141,6 @@ Mat4.prototype.translate = function(vec) {
     return out;
 };
 
-Mat4.prototype.toDOMString = function() {
-    return mat4.toDOMString(this.data);
-};
-
-Mat4.fromDOMString = function(str) {
-    var out = new Mat4();
-    out.data.set( mat4.fromDOMString(str) );
-    return out;
-};
-
 Mat4.wrap = function(mat) {
     var m = Mat4();
     m.data = mat.data ? mat.data : mat;
@@ -27034,7 +27150,7 @@ Mat4.wrap = function(mat) {
 
 module.exports = Mat4;
 
-},{"gl-matrix":1}],163:[function(require,module,exports){
+},{"gl-matrix":1}],174:[function(require,module,exports){
 var quat = require("gl-matrix").quat;
 
 var Quat = function(vec) {
@@ -27119,12 +27235,6 @@ Quat.prototype.mul = Quat.prototype.multiply = function(b) {
     return out;
 };
 
-Quat.prototype.negate = function() {
-    var out = new Quat();
-    quat.negate(out.data, this.data);
-    return out;
-};
-
 Quat.prototype.normalize = function() {
     var out = new Quat();
     quat.normalize(out.data, this.data);
@@ -27189,10 +27299,6 @@ Quat.prototype.slerp = function(b, t) {
     return out;
 };
 
-Quat.prototype.sqrLen = Quat.prototype.squaredLength = function() {
-    return quat.sqrLen(this.data);
-};
-
 Quat.prototype.toDOMString = function() {
     return quat.toDOMString(this.data);
 };
@@ -27211,7 +27317,7 @@ Quat.wrap = function(vec) {
 
 module.exports = Quat;
 
-},{"gl-matrix":1}],164:[function(require,module,exports){
+},{"gl-matrix":1}],175:[function(require,module,exports){
 var Vec3 = require("./vec3.js");
 var vec3 = require("gl-matrix").vec3;
 
@@ -27289,7 +27395,7 @@ Ray.prototype.toString = function() {
 
 module.exports = Ray;
 
-},{"./vec3.js":166,"gl-matrix":1}],165:[function(require,module,exports){
+},{"./vec3.js":177,"gl-matrix":1}],176:[function(require,module,exports){
 var vec2 = require("gl-matrix").vec2;
 
 var Vec2 = function(vec) {
@@ -27383,7 +27489,7 @@ Vec2.prototype.normalize = function() {
     return out;
 };
 
-Vec2.prototype.random = function(scale) {
+Vec2.random = function(scale) {
     var m = new Vec2();
     vec2.random(m.data, scale);
     return m;
@@ -27393,20 +27499,6 @@ Vec2.prototype.scale = function(s) {
     var out = new Vec2();
     vec2.scale(out.data, this.data, s);
     return out;
-};
-
-Vec2.prototype.scaleAndAdd = function(b, scale) {
-    var out = new Vec2();
-    vec2.scaleAndAdd(out.data, this.data, b.data ? b.data : b, scale);
-    return out;
-};
-
-Vec2.prototype.sqrDist = Vec2.prototype.squaredDistance = function(b) {
-    return vec2.sqrDist(this.data, b.data ? b.data : b);
-};
-
-Vec2.prototype.sqrLen = Vec2.prototype.squaredLength = function() {
-    return vec2.sqrLen(this.data);
 };
 
 Vec2.prototype.sub = Vec2.prototype.subtract = function(b) {
@@ -27433,12 +27525,6 @@ Vec2.prototype.transformMat4 = function(m) {
     return out;
 };
 
-Vec2.prototype.transformQuat = function(q) {
-    var out = new Vec2();
-    vec2.transformQuat(out.data, this.data, q.data ? q.data : q);
-    return out;
-};
-
 Vec2.prototype.toDOMString = function() {
     return vec2.toDOMString(this.data);
 };
@@ -27457,7 +27543,7 @@ Vec2.wrap = function(vec) {
 
 module.exports = Vec2;
 
-},{"gl-matrix":1}],166:[function(require,module,exports){
+},{"gl-matrix":1}],177:[function(require,module,exports){
 var vec3 = require("gl-matrix").vec3;
 
 var Vec3 = function(vec) {
@@ -27570,7 +27656,7 @@ Vec3.prototype.random = function(scale) {
 
 Vec3.prototype.reciprocal = function() {
     var out = new Vec3();
-    XML3D.math.reciprocal(out.data, this.data);
+    XML3D.math.vec3.reciprocal(out.data, this.data);
     return out;
 };
 
@@ -27580,23 +27666,15 @@ Vec3.prototype.scale = function(s) {
     return out;
 };
 
-Vec3.prototype.scaleAndAdd = function(b, scale) {
-    var out = new Vec3();
-    vec3.scaleAndAdd(out.data, this.data, b.data ? b.data : b, scale);
-    return out;
-};
-
-Vec3.prototype.sqrDist = Vec3.prototype.squaredDistance = function(b) {
-    return vec3.sqrDist(this.data, b.data ? b.data : b);
-};
-
-Vec3.prototype.sqrLen = Vec3.prototype.squaredLength = function() {
-    return vec3.sqrLen(this.data);
-};
-
 Vec3.prototype.sub = Vec3.prototype.subtract = function(b) {
     var out = new Vec3();
     vec3.sub(out.data, this.data, b.data ? b.data : b);
+    return out;
+};
+
+Vec3.prototype.transformDirection = function(m) {
+    var out = new Vec3();
+    XML3D.math.vec3.transformDirection(out.data, this.data, m.data ? m.data : m);
     return out;
 };
 
@@ -27636,7 +27714,7 @@ Vec3.wrap = function(vec) {
 
 module.exports = Vec3;
 
-},{"gl-matrix":1}],167:[function(require,module,exports){
+},{"gl-matrix":1}],178:[function(require,module,exports){
 var vec4 = require("gl-matrix").vec4;
 var Vec3 = require("./vec3.js");
 
@@ -27673,22 +27751,7 @@ Object.defineProperty(Vec4.prototype, "w", {
     },
     get: function(){ return this.data[3]; }
 });
-/*
-Object.defineProperty(Vec4.prototype, "axis", {
-    set: function(vec){
-        this.data[0] = vec.data ? vec.data[0] : vec[0];
-        this.data[1] = vec.data ? vec.data[1] : vec[1];
-        this.data[2] = vec.data ? vec.data[2] : vec[2];
-    },
-    get: function(){ return new Vec3(this.data) }
-});
-Object.defineProperty(Vec4.prototype, "angle", {
-    set: function(a){
-        this.data[3] = a;
-    },
-    get: function(){ return this.data[3]; }
-});
-*/
+
 Vec4.prototype.add = function(b) {
     var out = new Vec4();
     vec4.add(out.data, this.data, b.data ? b.data : b);
@@ -27769,26 +27832,6 @@ Vec4.prototype.scale = function(s) {
     return out;
 };
 
-Vec4.prototype.scaleAndAdd = function(b, scale) {
-    var out = new Vec4();
-    vec4.scaleAndAdd(out.data, this.data, b.data ? b.data : b, scale);
-    return out;
-};
-
-Vec4.fromQuat = function(q) {
-    var out = new Vec4();
-    out.data.set(XML3D.math.vec4.fromQuat(q.data ? q.data : q));
-    return out;
-};
-
-Vec4.prototype.sqrDist = Vec4.prototype.squaredDistance = function(b) {
-    return vec4.sqrDist(this.data, b.data ? b.data : b);
-};
-
-Vec4.prototype.sqrLen = Vec4.prototype.squaredLength = function() {
-    return vec4.sqrLen(this.data);
-};
-
 Vec4.prototype.sub = Vec4.prototype.subtract = function(b) {
     var out = new Vec4();
     vec4.sub(out.data, this.data, b.data ? b.data : b);
@@ -27825,7 +27868,7 @@ Vec4.wrap = function(vec) {
 
 module.exports = Vec4;
 
-},{"./vec3.js":166,"gl-matrix":1}],168:[function(require,module,exports){
+},{"./vec3.js":177,"gl-matrix":1}],179:[function(require,module,exports){
 // Add convienent array methods if non-existant
 if (!Array.forEach) {
     Array.forEach = function(array, fun, thisp) {
@@ -27890,7 +27933,7 @@ if (!Array.isArray) {
     };
 }
 
-},{}],169:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 var CSSMatrix = require("./cssMatrix.js");
 
 var css = {};
@@ -27987,7 +28030,7 @@ css.convertCssToMat4 = function (cssMatrix, m) {
 module.exports = css;
 
 
-},{"./cssMatrix.js":170}],170:[function(require,module,exports){
+},{"./cssMatrix.js":181}],181:[function(require,module,exports){
 
 /**
  *  class FirminCSSMatrix
@@ -28814,7 +28857,7 @@ FirminCSSMatrix.prototype.toString = function() {
 module.exports = FirminCSSMatrix;
 
 
-},{}],171:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 var printStackTrace = require("../contrib/stacktrace-0.4.js");
 var Options = require("./options.js");
 var assert = require("assert");
@@ -28932,7 +28975,7 @@ var assert = require("assert");
 
 }(module));
 
-},{"../contrib/stacktrace-0.4.js":48,"./options.js":173,"assert":11}],172:[function(require,module,exports){
+},{"../contrib/stacktrace-0.4.js":58,"./options.js":184,"assert":11}],183:[function(require,module,exports){
 // utils/misc.js
 
 (function(exports) {
@@ -29104,7 +29147,7 @@ var assert = require("assert");
 
 }(module.exports));
 
-},{}],173:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 (function (ns) {
 
     /**
@@ -29211,7 +29254,7 @@ var assert = require("assert");
 
 }(module));
 
-},{}],174:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 (function(exports) {
     /**
      * Class URI
@@ -29411,7 +29454,7 @@ var assert = require("assert");
 
 }(module.exports));
 
-},{}],175:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 //TODO: Helpful API methods concerning WebCL will be added when needed. Please provide feedback!
 
 /**
@@ -30279,7 +30322,7 @@ var assert = require("assert");
 
 }(module.exports));
 
-},{}],176:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 var assert = require("assert");
 
 // Error Callbacks:
@@ -30377,7 +30420,7 @@ module.exports = {
 
 
 
-},{"assert":11}],177:[function(require,module,exports){
+},{"assert":11}],188:[function(require,module,exports){
 var C = {};
 
 C.EPSILON = 0.000001;
@@ -30610,7 +30653,7 @@ C.PROCESS_STATE = {
 
 module.exports = C;
 
-},{}],178:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("./constants.js");
 require("../../utils/array.js");
@@ -31257,7 +31300,7 @@ module.exports = {
     DataChangeNotifier: DataChangeNotifier
 };
 
-},{"../../utils/array.js":168,"../base.js":176,"./constants.js":177}],179:[function(require,module,exports){
+},{"../../utils/array.js":179,"../base.js":187,"./constants.js":188}],190:[function(require,module,exports){
 var C = require("./constants.js");
 var Mapping = require("./../processing/mapping.js");
 require("../../utils/array.js");
@@ -32248,7 +32291,7 @@ module.exports = {
     getComputeDataflowUrl: getComputeDataflowUrl
 };
 
-},{"../../utils/array.js":168,"../base.js":176,"../processing/channel-node.js":220,"../utils/utils.js":228,"./../processing/mapping.js":224,"./constants.js":177}],180:[function(require,module,exports){
+},{"../../utils/array.js":179,"../base.js":187,"../processing/channel-node.js":231,"../utils/utils.js":239,"./../processing/mapping.js":235,"./constants.js":188}],191:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("./constants.js");
 var DataNode = require("./graph.js").DataNode;
@@ -32479,7 +32522,7 @@ module.exports = {
     VertexShaderRequest: VertexShaderRequest
 };
 
-},{"../base.js":176,"./constants.js":177,"./graph.js":179}],181:[function(require,module,exports){
+},{"../base.js":187,"./constants.js":188,"./graph.js":190}],192:[function(require,module,exports){
 var C =require("../interface/constants.js");
 
 /**
@@ -33212,7 +33255,7 @@ function computeWorkGroupSize(targetInput) {
 
 module.exports = CLProgram;
 
-},{"../interface/constants.js":177}],182:[function(require,module,exports){
+},{"../interface/constants.js":188}],193:[function(require,module,exports){
 Xflow.registerOperator("xflow.add", {
     outputs: [  {type: 'float3', name: 'result'}],
     params:  [  {type: 'float3', source: 'value1'},
@@ -33227,7 +33270,7 @@ Xflow.registerOperator("xflow.add", {
     }
 });
 
-},{}],183:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 Xflow.registerOperator("xflow.bufferSelect", {
     outputs: [  {type: 'float3', name: 'result', noAlloc: true}],
     params:  [  {type: 'float3', source: 'trueOption', array: true},
@@ -33240,7 +33283,7 @@ Xflow.registerOperator("xflow.bufferSelect", {
     }
 });
 
-},{}],184:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 Xflow.registerOperator("xflow.clampImage", {
     outputs: [ {type: 'texture', name : 'result', sizeof : 'image', formatType: 'ImageData'} ],
     params:  [ {type: 'texture', source : 'image'},
@@ -33263,7 +33306,7 @@ Xflow.registerOperator("xflow.clampImage", {
     }
 });
 
-},{}],185:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 // Code portions from http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
 
 (function() {
@@ -33337,7 +33380,7 @@ Xflow.registerOperator("xflow.clampImage", {
 
 })();
 
-},{}],186:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 Xflow.registerOperator("xflow.createIGIndex", {
     outputs:[
         //{type:'int', name:'index', customAlloc:true },
@@ -33375,7 +33418,7 @@ Xflow.registerOperator("xflow.createIGIndex", {
     }
 });
 
-},{}],187:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 (function() {
     var TMP_MATRIX = XML3D.math.mat4.create();
     var TMP_VEC = XML3D.math.vec3.create();
@@ -33418,7 +33461,7 @@ Xflow.registerOperator("xflow.createIGIndex", {
     });
 
 })();
-},{}],188:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 (function() {
     var TMP_MATRIX = XML3D.math.mat4.create();
     var TMP_VEC = XML3D.math.vec3.create();
@@ -33461,7 +33504,7 @@ Xflow.registerOperator("xflow.createIGIndex", {
     });
 })();
 
-},{}],189:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 (function(){
 
 var c_CubePositions =  [
@@ -33551,7 +33594,7 @@ Xflow.registerOperator("xflow.debug.createSkinCubes", {
 
 }());
 
-},{}],190:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 Xflow.registerOperator("xflow.flipNormal", {
     outputs: [  {type: 'float3', name: 'result'}],
     params:  [  {type: 'float3', source: 'value'}],
@@ -33561,7 +33604,7 @@ Xflow.registerOperator("xflow.flipNormal", {
     }
 });
 
-},{}],191:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 Xflow.registerOperator("xflow.flipVerticalImage", {
     outputs: [ {type: 'texture', name : 'result', sizeof : 'image'} ],
     params:  [ {type: 'texture', source : 'image'} ],
@@ -33587,7 +33630,7 @@ Xflow.registerOperator("xflow.flipVerticalImage", {
     }
 });
 
-},{}],192:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 Xflow.registerOperator("xflow.forwardKinematics", {
     outputs: [  {type: 'float4x4',  name: 'result', customAlloc: true}],
     params:  [  {type: 'int',       source: 'parent', array: true },
@@ -33637,7 +33680,7 @@ Xflow.registerOperator("xflow.forwardKinematics", {
     }
 });
 
-},{}],193:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 Xflow.registerOperator("xflow.forwardKinematicsInv", {
     outputs: [  {type: 'float4x4',  name: 'result', customAlloc: true}],
     params:  [  {type: 'int',       source: 'parent', array: true },
@@ -33688,7 +33731,7 @@ Xflow.registerOperator("xflow.forwardKinematicsInv", {
     }
 });
 
-},{}],194:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 // Based on: http://web.archive.org/web/20100310063925/http://dem.ocracy.org/libero/photobooth/
 
 Xflow.registerOperator("xflow.funMirrorImage", {
@@ -33750,7 +33793,7 @@ Xflow.registerOperator("xflow.funMirrorImage", {
     }
 });
 
-},{}],195:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 
 function fetch(result, value, index, components){
     for(var i = 0; i < index.length; ++i) {
@@ -33847,7 +33890,7 @@ Xflow.registerOperator("xflow.get", {
     }
 });
 
-},{}],196:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 Xflow.registerOperator("xflow.grayscaleImage", {
     outputs: [ {type: 'texture', name : 'result', sizeof : 'image'} ],
     params:  [ {type: 'texture', source : 'image'} ],
@@ -33872,7 +33915,7 @@ Xflow.registerOperator("xflow.grayscaleImage", {
     }
 });
 
-},{}],197:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 require("./add.js");
 require("./bufferSelect.js");
 require("./clampImage.js");
@@ -33906,7 +33949,7 @@ require("./slerpseq.js");
 require("./sobelImage.js");
 require("./sub3.js");
 
-},{"./add.js":182,"./bufferSelect.js":183,"./clampImage.js":184,"./convoluteImage.js":185,"./createIGIndex.js":186,"./createTransform.js":187,"./createTransformInv.js":188,"./debug.js":189,"./flipNormal.js":190,"./flipVerticalImage.js":191,"./forwardKinematics.js":192,"./forwardKinematicsInv.js":193,"./funMirrorImage.js":194,"./get.js":195,"./grayscaleImage.js":196,"./lerp3seq.js":198,"./magnitudeImage.js":199,"./merge3.js":200,"./morph3.js":201,"./mul4x4.js":202,"./noiseImage.js":203,"./normalize3.js":204,"./popartImage.js":205,"./rgbePNGtoFloat.js":206,"./selectBool.js":207,"./selectTransform.js":208,"./sepiaImage.js":209,"./skinDirection.js":210,"./skinPosition.js":211,"./slerpseq.js":212,"./sobelImage.js":213,"./sub3.js":214}],198:[function(require,module,exports){
+},{"./add.js":193,"./bufferSelect.js":194,"./clampImage.js":195,"./convoluteImage.js":196,"./createIGIndex.js":197,"./createTransform.js":198,"./createTransformInv.js":199,"./debug.js":200,"./flipNormal.js":201,"./flipVerticalImage.js":202,"./forwardKinematics.js":203,"./forwardKinematicsInv.js":204,"./funMirrorImage.js":205,"./get.js":206,"./grayscaleImage.js":207,"./lerp3seq.js":209,"./magnitudeImage.js":210,"./merge3.js":211,"./morph3.js":212,"./mul4x4.js":213,"./noiseImage.js":214,"./normalize3.js":215,"./popartImage.js":216,"./rgbePNGtoFloat.js":217,"./selectBool.js":218,"./selectTransform.js":219,"./sepiaImage.js":220,"./skinDirection.js":221,"./skinPosition.js":222,"./slerpseq.js":223,"./sobelImage.js":224,"./sub3.js":225}],209:[function(require,module,exports){
 var binarySearch = require("../../utils/utils").binarySearch;
 var XC = require("../../interface/constants.js");
 
@@ -33983,7 +34026,7 @@ Xflow.registerOperator("xflow.lerpKeys", {
 
 
 
-},{"../../interface/constants.js":177,"../../utils/utils":228}],199:[function(require,module,exports){
+},{"../../interface/constants.js":188,"../../utils/utils":239}],210:[function(require,module,exports){
 Xflow.registerOperator("xflow.magnitudeImage", {
     outputs: [ {type: 'texture', name : 'result', sizeof : 'image1'} ],
     params:  [
@@ -34005,7 +34048,7 @@ Xflow.registerOperator("xflow.magnitudeImage", {
     }
 });
 
-},{}],200:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.merge3", {
     outputs: [{name: 'result', tupleSize: '16'}],
@@ -34050,7 +34093,7 @@ Xflow.registerOperator("xflow.merge8", {
     }
 });
 
-},{}],201:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.morph", {
     outputs: [{type: 'float3', name: 'result'}],
@@ -34075,7 +34118,7 @@ Xflow.registerOperator("xflow.morph", {
     }
 });
 
-},{}],202:[function(require,module,exports){
+},{}],213:[function(require,module,exports){
 Xflow.registerOperator("xflow.mul", {
     outputs: [  {type: 'float4x4', name: 'result'}],
     params:  [  {type: 'float4x4', source: 'value1'},
@@ -34090,7 +34133,7 @@ Xflow.registerOperator("xflow.mul", {
     }
 });
 
-},{}],203:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.noiseImage", {
     outputs: [ {type: 'texture', name : 'image', customAlloc: true} ],
@@ -34169,7 +34212,7 @@ Xflow.registerOperator("xflow.noiseImage", {
     }
 });
 
-},{}],204:[function(require,module,exports){
+},{}],215:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.normalize", {
     outputs: [  {type: 'float3', name: 'result'}],
@@ -34188,7 +34231,7 @@ Xflow.registerOperator("xflow.normalize", {
     }
 });
 
-},{}],205:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 
 // Based on http://kodemongki.blogspot.de/2011/06/kameraku-custom-shader-effects-example.html
 Xflow.registerOperator("xflow.popartImage", {
@@ -34228,7 +34271,7 @@ Xflow.registerOperator("xflow.popartImage", {
     }
 });
 
-},{}],206:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 var SamplerConfig = require("../../interface/data.js").SamplerConfig;
 var XC = require("../../interface/constants.js");
 
@@ -34272,7 +34315,7 @@ Xflow.registerOperator("xflow.rgbePNGtoFloat", {
     }
 });
 
-},{"../../interface/constants.js":177,"../../interface/data.js":178}],207:[function(require,module,exports){
+},{"../../interface/constants.js":188,"../../interface/data.js":189}],218:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.selectBool", {
     outputs: [ {type: 'bool', name : 'result', customAlloc: true} ],
@@ -34291,7 +34334,7 @@ Xflow.registerOperator("xflow.selectBool", {
     }
 });
 
-},{}],208:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.selectTransform", {
     outputs: [ {type: 'float4x4', name : 'result', customAlloc: true} ],
@@ -34340,7 +34383,7 @@ Xflow.registerOperator("xflow.selectTransform", {
     }
 });
 
-},{}],209:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.sepiaImage", {
     outputs: [ {type: 'texture', name : 'result', sizeof : 'image'} ],
@@ -34368,7 +34411,7 @@ Xflow.registerOperator("xflow.sepiaImage", {
     }
 });
 
-},{}],210:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.skinDirection", {
     outputs: [  {type: 'float3', name: 'result' }],
@@ -34403,7 +34446,7 @@ Xflow.registerOperator("xflow.skinDirection", {
     }
 });
 
-},{}],211:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.skinPosition", {
     outputs: [  {type: 'float3', name: 'result' }],
@@ -34437,7 +34480,7 @@ Xflow.registerOperator("xflow.skinPosition", {
     }
 });
 
-},{}],212:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 var binarySearch = require("../../utils/utils").binarySearch;
 var XC = require("../../interface/constants.js");
 
@@ -34488,7 +34531,7 @@ Xflow.registerOperator("xflow.slerpKeys", {
     }
 });
 
-},{"../../interface/constants.js":177,"../../utils/utils":228}],213:[function(require,module,exports){
+},{"../../interface/constants.js":188,"../../utils/utils":239}],224:[function(require,module,exports){
 
 // Code portions from http://www.html5rocks.com/en/tutorials/canvas/imagefilters/
 (function() {
@@ -34807,7 +34850,7 @@ Xflow.registerOperator("xflow.sobelImage", {
     }
 });
 
-},{}],214:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 
 Xflow.registerOperator("xflow.sub", {
     outputs: [  {type: 'float3', name: 'result'}],
@@ -34829,7 +34872,7 @@ Xflow.registerOperator("xflow.sub", {
     }
 });
 
-},{}],215:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 /**
  * One operator execution within the @see{OperatorList}.
  * @param operator
@@ -34968,7 +35011,7 @@ OperatorEntry.prototype.getKey = function () {
 
 module.exports = OperatorEntry;
 
-},{}],216:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 var C = require("../interface/constants.js");
 var Base = require("../base.js");
 
@@ -35201,7 +35244,7 @@ OperatorList.prototype.allocateOutput = function (programData, async) {
 
 module.exports = OperatorList;
 
-},{"../base.js":176,"../interface/constants.js":177}],217:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188}],228:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 
@@ -35313,7 +35356,7 @@ module.exports = {
     getOperators: getOperators
 };
 
-},{"../base.js":176,"../interface/constants.js":177}],218:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188}],229:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 var VSProgram = require("./vs-program.js");
@@ -35611,7 +35654,7 @@ module.exports = {
     ProgramInputConnection: ProgramInputConnection
 };
 
-},{"../base.js":176,"../interface/constants.js":177,"./cl-program.js":181,"./vs-program.js":219}],219:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188,"./cl-program.js":192,"./vs-program.js":230}],230:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 var Utils = require("../utils/utils.js");
@@ -35886,7 +35929,7 @@ function getGLSLType(xflowType){
 
 module.exports = VSProgram;
 
-},{"../base.js":176,"../interface/constants.js":177,"../processing/vs-connect.js":227,"../utils/utils.js":228}],220:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188,"../processing/vs-connect.js":238,"../utils/utils.js":239}],231:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 var Channels = require("./channel.js");
@@ -36447,7 +36490,7 @@ module.exports = {
     Substitution: Substitution
 };
 
-},{"../base.js":176,"../interface/constants.js":177,"../operator/operator.js":217,"./channel.js":221,"./data-slot.js":222,"./process-node.js":225}],221:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188,"../operator/operator.js":228,"./channel.js":232,"./data-slot.js":233,"./process-node.js":236}],232:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 var BufferEntry = require("../interface/data.js").BufferEntry;
@@ -36829,7 +36872,7 @@ module.exports = {
     ChannelMap: ChannelMap
 };
 
-},{"../base.js":176,"../interface/constants.js":177,"../interface/data.js":178}],222:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188,"../interface/data.js":189}],233:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 
@@ -36884,7 +36927,7 @@ DataSlot.prototype.notifyOnChange = function(state){
 
 module.exports = DataSlot;
 
-},{"../base.js":176,"../interface/constants.js":177}],223:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188}],234:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 var OperatorList = require("../operator/operator-list.js");
@@ -37309,7 +37352,7 @@ function blockSubtree(cData, node){
 
 module.exports = Executor;
 
-},{"../base.js":176,"../interface/constants.js":177,"../operator/operator-entry.js":215,"../operator/operator-list.js":216,"../operator/operator.js":217,"../operator/program.js":218,"../utils/utils.js":228}],224:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188,"../operator/operator-entry.js":226,"../operator/operator-list.js":227,"../operator/operator.js":228,"../operator/program.js":229,"../utils/utils.js":239}],235:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("./../interface/constants.js");
 
@@ -37667,7 +37710,7 @@ module.exports = {
     Mapping: Mapping
 };
 
-},{"../base.js":176,"./../interface/constants.js":177}],225:[function(require,module,exports){
+},{"../base.js":187,"./../interface/constants.js":188}],236:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("../interface/constants.js");
 var utils = require("../utils/utils.js");
@@ -38165,7 +38208,7 @@ module.exports = {
 };
 
 
-},{"../base.js":176,"../interface/constants.js":177,"../interface/data.js":178,"../operator/operator.js":217,"../processing/data-slot.js":222,"../utils/utils.js":228,"./executor.js":223,"./result.js":226}],226:[function(require,module,exports){
+},{"../base.js":187,"../interface/constants.js":188,"../interface/data.js":189,"../operator/operator.js":228,"../processing/data-slot.js":233,"../utils/utils.js":239,"./executor.js":234,"./result.js":237}],237:[function(require,module,exports){
 var Base = require("../base.js");
 require("../../utils/array.js");
 
@@ -38305,7 +38348,7 @@ module.exports = {
     VSDataResult: VSDataResult
 };
 
-},{"../../utils/array.js":168,"../base.js":176}],227:[function(require,module,exports){
+},{"../../utils/array.js":179,"../base.js":187}],238:[function(require,module,exports){
 var Base = require("../base.js");
 var C = require("./../interface/constants.js");
 
@@ -38470,7 +38513,7 @@ module.exports = {
     VertexShader: VertexShader
 };
 
-},{"../base.js":176,"../operator/operator.js":217,"./../interface/constants.js":177}],228:[function(require,module,exports){
+},{"../base.js":187,"../operator/operator.js":228,"./../interface/constants.js":188}],239:[function(require,module,exports){
 var set = {};
 
 
@@ -38592,7 +38635,7 @@ module.exports = {
     binarySearch: binarySearch
 }
 
-},{}],229:[function(require,module,exports){
+},{}],240:[function(require,module,exports){
 
 module.exports = require("./init.js");
-},{"./init.js":65}]},{},[229]);
+},{"./init.js":75}]},{},[240]);
