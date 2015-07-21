@@ -57,7 +57,7 @@ Running
 -------
 
 Currently, COMPASS is supported on the WildFly 8 JavaEE container. You will need to configure WildFly appropriately to run the web app, however. Details can be found in the [container setup guide](CONTAINER.md).
-Once the container is configured, you can deploy the "stock" COMPASS deployment EAR from the `compass-deployment/target/` directory, and start using compass from your containers `compass-webapp/` context.
+Once the container is configured, you can deploy the "stock" COMPASS deployment EAR from the `compass-deployment/target/` directory, and start using compass from your containers `compass/` context.
 
 
 REST Api documentation
