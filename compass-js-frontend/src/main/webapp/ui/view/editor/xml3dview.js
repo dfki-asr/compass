@@ -9,7 +9,7 @@
 
 var AmpersandView = require("ampersand-view");
 var XML3DGroupView = require("./xml3d/xml3dgroupview");
-var template = require("../../templates/editor/viewport.html");
+var template = require("../../templates/editor/xml3dview.html");
 
 var XML3DView = AmpersandView.extend({
     template: template,
