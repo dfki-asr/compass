@@ -12,17 +12,19 @@ var template = require("../../../templates/editor/xml3d/default-light.html");
 
 var XML3DDefaultLight = AmpersandView.extend({
 	template: template,
-	enabled: false,
-	initialize: function () {
+	session: {
+		parent: "state"
 	},
-	toggleVisibility: function () {
-		this.enabled = !this.enabled;
-		this.el.setAttribute("visible", this.enabled);
-	},
-    render: function () {
-        this.renderWithTemplate();
-        return this;
-    }
+	bindings: {
+		"parent.parent.defaultLight": {
+			type: "switchAttribute",
+			name: "visible",
+			cases: {
+				true: "true",
+				false: "false"
+			}
+		}
+	}
 });
 
 module.exports = XML3DDefaultLight;
