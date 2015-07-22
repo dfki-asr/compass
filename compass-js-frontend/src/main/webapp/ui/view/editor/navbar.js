@@ -7,41 +7,25 @@
 
 "use strict";
 
-var $ = global.jQuery;
 var AmpersandView = require("ampersand-view");
 var template = require("../../templates/editor/navbar.html");
+var DefaultLightButtonView = require("./navbar/defaultlight");
 
 var EditorNavbarView = AmpersandView.extend({
-    template: template,
-	scenario: undefined,
-	events: {
-		"click [data-hook=action-toggle-light]": "toggleDefaultLight"
-	},
-    initialize: function () {
-    },
-	bindings: {
-		"scenario.name": "[data-hook=scenarioname]"
-	},
-    render: function () {
-        this.renderWithTemplate();
-        return this;
-    },
-	setScenario: function (scenario) {
-		this.scenario = scenario;
-		this.render();
-	},
-	toggleDefaultLight: function () {
-		var light = this.parent.viewport.defaultLight;
-		light.toggleVisibility();
-		this.setButtonCSS($(this.queryByHook("action-toggle-light")), light.enabled);
-	},
-	setButtonCSS: function ($button, isActive) {
-		if (isActive) {
-			$button.addClass("active");
-		} else {
-			$button.removeClass("active");
+	template: template,
+	subviews: {
+		defaultLightButton: {
+			hook: "defaultLightButton",
+			constructor: DefaultLightButtonView
 		}
-		$button.blur();
+	},
+	session: {
+		parent: "state"
+	},
+	bindings: {
+		"parent.scenario.name": {
+			hook: "scenarioname"
+		}
 	}
 });
 

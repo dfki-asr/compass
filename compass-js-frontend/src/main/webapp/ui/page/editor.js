@@ -55,6 +55,10 @@ var EditorPage = BasePage.extend({
 		selectedNode: "any"
 	},
 	session: {
+		defaultLight: {
+			type: "boolean",
+			default: true
+		},
 		root: "state",
 		scenario: "state"
 	},
@@ -86,7 +90,6 @@ var EditorPage = BasePage.extend({
 			minSize:				50
 		});
 		// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-		this.navbar.setScenario(this.scenario);
 	},
 	doneLoadingSceneTree: function (rootNode) {
 		this.root = rootNode;
