@@ -23,7 +23,23 @@ var SceneNode = CompassModel.extend({
 			default: "Scene Node"
 		},
 		selectable3d: "boolean",
-		visible: "boolean"
+		visible: "boolean",
+		localTranslation: {
+			type: "object",
+			default: function () {
+				return {x: 0, y: 0, z: 0};
+			}
+		},
+		localScale: {
+			type: "number",
+			default: 1
+		},
+		localRotation: {
+			type: "object",
+			default: function () {
+				return {x: 0, y: 0, z: 0, w: 1};
+			}
+		}
 	},
 	extraProperties: "allow",
 	session: {
@@ -94,8 +110,8 @@ var SceneNode = CompassModel.extend({
 			var promises = [];
 			self.children.each(function (c) {
 				var promise = c.fetchRecursively().catch(function (err) {
-				console.log(err);
-			});
+					console.log(err);
+				});
 				promises.push(promise);
 			});
 			return Promise.all(promises);

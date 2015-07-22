@@ -8,16 +8,20 @@
 "use strict";
 
 var AmpersandView = require("ampersand-view");
-var template = require("../../templates/editor/viewport.html");
 
-var ThreeDView = AmpersandView.extend({
-    template: template,
-    initialize: function () {
+var RenderGeometryView = AmpersandView.extend({
+    template: "<model></model>",
+	initialize: function () {
     },
+	bindings: {
+		"model.meshSource": {
+			type: "attribute",
+			name: "src"
+		}
+	},
     render: function () {
         this.renderWithTemplate();
-        return this;
     }
 });
 
-module.exports = ThreeDView;
+module.exports = RenderGeometryView;
