@@ -26,9 +26,6 @@ var ScenenodeComponentCollection = CompassCollection.extend({
 			}
 		}
 	},
-	getComponentByType: function (type) {
-		return this.where({type: type});
-	},
 	url: Config.getRESTPath("scenenodecomponents/")
 });
 
