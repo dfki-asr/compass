@@ -24,7 +24,6 @@ var NavbarView = require("../view/editor/navbar.js");
 var EditorPage = BasePage.extend({
 	pageTitle: "Editor",
 	template: template,
-	scenario: undefined,
 	$globalLayout: undefined,
 	subviews: {
 		hierarchy: {
@@ -55,7 +54,14 @@ var EditorPage = BasePage.extend({
 	props: {
 		selectedNode: "any"
 	},
-	root: undefined,
+	session: {
+		defaultLight: {
+			type: "boolean",
+			default: true
+		},
+		root: "state",
+		scenario: "state"
+	},
 	initialize: function (scenarioId) {
 		// The router gives as a string, but the model wants a number...
 		var idAsNumber = parseInt(scenarioId);
@@ -84,7 +90,6 @@ var EditorPage = BasePage.extend({
 			minSize:				50
 		});
 		// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-		this.navbar.setScenario(this.scenario);
 	},
 	doneLoadingSceneTree: function (rootNode) {
 		this.root = rootNode;

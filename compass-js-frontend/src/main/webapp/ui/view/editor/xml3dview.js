@@ -9,17 +9,23 @@
 
 var AmpersandView = require("ampersand-view");
 var XML3DGroupView = require("./xml3d/xml3dgroupview");
+var XML3DDefaultLight = require("./xml3d/xml3ddefaultlight");
 var template = require("../../templates/editor/xml3dview.html");
 
 var XML3DView = AmpersandView.extend({
     template: template,
+	subviews: {
+		defaultLight: {
+			hook: "defaultLight",
+			constructor: XML3DDefaultLight
+		}
+	},
+	session: {
+		parent: "state"
+	},
     initialize: function () {
 		this.parent.on("sceneTreeLoaded", this.renderXML3DTree.bind(this));
 		this.parent.on("change:selectedNode", this.updateSelectionDisplay.bind(this));
-    },
-    render: function () {
-        this.renderWithTemplate();
-        return this;
     },
 	renderXML3DTree: function () {
 		this.renderCollection(this.parent.root.children, XML3DGroupView, ".rootChildren");

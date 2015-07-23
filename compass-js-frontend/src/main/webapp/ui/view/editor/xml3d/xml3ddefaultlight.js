@@ -8,25 +8,22 @@
 "use strict";
 
 var AmpersandView = require("ampersand-view");
-var template = require("../../templates/editor/navbar.html");
-var DefaultLightButtonView = require("./navbar/defaultlight");
+var template = require("../../../templates/editor/xml3d/default-light.html");
 
-var EditorNavbarView = AmpersandView.extend({
+var XML3DDefaultLight = AmpersandView.extend({
 	template: template,
-	subviews: {
-		defaultLightButton: {
-			hook: "defaultLightButton",
-			constructor: DefaultLightButtonView
-		}
-	},
 	session: {
 		parent: "state"
 	},
 	bindings: {
-		"parent.scenario.name": {
-			hook: "scenarioname"
+		"parent.parent.defaultLight": {
+			type: function (el, value, previousValue)  {
+				if (value !== previousValue) {
+					el.style.display = value ? "" : "none";
+				}
+			}
 		}
 	}
 });
 
-module.exports = EditorNavbarView;
+module.exports = XML3DDefaultLight;
