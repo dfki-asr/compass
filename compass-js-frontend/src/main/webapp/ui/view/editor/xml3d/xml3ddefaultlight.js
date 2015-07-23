@@ -17,11 +17,10 @@ var XML3DDefaultLight = AmpersandView.extend({
 	},
 	bindings: {
 		"parent.parent.defaultLight": {
-			type: "switchAttribute",
-			name: "visible",
-			cases: {
-				true: "true",
-				false: "false"
+			type: function (el, value, previousValue)  {
+				if (value !== previousValue) {
+					el.style.display = value ? "" : "none";
+				}
 			}
 		}
 	}
