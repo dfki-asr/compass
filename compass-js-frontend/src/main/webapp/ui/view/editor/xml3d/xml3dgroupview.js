@@ -7,29 +7,52 @@
 
 "use strict";
 
+var XML3D = global.XML3D;
 var AmpersandView = require("ampersand-view");
 var template = require("../../../templates/editor/xml3d/xml3dgroup.html");
-// var SceneNode = require("../../../../model/scenenode");
-// var RenderGeometry = require("../../../../model/rendergeometry");
+var XML3DComponentViewFactory = require("./xml3dcomponentviewfactory");
 
 var XML3DGroupView = AmpersandView.extend({
     template: template,
+	derived: {
+		xml3dCSSTransformString: {
+			deps: ["model.localTranslation", "model.localScale", "model.localRotation"],
+			fn: function () {
+				var translate3dString = this.generateTranslate3dString();
+				var rotate3dString = this.generateRotate3dString();
+				var scale3dString = this.generateScale3dString();
+				return "transform: " + translate3dString + " " + rotate3dString + " " + scale3dString;
+			}
+		}
+	},
+	bindings: {
+		xml3dCSSTransformString: {
+			type: "attribute",
+			name: "style"
+		}
+	},
 	initialize: function () {
     },
     render: function () {
         this.renderWithTemplate();
-		var renderGeometry = this.model.components.getComponentByType("de.dfki.asr.compass.model.components.RenderGeometry");
-		if (renderGeometry.length) {
-			this.renderRenderGeometry(renderGeometry);
-		}
+		this.renderCollection(this.model.components, XML3DComponentViewFactory, ".componentGroups");
 		this.renderCollection(this.model.children, XML3DGroupView, ".childGroups");
         return this;
     },
-	renderRenderGeometry: function (renderGeometries) {
-		for (var index in renderGeometries) {
-			var rg = renderGeometries[index];
-			console.log("render renderGeometry with geometry url: " + rg.meshSource);
-		}
+	generateTranslate3dString: function () {
+		var translation = this.model.localTranslation;
+		return "translate3d(" + translation.x + "px, " + translation.y + "px, " + translation.z + "px)";
+	},
+	generateRotate3dString: function () {
+		var rotation = this.model.localRotation;
+		var quatarnion = [rotation.x, rotation.y, rotation.z, rotation.w];
+		var axisAngle = XML3D.AxisAngle.fromQuat(quatarnion);
+		var axis = axisAngle.axis;
+		return "rotate3d(" + axis.x + ", " + axis.y + ", " + axis.z + ", " + axisAngle.angle  + "rad)";
+	},
+	generateScale3dString: function () {
+		var scale = this.model.localScale;
+		return "scale3d(" + scale + ", " + scale + ", " + scale + ")";
 	}
 });
 

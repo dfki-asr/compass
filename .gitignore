@@ -19,6 +19,7 @@ jboss.xml
 /compass-persistence-unit/target/
 /target/
 /compass-integration-test/target/
+/compass-js-frontend/customs.json
 /compass-js-frontend/target/
 /compass-js-frontend/bower_components/
 /compass-js-frontend/node_modules/

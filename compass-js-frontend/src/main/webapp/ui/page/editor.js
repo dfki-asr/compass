@@ -30,8 +30,8 @@ var EditorPage = BasePage.extend({
 			hook: "hierarchy",
 			constructor: HierarchyView
 		},
-		viewport: {
-			hook: "viewport",
+		xml3dview: {
+			hook: "xml3dview",
 			constructor: XML3DView
 		},
 		properties: {
