@@ -9,6 +9,57 @@ XML3D.tools.namespace("COMPASS");
 (function() {
 	"use strict";
 
+	COMPASS.NXExamineController = new XML3D.tools.Class(XML3D.tools.MouseExamineController, {
+		_createControls: function(options) {
+			return {
+				rotate: options.controls.rotate || XML3D.tools.MOUSEBUTTON_MIDDLE,
+				dolly: options.controls.dolly || XML3D.tools.MOUSEBUTTON_RIGHT
+			};
+		},
+
+		_createMouseEventDispatcher: function() {
+			var disp = new XML3D.tools.util.EventDispatcher();
+			disp.registerCustomHandler("mousedown", function(evt){
+				if(evt.button === this._controls.rotate || this._checkForZoom(evt)){
+					return true;
+				}
+				return false;
+			}.bind(this));
+			return disp;
+		},
+
+		onDragStart: function(action) {
+			if(this._checkForZoom(action.evt)){
+				this._currentAction = this.DOLLY;
+			} else if (this._controls.rotate === action.evt.button){
+				this._currentAction = this.ROTATE;
+			} else {
+				this._currentAction = this.NONE;
+			}
+        },
+
+        onDrag: function(action) {
+			if(this._checkForZoom(action.evt) && this._currentAction === this.DOLLY){
+				this.behavior.dolly(action.delta.y);
+			} else if (this._controls.rotate === action.evt.button && this._currentAction === this.ROTATE){
+				this.behavior.rotateByAngles(-action.delta.y, -action.delta.x);
+			} else {
+				this._currentAction = this.NONE;
+			}
+        },
+
+		_checkForZoom: function(evt){
+			if(evt.buttons === 5){ //left_button | wheel => 1 | 4 => 5
+				//currently not supported by our xml3d version
+				return true;
+			}
+			if(evt.ctrlKey && evt.button === XML3D.tools.MOUSEBUTTON_MIDDLE){
+				return true;
+			}
+			return false;
+		}
+	});
+
 	COMPASS.CameraController = new XML3D.tools.Singleton({
 		activeController: null,
 		viewGroup: null,
