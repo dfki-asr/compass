@@ -134,7 +134,7 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_createOrbitController: function() {
-			return new XML3D.tools.MouseExamineController(this.viewGroup, {
+			return new COMPASS.NXExamineController(this.viewGroup, {
 				rotateSpeed: 5
 			});
 			this._setCameraSensivityOfController();
