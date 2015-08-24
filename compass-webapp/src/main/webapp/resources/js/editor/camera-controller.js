@@ -76,7 +76,7 @@ XML3D.tools.namespace("COMPASS");
 
 		_checkForZoom: function(evt){
 			if(evt.buttons === 5){ //left_button | wheel => 1 | 4 => 5
-				//currently not supported by our xml3d version
+				//currently not supported by our xml3d version. buttons will always be 0
 				return true;
 			}
 			if(evt.ctrlKey && evt.button === XML3D.tools.MOUSEBUTTON_MIDDLE){
