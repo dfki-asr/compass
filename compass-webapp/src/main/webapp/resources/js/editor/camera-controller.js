@@ -17,6 +17,17 @@ XML3D.tools.namespace("COMPASS");
 			};
 		},
 
+        _toggleAttached: function(doAttach) {
+            var regFn = this._eventDispatcher.on.bind(this._eventDispatcher);
+            if(!doAttach) {
+                regFn = this._eventDispatcher.off.bind(this._eventDispatcher);
+            }
+            regFn(this._targetXml3d, "mousedown", this.callback("_onXML3DMouseDown"));
+			document.addEventListener("wheel", this._onXML3DScroll.bind(this), true);
+            regFn(document, "mousemove", this.callback("_onDocumentMouseMove"));
+            regFn(document, "mouseup", this.callback("_onDocumentMouseUp"));
+        },
+
 		_createMouseEventDispatcher: function() {
 			var disp = new XML3D.tools.util.EventDispatcher();
 			disp.registerCustomHandler("mousedown", function(evt){
@@ -26,6 +37,21 @@ XML3D.tools.namespace("COMPASS");
 				return false;
 			}.bind(this));
 			return disp;
+		},
+
+		_onXML3DScroll: function(evt){
+			if(evt.target.tagName !== "CANVAS"){
+				return;
+			}
+			var delta = evt.deltaY / 50;
+			if(evt.deltaY > 0){
+				//zoom towards
+				this.behavior.dolly(delta);
+			}else if(evt.deltaY < 0){
+				//zoom away
+				this.behavior.dolly(delta);
+			}
+			evt.stopImmediatePropagation();
 		},
 
 		onDragStart: function(action) {
