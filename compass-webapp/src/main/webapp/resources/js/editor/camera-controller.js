@@ -40,7 +40,7 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_onXML3DScroll: function(evt){
-			if(evt.target.tagName !== "CANVAS"){
+			if(evt.target.tagName !== "CANVAS" || this._currentAction !== this.NONE){
 				return;
 			}
 			var deltaSign = evt.deltaY / Math.abs(evt.deltaY);
