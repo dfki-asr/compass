@@ -79,9 +79,6 @@ XML3D.tools.namespace("COMPASS");
 				//currently not supported by our xml3d version. buttons will always be 0
 				return true;
 			}
-			if(evt.ctrlKey && evt.button === XML3D.tools.MOUSEBUTTON_MIDDLE){
-				return true;
-			}
 			return false;
 		}
 	});
