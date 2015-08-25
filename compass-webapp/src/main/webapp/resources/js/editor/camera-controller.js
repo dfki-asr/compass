@@ -43,14 +43,9 @@ XML3D.tools.namespace("COMPASS");
 			if(evt.target.tagName !== "CANVAS"){
 				return;
 			}
-			var delta = evt.deltaY / 50;
-			if(evt.deltaY > 0){
-				//zoom towards
-				this.behavior.dolly(delta);
-			}else if(evt.deltaY < 0){
-				//zoom away
-				this.behavior.dolly(delta);
-			}
+			var deltaSign = evt.deltaY / Math.abs(evt.deltaY);
+			var dollyMove = deltaSign * 0.01;
+			this.behavior.dolly(dollyMove);
 			evt.stopImmediatePropagation();
 		},
 
