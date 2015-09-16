@@ -14,7 +14,7 @@ import de.dfki.asr.compass.business.exception.EntityNotFoundException;
 import de.dfki.asr.compass.business.exception.PersistenceException;
 import de.dfki.asr.compass.model.AbstractCompassEntity;
 import java.util.List;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -23,7 +23,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 
-@Stateless
+@Singleton
 public class CRUDService {
 
 	@Inject

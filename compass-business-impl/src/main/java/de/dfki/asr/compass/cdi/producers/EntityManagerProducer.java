@@ -7,7 +7,7 @@
 package de.dfki.asr.compass.cdi.producers;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,7 +22,7 @@ import javax.persistence.criteria.CriteriaBuilder;
  * {@link PersistenceContextType.EXTENDED}.
  */
 @Stateful
-@ConversationScoped
+@ApplicationScoped
 public class EntityManagerProducer {
 
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.Reception;
@@ -38,9 +37,6 @@ public class OpenScenarioBean extends CompassBean implements Serializable {
 	private static final long serialVersionUID = 181147082297722948L;
 
 	@Inject
-	protected Conversation conversation;
-
-	@Inject
 	protected Logger log;
 
 	@Inject
@@ -55,7 +51,6 @@ public class OpenScenarioBean extends CompassBean implements Serializable {
 
 	@PostConstruct
 	public void startProjectSelection() {
-		conversation.begin(); // from here on out, keep an entityManager.
 		fetchProjects();
 		scenarioList = new ArrayList<>();
 		if (!projectList.isEmpty()) {
