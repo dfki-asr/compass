@@ -23,12 +23,12 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import de.dfki.asr.compass.web.util.ResourceLoader;
 import java.io.ByteArrayInputStream;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.servlet.http.HttpSession;
 import org.primefaces.model.DefaultStreamedContent;
 
 @Named
-@SessionScoped
+@ConversationScoped
 public class CreateScenarioBean extends DialogCompassBean {
 
 	private static final long serialVersionUID = -3548887760353311367L;

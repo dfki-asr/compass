@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.UploadedFile;
 
 @Named
-@SessionScoped
+@ConversationScoped
 public class EditScenarioBean extends DialogCompassBean {
 
 	private static final long serialVersionUID = 3863014565317587844L;

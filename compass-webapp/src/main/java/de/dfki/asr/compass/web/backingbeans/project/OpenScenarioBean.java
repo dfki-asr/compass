@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.Reception;
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ import org.jboss.logging.Logger;
  * managed by the entity manager.
  */
 @Named
-@SessionScoped
+@ConversationScoped
 public class OpenScenarioBean extends CompassBean implements Serializable {
 
 	private static final long serialVersionUID = 181147082297722948L;
