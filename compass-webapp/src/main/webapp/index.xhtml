@@ -12,6 +12,7 @@
  You may not use this file except in compliance with the License.
 -->
 	<ui:define name="content">
+		<f:event listener="#{openScenarioBean.startProjectSelection}" type="preRenderView" />
 		<h:outputScript name="js/xml3d/xml3d.js" target="head" />
 		<h:outputScript name="js/xml3d/xml3d.tools.js" target="head" />
 		<h:outputScript name="js/utility.js" target="head" />

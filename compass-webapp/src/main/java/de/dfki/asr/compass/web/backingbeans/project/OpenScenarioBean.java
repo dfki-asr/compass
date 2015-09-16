@@ -54,12 +54,18 @@ public class OpenScenarioBean extends CompassBean implements Serializable {
 	protected Scenario selectedScenario;
 
 	@PostConstruct
-	public void startProjectSelection() {
-		conversation.begin(); // from here on out, keep an entityManager.
+	public void postConstruct() {
 		fetchProjects();
 		scenarioList = new ArrayList<>();
 		if (!projectList.isEmpty()) {
 			setSelectedProject(projectList.get(0));
+		}
+	}
+
+	public void startProjectSelection() {
+		if (conversation.isTransient()) {
+			conversation.setTimeout(900000); // 15min
+			conversation.begin(); // from here on out, keep an entityManager.
 		}
 	}
 
