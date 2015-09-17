@@ -4,7 +4,7 @@
  * (Also available at http://www.apache.org/licenses/LICENSE-2.0.txt)
  * You may not use this file except in compliance with the License.
  */
-package de.dfki.asr.compass.databaseinitialization;
+package de.dfki.asr.compass.serialization;
 
 import de.dfki.asr.compass.business.api.ComponentRegistry;
 import java.lang.reflect.Array;
