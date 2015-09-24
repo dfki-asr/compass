@@ -9,7 +9,7 @@ XML3D.tools.namespace("COMPASS");
 (function() {
 	"use strict";
 
-	COMPASS.NXExamineController = new XML3D.tools.Class(XML3D.tools.MouseExamineController, {
+	COMPASS.CADExamineController = new XML3D.tools.Class(XML3D.tools.MouseExamineController, {
 		_createControls: function(options) {
 			return {
 				rotate: options.controls.rotate || XML3D.tools.MOUSEBUTTON_MIDDLE,
@@ -152,7 +152,7 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_createOrbitController: function() {
-			return new COMPASS.NXExamineController(this.viewGroup, {
+			return new COMPASS.CADExamineController(this.viewGroup, {
 				rotateSpeed: 5
 			});
 			this._setCameraSensivityOfController();
