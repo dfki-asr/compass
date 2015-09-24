@@ -57,9 +57,9 @@ XML3D.tools.namespace("COMPASS");
 			} else {
 				this._currentAction = this.NONE;
 			}
-        },
+		},
 
-        onDrag: function(action) {
+		onDrag: function(action) {
 			if(this._checkForZoom(action.evt) && this._currentAction === this.DOLLY){
 				this.behavior.dolly(action.delta.y);
 			} else if (this._controls.rotate === action.evt.button && this._currentAction === this.ROTATE){
@@ -67,7 +67,7 @@ XML3D.tools.namespace("COMPASS");
 			} else {
 				this._currentAction = this.NONE;
 			}
-        },
+		},
 
 		_checkForZoom: function(evt){
 			if(evt.buttons === 5){ //left_button | wheel => 1 | 4 => 5
