@@ -199,8 +199,10 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_createMeshClickHandler: function(renderGeometryComponent) {
-			return function() {
-				COMPASS.Editor.selectSceneNodeFromXML3D(renderGeometryComponent.owner);
+			return function(event) {
+				if (event.which === 1) {
+					COMPASS.Editor.selectSceneNodeFromXML3D(renderGeometryComponent.owner);
+				}
 			};
 		},
 

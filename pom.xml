@@ -10,7 +10,7 @@
 
 	<groupId>de.dfki.asr.compass</groupId>
 	<artifactId>root</artifactId>
-	<version>2.0.1</version>
+	<version>2.1.0</version>
 	<packaging>pom</packaging>
 	<name>COMPASS 3D Web Application</name>
 
@@ -24,6 +24,7 @@
 		<module>compass-custom-archetype</module>
 		<module>compass-webapp</module>
 		<module>compass-deployment</module>
+		<module>compass-integration-test</module>
 	</modules>
 
 	<properties>
@@ -191,6 +192,27 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>versions-maven-plugin</artifactId>
 					<version>2.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.7.4.201502262128</version>
+					<executions>
+						<execution>
+							<id>default-prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>default-report</id>
+							<inherited>true</inherited>
+							<phase>prepare-package</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>

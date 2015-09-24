@@ -55,4 +55,12 @@ public interface ScenarioManager extends Manager<Scenario> {
 	 */
 	void editScenario(Scenario scenario, String newScenarioName);
 
+	/**
+	 * Check whether a given name, within the scope of a given project is valid.
+	 *
+	 * @param name name to validate
+	 * @param project scope for the name
+	 */
+	boolean isNameValid(String name, Project project);
+
 }

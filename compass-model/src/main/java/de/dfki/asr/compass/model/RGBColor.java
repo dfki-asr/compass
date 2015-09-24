@@ -85,9 +85,9 @@ public class RGBColor implements Serializable {
 	@Transient
 	public String getHex() {
 		return "#" +
-				Integer.toHexString(red).toUpperCase() +
-				Integer.toHexString(green).toUpperCase() +
-				Integer.toHexString(blue).toUpperCase();
+				colorToHex(red) +
+				colorToHex(green) +
+				colorToHex(blue);
 	}
 
 	@SuppressWarnings("PMD.AvoidLiteralsInIfCondition")
@@ -99,5 +99,13 @@ public class RGBColor implements Serializable {
 		red = Integer.parseInt(cleanedHexString.substring(0, 2), 16);
 		green = Integer.parseInt(cleanedHexString.substring(2, 4), 16);
 		blue = Integer.parseInt(cleanedHexString.substring(4, 6), 16);
+	}
+
+	private String colorToHex(final int color) {
+		String hexColor = Integer.toHexString(color).toUpperCase();
+		if (hexColor.length() < 2) {
+			return "0".concat(hexColor);
+		}
+		return Integer.toHexString(color).toUpperCase();
 	}
 }

@@ -6,6 +6,7 @@
  */
 package de.dfki.asr.compass.databaseinitialization;
 
+import de.dfki.asr.compass.serialization.JaxbContextProvider;
 import de.dfki.asr.compass.model.AbstractCompassEntity;
 import de.dfki.asr.compass.model.Project;
 import de.dfki.asr.compass.model.SceneNode;
