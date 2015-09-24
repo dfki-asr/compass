@@ -72,6 +72,8 @@ Attention: After finishing the registration of the datasource it has to get enab
 
 Note that the above configuration and compass by itself uses a temporary in-memory database. In order to keep your data after a server shutdown, apply the following changes:
 In the compass datasource, change the connection-url from `jdbc:h2:mem:compass` to `jdbc:h2:<YOUR-DATABASE-FOLDER>/compass-test`.
+Open the persistence unit's persistence.xml and change the entry `<property name="hibernate.hbm2ddl.auto" value="create-drop" /> to `<property name="hibernate.hbm2ddl.auto" value="update" />`.
+Otherwise, the database will be reinitialized on each deploy.
 
 
 Messaging configuration
