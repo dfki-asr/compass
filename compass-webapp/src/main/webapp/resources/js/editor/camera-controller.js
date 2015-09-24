@@ -99,12 +99,14 @@ XML3D.tools.namespace("COMPASS");
 			this.activeController.detach();
 			this.activeController = this._createFlyController();
 			this.activeController.attach();
+			this._setCameraSensivityOfController();
 		},
 
 		switchToOrbitCamera: function() {
 			this.activeController.detach();
 			this.activeController = this._createOrbitController();
 			this.activeController.attach();
+			this._setCameraSensivityOfController();
 		},
 
 		resetCameraPosition: function() {
@@ -155,7 +157,6 @@ XML3D.tools.namespace("COMPASS");
 			return new COMPASS.CADExamineController(this.viewGroup, {
 				rotateSpeed: 5
 			});
-			this._setCameraSensivityOfController();
 		},
 
 		_createFlyController: function() {
@@ -165,7 +166,6 @@ XML3D.tools.namespace("COMPASS");
 					rotationActivator: XML3D.tools.MOUSEBUTTON_RIGHT
 				}
 			});
-			this._setCameraSensivityOfController();
 		},
 
 		_setCameraSensivityOfController: function(){
