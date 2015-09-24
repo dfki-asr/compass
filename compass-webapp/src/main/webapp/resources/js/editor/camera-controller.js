@@ -17,16 +17,16 @@ XML3D.tools.namespace("COMPASS");
 			};
 		},
 
-        _toggleAttached: function(doAttach) {
-            var regFn = this._eventDispatcher.on.bind(this._eventDispatcher);
-            if(!doAttach) {
-                regFn = this._eventDispatcher.off.bind(this._eventDispatcher);
-            }
-            regFn(this._targetXml3d, "mousedown", this.callback("_onXML3DMouseDown"));
+		_toggleAttached: function(doAttach) {
+			var regFn = this._eventDispatcher.on.bind(this._eventDispatcher);
+			if(!doAttach) {
+				regFn = this._eventDispatcher.off.bind(this._eventDispatcher);
+			}
+			regFn(this._targetXml3d, "mousedown", this.callback("_onXML3DMouseDown"));
 			document.addEventListener("wheel", this._onXML3DScroll.bind(this), true);
-            regFn(document, "mousemove", this.callback("_onDocumentMouseMove"));
-            regFn(document, "mouseup", this.callback("_onDocumentMouseUp"));
-        },
+			regFn(document, "mousemove", this.callback("_onDocumentMouseMove"));
+			regFn(document, "mouseup", this.callback("_onDocumentMouseUp"));
+		},
 
 		_createMouseEventDispatcher: function() {
 			var disp = new XML3D.tools.util.EventDispatcher();
