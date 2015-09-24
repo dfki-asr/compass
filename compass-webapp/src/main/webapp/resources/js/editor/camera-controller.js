@@ -9,6 +9,73 @@ XML3D.tools.namespace("COMPASS");
 (function() {
 	"use strict";
 
+	COMPASS.CADExamineController = new XML3D.tools.Class(XML3D.tools.MouseExamineController, {
+		_createControls: function(options) {
+			return {
+				rotate: options.controls.rotate || XML3D.tools.MOUSEBUTTON_MIDDLE,
+				dolly: options.controls.dolly || XML3D.tools.MOUSEBUTTON_RIGHT
+			};
+		},
+
+		_toggleAttached: function(doAttach) {
+			this._ensureWheelCallback();
+			var regFn;
+			if (doAttach) {
+				regFn =  this._eventDispatcher.on.bind(this._eventDispatcher);
+				document.addEventListener("wheel", this._wheelCallback, true);
+			} else {
+				regFn = this._eventDispatcher.off.bind(this._eventDispatcher);
+				document.removeEventListener("wheel", this._wheelCallback, true);
+			}
+			regFn(this._targetXml3d, "mousedown", this.callback("_onXML3DMouseDown"));
+			regFn(document, "mousemove", this.callback("_onDocumentMouseMove"));
+			regFn(document, "mouseup", this.callback("_onDocumentMouseUp"));
+		},
+
+		_ensureWheelCallback: function() {
+			if (!this._wheelCallback) {
+				this._wheelCallback = this._onXML3DScroll.bind(this);
+			}
+		},
+
+		_createMouseEventDispatcher: function() {
+			var disp = new XML3D.tools.util.EventDispatcher();
+			disp.registerCustomHandler("mousedown", function(evt){
+				if(evt.button === this._controls.rotate){
+					return true;
+				}
+				return false;
+			}.bind(this));
+			return disp;
+		},
+
+		_onXML3DScroll: function(evt){
+			if(evt.target.tagName !== "CANVAS" || this._currentAction !== this.NONE){
+				return;
+			}
+			var deltaSign = evt.deltaY / Math.abs(evt.deltaY);
+			var dollyMove = deltaSign * 0.01;
+			this.behavior.dolly(dollyMove);
+			evt.stopImmediatePropagation();
+		},
+
+		onDragStart: function(action) {
+			if (this._controls.rotate === action.evt.button){
+				this._currentAction = this.ROTATE;
+			} else {
+				this._currentAction = this.NONE;
+			}
+		},
+
+		onDrag: function(action) {
+			if (this._controls.rotate === action.evt.button && this._currentAction === this.ROTATE){
+				this.behavior.rotateByAngles(-action.delta.y, -action.delta.x);
+			} else {
+				this._currentAction = this.NONE;
+			}
+		}
+	});
+
 	COMPASS.CameraController = new XML3D.tools.Singleton({
 		activeController: null,
 		viewGroup: null,
@@ -30,12 +97,14 @@ XML3D.tools.namespace("COMPASS");
 			this.activeController.detach();
 			this.activeController = this._createFlyController();
 			this.activeController.attach();
+			this._setCameraSensivityOfController();
 		},
 
 		switchToOrbitCamera: function() {
 			this.activeController.detach();
 			this.activeController = this._createOrbitController();
 			this.activeController.attach();
+			this._setCameraSensivityOfController();
 		},
 
 		resetCameraPosition: function() {
@@ -83,10 +152,9 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_createOrbitController: function() {
-			return new XML3D.tools.MouseExamineController(this.viewGroup, {
+			return new COMPASS.CADExamineController(this.viewGroup, {
 				rotateSpeed: 5
 			});
-			this._setCameraSensivityOfController();
 		},
 
 		_createFlyController: function() {
@@ -96,7 +164,6 @@ XML3D.tools.namespace("COMPASS");
 					rotationActivator: XML3D.tools.MOUSEBUTTON_RIGHT
 				}
 			});
-			this._setCameraSensivityOfController();
 		},
 
 		_setCameraSensivityOfController: function(){

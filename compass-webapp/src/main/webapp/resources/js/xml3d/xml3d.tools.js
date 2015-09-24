@@ -1611,6 +1611,9 @@ SOFTWARE.
 
         /** @inheritDoc */
         setPosition: function(position){
+            if(isNaN(position.x) || isNaN(position.y) || isNaN(position.z)){
+                return false;
+            }
             if(this.constraint.constrainTranslation(position, {transformable: this})) {
                 this.transform.translation.set(position);
                 return true;
