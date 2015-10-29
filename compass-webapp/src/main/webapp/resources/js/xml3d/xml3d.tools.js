@@ -5757,7 +5757,7 @@ SOFTWARE.
          */
         _onXml3DAttrModified: function(evt)
         {
-            if(evt.attrName !== "activeView")
+            if(evt.attrName !== "activeview")
                 return;
 
             this.detach();
@@ -10228,8 +10228,8 @@ SOFTWARE.
         onAttach: function()
         {
             this._xml3dOverlay.appendChild(this._mirroredViewGrp);
-            this._oldActiveView = this._xml3dOverlay.activeView;
-            this._xml3dOverlay.activeView = "#v_" + this.ID;
+            this._oldActiveView = this._xml3dOverlay.activeview;
+            this._xml3dOverlay.activeview = "#v_" + this.ID;
 
             this._mirroredViewGrpXfmable =
                 XML3D.tools.MotionFactory.createTransformable(this._mirroredViewGrp);
@@ -10242,7 +10242,7 @@ SOFTWARE.
             this._viewTracker.detach();
 
             this._xml3dOverlay.removeChild(this._mirroredViewGrp);
-            this._xml3dOverlay.activeView = this._oldActiveView;
+            this._xml3dOverlay.activeview = this._oldActiveView;
         },
 
         _setupView: function()
