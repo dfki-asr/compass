@@ -5,6 +5,16 @@ Currently, we support [WildFly](http://www.wildfly.org) as container only.
 JavaEE portability is a difficult terrain, and we do not have the resources to manoeuvre around this.
 We're sorry for the inconvenience.
 
+Quick start
+-----------
+
+Not all of the information in this file is necessary to get started with COMPASS.
+At the bare minimum, you need to take the following steps:
+
+* Download WildFly
+* Use the testing WildFly configuration
+* Add the [messaging user](#set-up-a-user-for-Messaging)
+* [Deploy COMPASS](#deploying-the-application)
 
 Download and extract WildFly
 ----------------------------
