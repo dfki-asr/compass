@@ -1,7 +1,7 @@
 Setting up WildFly for COMPASS
 ==============================
 
-Currently, we support [WildFly](http://www.wildfly.org) as container only.
+Currently, we support [WildFly](http://www.wildfly.org) 8.2.0 Final as container only.
 JavaEE portability is a difficult terrain, and we do not have the resources to manoeuvre around this.
 We're sorry for the inconvenience.
 
@@ -19,7 +19,8 @@ At the bare minimum, you need to take the following steps:
 Download and extract WildFly
 ----------------------------
 
-Download the most recent version of [WildFly](http://www.wildfly.org) and extract the archive to a folder on your disk. But before we can run COMPASS there are a few setup steps to go through ...
+Download [WildFly 8.2.0.Final](http://www.wildfly.org/downloads/) and extract the archive to a folder on your disk. 
+But before we can run COMPASS there are a few setup steps to go through ...
 
 Using the testing WildFly configuration
 ---------------------------------------
@@ -96,7 +97,6 @@ Note that the above configuration and compass by itself uses a temporary in-memo
 In the compass datasource, change the connection-url from `jdbc:h2:mem:compass` to `jdbc:h2:<YOUR-DATABASE-FOLDER>/compass-test`.
 Open the persistence unit's persistence.xml and change the entry `<property name="hibernate.hbm2ddl.auto" value="create-drop" /> to `<property name="hibernate.hbm2ddl.auto" value="update" />`.
 Otherwise, the database will be reinitialized on each deploy.
-
 
 Messaging configuration
 -----------------------
