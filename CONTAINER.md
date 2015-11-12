@@ -11,6 +11,18 @@ Download and extract WildFly
 
 Download the most recent version of [WildFly](http://www.wildfly.org) and extract the archive to a folder on your disk. But before we can run COMPASS there are a few setup steps to go through ...
 
+Using the testing WildFly configuration
+---------------------------------------
+
+The `compass-integration-test` module in this repository contains a suitable configuration file to just drop in place.
+It includes the database and messaging configuration detailed in the rest of this document.
+
+Copy the `standalone.xml` file found in `compass-integration-test/src/test/resources-wildfly/standalone/configuration/`
+to your WildFly `standalone/configuration/` directory.
+You may need to overwrite the existing file there.
+
+If you need to run something else apart from COMPASS on your WildFly, you probably need to configure some other things.
+The detailed changes necessary can be found in the rest of this document.
 
 Adding users to WildFly
 -----------------------
