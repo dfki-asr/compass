@@ -210,3 +210,17 @@ Finally, add a new subsystem for hornetq using the following settings:
 			</jms-destinations>
 		</hornetq-server>
 	</subsystem>
+
+Deploying the application
+-------------------------
+
+Once the container is configured, you can deploy the COMPASS EAR.
+After compilation (see the [README file](README.md)), you can find this file in the `compass-deployment/target/` directory in your source folder.
+
+To deploy the application, WildFly needs to be running.
+Unless it already is, start the `standalone` script in WildFly's `bin` folder.
+Once the container is running, it should suffice to copy the EAR archive to the `standalone/deployments/` folder of WildFly.
+
+After allowing the container some time to bring up all the classes and services needed for COMPASS,
+it should be available from your container's `compass/` context.
+With the configuration supplied, you can reach this via `http://localhost:8080/compass/`.
