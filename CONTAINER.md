@@ -13,7 +13,7 @@ At the bare minimum, you need to take the following steps:
 
 * Download WildFly
 * Use the testing WildFly configuration
-* Add the [messaging user](#set-up-a-user-for-Messaging)
+* Add the [messaging user](#set-up-a-user-for-messaging)
 * [Deploy COMPASS](#deploying-the-application)
 
 Download and extract WildFly
