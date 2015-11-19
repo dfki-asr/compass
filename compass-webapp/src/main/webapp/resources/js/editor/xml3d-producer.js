@@ -127,12 +127,16 @@ XML3D.tools.namespace("COMPASS");
 			this._convertSceneNodeChildren(sceneNode, group);
 		},
 
+		_isRootNode: function(sceneNode) {
+			var rootNodeId = this.xml3d.getAttribute(this.ROOTNODE_ID_ATTRIBUTE);
+			return sceneNode.id === Number.parseInt(rootNodeId);
+		},
+
 		_isPrefab: function(sceneNode) {
 			if (sceneNode.parent !== null) {
 				return false;
 			} else {
-				var rootNodeId = this.xml3d.getAttribute(this.ROOTNODE_ID_ATTRIBUTE);
-				return sceneNode.id !== Number.parseInt(rootNodeId);
+				return !this._isRootNode(sceneNode);
 			}
 		},
 
