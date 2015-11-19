@@ -36,7 +36,7 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		onObjectDroppedOntoXML3DElement: function(evt, ui) {
-			var prefabId = $(evt.toElement.parentElement).find(".prefab-id-field").text();
+			var prefabId = $(ui.draggable[0]).find(".prefab-id-field").text();
 			if (!prefabId) {
 				console.error("Dropped prefab did not have an id!");
 				return;

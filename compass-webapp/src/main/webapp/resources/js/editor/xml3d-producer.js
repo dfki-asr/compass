@@ -87,7 +87,7 @@ XML3D.tools.namespace("COMPASS");
 				children: [view]
 			});
 			this.$xml3d.append(viewGroup);
-			this.xml3d.setAttribute("activeView", "#default_view");
+			this.xml3d.setAttribute("activeview", "#default_view");
 			return viewGroup;
 		},
 
