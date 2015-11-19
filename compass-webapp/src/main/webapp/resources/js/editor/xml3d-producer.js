@@ -105,7 +105,7 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_convertSceneNode: function(sceneNode) {
-			if (this._isPrefab(sceneNode)) {
+			if (this._isPrefab(sceneNode) || this._isDifferentScenario(sceneNode)) {
 				return;
 			}
 			var parentGroup = this._findParentGroupForSceneNode(sceneNode);
@@ -138,6 +138,14 @@ XML3D.tools.namespace("COMPASS");
 			} else {
 				return !this._isRootNode(sceneNode);
 			}
+		},
+
+		_isDifferentScenario: function(sceneNode) {
+			var parent = document.getElementById(this.SCENENODE_ID_PREFIX + sceneNode.parent);
+			// crude heuristic: If we don't have the parent...
+			// - Either the node is not part of our scenario
+			// - Or ordering of events screwed up (child before parent)
+			return parent === null && !this._isRootNode(sceneNode);
 		},
 
 		updateGroupStructureForSceneNode: function($groupNode, sceneNode) {
