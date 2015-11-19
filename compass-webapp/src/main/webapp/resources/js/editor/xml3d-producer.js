@@ -105,6 +105,9 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_convertSceneNode: function(sceneNode) {
+			if (this._isPrefab(sceneNode)) {
+				return;
+			}
 			var parentGroup = this._findParentGroupForSceneNode(sceneNode);
 			var group = this.findGroupForSceneNodeId(sceneNode.id);
 			if (!group.length) {
@@ -122,6 +125,15 @@ XML3D.tools.namespace("COMPASS");
 			this._convertSceneNodeTransform(sceneNode, group);
 			this._convertSceneNodeComponents(sceneNode);
 			this._convertSceneNodeChildren(sceneNode, group);
+		},
+
+		_isPrefab: function(sceneNode) {
+			if (sceneNode.parent !== null) {
+				return false;
+			} else {
+				var rootNodeId = this.xml3d.getAttribute(this.ROOTNODE_ID_ATTRIBUTE);
+				return sceneNode.id !== Number.parseInt(rootNodeId);
+			}
 		},
 
 		updateGroupStructureForSceneNode: function($groupNode, sceneNode) {
