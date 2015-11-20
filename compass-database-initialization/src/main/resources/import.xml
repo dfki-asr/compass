@@ -7,9 +7,9 @@
 -->
 <projectlist>
 	<project>
-		<name>Le Project</name>
+		<name>Project A</name>
 		<scenario>
-			<name>Le Scenario</name>
+			<name>Scenario One</name>
 			<root name="Root" selectable3d="true" visible="true">
 				<components/>
 				<children/>
@@ -22,14 +22,14 @@
 			<name>Assets</name>
 			<children/>
 			<prefabs>
-				<node name="Amberlamps" selectable3d="true" visible="true">
+				<node name="Teapot" selectable3d="true" visible="true">
 					<components>
 						<renderGeometry>
-							<meshSource>/atlas/rest/asset/amberlamps.xml#amberlamps</meshSource>
+							<meshSource>http://xml3d.github.io/xml3d-examples/examples/assets/res/assets.xml#teapot</meshSource>
 						</renderGeometry>
 					</components>
 					<children/>
-					<localTranslation x="0.0" y="0.0" z="0.0"/>
+					<localTranslation x="0.0" y="-12.0" z="-100.0"/>
 					<localScale>1.0</localScale>
 					<localRotation w="1.0" x="0.0" y="0.0" z="0.0"/>
 				</node>

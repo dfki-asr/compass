@@ -1229,7 +1229,7 @@ window.requestAnimFrame = (function(){
     u.getOrCreateActiveView = function(xml3d)
     {
         // try to resolve reference
-        var ref = xml3d.activeView;
+        var ref = xml3d.activeview;
         if(ref)
         {
             var v = XML3D.URIResolver.resolveLocal(ref);
@@ -1254,7 +1254,7 @@ window.requestAnimFrame = (function(){
         {
             // if it has an id, set it as active
             if(firstView.id && firstView.id.length > 0)
-                xml3d.activeView = "#" + firstView.id;
+                xml3d.activeview = "#" + firstView.id;
 
             return firstView;
         }
@@ -1267,7 +1267,7 @@ window.requestAnimFrame = (function(){
         v.setAttribute("id", vid);
 
         xml3d.appendChild(v);
-        xml3d.setAttribute("activeView", "#" + vid);
+        xml3d.setAttribute("activeview", "#" + vid);
 
         return v;
     };
@@ -11939,7 +11939,7 @@ XML3D.classInfo['xml3d'] = {
     getElementByRay : {m: XML3D.methods.xml3dGetElementByRay},
     getBoundingBox : {m: XML3D.methods.xml3dGetBoundingBox},
     getRenderInterface : {m: XML3D.methods.xml3dGetRenderInterface},
-    activeView : {a: XML3D.ReferenceHandler},
+    activeview : {a: XML3D.ReferenceHandler},
     _term: undefined
 };
 
@@ -24604,7 +24604,7 @@ XML3D.webgl.stopEvent = function(ev) {
         };
         this.shaderInfos = [];
         /** @type RenderView */
-        this.activeView = null;
+        this.activeview = null;
         this.rootNode = this.createRootNode();
         /** DOM node relevant for 'xml3dsystem' events */
         this.systemDomNode = null;
@@ -24636,17 +24636,17 @@ XML3D.webgl.stopEvent = function(ev) {
          * @returns {RenderView}
          */
         getActiveView: function () {
-            return this.activeView;
+            return this.activeview;
         },
         /**
          * @param {RenderView} view
          */
         setActiveView: function (view) {
-            if(view != this.activeView) {
+            if(view != this.activeview) {
                 if(!view)
                     throw new Error("Active view must not be null");
-                this.activeView = view;
-                this.dispatchEvent({type: Scene.EVENT_TYPE.VIEW_CHANGED, newView: this.activeView });
+                this.activeview = view;
+                this.dispatchEvent({type: Scene.EVENT_TYPE.VIEW_CHANGED, newView: this.activeview });
             }
         },
         /**
@@ -24691,7 +24691,7 @@ XML3D.webgl.stopEvent = function(ev) {
         updateBoundingBox: function () {
             if (this.rootNode.boundingBoxDirty) {
                 // TODO: There should always be an active view
-                this.activeView && this.activeView.setProjectionDirty();
+                this.activeview && this.activeview.setProjectionDirty();
             }
             this.rootNode.getWorldSpaceBoundingBox(this.boundingBox);
         },
@@ -26977,11 +26977,11 @@ XML3D.webgl.stopEvent = function(ev) {
             var c_frustumTest = new XML3D.webgl.FrustumTest();
 
             return function (aspectRatio) {
-                var activeView = this.getActiveView(),
+                var activeview = this.getActiveView(),
                     readyObjects = this.ready;
 
                 // Update all MV matrices
-                activeView.getWorldToViewMatrix(c_worldToViewMatrix);
+                activeview.getWorldToViewMatrix(c_worldToViewMatrix);
                 readyObjects.forEach(function (obj) {
                     obj.updateModelViewMatrix(c_worldToViewMatrix);
                     obj.updateModelMatrixN();
@@ -26991,10 +26991,10 @@ XML3D.webgl.stopEvent = function(ev) {
                 this.updateBoundingBox();
 
 
-                activeView.getProjectionMatrix(c_projMat_tmp, aspectRatio);
-                activeView.getViewToWorldMatrix(c_viewToWorldMatrix);
+                activeview.getProjectionMatrix(c_projMat_tmp, aspectRatio);
+                activeview.getViewToWorldMatrix(c_viewToWorldMatrix);
 
-                var frustum = activeView.getFrustum();
+                var frustum = activeview.getFrustum();
                 c_frustumTest.set(frustum,c_viewToWorldMatrix);
 
                 for(var i = 0, l = readyObjects.length; i < l; i++) {
@@ -29959,15 +29959,15 @@ XML3D.webgl.stopEvent = function(ev) {
 
     XML3D.extend(XML3DRenderAdapter.prototype, {
         updateActiveViewAdapter: function () {
-            var href = this.node.getAttribute("activeView");
+            var href = this.node.getAttribute("activeview");
             if(href) {
-                this.connectAdapterHandle("activeView", this.getAdapterHandle(href));
+                this.connectAdapterHandle("activeview", this.getAdapterHandle(href));
             } else {
-                this.disconnectAdapterHandle("activeView");
+                this.disconnectAdapterHandle("activeview");
             }
         },
         setViewAdapter: function(adapter) {
-            adapter = adapter || this.getConnectedAdapter("activeView");
+            adapter = adapter || this.getConnectedAdapter("activeview");
             if(!(adapter && adapter.getRenderNode)) {
                 var viewElement = XML3D.util.getOrCreateActiveView(this.node);
                 adapter = this.factory.getAdapter(viewElement);
@@ -29996,7 +29996,7 @@ XML3D.webgl.stopEvent = function(ev) {
 
         var target = evt.internalType || evt.attrName || evt.wrapped.attrName;
 
-        if (target == "activeView") {
+        if (target == "activeview") {
             this.updateActiveViewAdapter();
             this.setViewAdapter();
         }

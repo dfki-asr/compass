@@ -68,11 +68,15 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		onDrag: function(action) {
-			if (this._controls.rotate === action.evt.button && this._currentAction === this.ROTATE){
+			if (this._currentAction === this.ROTATE){
 				this.behavior.rotateByAngles(-action.delta.y, -action.delta.x);
 			} else {
 				this._currentAction = this.NONE;
 			}
+		},
+
+		onDragEnd: function() {
+			this._currentAction = this.NONE;
 		}
 	});
 

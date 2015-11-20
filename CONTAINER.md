@@ -1,16 +1,39 @@
 Setting up WildFly for COMPASS
 ==============================
 
-Currently, we support [WildFly](http://www.wildfly.org) as container only.
+Currently, we support [WildFly](http://www.wildfly.org) 8.2.0 Final as container only.
 JavaEE portability is a difficult terrain, and we do not have the resources to manoeuvre around this.
 We're sorry for the inconvenience.
 
+Quick start
+-----------
+
+Not all of the information in this file is necessary to get started with COMPASS.
+At the bare minimum, you need to take the following steps:
+
+* Download WildFly
+* Use the testing WildFly configuration
+* Add the [messaging user](#set-up-a-user-for-messaging)
+* [Deploy COMPASS](#deploying-the-application)
 
 Download and extract WildFly
 ----------------------------
 
-Download the most recent version of [WildFly](http://www.wildfly.org) and extract the archive to a folder on your disk. But before we can run COMPASS there are a few setup steps to go through ...
+Download [WildFly 8.2.0.Final](http://www.wildfly.org/downloads/) and extract the archive to a folder on your disk. 
+But before we can run COMPASS there are a few setup steps to go through ...
 
+Using the testing WildFly configuration
+---------------------------------------
+
+The `compass-integration-test` module in this repository contains a suitable configuration file to just drop in place.
+It includes the database and messaging configuration detailed in the rest of this document.
+
+Copy the `standalone.xml` file found in `compass-integration-test/src/test/resources-wildfly/standalone/configuration/`
+to your WildFly `standalone/configuration/` directory.
+You may need to overwrite the existing file there.
+
+If you need to run something else apart from COMPASS on your WildFly, you probably need to configure some other things.
+The detailed changes necessary can be found in the rest of this document.
 
 Adding users to WildFly
 -----------------------
@@ -74,7 +97,6 @@ Note that the above configuration and compass by itself uses a temporary in-memo
 In the compass datasource, change the connection-url from `jdbc:h2:mem:compass` to `jdbc:h2:<YOUR-DATABASE-FOLDER>/compass-test`.
 Open the persistence unit's persistence.xml and change the entry `<property name="hibernate.hbm2ddl.auto" value="create-drop" /> to `<property name="hibernate.hbm2ddl.auto" value="update" />`.
 Otherwise, the database will be reinitialized on each deploy.
-
 
 Messaging configuration
 -----------------------
@@ -198,3 +220,17 @@ Finally, add a new subsystem for hornetq using the following settings:
 			</jms-destinations>
 		</hornetq-server>
 	</subsystem>
+
+Deploying the application
+-------------------------
+
+Once the container is configured, you can deploy the COMPASS EAR.
+After compilation (see the [README file](README.md)), you can find this file in the `compass-deployment/target/` directory in your source folder.
+
+To deploy the application, WildFly needs to be running.
+Unless it already is, start the `standalone` script in WildFly's `bin` folder.
+Once the container is running, it should suffice to copy the EAR archive to the `standalone/deployments/` folder of WildFly.
+
+After allowing the container some time to bring up all the classes and services needed for COMPASS,
+it should be available from your container's `compass/` context.
+With the configuration supplied, you can reach this via `http://localhost:8080/compass/`.
