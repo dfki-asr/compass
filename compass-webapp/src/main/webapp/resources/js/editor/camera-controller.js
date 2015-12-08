@@ -61,23 +61,57 @@ XML3D.tools.namespace("COMPASS");
 
 		onDragStart: function(action) {
 			if (this._controls.rotate === action.evt.button){
-				this._currentAction = this.ROTATE;
+				if (action.evt.shiftKey && !action.evt.ctrlKey) {
+					this._currentAction = this.PAN;
+				} else {
+					this._currentAction = this.ROTATE;
+				}
 			} else {
 				this._currentAction = this.NONE;
 			}
 		},
 
 		onDrag: function(action) {
-			if (this._currentAction === this.ROTATE){
-				this.behavior.rotateByAngles(-action.delta.y, -action.delta.x);
-			} else {
-				this._currentAction = this.NONE;
+			switch (this._currentAction) {
+				case this.ROTATE:
+					this.behavior.rotateByAngles(-action.delta.y, -action.delta.x);
+					break;
+				case this.PAN:
+					this.pan(action.delta.x, action.delta.y);
+					break;
+				default:
+					this._currentAction = this.NONE;
 			}
 		},
 
 		onDragEnd: function() {
 			this._currentAction = this.NONE;
-		}
+		},
+
+		pan: function(deltaRight, deltaUp) {
+			var cameraUp = this.upDirection();
+			var cameraIn = this.behavior.getLookDirection();
+			var cameraRight = cameraUp.cross(cameraIn);
+			var movement = cameraUp.scale(deltaUp).add(cameraRight.scale(deltaRight));
+			var originalDistance = this.behavior._getDistanceToExamineOrigin();
+			var newExamine = this.behavior.getExamineOrigin().add(movement);
+			var newPosition = this.behavior.target.getPosition().add(movement);
+			this.behavior._examineOrigin.set(newExamine);
+			this.behavior._setTargetPosition(newPosition);
+			var newDistance = this.behavior._getDistanceToExamineOrigin();
+			if (Math.abs(originalDistance - newDistance) > 0.01) {
+				console.warn("examine distance changed while panning!");
+			}
+		},
+
+		upDirection: function() {
+			var curRot = this.behavior.target.getOrientation();
+			var defaultUp = new window.XML3DVec3(0, 1, 0);
+			var upDirection = curRot.rotateVec3(defaultUp).normalize();
+			return upDirection;
+		},
+
+		PAN: "bogusStringIndicatingPanMode"
 	});
 
 	COMPASS.CameraController = new XML3D.tools.Singleton({
