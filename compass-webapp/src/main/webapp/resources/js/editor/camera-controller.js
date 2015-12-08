@@ -63,6 +63,8 @@ XML3D.tools.namespace("COMPASS");
 			if (this._controls.rotate === action.evt.button){
 				if (action.evt.shiftKey && !action.evt.ctrlKey) {
 					this._currentAction = this.PAN;
+				} else if (!action.evt.shiftKey && action.evt.ctrlKey) {
+					this._currentAction = this.DOLLY;
 				} else {
 					this._currentAction = this.ROTATE;
 				}
@@ -78,6 +80,9 @@ XML3D.tools.namespace("COMPASS");
 					break;
 				case this.PAN:
 					this.pan(action.delta.x, action.delta.y);
+					break;
+				case this.DOLLY:
+					this.behavior.dolly(action.delta.y);
 					break;
 				default:
 					this._currentAction = this.NONE;
