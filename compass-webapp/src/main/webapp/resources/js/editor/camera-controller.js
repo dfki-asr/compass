@@ -78,10 +78,13 @@ XML3D.tools.namespace("COMPASS");
 		onDrag: function(action) {
 			switch (this._currentAction) {
 				case this.ROTATE:
-					this.behavior.rotateByAngles(-action.delta.y, -action.delta.x);
+					this.behavior.rotateByAngles(
+					        -action.delta.y * this._rotateFactor,
+					        -action.delta.x * this._rotateFactor);
 					break;
 				case this.PAN:
-					this.pan(action.delta.x, action.delta.y);
+					this.pan(action.delta.x * this._panFactor,
+					         action.delta.y * this._panFactor);
 					break;
 				case this.DOLLY:
 					this.behavior.dolly(action.delta.y);
@@ -116,6 +119,13 @@ XML3D.tools.namespace("COMPASS");
 			var defaultUp = new window.XML3DVec3(0, 1, 0);
 			var upDirection = curRot.rotateVec3(defaultUp).normalize();
 			return upDirection;
+		},
+
+		setMoveSpeed: function(moveFactor) {
+			this._panFactor = 50;
+			this._fovFactor = 5;
+			this._wheelFovFactor = 0.01;
+			this._rotateFactor = 0.5;
 		},
 
 		PAN: "bogusStringIndicatingPanMode"
