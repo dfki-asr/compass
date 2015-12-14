@@ -40,12 +40,6 @@ XML3D.tools.namespace("COMPASS");
 
 		_createMouseEventDispatcher: function() {
 			var disp = new XML3D.tools.util.EventDispatcher();
-			disp.registerCustomHandler("mousedown", function(evt){
-				if(evt.button === this._controls.rotate){
-					return true;
-				}
-				return false;
-			}.bind(this));
 			return disp;
 		},
 
