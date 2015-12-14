@@ -54,16 +54,21 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		onDragStart: function(action) {
-			if (this._controls.rotate === action.evt.button){
-				if (action.evt.shiftKey && !action.evt.ctrlKey) {
-					this._currentAction = this.PAN;
-				} else if (!action.evt.shiftKey && action.evt.ctrlKey) {
+			switch (action.evt.buttons) {
+				case 4: /* middle only */
+					if (action.evt.shiftKey && !action.evt.ctrlKey) {
+						this._currentAction = this.PAN;
+					} else if (!action.evt.shiftKey && action.evt.ctrlKey) {
+						this._currentAction = this.DOLLY;
+					} else {
+						this._currentAction = this.ROTATE;
+					}
+					break;
+				case 5: /* left + middle */
 					this._currentAction = this.DOLLY;
-				} else {
-					this._currentAction = this.ROTATE;
-				}
-			} else {
-				this._currentAction = this.NONE;
+					break;
+				default:
+					this._currentAction = this.NONE;
 			}
 		},
 
