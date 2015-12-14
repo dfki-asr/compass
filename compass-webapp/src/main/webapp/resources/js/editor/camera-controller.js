@@ -67,6 +67,9 @@ XML3D.tools.namespace("COMPASS");
 				case 5: /* left + middle */
 					this._currentAction = this.DOLLY;
 					break;
+				case 6: /* right + middle */
+					this._currentAction = this.PAN;
+					break;
 				default:
 					this._currentAction = this.NONE;
 			}
