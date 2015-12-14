@@ -10581,11 +10581,7 @@ SOFTWARE.
 
         _delegateEvent: function(evt, newTarget)
         {
-            var newEvt = document.createEvent("MouseEvents");
-            newEvt.initMouseEvent(evt.type, evt.bubbles, evt.cancelable,
-                evt.view, evt.detail, evt.screenX, evt.screenY,
-                evt.clientX, evt.clientY, evt.ctrlKey, evt.altKey, evt.shiftKey,
-                evt.metaKey, evt.button, evt.relatedTarget);
+            var newEvt = new MouseEvent(evt.type, evt);
 
             newTarget.dispatchEvent(newEvt);
         },
