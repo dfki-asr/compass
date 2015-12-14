@@ -5600,7 +5600,8 @@ SOFTWARE.
         _onViewAttrModified: function(evt)
         {
             if(evt.attrName !== "position"
-            && evt.attrName !== "orientation")
+            && evt.attrName !== "orientation"
+            && evt.attrName !== "fieldOfView")
                 return;
 
             this.xfmChanged(this.targetNode, evt);
