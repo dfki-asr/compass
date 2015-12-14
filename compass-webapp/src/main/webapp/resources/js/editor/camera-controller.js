@@ -48,8 +48,8 @@ XML3D.tools.namespace("COMPASS");
 				return;
 			}
 			var deltaSign = evt.deltaY / Math.abs(evt.deltaY);
-			var dollyMove = deltaSign * 0.01;
-			this.behavior.dolly(dollyMove);
+			var delta = deltaSign * this._wheelFovFactor;
+			this.fov(delta);
 			evt.stopImmediatePropagation();
 		},
 
@@ -87,7 +87,7 @@ XML3D.tools.namespace("COMPASS");
 					         action.delta.y * this._panFactor);
 					break;
 				case this.DOLLY:
-					this.behavior.dolly(action.delta.y);
+					this.fov(action.delta.y * this._fovFactor);
 					break;
 				default:
 					this._currentAction = this.NONE;
@@ -119,6 +119,16 @@ XML3D.tools.namespace("COMPASS");
 			var defaultUp = new window.XML3DVec3(0, 1, 0);
 			var upDirection = curRot.rotateVec3(defaultUp).normalize();
 			return upDirection;
+		},
+
+		fov: function(deltaFoV) {
+			var view = this.target.object.querySelector("view");
+			if (view.fieldOfView) {
+				// needs to be clamped to avoid mirroring the view.
+				var lowClamp = Math.max(view.fieldOfView + deltaFoV, 1e-11);
+				var newFov = Math.min(Math.PI-(1e-11), lowClamp);
+				view.fieldOfView = newFov;
+			}
 		},
 
 		setMoveSpeed: function(moveFactor) {
