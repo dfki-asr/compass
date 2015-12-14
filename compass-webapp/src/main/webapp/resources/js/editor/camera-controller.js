@@ -87,7 +87,8 @@ XML3D.tools.namespace("COMPASS");
 					         action.delta.y * this._panFactor);
 					break;
 				case this.DOLLY:
-					this.fov(action.delta.y * this._fovFactor);
+					var delta = action.delta.y - action.delta.x;
+					this.fov(delta * this._fovFactor);
 					break;
 				default:
 					this._currentAction = this.NONE;
