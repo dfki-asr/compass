@@ -132,10 +132,11 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		setMoveSpeed: function(moveFactor) {
-			this._panFactor = 50;
-			this._fovFactor = 5;
-			this._wheelFovFactor = 0.01;
-			this._rotateFactor = 0.5;
+			var f = Mathf.sqrt(moveFactor);
+			this._panFactor = 50 * f;
+			this._fovFactor = 5 * f;
+			this._wheelFovFactor = 0.01 * f;
+			this._rotateFactor = 0.5 * f;
 		},
 
 		PAN: "bogusStringIndicatingPanMode"
