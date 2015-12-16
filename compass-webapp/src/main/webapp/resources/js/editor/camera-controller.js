@@ -209,6 +209,9 @@ XML3D.tools.namespace("COMPASS");
 				this.activeController.behavior._setExamineOrigin(center);
 				this.activeController.behavior._setDistanceToExamineOrigin(Math.sqrt(longestSide*longestSide + longestSide*longestSide));
 			}
+			// also reset FoV
+			var view = this.viewGroup.querySelector("view");
+			view.fieldOfView = 45/180 * Math.PI;
 		},
 
 		createInitialCameraController: function(aopCameraGroup) {
