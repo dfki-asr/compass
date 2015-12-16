@@ -133,11 +133,11 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		setMoveSpeed: function(moveFactor) {
-			var f = 2 * Math.sqrt(moveFactor);
-			this._panFactor = 50 * f;
-			this._fovFactor = 5 * f;
-			this._wheelFovFactor = 0.01 * f;
-			this._rotateFactor = 0.5 * f;
+			// magic values determined by trial study
+			this._panFactor = 5 * Math.pow(2, moveFactor / 6);
+			this._fovFactor = 2 * Math.pow(2, moveFactor / 14);
+			this._wheelFovFactor = 0.01 * Math.pow(2, moveFactor / 9);
+			this._rotateFactor = 0.5 * Math.pow(2, moveFactor / 12);
 		},
 
 		PAN: "bogusStringIndicatingPanMode"
@@ -234,12 +234,11 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_setCameraSensivityOfController: function(){
-			var speed = Math.pow(2, this.cameraSensitivity / 3);
-			if (this.activeController.setMoveSpeed) {
-				this.activeController.setMoveSpeed(speed);
+			if (this.activeController.PAN) {
+				this.activeController.setMoveSpeed(this.cameraSensitivity);
 			} else {
-				 //Needs a factor 100 to make it behave the same as moveSpeed for the fly controller
-				this.activeController.setDollySpeed(speed * 100);
+				var speed = Math.pow(2, this.cameraSensitivity / 3);
+				this.activeController.setMoveSpeed(speed);
 			}
 		},
 
