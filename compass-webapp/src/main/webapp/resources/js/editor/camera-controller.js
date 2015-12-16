@@ -40,12 +40,6 @@ XML3D.tools.namespace("COMPASS");
 
 		_createMouseEventDispatcher: function() {
 			var disp = new XML3D.tools.util.EventDispatcher();
-			disp.registerCustomHandler("mousedown", function(evt){
-				if(evt.button === this._controls.rotate){
-					return true;
-				}
-				return false;
-			}.bind(this));
 			return disp;
 		},
 
@@ -54,30 +48,99 @@ XML3D.tools.namespace("COMPASS");
 				return;
 			}
 			var deltaSign = evt.deltaY / Math.abs(evt.deltaY);
-			var dollyMove = deltaSign * 0.01;
-			this.behavior.dolly(dollyMove);
+			var delta = deltaSign * this._wheelFovFactor;
+			this.fov(delta);
 			evt.stopImmediatePropagation();
 		},
 
 		onDragStart: function(action) {
-			if (this._controls.rotate === action.evt.button){
-				this._currentAction = this.ROTATE;
-			} else {
-				this._currentAction = this.NONE;
+			switch (action.evt.buttons) {
+				case 4: /* middle only */
+					if (action.evt.shiftKey && !action.evt.ctrlKey) {
+						this._currentAction = this.PAN;
+					} else if (!action.evt.shiftKey && action.evt.ctrlKey) {
+						this._currentAction = this.DOLLY;
+					} else {
+						this._currentAction = this.ROTATE;
+					}
+					break;
+				case 5: /* left + middle */
+					this._currentAction = this.DOLLY;
+					break;
+				case 6: /* right + middle */
+					this._currentAction = this.PAN;
+					break;
+				default:
+					this._currentAction = this.NONE;
 			}
 		},
 
 		onDrag: function(action) {
-			if (this._currentAction === this.ROTATE){
-				this.behavior.rotateByAngles(-action.delta.y, -action.delta.x);
-			} else {
-				this._currentAction = this.NONE;
+			switch (this._currentAction) {
+				case this.ROTATE:
+					this.behavior.rotateByAngles(
+					        -action.delta.y * this._rotateFactor,
+					        -action.delta.x * this._rotateFactor);
+					break;
+				case this.PAN:
+					this.pan(action.delta.x * this._panFactor,
+					         action.delta.y * this._panFactor);
+					break;
+				case this.DOLLY:
+					var delta = action.delta.y - action.delta.x;
+					this.fov(delta * this._fovFactor);
+					break;
+				default:
+					this._currentAction = this.NONE;
 			}
 		},
 
 		onDragEnd: function() {
 			this._currentAction = this.NONE;
-		}
+		},
+
+		pan: function(deltaRight, deltaUp) {
+			var cameraUp = this.upDirection();
+			var cameraIn = this.behavior.getLookDirection();
+			var cameraRight = cameraUp.cross(cameraIn);
+			var movement = cameraUp.scale(deltaUp).add(cameraRight.scale(deltaRight));
+			var originalDistance = this.behavior._getDistanceToExamineOrigin();
+			var newExamine = this.behavior.getExamineOrigin().add(movement);
+			var newPosition = this.behavior.target.getPosition().add(movement);
+			this.behavior._examineOrigin.set(newExamine);
+			this.behavior._setTargetPosition(newPosition);
+			var newDistance = this.behavior._getDistanceToExamineOrigin();
+			if (Math.abs(originalDistance - newDistance) > 0.01) {
+				console.warn("examine distance changed while panning!");
+			}
+		},
+
+		upDirection: function() {
+			var curRot = this.behavior.target.getOrientation();
+			var defaultUp = new window.XML3DVec3(0, 1, 0);
+			var upDirection = curRot.rotateVec3(defaultUp).normalize();
+			return upDirection;
+		},
+
+		fov: function(deltaFoV) {
+			var view = this.target.object.querySelector("view");
+			if (view.fieldOfView) {
+				// needs to be clamped to avoid mirroring the view.
+				var lowClamp = Math.max(view.fieldOfView + deltaFoV, 1e-11);
+				var newFov = Math.min(Math.PI-(1e-11), lowClamp);
+				view.fieldOfView = newFov;
+			}
+		},
+
+		setMoveSpeed: function(moveFactor) {
+			// magic values determined by trial study
+			this._panFactor = 5 * Math.pow(2, moveFactor / 6);
+			this._fovFactor = 2 * Math.pow(2, moveFactor / 14);
+			this._wheelFovFactor = 0.01 * Math.pow(2, moveFactor / 9);
+			this._rotateFactor = 0.5 * Math.pow(2, moveFactor / 12);
+		},
+
+		PAN: "bogusStringIndicatingPanMode"
 	});
 
 	COMPASS.CameraController = new XML3D.tools.Singleton({
@@ -146,6 +209,9 @@ XML3D.tools.namespace("COMPASS");
 				this.activeController.behavior._setExamineOrigin(center);
 				this.activeController.behavior._setDistanceToExamineOrigin(Math.sqrt(longestSide*longestSide + longestSide*longestSide));
 			}
+			// also reset FoV
+			var view = this.viewGroup.querySelector("view");
+			view.fieldOfView = 45/180 * Math.PI;
 		},
 
 		createInitialCameraController: function(aopCameraGroup) {
@@ -171,12 +237,11 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		_setCameraSensivityOfController: function(){
-			var speed = Math.pow(2, this.cameraSensitivity / 3);
-			if (this.activeController.setMoveSpeed) {
-				this.activeController.setMoveSpeed(speed);
+			if (this.activeController.PAN) {
+				this.activeController.setMoveSpeed(this.cameraSensitivity);
 			} else {
-				 //Needs a factor 100 to make it behave the same as moveSpeed for the fly controller
-				this.activeController.setDollySpeed(speed * 100);
+				var speed = Math.pow(2, this.cameraSensitivity / 3);
+				this.activeController.setMoveSpeed(speed);
 			}
 		},
 

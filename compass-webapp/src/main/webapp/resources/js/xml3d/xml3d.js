@@ -22561,16 +22561,7 @@ XML3D.webgl.stopEvent = function(ev) {
          * @return {MouseEvent} the new event
          */
         copyMouseEvent:function (event) {
-            var evt = document.createEvent("MouseEvents");
-            evt.initMouseEvent(event.type,
-                // canBubble, cancelable, view, detail
-                event.bubbles, event.cancelable, event.view, event.detail,
-                // screenX, screenY, clientX, clientY
-                event.screenX, event.screenY, event.clientX, event.clientY,
-                // ctrl, alt, shift, meta, button
-                event.ctrlKey, event.altKey, event.shiftKey, event.metaKey, event.button,
-                // relatedTarget
-                event.relatedTarget);
+            var evt = new MouseEvent(event.type, event);
             if (event.dataTransfer)
                 evt.data = {url:event.dataTransfer.getData("URL"), text:event.dataTransfer.getData("Text")};
             // override preventDefault to actually prevent the default of the original event
@@ -22582,22 +22573,7 @@ XML3D.webgl.stopEvent = function(ev) {
 
         createMouseEvent:function (type, opts) {
             opts = opts || {};
-            var event = document.createEvent("MouseEvents");
-            event.initMouseEvent(type,
-                opts.canBubble !== undefined ? opts.canBubble : true,
-                opts.cancelable !== undefined ? opts.cancelable : true,
-                opts.view || window,
-                opts.detail != undefined ? opts.detail : 0,
-                opts.screenX != undefined ? opts.screenX : 0,
-                opts.screenY != undefined ? opts.screenY : 0,
-                opts.clientX != undefined ? opts.clientX : 0,
-                opts.clientY != undefined ? opts.clientY : 0,
-                opts.ctrl != undefined ? opts.ctrl : false,
-                opts.alt != undefined ? opts.alt : false,
-                opts.shift != undefined ? opts.shift : false,
-                opts.meta != undefined ? opts.meta : false,
-                opts.button != undefined ? opts.button : 0,
-                opts.relatedTarget);
+            var event = new MouseEvent(type, opts);
             return event;
         },
 
