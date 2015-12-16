@@ -132,7 +132,7 @@ XML3D.tools.namespace("COMPASS");
 		},
 
 		setMoveSpeed: function(moveFactor) {
-			var f = Mathf.sqrt(moveFactor);
+			var f = 2 * Math.sqrt(moveFactor);
 			this._panFactor = 50 * f;
 			this._fovFactor = 5 * f;
 			this._wheelFovFactor = 0.01 * f;
