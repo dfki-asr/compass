@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Version 2.2.0
+-------------
+
+### Features
+
+* Examine Controller: More extensive CAD metaphor support (multiple mouse buttons, modifier keys) and zoom via field of view.
+
+### Bugfixes
+
+* Container Documentation: Fixed a typo
+
 Version 2.1.1
 -------------
 
